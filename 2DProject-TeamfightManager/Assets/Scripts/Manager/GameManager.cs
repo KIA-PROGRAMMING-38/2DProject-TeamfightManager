@@ -9,13 +9,22 @@ public class GameManager : MonoBehaviour
 	public DataTableManager dataTableManager { get; private set; }
 	public PilotManager pilotManager { get; private set; }
 
+	private GameSaveLoader _gameSaveLoader;
+
 	public BattleStageManager battleStageManager;
 
 	private void Awake()
 	{
 		SetupManager();
 
+		LoadFile("");
+
 		CreateBattleStageManager();
+	}
+
+	private void LoadFile(string fileName)
+	{
+		_gameSaveLoader.LoadGameFile(fileName);
 	}
 
 	private void CreateBattleStageManager()
@@ -37,6 +46,9 @@ public class GameManager : MonoBehaviour
 		// --- 이벤트 함수 호출 생각하면서 생성 순서 정하기..
 		// 1순위 : 데이터테이블 or saveLoader, 나머진 상관없을 것 같은 느낌??
 		// ==========================================================================================
+		// SaveLoader 생성..
+		_gameSaveLoader = new GameSaveLoader();
+
 		// DataTable Manager 생성..
 		newGameObject = new GameObject("DataTable Manager");
 		newGameObject.transform.parent = transform;
@@ -58,6 +70,7 @@ public class GameManager : MonoBehaviour
 		teamManager = newGameObject.AddComponent<TeamManager>();
 
 		// 생성했으니 참조 넘겨주기..
+		_gameSaveLoader.gameManager = this;
 		championManager.gameManager = this;
 		teamManager.gameManager = this;
 		pilotManager.gameManager = this;
