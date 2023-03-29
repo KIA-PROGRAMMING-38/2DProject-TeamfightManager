@@ -58,8 +58,6 @@ public class GameSaveLoader
 		string deathFileName = "Death.anim";
 		string deadLoopFileName = "DeadLoop.anim";
 
-		Debug.Log(System.IO.Path.Combine(defaultPath, championName, idleFileName));
-
 		// 파일 경로를 가지고 애니메이션 파일을 찾아낸다..
 		newChampionAnimData.idleAnim = AssetDatabase.LoadAssetAtPath<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, idleFileName));
 		newChampionAnimData.moveAnim = AssetDatabase.LoadAssetAtPath<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, moveFileName));

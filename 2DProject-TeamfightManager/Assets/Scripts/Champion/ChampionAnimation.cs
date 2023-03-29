@@ -60,14 +60,16 @@ public class ChampionAnimation : MonoBehaviour
 		_animator = GetComponent<Animator>();
 		_spriteRenderer = GetComponent<SpriteRenderer>();
 		_champion = GetComponentInParent<Champion>();
+
+		if (false == s_isHaveKeyHash)
+		{
+			SetupAnimatorKeyToHash();
+		}
 	}
 
 	void Start()
     {
-		if(false == s_isHaveKeyHash)
-		{
-			SetupAnimatorKeyToHash();
-		}
+		
 	}
 
 	// 애니메이터에서 쓰는 파라미터들 이름을 해시값으로 변환하는 함수..
@@ -174,44 +176,5 @@ public class ChampionAnimation : MonoBehaviour
 		_atkAnimRuntime = animData.atkAnim.length;
 		_skillAnimRuntime = animData.skillAnim.length;
 		_ultAnimRuntime = animData.ultAnim.length;
-
-		Debug.Log(_atkAnimRuntime);
-		Debug.Log(_skillAnimRuntime);
-		Debug.Log(_ultAnimRuntime);
-
-
-		// 애니메이션 불러와서 넣기 테스트용..
-
-		/*
-		// 기본 애니메이션 경로 및 파일 이름..
-		string defaultPath = "Assets\\Animation\\Champion";
-		string championName = "Swordman";
-		string idleFileName = "Idle";
-		string moveFileName = "Move";
-		string atkFileName = "Attack";
-		string skillFileName = "Skill";
-		string ultFileName = "Ultimate";
-		string deathFileName = "Death";
-		string deadLoopFileName = "DeadLoop";
-
-		// 파일 경로를 가지고 애니메이션 파일을 찾아낸다..
-		AnimationClip idleAnim = AssetDatabase.LoadAssetAtPath<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, idleFileName));
-		AnimationClip moveAnim = AssetDatabase.LoadAssetAtPath<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, moveFileName));
-		AnimationClip atkAnim = AssetDatabase.LoadAssetAtPath<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, atkFileName));
-		AnimationClip skillAnim = AssetDatabase.LoadAssetAtPath<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, skillFileName));
-		AnimationClip ultAnim = AssetDatabase.LoadAssetAtPath<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, ultFileName));
-		AnimationClip deathAnim = AssetDatabase.LoadAssetAtPath<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, deathFileName));
-		AnimationClip deadLoopAnim = AssetDatabase.LoadAssetAtPath<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, deadLoopFileName));
-
-		// 찾아낸 애니메이션 파일을 적용..
-		animatorOverrideController["Idle"] = idleAnim;
-		animatorOverrideController["Move"] = moveAnim;
-		animatorOverrideController["Attack"] = atkAnim;
-		animatorOverrideController["Skill"] = skillAnim;
-		animatorOverrideController["Ultimate"] = ultAnim;
-		animatorOverrideController["Death"] = deathAnim;
-		animatorOverrideController["DeadLoop"] = deadLoopAnim;
-		*/
-
 	}
 }

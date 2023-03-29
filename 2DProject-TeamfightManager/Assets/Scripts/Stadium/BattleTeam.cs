@@ -63,9 +63,6 @@ public class BattleTeam : MonoBehaviour
 			}
 		}
 
-		if (null != target)
-			Debug.Log($"{target}을 쫓아간다. 거리 : {(originPoint - target.transform.position).sqrMagnitude}");
-
         return target;
 	}
 
