@@ -10,6 +10,6 @@ public class TeamManager : MonoBehaviour
 
 	private void Awake()
 	{
-		
+
 	}
 }

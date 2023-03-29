@@ -8,11 +8,12 @@ public class PilotManager : MonoBehaviour
 {
 	public class MakePilotData
 	{
-		
+		public PilotData pilotData;
 	}
 
 	private GameManager _gameManager;
 	private DataTableManager _dataTableManager;
+	private PilotDataTable _pilotDataTable;
 	private ChampionManager _championManager;
 
 	public GameManager gameManager
@@ -23,6 +24,8 @@ public class PilotManager : MonoBehaviour
 			_gameManager = value;
 			_dataTableManager = gameManager.dataTableManager;
 			_championManager = gameManager.championManager;
+
+			_pilotDataTable = _dataTableManager.pilotDataTable;
 		}
 	}
 
