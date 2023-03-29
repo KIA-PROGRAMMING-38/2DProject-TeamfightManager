@@ -29,10 +29,28 @@ public class PilotManager : MonoBehaviour
 		}
 	}
 
+	private Pilot defaultPilotInstance;
 	private Dictionary<string, MakePilotData> _pilots = new Dictionary<string, MakePilotData>();
 
 	private void Start()
 	{
+		defaultPilotInstance = AssetDatabase.LoadAssetAtPath<Pilot>("Assets/Prefabs/Pilot.prefab");
 
+		foreach (KeyValuePair<string, PilotData> elementPair in _pilotDataTable.pilotDataContainer)
+		{
+			MakePilotData newPilotMakeData =
+				new MakePilotData { pilotData = elementPair.Value };
+
+			_pilots[elementPair.Key] = newPilotMakeData;
+		}
+	}
+
+	public Pilot GetPilotInstance(string pilotName)
+	{
+		Pilot newPilot = Instantiate<Pilot>(defaultPilotInstance);
+
+		newPilot.data = _pilots[pilotName].pilotData;
+
+		return newPilot;
 	}
 }

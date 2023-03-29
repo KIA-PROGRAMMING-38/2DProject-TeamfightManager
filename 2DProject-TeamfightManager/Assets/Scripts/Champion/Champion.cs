@@ -7,7 +7,7 @@ using UnityEngine;
 public class Champion : MonoBehaviour, IAttackable, IHitable, IWalkable
 {
 	private ChampionAnimation _animComponent;
-
+	public PilotBattle pilotBattleComponent { private get; set; }
 	private Blackboard _blackboard;
 
 	public string champName { get; set; }
@@ -36,6 +36,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable, IWalkable
 			if (0 == value)
 			{
 				_curHp = 0;
+				pilotBattleComponent.OnChampionDead(this);
 			}
 		}
 	}
@@ -134,7 +135,11 @@ public class Champion : MonoBehaviour, IAttackable, IHitable, IWalkable
 
 	public GameObject FindTarget()
 	{
-		return null;
+#if UNITY_EDITOR
+		Debug.Assert(null != pilotBattleComponent);
+#endif
+
+		return pilotBattleComponent.FindTarget(this);
 	}
 
 	// ==================================================================================================================
@@ -160,4 +165,8 @@ public class Champion : MonoBehaviour, IAttackable, IHitable, IWalkable
 		_blackboard.SetBoolValue("isMoveLock", false);
 	}
 
+	public void TestColorChange(Color color)
+	{
+		GetComponentInChildren<SpriteRenderer>().color = color;
+	}
 }
