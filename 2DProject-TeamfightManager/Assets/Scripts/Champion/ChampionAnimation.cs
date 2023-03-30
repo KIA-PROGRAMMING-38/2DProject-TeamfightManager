@@ -37,6 +37,10 @@ public class ChampionAnimation : MonoBehaviour
 
 	public bool flipX
 	{
+		get
+		{
+			return _spriteRenderer.flipX;
+		}
 		set
 		{
 			_spriteRenderer.flipX = value;

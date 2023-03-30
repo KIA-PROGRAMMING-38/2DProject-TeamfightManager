@@ -5,10 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class Effect : MonoBehaviour
 {
+    public static EffectManager s_effectManager { private get; set; }
+
     private Animator _animator;
     private AnimatorOverrideController _overrideController;
+    private SpriteRenderer _spriteRenderer;
 
-    public Vector3 offsetPos { private get; set; }
+    public EffectInfo info { private get; set; }
 
     public AnimationClip clip
     {
@@ -18,16 +21,43 @@ public class Effect : MonoBehaviour
         }
     }
 
+    public bool flipX
+    {
+        set
+        {
+            _spriteRenderer.flipX = value;
+        }
+    }
+
     // Start is called before the first frame update
     void Awake()
     {
 		_animator = GetComponent<Animator>();
         _overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
         _animator.runtimeAnimatorController = _overrideController;
+
+		_spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 
-	private void Start()
-	{
-        transform.position += offsetPos;
-	}
+    private void OnEnable()
+    {
+        if (null != info)
+        {
+            Vector3 offsetPosition = info.offsetPos;
+            if (_spriteRenderer.flipX)
+                offsetPosition.x *= -1f;
+
+			transform.position += offsetPosition;
+
+            _animator.Play("Effect");
+        }
+    }
+
+    public void OnEndAnimation()
+    {
+        if (true == info.isAutoDestroy && false == info.isUseLifeTime)
+        {
+            s_effectManager.ReleaseEfffect(this);
+        }
+    }
 }

@@ -32,6 +32,9 @@ public class GameSaveLoader
 		champSkillLevelContainer = null,
 	};
 
+	private EffectInfo _testEffectData =
+		new EffectInfo("Effect_Swordman_Attack", "Assets/Animations/Effect/Champion/Effect_Swordman_Attack.anim", new Vector3(-0.1f, 0.18f, 0f));
+
 	public void LoadGameFile(string fileName)
 	{
 		string champName = "Swordman";
@@ -40,6 +43,8 @@ public class GameSaveLoader
 		_dataTableManager.championDataTable.AddChampionAnimData(champName, CreateChampAnimData(champName));
 
 		_dataTableManager.pilotDataTable.AddPilotData(_testPilotData.name, _testPilotData);
+
+		_dataTableManager.effectDataTable.AddEffectInfo(_testEffectData.name, _testEffectData);
 	}
 
 	private ChampionAnimData CreateChampAnimData(string championName)

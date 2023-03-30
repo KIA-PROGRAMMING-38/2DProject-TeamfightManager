@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 	public TeamManager teamManager { get; private set; }
 	public DataTableManager dataTableManager { get; private set; }
 	public PilotManager pilotManager { get; private set; }
+	public EffectManager effectManager { get; private set; }
 
 	private GameSaveLoader _gameSaveLoader;
 
@@ -69,10 +70,16 @@ public class GameManager : MonoBehaviour
 		newGameObject.transform.parent = transform;
 		teamManager = newGameObject.AddComponent<TeamManager>();
 
+		// Effect Manager 생성..
+		newGameObject = new GameObject("Effect Manager");
+		newGameObject.transform.parent = transform;
+		effectManager = newGameObject.AddComponent<EffectManager>();
+
 		// 생성했으니 참조 넘겨주기..
 		_gameSaveLoader.gameManager = this;
 		championManager.gameManager = this;
 		teamManager.gameManager = this;
 		pilotManager.gameManager = this;
+		effectManager.gameManager = this;
 	}
 }

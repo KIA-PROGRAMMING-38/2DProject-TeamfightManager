@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Champion : MonoBehaviour, IAttackable, IHitable, IWalkable
 {
+	public static EffectManager s_effectManager { private get; set; }
+
 	private ChampionAnimation _animComponent;
 	public PilotBattle pilotBattleComponent { private get; set; }
 	private Blackboard _blackboard;
@@ -22,6 +24,11 @@ public class Champion : MonoBehaviour, IAttackable, IHitable, IWalkable
 
 			_animComponent.animData = value;
 		}
+	}
+
+	public bool flipX
+	{
+		get => _animComponent.flipX;
 	}
 
 	[SerializeField] private int _curHp = 0;
@@ -108,6 +115,8 @@ public class Champion : MonoBehaviour, IAttackable, IHitable, IWalkable
 					_blackboard.SetBoolValue("isMoveLock", true);
 
 					StartCoroutine(UpdateAtkCooltime());
+
+					s_effectManager.FireEffect("Effect_Swordman_Attack", transform.position, flipX);
 				}
 				break;
 
