@@ -6,20 +6,20 @@ namespace MH_AIFramework
 	public class BehaviourTree : MonoBehaviour
 	{
 		protected Node _rootNode = null;
-		public Blackboard blackboard { get; set; }
+		protected Blackboard _blackboard;
 		public AIController aiController { get; set; }
 
 		protected void Awake()
 		{
-			blackboard = gameObject.AddComponent<Blackboard>();
+
 		}
 
 		protected void Start()
 		{
-			Debug.Assert( null != blackboard );
+			Debug.Assert( null != _blackboard );
 
 			_rootNode = new RootNode();
-			_rootNode.blackboard = blackboard;
+			_rootNode.blackboard = _blackboard;
 			_rootNode.aiController = aiController;
 
 			_rootNode.AddChild( new SelectorNode() );
@@ -47,7 +47,7 @@ namespace MH_AIFramework
 			Debug.Assert( null != newNode );
 			Debug.Assert( null != parent );
 
-			newNode.blackboard = blackboard;
+			newNode.blackboard = _blackboard;
 			newNode.aiController = aiController;
 
 			if ( null != parent )

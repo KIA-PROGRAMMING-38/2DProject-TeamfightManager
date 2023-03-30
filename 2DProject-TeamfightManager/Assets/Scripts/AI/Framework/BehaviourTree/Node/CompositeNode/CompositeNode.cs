@@ -80,6 +80,15 @@ namespace MH_AIFramework
 			}
 		}
 
+		public override void OnCreate()
+		{
+			base.OnCreate();
+
+			_childCount = _children.Count;
+			_decoratorChildCount = _decoratorChildren.Count;
+			_serviceChildCount = _serviceChildren.Count;
+		}
+
 		public override void OnDisable()
 		{
 			base.OnDisable();

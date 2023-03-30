@@ -2,7 +2,6 @@
 
 namespace MH_AIFramework
 {
-	[System.Serializable]
 	public abstract class ActionNode : Node
 	{
 		public override sealed void AddChild( Node child )

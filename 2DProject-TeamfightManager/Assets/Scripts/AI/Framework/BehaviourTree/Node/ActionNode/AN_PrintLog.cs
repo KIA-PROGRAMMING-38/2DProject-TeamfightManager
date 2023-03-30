@@ -2,10 +2,9 @@
 
 namespace MH_AIFramework
 {
-	[System.Serializable]
 	public sealed class AN_PrintLog : ActionNode
 	{
-		[SerializeField] private string _message;
+		private string _message;
 
 		public AN_PrintLog( string message )
 		{

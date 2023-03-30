@@ -1,14 +1,8 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
-
-namespace MH_AIFramework
+﻿namespace MH_AIFramework
 {
 	// Sequence Node : 자식 노드들 중 하나라도 실패를 반환하기 전까지 실행..
-	[System.Serializable]
 	public sealed class SequenceNode : CompositeNode
 	{
-		[HideInInspector] private int _curUpdateChildIndex = 0;
-
 		protected override void OnStart()
 		{
 

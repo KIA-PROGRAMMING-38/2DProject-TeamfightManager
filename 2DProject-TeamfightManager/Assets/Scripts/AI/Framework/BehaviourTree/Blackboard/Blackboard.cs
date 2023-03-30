@@ -24,11 +24,6 @@ namespace MH_AIFramework
 		private Dictionary<string, Quaternion> _quatContainer = new Dictionary<string, Quaternion>();
 		private Dictionary<string, object> _objectContainer = new Dictionary<string, object>();
 
-		protected void Awake()
-		{
-			Clear();
-		}
-
 		public void Clear()
 		{
 			_stringContainer.Clear();

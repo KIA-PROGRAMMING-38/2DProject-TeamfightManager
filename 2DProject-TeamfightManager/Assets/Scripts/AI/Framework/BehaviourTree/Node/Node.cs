@@ -2,7 +2,6 @@
 
 namespace MH_AIFramework
 {
-	[System.Serializable]
 	public abstract class Node
 	{
 		public enum State
@@ -12,8 +11,8 @@ namespace MH_AIFramework
 			Failure
 		}
 
-		[SerializeField] protected State _state;
-		[SerializeField] private bool _isStarted = false;
+		protected State _state;
+		private bool _isStarted = false;
 
 		public Blackboard blackboard { get; set; }
 		public AIController aiController { get; set; }

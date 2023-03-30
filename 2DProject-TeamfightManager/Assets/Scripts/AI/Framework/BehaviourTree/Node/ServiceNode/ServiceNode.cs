@@ -2,11 +2,10 @@
 
 namespace MH_AIFramework
 {
-	[System.Serializable]
 	public abstract class ServiceNode : Node
 	{
-		[SerializeField] protected float _updateTick = 0.0f;
-		[HideInInspector] protected float _pivotTime = 0.0f;
+		protected float _updateTick = 0.0f;
+		protected float _pivotTime = 0.0f;
 
 		public ServiceNode( float updateTick = 0.0f )
 		{

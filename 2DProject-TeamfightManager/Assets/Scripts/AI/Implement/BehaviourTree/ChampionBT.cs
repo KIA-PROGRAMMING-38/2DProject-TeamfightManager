@@ -11,7 +11,7 @@ public class ChampionBT : BehaviourTree
 	{
 		base.Awake();
 
-		_champion = aiController.GetComponent<Champion>();
+		_champion = GetComponent<Champion>();
 	}
 
 	new private void OnEnable()

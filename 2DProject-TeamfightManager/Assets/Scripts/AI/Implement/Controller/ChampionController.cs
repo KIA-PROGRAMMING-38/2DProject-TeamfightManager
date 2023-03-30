@@ -6,7 +6,7 @@ public class ChampionController : AIController
     // Start is called before the first frame update
     new private void Awake()
     {
-        _behaviourTree = GetComponent<BehaviourTree>();
+        _behaviourTree = gameObject.AddComponent<ChampionBT>();
 
 		base.Awake();
     }

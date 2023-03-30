@@ -4,11 +4,8 @@ using UnityEngine;
 namespace MH_AIFramework
 {
 	// Selector Node : 자식들 중 하나라도 성공이라면 성공을 반환..
-	[System.Serializable]
 	public sealed class SelectorNode : CompositeNode
 	{
-		[HideInInspector] private int _curUpdateChildIndex = 0;
-
 		protected override void OnStart()
 		{
 

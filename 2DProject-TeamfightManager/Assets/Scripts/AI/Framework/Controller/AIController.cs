@@ -3,7 +3,6 @@ using UnityEngine.PlayerLoop;
 
 namespace MH_AIFramework
 {
-	[System.Serializable]
 	public class AIController : MonoBehaviour
 	{
 		protected BehaviourTree _behaviourTree = null;
