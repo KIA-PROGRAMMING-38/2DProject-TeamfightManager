@@ -5,6 +5,8 @@ public class AN_LookTarget : ActionNode
 {
 	private float _dirMul;
 
+	private Transform _transform;
+
 	public AN_LookTarget(float dirMul = 1f)
 	{
 		_dirMul = dirMul;
@@ -13,6 +15,8 @@ public class AN_LookTarget : ActionNode
 	public override void OnCreate()
 	{
 		base.OnCreate();
+
+		_transform = blackboard.gameObject.transform;
 	}
 
 	protected override void OnStart()
@@ -36,7 +40,7 @@ public class AN_LookTarget : ActionNode
 		if (null == target)
 			return State.Failure;
 
-		Vector3 moveDirection = target.transform.position - blackboard.transform.position;
+		Vector3 moveDirection = target.transform.position - _transform.position;
 		moveDirection = (moveDirection * _dirMul).normalized;
 
 		blackboard.SetVectorValue("moveDirection", moveDirection);

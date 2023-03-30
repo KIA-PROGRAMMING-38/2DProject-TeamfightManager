@@ -2,7 +2,7 @@ using MH_AIFramework;
 using System.Collections;
 using UnityEngine;
 
-public class Champion : MonoBehaviour, IAttackable, IHitable, IWalkable
+public class Champion : MonoBehaviour, IAttackable, IHitable
 {
 	public static EffectManager s_effectManager { private get; set; }
 
@@ -150,24 +150,6 @@ public class Champion : MonoBehaviour, IAttackable, IHitable, IWalkable
 #endif
 
 		return pilotBattleComponent.FindTarget(this);
-	}
-
-	// ==================================================================================================================
-	// --- IWalkable 인터페이스 함수들..
-	// ==================================================================================================================
-	// 실제 챔피언을 이동시키는 함수..
-	public void Move(Vector3 direction)
-	{
-		transform.Translate(Time.deltaTime * speed * direction);
-
-		_animComponent.flipX = direction.x < 0f;
-		_animComponent.ChangeState(ChampionAnimation.AnimState.Move);
-	}
-
-	// 이동이 끝났을 때 실행되는 함수(움직이는 애니메이션 멈추기 등의 용도로 사용)..
-	public void OnMoveEnd()
-	{
-		_animComponent.ChangeState(ChampionAnimation.AnimState.Idle);
 	}
 
 	public void OnAnimationEnd()

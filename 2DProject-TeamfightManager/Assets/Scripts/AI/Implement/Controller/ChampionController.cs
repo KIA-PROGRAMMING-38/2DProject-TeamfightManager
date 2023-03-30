@@ -1,7 +1,6 @@
 using MH_AIFramework;
 using UnityEngine;
 
-[RequireComponent(typeof(ChampionBT))]
 public class ChampionController : AIController
 {
     // Start is called before the first frame update

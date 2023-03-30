@@ -25,8 +25,8 @@ public class AN_ShowEffect : ActionNode
 	{
 		base.OnCreate();
 
-		_champion = blackboard.GetComponent<Champion>();
-		_transform = blackboard.transform;
+		_champion = blackboard.gameObject.GetComponent<Champion>();
+		_transform = blackboard.gameObject.transform;
 	}
 
 	protected override void OnStart()

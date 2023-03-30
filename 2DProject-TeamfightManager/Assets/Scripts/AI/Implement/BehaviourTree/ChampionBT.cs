@@ -11,7 +11,7 @@ public class ChampionBT : BehaviourTree
 	{
 		base.Awake();
 
-		_champion = GetComponent<Champion>();
+		_champion = aiController.GetComponent<Champion>();
 	}
 
 	new private void OnEnable()
@@ -30,25 +30,25 @@ public class ChampionBT : BehaviourTree
 
 	private void SetupBlackboardValue()
 	{
-		if (null == blackboard)
+		if (null == _blackboard)
 			return;
 
 		// Bool 값들 기본 세팅..
-		blackboard.SetBoolValue("isAttack", true);
-		blackboard.SetBoolValue("isDeath", false);
-		blackboard.SetBoolValue("isMoveLock", false);
-		blackboard.SetBoolValue("spriteFlipX", false);
+		_blackboard.SetBoolValue("isAttack", true);
+		_blackboard.SetBoolValue("isDeath", false);
+		_blackboard.SetBoolValue("isMoveLock", false);
+		_blackboard.SetBoolValue("spriteFlipX", false);
 
 		// float 값들 기본 세팅..
-		blackboard.SetFloatValue("targetDistance", float.MaxValue);
+		_blackboard.SetFloatValue("targetDistance", float.MaxValue);
 
 		// int 값들 기본 세팅..
 
 		// Vector 값들 기본 세팅..
-		blackboard.SetVectorValue("moveDirection", Vector3.zero);
+		_blackboard.SetVectorValue("moveDirection", Vector3.zero);
 
 		// Object 값들 기본 세팅..
-		blackboard.SetObjectValue("target", null);
+		_blackboard.SetObjectValue("target", null);
 	}
 
 	private void SetupNodeHierarchy()

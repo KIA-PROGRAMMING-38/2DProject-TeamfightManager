@@ -12,7 +12,7 @@ public class AN_Move : ActionNode
 	{
 		base.OnCreate();
 
-		_transform = blackboard.transform;
+		_transform = blackboard.gameObject.transform;
 	}
 
 	protected override void OnStart()

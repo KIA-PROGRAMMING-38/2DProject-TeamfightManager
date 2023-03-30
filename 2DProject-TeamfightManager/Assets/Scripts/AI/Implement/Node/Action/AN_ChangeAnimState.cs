@@ -17,7 +17,7 @@ public class AN_ChangeAnimState : ActionNode
 	{
 		base.OnCreate();
 
-		_championAnimation = blackboard.GetComponentInChildren<ChampionAnimation>();
+		_championAnimation = blackboard.gameObject.GetComponentInChildren<ChampionAnimation>();
 	}
 
 	protected override void OnStart()
