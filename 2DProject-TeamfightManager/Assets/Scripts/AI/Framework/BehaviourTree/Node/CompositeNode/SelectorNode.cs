@@ -27,7 +27,7 @@ namespace MH_AIFramework
 			// 모든 Service Node 들 Update..
 			OnUpdateServiceNodes();
 
-			if ( _children.Count > 0 )
+			if (_childCount > 0 )
 			{
 				Node child = _children[_curUpdateChildIndex];
 
@@ -40,7 +40,7 @@ namespace MH_AIFramework
 						return _state;
 					case State.Failure:
 						_state = State.Failure;
-						_curUpdateChildIndex = (_curUpdateChildIndex + 1 == _children.Count) ? 0 : _curUpdateChildIndex + 1;
+						_curUpdateChildIndex = (_curUpdateChildIndex + 1 == _childCount) ? 0 : _curUpdateChildIndex + 1;
 						break;
 					default:
 						throw new System.ArgumentException();

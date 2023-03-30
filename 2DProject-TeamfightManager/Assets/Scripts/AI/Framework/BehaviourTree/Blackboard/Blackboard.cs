@@ -65,17 +65,17 @@ namespace MH_AIFramework
 				Debug.Assert(false, key + " invalid key");
 			return _boolContainer[key];
 		}
-		public Vector3 GetVectorValue(string key)
+		public void GetVectorValue(string key, out Vector3 get)
 		{
 			if (!_vec3Container.ContainsKey(key))
 				Debug.Assert(false, key + " invalid key");
-			return _vec3Container[key];
+			get = _vec3Container[key];
 		}
-		public Quaternion GetRotatorValue(string key)
+		public void GetRotatorValue(string key, out Quaternion get)
 		{
 			if (!_quatContainer.ContainsKey(key))
 				Debug.Assert(false, key + " invalid key");
-			return _quatContainer[key];
+			get = _quatContainer[key];
 		}
 		public object GetObjectValue(string key)
 		{
@@ -97,8 +97,8 @@ namespace MH_AIFramework
 		public void SetFloatValue(string key, float value) => _floatContainer[key] = value;
 		public void SetIntValue(string key, int value) => _intContainer[key] = value;
 		public void SetBoolValue(string key, bool value) => _boolContainer[key] = value;
-		public void SetVectorValue(string key, Vector3 value) => _vec3Container[key] = value;
-		public void SetRotatorValue(string key, Quaternion value) => _quatContainer[key] = value;
+		public void SetVectorValue(string key, in Vector3 value) => _vec3Container[key] = value;
+		public void SetRotatorValue(string key, in Quaternion value) => _quatContainer[key] = value;
 		public void SetObjectValue(string key, object value) => _objectContainer[key] = value;
 	}
 }

@@ -3,12 +3,16 @@ using UnityEngine;
 
 namespace MH_AIFramework
 {
-	[System.Serializable]
 	public abstract class CompositeNode : Node
 	{
-		[SerializeReference] protected List<Node> _children = new List<Node>();
-		[SerializeField] protected List<DecoratorNode> _decoratorChildren = new List<DecoratorNode>();
-		[SerializeField] protected List<ServiceNode> _serviceChildren = new List<ServiceNode>();
+		protected List<Node> _children = new List<Node>();
+		protected int _childCount = 0;
+
+		private List<DecoratorNode> _decoratorChildren = new List<DecoratorNode>();
+		private int _decoratorChildCount = 0;
+
+		private List<ServiceNode> _serviceChildren = new List<ServiceNode>();
+		private int _serviceChildCount = 0;
 
 		public override void AddChild( Node child )
 		{
@@ -18,6 +22,7 @@ namespace MH_AIFramework
 				if ( null != decoratorNode )
 				{
 					_decoratorChildren.Add( decoratorNode );
+					++_decoratorChildCount;
 
 					return;
 				}
@@ -29,6 +34,7 @@ namespace MH_AIFramework
 				if ( null != serviceNode )
 				{
 					_serviceChildren.Add( serviceNode );
+					++_serviceChildCount;
 
 					return;
 				}
@@ -37,6 +43,7 @@ namespace MH_AIFramework
 			// 여기까지 왔다면 평범한 노드다..
 			{
 				_children.Add( child );
+				++_childCount;
 			}
 		}
 
@@ -48,6 +55,7 @@ namespace MH_AIFramework
 				if ( null != decoratorNode )
 				{
 					_decoratorChildren.Remove( decoratorNode );
+					_decoratorChildCount = _decoratorChildren.Count;
 
 					return;
 				}
@@ -59,6 +67,7 @@ namespace MH_AIFramework
 				if ( null != serviceNode )
 				{
 					_serviceChildren.Remove( serviceNode );
+					_serviceChildCount = _serviceChildren.Count;
 
 					return;
 				}
@@ -67,6 +76,27 @@ namespace MH_AIFramework
 			// 여기까지 왔다면 평범한 노드다..
 			{
 				_children.Remove( child );
+				_childCount = _children.Count;
+			}
+		}
+
+		public override void OnDisable()
+		{
+			base.OnDisable();
+
+			for( int i = 0; i < _childCount; ++i)
+			{
+				_children[i].OnDisable();
+			}
+
+			for (int i = 0; i < _decoratorChildCount; ++i)
+			{
+				_decoratorChildren[i].OnDisable();
+			}
+
+			for (int i = 0; i < _serviceChildCount; ++i)
+			{
+				_serviceChildren[i].OnDisable();
 			}
 		}
 
@@ -82,9 +112,9 @@ namespace MH_AIFramework
 
 		private bool CheckDecoratorCondition()
 		{
-			foreach ( DecoratorNode decoratorNode in _decoratorChildren )
+			for(int i = 0; i < _decoratorChildCount; ++i)
 			{
-				if ( State.Failure == decoratorNode.Update() )
+				if (State.Failure == _decoratorChildren[i].Update())
 					return false;
 			}
 
@@ -93,9 +123,9 @@ namespace MH_AIFramework
 
 		protected void OnUpdateServiceNodes()
 		{
-			foreach ( ServiceNode serviceNode in _serviceChildren )
+			for (int i = 0; i < _serviceChildCount; ++i)
 			{
-				serviceNode.Update();
+				_serviceChildren[i].Update();
 			}
 		}
 	}

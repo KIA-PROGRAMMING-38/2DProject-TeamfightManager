@@ -8,6 +8,8 @@ namespace MH_AIFramework
 		[SerializeField] private Quaternion _cmpValue;
 		[SerializeField] private string _bbKey;
 
+		private Quaternion _bbValue;
+
 		public DN_CheckQuaternionValue( Quaternion cmpValue, string bbKey)
 		{
 			_cmpValue = cmpValue;
@@ -26,7 +28,8 @@ namespace MH_AIFramework
 
 		protected override State OnUpdate()
 		{
-			if ( blackboard.GetRotatorValue( _bbKey ) == _cmpValue )
+			blackboard.GetRotatorValue(_bbKey, out _bbValue);
+			if (_bbValue == _cmpValue)
 				return State.Success;
 
 			return State.Failure;

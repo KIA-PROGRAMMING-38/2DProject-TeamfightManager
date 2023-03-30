@@ -46,6 +46,16 @@ namespace MH_AIFramework
 		public abstract void RemoveChild( Node child );
 
 		public virtual void OnCreate() { }
+		public virtual void OnEnable()
+		{
+			_isStarted = false;
+			_state = State.Failure;
+		}
+		public virtual void OnDisable()
+		{
+			_isStarted = false;
+			_state = State.Failure;
+		}
 		protected abstract void OnStart();
 		protected abstract void OnStop();
 		protected abstract State OnUpdate();
