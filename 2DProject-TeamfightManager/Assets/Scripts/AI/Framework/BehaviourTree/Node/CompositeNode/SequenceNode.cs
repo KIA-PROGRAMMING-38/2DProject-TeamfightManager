@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 namespace MH_AIFramework
 {
@@ -27,27 +28,25 @@ namespace MH_AIFramework
 			// 모든 Service Node 들 Update..
 			OnUpdateServiceNodes();
 
-			if (_childCount > 0 )
+			for (int i = 0; i < _childCount; ++i)
 			{
-				Node child = _children[_curUpdateChildIndex];
+				Node child = _children[i];
 
-				switch ( child.Update() )
+				switch (child.Update())
 				{
 					case State.Running:
 						_state = State.Running;
+
 						break;
 					case State.Success:
-						_state = State.Success;
-						_curUpdateChildIndex = (_curUpdateChildIndex + 1 == _childCount) ? 0 : _curUpdateChildIndex + 1;
+						if (State.Running != _state)
+							_state = State.Success;
+
 						break;
 					case State.Failure:
-						_state = State.Failure;
-						_curUpdateChildIndex = 0;
 						return _state;
 					default:
-						_state = State.Failure;
-						_curUpdateChildIndex = 0;
-						return _state;
+						throw new System.ArgumentException();
 				}
 			}
 
