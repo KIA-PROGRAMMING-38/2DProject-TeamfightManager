@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor.SceneManagement;
+using UnityEngine;
 
 namespace MH_AIFramework
 {
@@ -7,6 +8,11 @@ namespace MH_AIFramework
 		protected Node _rootNode = null;
 		public Blackboard blackboard { get; set; }
 		public AIController aiController { get; set; }
+
+		protected void Awake()
+		{
+			blackboard = gameObject.AddComponent<Blackboard>();
+		}
 
 		protected void Start()
 		{

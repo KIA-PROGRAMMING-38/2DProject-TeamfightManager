@@ -2,10 +2,10 @@
 
 namespace MH_AIFramework
 {
-	[System.Serializable]
 	public sealed class RootNode : Node
 	{
-		[SerializeReference] private Node _childNode;
+		private Node _childNode;
+		private bool _isActive = true;
 
 		public override void AddChild( Node child )
 		{
@@ -21,12 +21,16 @@ namespace MH_AIFramework
 		{
 			base.OnEnable();
 
+			_isActive = true;
+
 			_childNode?.OnEnable();
 		}
 
 		public override void OnDisable()
 		{
 			base.OnDisable();
+
+			_isActive = false;
 
 			_childNode?.OnDisable();
 		}
@@ -41,6 +45,9 @@ namespace MH_AIFramework
 
 		protected override State OnUpdate()
 		{
+			if (false == _isActive)
+				return State.Failure;
+
 			return _childNode.Update();
 		}
 	}

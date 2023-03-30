@@ -7,16 +7,11 @@ namespace MH_AIFramework
 	public class AIController : MonoBehaviour
 	{
 		protected BehaviourTree _behaviourTree = null;
-		protected Blackboard _blackboard = null;
-
-		public Blackboard blackboard { get { return _blackboard; } }
 
 		protected void Awake()
 		{
 			Debug.Assert( null != _behaviourTree );
-			Debug.Assert( null != _blackboard );
 
-			_behaviourTree.blackboard = _blackboard;
 			_behaviourTree.aiController = this;
 		}
 
