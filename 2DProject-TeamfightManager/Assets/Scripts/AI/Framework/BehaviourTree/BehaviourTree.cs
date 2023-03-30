@@ -11,7 +11,7 @@ namespace MH_AIFramework
 
 		protected void Awake()
 		{
-
+			_blackboard = gameObject.AddComponent<Blackboard>();
 		}
 
 		protected void Start()
