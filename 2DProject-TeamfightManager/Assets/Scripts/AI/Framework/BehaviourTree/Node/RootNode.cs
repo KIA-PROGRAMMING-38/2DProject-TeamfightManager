@@ -17,6 +17,20 @@ namespace MH_AIFramework
 			_childNode = null;
 		}
 
+		public override void OnEnable()
+		{
+			base.OnEnable();
+
+			_childNode?.OnEnable();
+		}
+
+		public override void OnDisable()
+		{
+			base.OnDisable();
+
+			_childNode?.OnDisable();
+		}
+
 		protected override void OnStart()
 		{
 		}

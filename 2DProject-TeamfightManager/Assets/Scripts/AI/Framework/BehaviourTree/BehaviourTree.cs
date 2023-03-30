@@ -19,6 +19,16 @@ namespace MH_AIFramework
 			_rootNode.AddChild( new SelectorNode() );
 		}
 
+		protected void OnEnable()
+		{
+			_rootNode?.OnEnable();
+		}
+
+		protected void OnDisable()
+		{
+			_rootNode?.OnDisable();
+		}
+
 		public void Run()
 		{
 			if ( null != _rootNode )
