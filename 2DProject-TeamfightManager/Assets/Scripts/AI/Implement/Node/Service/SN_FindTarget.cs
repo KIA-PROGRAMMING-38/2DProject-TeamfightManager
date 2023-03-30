@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class SN_FindTarget : ServiceNode
 {
-	public Func<GameObject> _findTargetFunc;
+	private Func<GameObject> _findTargetFunc;
 
-	public SN_FindTarget()
+	public SN_FindTarget( Func<GameObject> findTargetFunc )
 		: base( 0.5f )
 	{
-
+		_findTargetFunc = findTargetFunc;
 	}
 
 	public override void OnCreate()

@@ -3,6 +3,11 @@ using MH_AIFramework;
 
 public class ChampionBlackboard : Blackboard
 {
+	new private void Awake()
+	{
+		
+	}
+
 	private void OnEnable()
 	{
 		SetupBlackboardKey();

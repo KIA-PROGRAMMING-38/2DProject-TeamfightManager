@@ -57,7 +57,15 @@ public class Effect : MonoBehaviour
     {
         if (true == info.isAutoDestroy && false == info.isUseLifeTime)
         {
-            s_effectManager.ReleaseEfffect(this);
+            Release();
         }
     }
+
+    public void Release()
+    {
+		if (false == gameObject.activeSelf)
+			return;
+
+		s_effectManager.ReleaseEffect(this);
+	}
 }

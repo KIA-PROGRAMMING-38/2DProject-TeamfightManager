@@ -1,7 +1,5 @@
 using MH_AIFramework;
-using System;
 using System.Collections;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class Champion : MonoBehaviour, IAttackable, IHitable, IWalkable
@@ -12,7 +10,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable, IWalkable
 	public PilotBattle pilotBattleComponent { private get; set; }
 	private Blackboard _blackboard;
 
-	public string champName { get; set; }
+	public string champName { get => "Swordman"; }
 	public ChampionStatus status { get; set; }
 	public ChampionClassType type { get; set; }
 	public ChampionAnimData animData
@@ -25,6 +23,8 @@ public class Champion : MonoBehaviour, IAttackable, IHitable, IWalkable
 			_animComponent.animData = value;
 		}
 	}
+
+	public string atkEffectName { get => "Effect_" + champName + "_Attack"; }
 
 	public bool flipX
 	{
@@ -66,13 +66,14 @@ public class Champion : MonoBehaviour, IAttackable, IHitable, IWalkable
 	{
 		if (null == _animComponent)
 			_animComponent = GetComponentInChildren<ChampionAnimation>();
-
-		_blackboard = GetComponent<Blackboard>();
 	}
 
 	private void Start()
 	{
+		_blackboard = GetComponent<Blackboard>();
+
 		_blackboard.SetFloatValue("attackRange", status.range);
+		_blackboard.SetFloatValue("moveSpeed", status.moveSpeed);
 
 		Revival();
 	}
@@ -116,7 +117,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable, IWalkable
 
 					StartCoroutine(UpdateAtkCooltime());
 
-					s_effectManager.FireEffect("Effect_Swordman_Attack", transform.position, flipX);
+					s_effectManager.ShowEffect("Effect_Swordman_Attack", transform.position, flipX);
 				}
 				break;
 

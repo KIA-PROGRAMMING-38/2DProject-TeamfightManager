@@ -36,6 +36,7 @@ public class EffectManager : MonoBehaviour
 
 		Effect.s_effectManager = this;
 		Champion.s_effectManager = this;
+		ChampionBT.s_effectManager = this;
 	}
 
 	/// <summary>
@@ -55,7 +56,7 @@ public class EffectManager : MonoBehaviour
 	/// </summary>
 	/// <param name="effectName"> 가져오고 싶은 이펙트 이름.. </param>
 	/// /// <param name="position"> 이펙트 기본 위치.. </param>
-	public void FireEffect(string effectName, in Vector3 position, bool flipX = false)
+	public void ShowEffect(string effectName, in Vector3 position, bool flipX = false)
 	{
 		Effect outEffect = _pooler.Get();
 
@@ -72,7 +73,7 @@ public class EffectManager : MonoBehaviour
 	/// 외부에서 이펙트를 가져오려고 할 때 사용할 함수..
 	/// </summary>
 	/// <param name="effectName"> 가져오고 싶은 이펙트 이름.. </param>
-	public Effect GetEffefct(string effectName)
+	public Effect GetEffect(string effectName)
     {
 		Effect outEffect = _pooler.Get();
 
@@ -83,10 +84,27 @@ public class EffectManager : MonoBehaviour
     }
 
 	/// <summary>
+	/// 외부에서 이펙트를 가져오려고 할 때 사용할 함수..
+	/// </summary>
+	/// <param name="effectName"> 가져오고 싶은 이펙트 이름.. </param>
+	public Effect GetEffect(string effectName, in Vector3 position, bool flipX = false)
+	{
+		Effect outEffect = _pooler.Get();
+
+		outEffect.info = _effectDataTable.GetEffectInfo(effectName);
+		outEffect.clip = _effectDataTable.GetEffectAnimClip(effectName);
+		outEffect.flipX = flipX;
+
+		outEffect.transform.position = position;
+
+		return outEffect;
+	}
+
+	/// <summary>
 	/// 이펙트가 할 일을 끝내고 다시 풀러에 들어갈 때 호출될 함수..
 	/// </summary>
 	/// <param name="effect"></param>
-	public void ReleaseEfffect(Effect effect)
+	public void ReleaseEffect(Effect effect)
 	{
 		_pooler.Release(effect);
 	}
