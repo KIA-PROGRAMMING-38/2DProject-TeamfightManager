@@ -3,7 +3,9 @@ using UnityEngine;
 
 namespace MH_AIFramework
 {
-	// Selector Node : 자식들 중 하나라도 성공이라면 성공을 반환..
+	/// <summary>
+	/// 자식들 중 하나라도 성공이라면 성공을 반환..
+	/// </summary>
 	public sealed class SelectorNode : CompositeNode
 	{
 		private int _curIndex = 0;

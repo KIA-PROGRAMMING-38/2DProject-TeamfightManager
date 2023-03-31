@@ -3,17 +3,28 @@ using UnityEngine;
 
 namespace MH_AIFramework
 {
+	/// <summary>
+	/// 복합 노드(자식이 여러개인 노드)
+	/// 이 클래스를 상속받아 시퀀스 셀렉터 노드를 정의함..
+	/// </summary>
 	public abstract class CompositeNode : Node
 	{
+		// 소속된 Node들(Action, Selector, Sequence 만 들어옴)과 그 개수..
 		protected List<Node> _children = new List<Node>();
 		protected int _childCount = 0;
 
+		// 소속된 Decorator Node들과 그 개수..
 		private List<DecoratorNode> _decoratorChildren = new List<DecoratorNode>();
 		private int _decoratorChildCount = 0;
 
+		// 소속된 Service Node들과 그 개수..
 		private List<ServiceNode> _serviceChildren = new List<ServiceNode>();
 		private int _serviceChildCount = 0;
 
+		/// <summary>
+		/// 자식 추가 함수(Decorator 인지 Service 인지 그 외의 Node인지 검사해 알맞게 저장)..
+		/// </summary>
+		/// <param name="child"> 추가할 자식 Node.. </param>
 		public override void AddChild( Node child )
 		{
 			// Decorator Node 인지 체크..
@@ -47,6 +58,10 @@ namespace MH_AIFramework
 			}
 		}
 
+		/// <summary>
+		/// 자식 제거 함수(Decorator 인지 Service 인지 그 외의 Node인지 검사해 알맞게 삭제)..
+		/// </summary>
+		/// <param name="child"> 삭제할 자식 Node.. </param>
 		public override void RemoveChild( Node child )
 		{
 			// Decorator Node 인지 체크..

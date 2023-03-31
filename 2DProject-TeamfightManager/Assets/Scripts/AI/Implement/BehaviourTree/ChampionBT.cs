@@ -7,55 +7,53 @@ public class ChampionBT : BehaviourTree
 
 	private Champion _champion;
 
-	new private void Awake()
+	public ChampionBT(AIController aiController) : base(aiController)
 	{
-		base.Awake();
+		_champion = aiController.GetComponent<Champion>();
 
-		_champion = GetComponent<Champion>();
+		SetupNodeHierarchy();
 	}
 
-	new private void OnEnable()
+	public override void OnEnable()
 	{
 		base.OnEnable();
 
 		SetupBlackboardValue();
 	}
 
-	new private void Start()
+	public override void OnDisable()
 	{
-		base.Start();
-
-		SetupNodeHierarchy();
+		base.OnDisable();
 	}
 
 	private void SetupBlackboardValue()
 	{
-		if (null == _blackboard)
+		if (null == blackboard)
 			return;
 
 		// Bool 값들 기본 세팅..
-		_blackboard.SetBoolValue("isAttack", true);
-		_blackboard.SetBoolValue("isDeath", false);
-		_blackboard.SetBoolValue("isMoveLock", false);
-		_blackboard.SetBoolValue("spriteFlipX", false);
+		blackboard.SetBoolValue("isAttack", true);
+		blackboard.SetBoolValue("isDeath", false);
+		blackboard.SetBoolValue("isMoveLock", false);
+		blackboard.SetBoolValue("spriteFlipX", false);
 
 		// float 값들 기본 세팅..
-		_blackboard.SetFloatValue("targetDistance", float.MaxValue);
+		blackboard.SetFloatValue("targetDistance", float.MaxValue);
 
 		// int 값들 기본 세팅..
 
 		// Vector 값들 기본 세팅..
-		_blackboard.SetVectorValue("moveDirection", Vector3.zero);
+		blackboard.SetVectorValue("moveDirection", Vector3.zero);
 
 		// Object 값들 기본 세팅..
-		_blackboard.SetObjectValue("target", null);
+		blackboard.SetObjectValue("target", null);
 	}
 
 	private void SetupNodeHierarchy()
 	{
 		// 루트 바로 아래 자식 세팅..
 		SelectorNode rootChildNode = new SelectorNode();
-		AddNode(rootChildNode, _rootNode);
+		AddNode(rootChildNode, rootNode);
 
 		// ========================================================================
 		// Death 상태일 때 실행할 노드 하이어라키 정의..

@@ -2,6 +2,9 @@
 
 namespace MH_AIFramework
 {
+	/// <summary>
+	/// 일정 시간동안 Delay를 주는 함수..
+	/// </summary>
 	public sealed class AN_Wait : ActionNode
 	{
 		private float _waitTime = 0.0f;	// 기다릴 시간..

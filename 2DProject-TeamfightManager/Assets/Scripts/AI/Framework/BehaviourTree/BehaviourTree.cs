@@ -3,42 +3,42 @@ using UnityEngine;
 
 namespace MH_AIFramework
 {
-	public class BehaviourTree : MonoBehaviour
+	/// <summary>
+	/// AI를 위한 행동 트리..
+	/// 여기에는 각 AI의 행동을 위한 Node들이 트리의 형태로 구성되어 있다..
+	/// 얘는 그저 실행만 시키는 역할이며 조건, 행동 같은 것들은 Node들이 담당한다..
+	/// </summary>
+	public class BehaviourTree
 	{
-		protected Node _rootNode = null;
-		protected Blackboard _blackboard;
+		protected Node rootNode { get; private set; }
+		protected Blackboard blackboard { get; private set; }
 		public AIController aiController { get; set; }
 
-		protected void Awake()
+		public BehaviourTree(AIController aiController)
 		{
-			_blackboard = gameObject.AddComponent<Blackboard>();
+			this.aiController = aiController;
+
+			blackboard = aiController.gameObject.AddComponent<Blackboard>();
+			rootNode = new RootNode();
+
+			rootNode.blackboard = blackboard;
+			rootNode.aiController = aiController;
 		}
 
-		protected void Start()
+		public virtual void OnEnable()
 		{
-			Debug.Assert( null != _blackboard );
-
-			_rootNode = new RootNode();
-			_rootNode.blackboard = _blackboard;
-			_rootNode.aiController = aiController;
-
-			_rootNode.AddChild( new SelectorNode() );
+			rootNode?.OnEnable();
 		}
 
-		protected void OnEnable()
+		public virtual void OnDisable()
 		{
-			_rootNode?.OnEnable();
-		}
-
-		protected void OnDisable()
-		{
-			_rootNode?.OnDisable();
+			rootNode?.OnDisable();
 		}
 
 		public void Run()
 		{
-			if ( null != _rootNode )
-				_rootNode.Update();
+			if ( null != rootNode )
+				rootNode.Update();
 		}
 
 		protected Node AddNode( Node newNode, Node parent )
@@ -47,7 +47,7 @@ namespace MH_AIFramework
 			Debug.Assert( null != newNode );
 			Debug.Assert( null != parent );
 
-			newNode.blackboard = _blackboard;
+			newNode.blackboard = blackboard;
 			newNode.aiController = aiController;
 
 			if ( null != parent )

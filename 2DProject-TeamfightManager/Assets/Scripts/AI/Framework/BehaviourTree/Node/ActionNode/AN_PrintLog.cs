@@ -2,6 +2,9 @@
 
 namespace MH_AIFramework
 {
+	/// <summary>
+	/// 디버깅 용도로 Log를 찍는 Node..
+	/// </summary>
 	public sealed class AN_PrintLog : ActionNode
 	{
 		private string _message;

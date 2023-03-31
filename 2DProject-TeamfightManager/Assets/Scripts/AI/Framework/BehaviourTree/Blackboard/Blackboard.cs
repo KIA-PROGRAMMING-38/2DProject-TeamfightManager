@@ -3,17 +3,10 @@ using UnityEngine;
 
 namespace MH_AIFramework
 {
-	public enum BlackboardValueType
-	{
-		StringType,
-		FloatType,
-		IntType,
-		BoolType,
-		VectorType,
-		QuaternionType,
-		ObjectType,
-	}
-
+	/// <summary>
+	/// Behaviour Tree 에서 쓰는 데이터를 저장하는 저장소..
+	/// 한 마디로 AI에서 사용하는 데이터들을 모아둔 곳..
+	/// </summary>
 	public class Blackboard : MonoBehaviour
 	{
 		private Dictionary<string, string> _stringContainer = new Dictionary<string, string>();
@@ -24,6 +17,9 @@ namespace MH_AIFramework
 		private Dictionary<string, Quaternion> _quatContainer = new Dictionary<string, Quaternion>();
 		private Dictionary<string, object> _objectContainer = new Dictionary<string, object>();
 
+		/// <summary>
+		/// 모든 Container들을 클리어 시키는 함수..
+		/// </summary>
 		public void Clear()
 		{
 			_stringContainer.Clear();
@@ -35,6 +31,9 @@ namespace MH_AIFramework
 			_objectContainer.Clear();
 		}
 
+		// ===============================================================================================================================
+		// --- Data Getter..
+		// ===============================================================================================================================
 #if UNITY_EDITOR
 		public string GetStringValue(string key)
 		{
@@ -88,6 +87,9 @@ namespace MH_AIFramework
 		public object GetObjectValue( string key ) => _objectContainer[key];
 #endif
 
+		// ===============================================================================================================================
+		// --- Data Setter..
+		// ===============================================================================================================================
 		public void SetStringValue(string key, string value) => _stringContainer[key] = value;
 		public void SetFloatValue(string key, float value) => _floatContainer[key] = value;
 		public void SetIntValue(string key, int value) => _intContainer[key] = value;

@@ -1,6 +1,8 @@
 ﻿namespace MH_AIFramework
 {
-	// Sequence Node : 자식 노드들 중 하나라도 실패를 반환하기 전까지 실행..
+	/// <summary>
+	/// 자식 노드들 중 하나라도 실패를 반환하기 전까지 실행..
+	/// </summary>
 	public sealed class SequenceNode : CompositeNode
 	{
 		private int _curIndex = 0;

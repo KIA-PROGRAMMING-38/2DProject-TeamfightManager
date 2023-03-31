@@ -2,6 +2,10 @@
 
 namespace MH_AIFramework
 {
+	/// <summary>
+	/// 일정한 주기마다 실행되는 Node..
+	/// 이 Node는 Composite Node의 자식으로 추가되며 Composite Node가 Update될 때 시간을 계산해 자동을로 일정 주기마다 실행된다..
+	/// </summary>
 	public abstract class ServiceNode : Node
 	{
 		protected float _updateTick = 0.0f;
