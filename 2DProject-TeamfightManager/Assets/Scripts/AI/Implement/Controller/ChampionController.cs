@@ -1,6 +1,9 @@
 using MH_AIFramework;
-using UnityEngine;
 
+/// <summary>
+/// ChampionBT를 생성하고 실행시켜야 할 BehaviourTree로 넣는 역할이 전부다..
+/// 나머지는 AIController가 알아서 한다..
+/// </summary>
 public class ChampionController : AIController
 {
     // Start is called before the first frame update
@@ -9,11 +12,5 @@ public class ChampionController : AIController
         _behaviourTree = new ChampionBT(this);
 
 		base.Awake();
-    }
-
-    // Update is called once per frame
-    new void Update()
-    {
-        base.Update();
     }
 }

@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace MH_AIFramework
+﻿namespace MH_AIFramework
 {
 	/// <summary>
 	/// AI 에서 실행할 행동의 최상위 노드(모든 행동들은 이 노드를 상속 받음)..

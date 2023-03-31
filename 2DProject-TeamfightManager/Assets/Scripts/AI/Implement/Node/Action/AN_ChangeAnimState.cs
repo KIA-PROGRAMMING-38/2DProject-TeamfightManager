@@ -1,6 +1,9 @@
 using MH_AIFramework;
 using UnityEngine;
 
+/// <summary>
+/// 챔피언의 Animation 상태를 바꿔주는 Node..
+/// </summary>
 public class AN_ChangeAnimState : ActionNode
 {
     private ChampionAnimation _championAnimation;
@@ -17,7 +20,7 @@ public class AN_ChangeAnimState : ActionNode
 	{
 		base.OnCreate();
 
-		_championAnimation = blackboard.gameObject.GetComponentInChildren<ChampionAnimation>();
+		_championAnimation = behaviourTree.gameObject.GetComponentInChildren<ChampionAnimation>();
 	}
 
 	protected override void OnStart()

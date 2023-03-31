@@ -1,5 +1,8 @@
 using MH_AIFramework;
 
+/// <summary>
+/// 공격 가능한지 체크해주는 Node..
+/// </summary>
 public class DN_CheckIsCanAttack : DecoratorNode
 {
 	private float _attackRange = 0.0f;

@@ -1,5 +1,8 @@
 using MH_AIFramework;
 
+/// <summary>
+/// 적을 추격할 수 있는지 조건을 검사해주는 Node..
+/// </summary>
 public class DN_ConditionChaseTarget : DecoratorNode
 {
 	protected override void OnStart()

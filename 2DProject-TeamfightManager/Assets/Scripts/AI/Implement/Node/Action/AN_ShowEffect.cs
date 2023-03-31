@@ -1,6 +1,9 @@
 using MH_AIFramework;
 using UnityEngine;
 
+/// <summary>
+/// ¿Ã∆Â∆Æ ≈Õ∂ﬂ∑¡¡÷¥¬ Node..
+/// </summary>
 public class AN_ShowEffect : ActionNode
 {
 	private EffectManager _effectManager;
@@ -25,8 +28,8 @@ public class AN_ShowEffect : ActionNode
 	{
 		base.OnCreate();
 
-		_champion = blackboard.gameObject.GetComponent<Champion>();
-		_transform = blackboard.gameObject.transform;
+		_champion = behaviourTree.gameObject.GetComponent<Champion>();
+		_transform = behaviourTree.gameObject.transform;
 	}
 
 	protected override void OnStart()

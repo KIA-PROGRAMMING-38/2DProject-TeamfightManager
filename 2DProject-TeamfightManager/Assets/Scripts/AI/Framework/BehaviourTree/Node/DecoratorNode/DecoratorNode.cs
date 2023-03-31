@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace MH_AIFramework
+﻿namespace MH_AIFramework
 {
 	/// <summary>
 	/// 조건을 검사하기 위한 Node..

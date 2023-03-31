@@ -1,6 +1,10 @@
-using UnityEngine;
 using MH_AIFramework;
+using UnityEngine;
 
+/// <summary>
+/// 챔피언의 행동 트리..
+/// 챔피언의 행동에 맞게 트리 구조로 노드를 넣는 역할 and 그 구조에 알맞게 실행..
+/// </summary>
 public class ChampionBT : BehaviourTree
 {
 	public static EffectManager s_effectManager { private get; set; }
@@ -19,11 +23,6 @@ public class ChampionBT : BehaviourTree
 		base.OnEnable();
 
 		SetupBlackboardValue();
-	}
-
-	public override void OnDisable()
-	{
-		base.OnDisable();
 	}
 
 	private void SetupBlackboardValue()

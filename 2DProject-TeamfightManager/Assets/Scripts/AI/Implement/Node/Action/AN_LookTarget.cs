@@ -1,6 +1,10 @@
 using MH_AIFramework;
 using UnityEngine;
 
+/// <summary>
+/// 챔피언의 이동 방향을 Target을 바라보는 방향으로 바꿔주는 Node..
+/// _dirMul에 따라 바라보는 방향이 조정될 수 있다..
+/// </summary>
 public class AN_LookTarget : ActionNode
 {
 	private float _dirMul;
@@ -16,7 +20,7 @@ public class AN_LookTarget : ActionNode
 	{
 		base.OnCreate();
 
-		_transform = blackboard.gameObject.transform;
+		_transform = behaviourTree.gameObject.transform;
 	}
 
 	protected override void OnStart()

@@ -7,7 +7,7 @@ namespace MH_AIFramework
 	/// Behaviour Tree 에서 쓰는 데이터를 저장하는 저장소..
 	/// 한 마디로 AI에서 사용하는 데이터들을 모아둔 곳..
 	/// </summary>
-	public class Blackboard : MonoBehaviour
+	public sealed class Blackboard
 	{
 		private Dictionary<string, string> _stringContainer = new Dictionary<string, string>();
 		private Dictionary<string, float> _floatContainer = new Dictionary<string, float>();

@@ -1,7 +1,9 @@
 using MH_AIFramework;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
+/// <summary>
+/// 챔피언의 공격 행동 Node..
+/// </summary>
 public class AN_Attack : ActionNode
 {
 	private IAttackable _attackComponent;
@@ -10,7 +12,7 @@ public class AN_Attack : ActionNode
 	{
 		base.OnCreate();
 
-		_attackComponent = aiController.GetComponent<IAttackable>();
+		_attackComponent = behaviourTree.gameObject.GetComponent<IAttackable>();
 	}
 
 	protected override void OnStart()

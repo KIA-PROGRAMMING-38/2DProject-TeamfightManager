@@ -1,6 +1,9 @@
 ﻿using MH_AIFramework;
 using UnityEngine;
 
+/// <summary>
+/// 실제 움직임을 담당하는 Node..
+/// </summary>
 public class AN_Move : ActionNode
 {
 	private Transform _transform;
@@ -12,7 +15,7 @@ public class AN_Move : ActionNode
 	{
 		base.OnCreate();
 
-		_transform = blackboard.gameObject.transform;
+		_transform = behaviourTree.gameObject.transform;
 	}
 
 	protected override void OnStart()

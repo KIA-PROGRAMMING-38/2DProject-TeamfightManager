@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace MH_AIFramework
+﻿namespace MH_AIFramework
 {
 	/// <summary>
 	/// 모든 BehaviourTree 의 소속된 Node 들의 최상위 Node..
@@ -19,7 +17,7 @@ namespace MH_AIFramework
 		private bool _isStarted = false;
 
 		public Blackboard blackboard { get; set; }
-		public AIController aiController { get; set; }
+		public BehaviourTree behaviourTree { get; set; }
 
 		public Node()
 		{

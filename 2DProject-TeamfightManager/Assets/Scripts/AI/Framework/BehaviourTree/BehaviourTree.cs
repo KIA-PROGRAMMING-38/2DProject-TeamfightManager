@@ -1,5 +1,4 @@
-﻿using UnityEditor.SceneManagement;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace MH_AIFramework
 {
@@ -13,16 +12,18 @@ namespace MH_AIFramework
 		protected Node rootNode { get; private set; }
 		protected Blackboard blackboard { get; private set; }
 		public AIController aiController { get; set; }
+		public GameObject gameObject { get; private set; }
 
 		public BehaviourTree(AIController aiController)
 		{
 			this.aiController = aiController;
+			this.gameObject = aiController.gameObject;
 
-			blackboard = aiController.gameObject.AddComponent<Blackboard>();
+			blackboard = new Blackboard();
 			rootNode = new RootNode();
 
 			rootNode.blackboard = blackboard;
-			rootNode.aiController = aiController;
+			rootNode.behaviourTree = this;
 		}
 
 		public virtual void OnEnable()
@@ -48,7 +49,7 @@ namespace MH_AIFramework
 			Debug.Assert( null != parent );
 
 			newNode.blackboard = blackboard;
-			newNode.aiController = aiController;
+			newNode.behaviourTree = this;
 
 			if ( null != parent )
 				parent.AddChild( newNode );

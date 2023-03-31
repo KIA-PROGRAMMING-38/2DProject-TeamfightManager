@@ -2,6 +2,9 @@ using MH_AIFramework;
 using System;
 using UnityEngine;
 
+/// <summary>
+/// 일정 주기마다 적을 찾는 Node..
+/// </summary>
 public class SN_FindTarget : ServiceNode
 {
 	private Func<GameObject> _findTargetFunc;

@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace MH_AIFramework
+﻿namespace MH_AIFramework
 {
 	/// <summary>
 	/// BehaviourTree의 최상위 Node..
