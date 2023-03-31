@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 모든 게임에 관련된 것들을 관리하기 위한 클래스..
+/// </summary>
 public class GameManager : MonoBehaviour
 {
 	public ChampionManager championManager { get; private set; }
@@ -38,6 +41,9 @@ public class GameManager : MonoBehaviour
 		battleStageManager.gameManager = this;
 	}
 
+	/// <summary>
+	/// 매니저 및 GameSaveLoader 생성 및 참조 연결..
+	/// </summary>
 	private void SetupManager()
 	{
 		// 생성 순서 바꿔도 상관없게 일단 빈 객체 생성..
@@ -45,7 +51,7 @@ public class GameManager : MonoBehaviour
 
 		// ==========================================================================================
 		// --- 이벤트 함수 호출 생각하면서 생성 순서 정하기..
-		// 1순위 : 데이터테이블 or saveLoader, 나머진 상관없을 것 같은 느낌??
+		// 1순위 : saveLoader, 2 순위 : 데이터테이블, 나머진 상관없을 것 같은 느낌??
 		// ==========================================================================================
 		// SaveLoader 생성..
 		_gameSaveLoader = new GameSaveLoader();

@@ -17,11 +17,12 @@ public class ChampionAnimation : MonoBehaviour
 
 	private Champion _champion;
 	private SpriteRenderer _spriteRenderer;
-	private Animator _animator;
 
+	private Animator _animator;
 	private AnimState _state;
 	private AnimatorOverrideController _animatorOverrideController;
 
+	// 공격, 스킬, 궁극기의 애니메이션 시간을 저장할 변수..
 	private float _atkAnimRuntime = 0f;
 	private float _skillAnimRuntime = 0f;
 	private float _ultAnimRuntime = 0f;
@@ -35,17 +36,7 @@ public class ChampionAnimation : MonoBehaviour
 	private static int s_deathKeyHash = 0;
 	private static int s_revivalKeyHash = 0;
 
-	public bool flipX
-	{
-		get
-		{
-			return _spriteRenderer.flipX;
-		}
-		set
-		{
-			_spriteRenderer.flipX = value;
-		}
-	}
+	public bool flipX { get => _spriteRenderer.flipX; set => _spriteRenderer.flipX = value; }
 
 	public ChampionAnimData animData
 	{
@@ -53,9 +44,9 @@ public class ChampionAnimation : MonoBehaviour
 		{
 #if UNITY_EDITOR
 			Debug.Assert(null != value);
+#endif
 
 			SetupAnimator(value);
-#endif
 		}
 	}
 
@@ -76,7 +67,9 @@ public class ChampionAnimation : MonoBehaviour
 		
 	}
 
-	// 애니메이터에서 쓰는 파라미터들 이름을 해시값으로 변환하는 함수..
+	/// <summary>
+	/// 애니메이터에서 쓰는 파라미터들 이름을 해시값으로 변환하는 함수..
+	/// </summary>
 	private static void SetupAnimatorKeyToHash()
 	{
 		s_isMoveKeyHash = Animator.StringToHash("isMove");
@@ -89,7 +82,10 @@ public class ChampionAnimation : MonoBehaviour
 		s_isHaveKeyHash = true;
 	}
 
-	// 애니메이션 상태 변경..
+	/// <summary>
+	/// 애니메이션 상태 변경..
+	/// </summary>
+	/// <param name="newState"></param>
 	public void ChangeState(AnimState newState)
 	{
 		if (_state == AnimState.Move && newState != _state)
@@ -130,7 +126,12 @@ public class ChampionAnimation : MonoBehaviour
 		_state = newState;
 	}
 
-	// 애니메이션 재생 시간이 끝나게 되면 파라미터 값 변경하고 챔피언에게 이벤트 전달..
+	/// <summary>
+	/// 애니메이션 재생 시간이 끝나게 되면 파라미터 값 변경하고 챔피언에게 이벤트 전달..
+	/// </summary>
+	/// <param name="waitSecond"></param>
+	/// <param name="delayEventTime"></param>
+	/// <returns></returns>
 	IEnumerator WaitAnimationEnd(float waitSecond, float delayEventTime)
 	{
 		yield return YieldInstructionStore.GetWaitForSec(waitSecond);
@@ -140,7 +141,9 @@ public class ChampionAnimation : MonoBehaviour
 		_champion.OnAnimationEnd();
 	}
 
-	// 애니메이션 초기화..
+	/// <summary>
+	/// 애니메이터 파라미터 초기화..
+	/// </summary>
 	public void ResetAnimation()
 	{
 		_animator.SetBool(s_isMoveKeyHash, false);
@@ -153,7 +156,10 @@ public class ChampionAnimation : MonoBehaviour
 		ChangeState(AnimState.Idle);
 	}
 
-	// 애니메이터의 애니메이션 클립들을 현재 챔피언에 맞는 애니메이션으로 변환하는 과정..
+	/// <summary>
+	/// 애니메이터의 애니메이션 클립들을 현재 챔피언에 맞는 애니메이션으로 변환하는 과정..
+	/// </summary>
+	/// <param name="animData"></param>
 	private void SetupAnimator( ChampionAnimData animData )
     {
 #if UNITY_EDITOR
@@ -169,6 +175,7 @@ public class ChampionAnimation : MonoBehaviour
 			_animator.runtimeAnimatorController = _animatorOverrideController;
 		}
 
+		// 애니메이터의 클립들을 현재 챔피언에 맞는 애니메이션 클립들로 변경..
 		_animatorOverrideController["Idle"] = animData.idleAnim;
 		_animatorOverrideController["Move"] = animData.moveAnim;
 		_animatorOverrideController["Attack"] = animData.atkAnim;
@@ -177,6 +184,7 @@ public class ChampionAnimation : MonoBehaviour
 		_animatorOverrideController["Death"] = animData.deathAnim;
 		_animatorOverrideController["DeadLoop"] = animData.deadLoopAnim;
 
+		// 애니메이션 클립을 통해 공격, 스킬, 궁극기 애니메이션 실행 시간 계산..
 		_atkAnimRuntime = animData.atkAnim.length;
 		_skillAnimRuntime = animData.skillAnim.length;
 		_ultAnimRuntime = animData.ultAnim.length;

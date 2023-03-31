@@ -1,9 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
 
+/// <summary>
+/// 이펙트와 관련된 정보를 저장하는 데이터 테이블..
+/// </summary>
 public class EffectDataTable
 {
 	public readonly string DEFAULT_EFFECT_PATH = "Assets/Animations/Effect/Champion";

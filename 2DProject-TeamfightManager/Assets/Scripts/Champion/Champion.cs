@@ -2,6 +2,10 @@ using MH_AIFramework;
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// 게임에서 실제 싸우는 챔피언..
+/// AI 와 Animation에서 필요한 정보들 및 챔피언의 능력치 같은 챔피언 관련 정보들을 저장 및 연결해주는 역할..
+/// </summary>
 public class Champion : MonoBehaviour, IAttackable, IHitable
 {
 	public static EffectManager s_effectManager { private get; set; }
@@ -26,10 +30,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 	public string atkEffectName { get => "Effect_" + champName + "_Attack"; }
 
-	public bool flipX
-	{
-		get => _animComponent.flipX;
-	}
+	public bool flipX { get => _animComponent.flipX; }
 
 	[SerializeField] private int _curHp = 0;
 
@@ -50,17 +51,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 	public bool isDead { get => _curHp == 0; }
 
-	public float speed
-	{
-		get
-		{
-			return status.moveSpeed;
-		}
-		set
-		{
-			status.moveSpeed = value;
-		}
-	}
+	public float speed { get => status.moveSpeed; private set => status.moveSpeed = value; }
 
 	private void Awake()
 	{

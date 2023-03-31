@@ -1,7 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
+/// <summary>
+/// 파일럿과 관련된 정보들을 저장하는 데이터 테이블..
+/// </summary>
 public class PilotDataTable
 {
 	private Dictionary<string, PilotData> _pilotDataContainer = new Dictionary<string, PilotData>();

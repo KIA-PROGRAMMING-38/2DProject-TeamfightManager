@@ -1,8 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
+/// <summary>
+/// 배틀 스테이지에서 배틀을 하는 팀(하나의 팀)을 관리하기 위한 클래스..
+/// </summary>
 public class BattleTeam : MonoBehaviour
 {
     public ChampionManager championManager { private get; set; }
