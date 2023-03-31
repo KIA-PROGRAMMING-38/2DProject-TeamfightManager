@@ -6,9 +6,11 @@ namespace MH_AIFramework
 	// Selector Node : 자식들 중 하나라도 성공이라면 성공을 반환..
 	public sealed class SelectorNode : CompositeNode
 	{
+		private int _curIndex = 0;
+
 		protected override void OnStart()
 		{
-
+			_curIndex = 0;
 		}
 
 		protected override void OnStop()
@@ -25,9 +27,9 @@ namespace MH_AIFramework
 			// 모든 Service Node 들 Update..
 			OnUpdateServiceNodes();
 
-			for (int i = 0; i < _childCount; ++i)
+			while(_curIndex < _childCount)
 			{
-				Node child = _children[i];
+				Node child = _children[_curIndex];
 
 				switch (child.Update())
 				{
@@ -40,6 +42,8 @@ namespace MH_AIFramework
 
 						return _state;
 				}
+
+				++_curIndex;
 			}
 
 			_state = State.Failure;

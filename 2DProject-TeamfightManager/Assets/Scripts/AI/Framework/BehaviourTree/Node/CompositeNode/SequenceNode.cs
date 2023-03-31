@@ -3,9 +3,11 @@
 	// Sequence Node : 자식 노드들 중 하나라도 실패를 반환하기 전까지 실행..
 	public sealed class SequenceNode : CompositeNode
 	{
+		private int _curIndex = 0;
+
 		protected override void OnStart()
 		{
-
+			_curIndex = 0;
 		}
 
 		protected override void OnStop()
@@ -22,16 +24,16 @@
 			// 모든 Service Node 들 Update..
 			OnUpdateServiceNodes();
 
-			for (int i = 0; i < _childCount; ++i)
+			while (_curIndex < _childCount)
 			{
-				Node child = _children[i];
+				Node child = _children[_curIndex];
 
 				switch (child.Update())
 				{
 					case State.Running:
 						_state = State.Running;
 
-						break;
+						return _state;
 					case State.Success:
 						if (State.Running != _state)
 							_state = State.Success;
@@ -42,6 +44,8 @@
 					default:
 						throw new System.ArgumentException();
 				}
+
+				++_curIndex;
 			}
 
 			return _state;
