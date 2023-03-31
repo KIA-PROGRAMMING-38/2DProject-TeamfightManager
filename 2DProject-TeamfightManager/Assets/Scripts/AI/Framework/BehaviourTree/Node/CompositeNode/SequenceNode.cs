@@ -35,8 +35,7 @@
 
 						return _state;
 					case State.Success:
-						if (State.Running != _state)
-							_state = State.Success;
+						_state = State.Success;
 
 						break;
 					case State.Failure:

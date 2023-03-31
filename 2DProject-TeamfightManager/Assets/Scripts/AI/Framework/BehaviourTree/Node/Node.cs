@@ -11,7 +11,7 @@ namespace MH_AIFramework
 			Failure
 		}
 
-		protected State _state;
+		protected State _state = State.Running;
 		private bool _isStarted = false;
 
 		public Blackboard blackboard { get; set; }
