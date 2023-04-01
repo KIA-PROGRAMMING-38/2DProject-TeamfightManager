@@ -53,8 +53,7 @@ public class ChampionManager : MonoBehaviour
         Champion newChampion = Instantiate<Champion>(_championDefaultPrefab);
 
 		MakeChampionData makeChampData = _champions[championName];
-        newChampion.status = makeChampData.ChampStatus;
-        newChampion.animData = makeChampData.ChampAnimData;
+        newChampion.SetupNecessaryData(makeChampData.ChampStatus, makeChampData.ChampAnimData);
 
 		return newChampion;
 	}

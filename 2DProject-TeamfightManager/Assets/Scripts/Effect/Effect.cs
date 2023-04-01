@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class Effect : MonoBehaviour
 {
+    public event Action<Effect> OnDisableEvent;
+
     public static EffectManager s_effectManager { private get; set; }
 
     private Animator _animator;
@@ -53,7 +56,12 @@ public class Effect : MonoBehaviour
         }
     }
 
-    public void OnEndAnimation()
+	private void OnDisable()
+	{
+        OnDisableEvent?.Invoke(this);
+	}
+
+	public void OnEndAnimation()
     {
         if (true == info.isAutoDestroy && false == info.isUseLifeTime)
         {

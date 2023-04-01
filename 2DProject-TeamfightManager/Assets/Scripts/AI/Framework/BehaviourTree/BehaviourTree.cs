@@ -10,7 +10,7 @@ namespace MH_AIFramework
 	public class BehaviourTree
 	{
 		protected Node rootNode { get; private set; }
-		protected Blackboard blackboard { get; private set; }
+		public Blackboard blackboard { get; private set; }
 		public AIController aiController { get; set; }
 		public GameObject gameObject { get; private set; }
 

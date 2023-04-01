@@ -1,6 +1,7 @@
 using MH_AIFramework;
 using System.Collections;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 /// <summary>
 /// 게임에서 실제 싸우는 챔피언..
@@ -15,20 +16,11 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 	private Blackboard _blackboard;
 
 	public string champName { get => "Swordman"; }
-	public ChampionStatus status { get; set; }
+	public ChampionStatus status { get; private set; }
 	public ChampionClassType type { get; set; }
-	public ChampionAnimData animData
-	{
-		set
-		{
-			if(null == _animComponent)
-				_animComponent = GetComponentInChildren<ChampionAnimation>();
-
-			_animComponent.animData = value;
-		}
-	}
 
 	public string atkEffectName { get => "Effect_" + champName + "_Attack"; }
+	public string skillEffectName { get => "Effect_" + champName + "_Skill"; }
 
 	public bool flipX { get => _animComponent.flipX; }
 
@@ -55,18 +47,44 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 	private void Awake()
 	{
+		AIController aiController = gameObject.AddComponent<ChampionController>();
+		_blackboard = GetComponent<AIController>().blackboard;
+
 		if (null == _animComponent)
 			_animComponent = GetComponentInChildren<ChampionAnimation>();
 	}
 
 	private void Start()
 	{
-		_blackboard = GetComponent<Blackboard>();
+		Revival();
+	}
 
+	public string ComputeEffectName(string _effectCategory)
+	{
+		switch (_effectCategory)
+		{
+			case "Attack":
+				return atkEffectName;
+			case "Skill":
+				return skillEffectName;
+		}
+
+		return "";
+	}
+
+	public void SetupNecessaryData(ChampionStatus status, ChampionAnimData animData)
+	{
+		this.status = status;
+
+		_animComponent.animData = animData;
+
+		SetupBlackboard();
+	}
+
+	private void SetupBlackboard()
+	{
 		_blackboard.SetFloatValue("attackRange", status.range);
 		_blackboard.SetFloatValue("moveSpeed", status.moveSpeed);
-
-		Revival();
 	}
 
 	public void Revival()
@@ -74,6 +92,8 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 		curHp = status.hp;
 
 		_animComponent.ResetAnimation();
+
+		_blackboard.SetBoolValue("isCanActSkill", true);
 	}
 
 	IEnumerator UpdateAtkCooltime()
@@ -104,15 +124,13 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 					_animComponent.ChangeState(ChampionAnimation.AnimState.Attack);
 
 					_blackboard.SetBoolValue("isAttack", false);
-					_blackboard.SetBoolValue("isMoveLock", true);
+					_blackboard.SetBoolValue("isActionLock", true);
 
 					StartCoroutine(UpdateAtkCooltime());
-
-					s_effectManager.ShowEffect("Effect_Swordman_Attack", transform.position, flipX);
 				}
 				break;
 
-			case "SKill":
+			case "Skill":
 				{
 					GameObject target = _blackboard.GetObjectValue("target") as GameObject;
 
@@ -121,9 +139,9 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 					_animComponent.ChangeState(ChampionAnimation.AnimState.Skill);
 
 					_blackboard.SetBoolValue("isCanActSkill", false);
-					_blackboard.SetBoolValue("isMoveLock", true);
+					_blackboard.SetBoolValue("isActionLock", true);
 
-					StartCoroutine(UpdateAtkCooltime());
+					StartCoroutine(UpdateSkillCoolTime());
 				}
 				break;
 		}
@@ -145,7 +163,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 	public void OnAnimationEnd()
 	{
-		_blackboard.SetBoolValue("isMoveLock", false);
+		_blackboard.SetBoolValue("isActionLock", false);
 	}
 
 	public void TestColorChange(Color color)

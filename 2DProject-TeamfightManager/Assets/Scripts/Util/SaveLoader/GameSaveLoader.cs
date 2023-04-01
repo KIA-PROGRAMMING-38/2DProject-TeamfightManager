@@ -21,7 +21,7 @@ public class GameSaveLoader
 		atkSpeed = 1,
 		atkStat = 10,
 		defence = 0,
-		hp = 30,
+		hp = 500,
 		moveSpeed = 3,
 		range = 1,
 	};
@@ -35,8 +35,11 @@ public class GameSaveLoader
 		champSkillLevelContainer = null,
 	};
 
-	private EffectInfo _testEffectData =
+	private EffectInfo _testAtkEffectData =
 		new EffectInfo("Effect_Swordman_Attack", "Assets/Animations/Effect/Champion/Effect_Swordman_Attack.anim", new Vector3(-0.1f, 0.18f, 0f));
+
+	private EffectInfo _testSkillEffectData =
+		new EffectInfo("Effect_Swordman_Skill", "Assets/Animations/Effect/Champion/Effect_Swordman_Skill.anim", new Vector3(0.11f, 0.12f, 0f));
 
 	/// <summary>
 	/// 게임 파일을 불러와 데이터 테이블에 저장한다..
@@ -51,7 +54,8 @@ public class GameSaveLoader
 
 		_dataTableManager.pilotDataTable.AddPilotData(_testPilotData.name, _testPilotData);
 
-		_dataTableManager.effectDataTable.AddEffectInfo(_testEffectData.name, _testEffectData);
+		_dataTableManager.effectDataTable.AddEffectInfo(_testAtkEffectData.name, _testAtkEffectData);
+		_dataTableManager.effectDataTable.AddEffectInfo(_testSkillEffectData.name, _testSkillEffectData);
 	}
 
 	/// <summary>

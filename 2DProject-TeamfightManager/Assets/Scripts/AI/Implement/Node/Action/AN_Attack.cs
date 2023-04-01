@@ -7,6 +7,12 @@ using UnityEngine;
 public class AN_Attack : ActionNode
 {
 	private IAttackable _attackComponent;
+	private string _atkKind;
+
+	public AN_Attack(string atkKind)
+	{
+		_atkKind = atkKind;
+	}
 
 	public override void OnCreate()
 	{
@@ -31,7 +37,7 @@ public class AN_Attack : ActionNode
 		Debug.Log("°ø°Ý AI Node ½ÇÇàµÊ");
 #endif
 
-		_attackComponent.Attack("Attack");
+		_attackComponent.Attack(_atkKind);
 
 		return State.Success;
 	}

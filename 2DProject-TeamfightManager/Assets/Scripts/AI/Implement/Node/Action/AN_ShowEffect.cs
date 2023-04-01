@@ -7,21 +7,28 @@ using UnityEngine;
 public class AN_ShowEffect : ActionNode
 {
 	private EffectManager _effectManager;
+
 	private Transform _transform;
 	private Champion _champion;
 
 	private Effect _effect;
+	private string _effectCategory;
 
-	public AN_ShowEffect(EffectManager effectManager)
+	public AN_ShowEffect(EffectManager effectManager, string effectCategory)
 	{
 		_effectManager = effectManager;
+		_effectCategory = effectCategory;
 	}
 
 	public override void OnDisable()
 	{
 		base.OnDisable();
 
-		_effect?.Release();
+		if(null != _effect)
+		{
+			_effect.OnDisableEvent -= ReceiveDisableEffectEvent;
+			_effect.Release();
+		}
 	}
 
 	public override void OnCreate()
@@ -34,7 +41,7 @@ public class AN_ShowEffect : ActionNode
 
 	protected override void OnStart()
 	{
-		
+
 	}
 
 	protected override void OnStop()
@@ -50,9 +57,24 @@ public class AN_ShowEffect : ActionNode
 		Debug.Assert(null != _champion);
 #endif
 
-		_effect = _effectManager.GetEffect(_champion.atkEffectName, _transform.position, blackboard.GetBoolValue("spriteFlipX"));
+		if (null != _effect)
+			_effect.OnDisableEvent -= ReceiveDisableEffectEvent;
+
+		string effectName = _champion.ComputeEffectName(_effectCategory);
+
+		_effect = _effectManager.GetEffect(effectName, _transform.position, _champion.flipX);
+
+		_effect.OnDisableEvent -= ReceiveDisableEffectEvent;
+		_effect.OnDisableEvent += ReceiveDisableEffectEvent;
+
 		_effect.gameObject.SetActive(true);
 
 		return State.Success;
+	}
+
+	private void ReceiveDisableEffectEvent(Effect effect)
+	{
+		effect.OnDisableEvent -= ReceiveDisableEffectEvent;
+		_effect = null;
 	}
 }

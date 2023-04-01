@@ -8,6 +8,7 @@ namespace MH_AIFramework
 	public class AIController : MonoBehaviour
 	{
 		protected BehaviourTree _behaviourTree = null;
+		public Blackboard blackboard { get => _behaviourTree.blackboard; }
 
 		protected void Awake()
 		{

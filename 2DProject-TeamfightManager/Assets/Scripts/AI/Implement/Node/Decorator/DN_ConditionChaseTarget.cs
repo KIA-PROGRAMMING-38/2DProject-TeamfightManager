@@ -20,7 +20,7 @@ public class DN_ConditionChaseTarget : DecoratorNode
 		if (null == blackboard.GetObjectValue("target"))
 			return State.Failure;
 
-		if (true == blackboard.GetBoolValue("isMoveLock"))
+		if (true == blackboard.GetBoolValue("isActionLock"))
 			return State.Failure;
 		
 		if ( blackboard.GetFloatValue( "targetDistance" ) <= blackboard.GetFloatValue( "attackRange" ) )

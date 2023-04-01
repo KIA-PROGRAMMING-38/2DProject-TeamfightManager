@@ -32,8 +32,9 @@ public class ChampionBT : BehaviourTree
 
 		// Bool 값들 기본 세팅..
 		blackboard.SetBoolValue("isAttack", true);
+		blackboard.SetBoolValue("isCanActSkill", false);
 		blackboard.SetBoolValue("isDeath", false);
-		blackboard.SetBoolValue("isMoveLock", false);
+		blackboard.SetBoolValue("isActionLock", false);
 		blackboard.SetBoolValue("spriteFlipX", false);
 
 		// float 값들 기본 세팅..
@@ -107,22 +108,41 @@ public class ChampionBT : BehaviourTree
 		AddNode(battleActionBodyNode, battleBodyNode);
 
 		// =============================================================================
+		// ----- Skill 행동 관련 노드 정의..
+		// 적을 공격하는 상태 최상위 노드 생성 및 등록..
+		Node skillBodyNode = new SequenceNode();
+		AddNode(skillBodyNode, battleActionBodyNode);
+
+		// 적을 공격하기 위한 조건 관련 노드 생성 및 등록..
+		AddNode(new DN_CheckIsCanAttack("isCanActSkill"), skillBodyNode);
+
+		// 애니메이션 상태를 공격 상태로 변경하는 노드 생성 및 등록..
+		AddNode(new AN_ChangeAnimState(ChampionAnimation.AnimState.Skill, true), skillBodyNode);
+
+		// 적을 공격하는 노드 생성 및 등록..
+		AddNode(new AN_Attack("Skill"), skillBodyNode);
+
+		// 공격 이펙트 생성 노드 생성 및 등록..
+		AddNode(new AN_ShowEffect(s_effectManager, "Skill"), skillBodyNode);
+		// =============================================================================
+
+		// =============================================================================
 		// ----- Attack 행동 관련 노드 정의..
 		// 적을 공격하는 상태 최상위 노드 생성 및 등록..
 		Node attackBodyNode = new SequenceNode();
 		AddNode(attackBodyNode, battleActionBodyNode);
 
 		// 적을 공격하기 위한 조건 관련 노드 생성 및 등록..
-		AddNode(new DN_CheckIsCanAttack(), attackBodyNode);
+		AddNode(new DN_CheckIsCanAttack("isAttack"), attackBodyNode);
 
 		// 애니메이션 상태를 공격 상태로 변경하는 노드 생성 및 등록..
 		AddNode(new AN_ChangeAnimState(ChampionAnimation.AnimState.Attack, true), attackBodyNode);
 
 		// 적을 공격하는 노드 생성 및 등록..
-		AddNode(new AN_Attack(), attackBodyNode);
+		AddNode(new AN_Attack("Attack"), attackBodyNode);
 
 		// 공격 이펙트 생성 노드 생성 및 등록..
-		AddNode(new AN_ShowEffect(s_effectManager), attackBodyNode);
+		AddNode(new AN_ShowEffect(s_effectManager, "Attack"), attackBodyNode);
 		// =============================================================================
 
 
