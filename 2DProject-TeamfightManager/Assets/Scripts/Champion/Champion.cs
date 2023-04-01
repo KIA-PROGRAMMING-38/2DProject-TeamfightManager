@@ -102,7 +102,6 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 		_animComponent.ResetAnimation();
 
 		_blackboard.SetBoolValue("isAttack", true);
-		_blackboard.SetBoolValue("isCanActSkill", true);
 	}
 
 	IEnumerator UpdateAtkCooltime()

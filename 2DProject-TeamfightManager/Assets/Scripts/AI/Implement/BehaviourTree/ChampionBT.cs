@@ -56,7 +56,7 @@ public class ChampionBT : BehaviourTree
 		// ========================================================================
 		// Death 상태일 때 실행할 노드 하이어라키 정의..
 		// ========================================================================
-		SetupDeadStateNodeHierarchy(rootChildNode);
+		//SetupDeadStateNodeHierarchy(rootChildNode);
 
 
 		// ========================================================================
@@ -68,15 +68,20 @@ public class ChampionBT : BehaviourTree
 	private void SetupDeadStateNodeHierarchy(Node parentNode)
 	{
 		// Dead State 최상위 노드 생성 및 등록..
-		SelectorNode deadStateBodyNode = new SelectorNode();
+		Node deadStateBodyNode = new SequenceNode();
 		AddNode(deadStateBodyNode, parentNode);
 
 		// 죽었는지 체크하는 노드 생성 및 등록..
-		DN_CheckBoolValue checkDeathNode = new DN_CheckBoolValue(true, "isDeath");
-		AddNode(checkDeathNode, deadStateBodyNode);
+		AddNode(new DN_CheckBoolValue(true, "isDeath"), deadStateBodyNode);
 
-		// 죽었을 때 실행할 노드 생성 및 등록..
+		// 죽었을 때 해줘야할 행동 노드 생성 및 등록..
+		//AddNode(new AN_OnDeath(), deadStateBodyNode);
 
+		// 죽었을 때 부활까지 기다려야하는 시간이 있기 때문에 기다리는 노드 생성 및 등록..
+		AddNode(new AN_Wait(1f), deadStateBodyNode);
+
+		// 죽은 다음 부활할 때 챔피언 기능 초기화할 노드 생성 및 등록..
+		//AddNode(new AN_Revival(), deadStateBodyNode);
 	}
 
 	private void SetupBattleNodeHierarchy(Node parentNode)
@@ -86,7 +91,7 @@ public class ChampionBT : BehaviourTree
 		AddNode(battleBodyNode, parentNode);
 
 		// 적을 찾는 Service Node 생성 및 등록..
-		AddNode(new SN_FindTarget(_champion.FindTarget), battleBodyNode);
+		AddNode(new SN_FindTarget(_champion.FindTarget, 0.1f), battleBodyNode);
 
 		// =============================================================================
 		// 캐릭터가 전투를 하기 위해 필요한 값들을 갱신하고 적이 있는지 체크하는 노드 생성 및 등록..

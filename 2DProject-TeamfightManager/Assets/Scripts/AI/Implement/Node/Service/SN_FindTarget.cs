@@ -9,8 +9,8 @@ public class SN_FindTarget : ServiceNode
 {
 	private Func<GameObject> _findTargetFunc;
 
-	public SN_FindTarget( Func<GameObject> findTargetFunc )
-		: base( 0.1f )
+	public SN_FindTarget( Func<GameObject> findTargetFunc, float updateTick)
+		: base(updateTick)
 	{
 		_findTargetFunc = findTargetFunc;
 	}

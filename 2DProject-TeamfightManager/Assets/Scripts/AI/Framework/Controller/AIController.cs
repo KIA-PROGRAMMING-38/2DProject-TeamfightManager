@@ -19,20 +19,17 @@ namespace MH_AIFramework
 
 		private void OnEnable()
 		{
-			_behaviourTree.OnEnable();
+			_behaviourTree?.OnEnable();
 		}
 
 		private void OnDisable()
 		{
-			_behaviourTree.OnDisable();
+			_behaviourTree?.OnDisable();
 		}
 
 		protected void Update()
 		{
-			if(null != _behaviourTree)
-			{
-				_behaviourTree.Run();
-			}
+			_behaviourTree?.Run();
 		}
 	}
 }
