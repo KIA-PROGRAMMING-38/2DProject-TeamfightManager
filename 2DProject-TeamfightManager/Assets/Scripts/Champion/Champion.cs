@@ -33,9 +33,8 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 		{
 			_curHp = Mathf.Clamp(value, 0, status.hp);
 
-			if (0 == value)
+			if (0 == _curHp)
 			{
-				_curHp = 0;
 				pilotBattleComponent.OnChampionDead(this);
 			}
 		}
@@ -57,6 +56,15 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 	private void Start()
 	{
 		Revival();
+
+		_blackboard.SetBoolValue("isCanActSkill", false);
+		StartCoroutine(UpdateSkillCoolTime());
+	}
+
+	private void OnDisable()
+	{
+		OnAnimationEnd();
+		StopAllCoroutines();
 	}
 
 	public string ComputeEffectName(string _effectCategory)
@@ -93,6 +101,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 		_animComponent.ResetAnimation();
 
+		_blackboard.SetBoolValue("isAttack", true);
 		_blackboard.SetBoolValue("isCanActSkill", true);
 	}
 

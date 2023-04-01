@@ -10,7 +10,7 @@ public class SN_FindTarget : ServiceNode
 	private Func<GameObject> _findTargetFunc;
 
 	public SN_FindTarget( Func<GameObject> findTargetFunc )
-		: base( 0.5f )
+		: base( 0.1f )
 	{
 		_findTargetFunc = findTargetFunc;
 	}

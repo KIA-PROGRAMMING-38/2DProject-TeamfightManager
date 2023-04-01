@@ -31,8 +31,6 @@ public class ChampionBT : BehaviourTree
 			return;
 
 		// Bool 값들 기본 세팅..
-		blackboard.SetBoolValue("isAttack", true);
-		blackboard.SetBoolValue("isCanActSkill", false);
 		blackboard.SetBoolValue("isDeath", false);
 		blackboard.SetBoolValue("isActionLock", false);
 		blackboard.SetBoolValue("spriteFlipX", false);

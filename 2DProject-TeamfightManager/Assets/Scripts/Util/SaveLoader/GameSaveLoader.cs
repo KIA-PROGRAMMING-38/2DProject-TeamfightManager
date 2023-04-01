@@ -21,7 +21,7 @@ public class GameSaveLoader
 		atkSpeed = 1,
 		atkStat = 10,
 		defence = 0,
-		hp = 500,
+		hp = 30,
 		moveSpeed = 3,
 		range = 1,
 	};
