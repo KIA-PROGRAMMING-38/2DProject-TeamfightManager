@@ -16,6 +16,7 @@ public class ChampionDataTable
 	{
 		champStatusContainer.Add(championName, championStatus);
 	}
+
 	public ChampionStatus GetChampionStatus(string championName)
 	{
 		return champStatusContainer[championName];
@@ -26,6 +27,7 @@ public class ChampionDataTable
 	{
 		champAnimContainer.Add(championName, championAnimData);
 	}
+
 	public ChampionAnimData GetChampionAnimData(string championName)
 	{
 		return champAnimContainer[championName];
