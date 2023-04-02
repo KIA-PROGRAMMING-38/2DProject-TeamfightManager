@@ -57,7 +57,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 	{
 		Revival();
 
-		_blackboard.SetBoolValue("isCanActSkill", false);
+		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
 		StartCoroutine(UpdateSkillCoolTime());
 	}
 
@@ -91,8 +91,8 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 	private void SetupBlackboard()
 	{
-		_blackboard.SetFloatValue("attackRange", status.range);
-		_blackboard.SetFloatValue("moveSpeed", status.moveSpeed);
+		_blackboard.SetFloatValue(BlackboardKeyTable.attackRange, status.range);
+		_blackboard.SetFloatValue(BlackboardKeyTable.moveSpeed, status.moveSpeed);
 	}
 
 	public void Revival()
@@ -101,21 +101,21 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 		_animComponent.ResetAnimation();
 
-		_blackboard.SetBoolValue("isAttack", true);
+		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, true);
 	}
 
 	IEnumerator UpdateAtkCooltime()
 	{
 		yield return YieldInstructionStore.GetWaitForSec(status.atkSpeed);
 
-		_blackboard.SetBoolValue("isAttack", true);
+		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, true);
 	}
 
 	IEnumerator UpdateSkillCoolTime()
 	{
 		yield return YieldInstructionStore.GetWaitForSec(status.atkSpeed * 2);
 
-		_blackboard.SetBoolValue("isCanActSkill", true);
+		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, true);
 	}
 
 	public void Attack(string atkKind)
@@ -125,14 +125,14 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 		{
 			case "Attack":
 				{
-					GameObject target = _blackboard.GetObjectValue("target") as GameObject;
+					GameObject target = _blackboard.GetObjectValue(BlackboardKeyTable.target) as GameObject;
 
 					target.GetComponent<Champion>().Hit(status.atkStat);
 
 					_animComponent.ChangeState(ChampionAnimation.AnimState.Attack);
 
-					_blackboard.SetBoolValue("isAttack", false);
-					_blackboard.SetBoolValue("isActionLock", true);
+					_blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, false);
+					_blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
 
 					StartCoroutine(UpdateAtkCooltime());
 				}
@@ -140,14 +140,29 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 			case "Skill":
 				{
-					GameObject target = _blackboard.GetObjectValue("target") as GameObject;
+					GameObject target = _blackboard.GetObjectValue(BlackboardKeyTable.target) as GameObject;
 
 					target.GetComponent<Champion>().Hit(status.atkStat * 2);
 
 					_animComponent.ChangeState(ChampionAnimation.AnimState.Skill);
 
-					_blackboard.SetBoolValue("isCanActSkill", false);
-					_blackboard.SetBoolValue("isActionLock", true);
+					_blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
+					_blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
+
+					StartCoroutine(UpdateSkillCoolTime());
+				}
+				break;
+
+			case "Ultimate":
+				{
+					GameObject target = _blackboard.GetObjectValue(BlackboardKeyTable.target) as GameObject;
+
+					target.GetComponent<Champion>().Hit(1000);
+
+					_animComponent.ChangeState(ChampionAnimation.AnimState.Ultimate);
+
+					_blackboard.SetBoolValue(BlackboardKeyTable.isCanActUltimate, false);
+					_blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
 
 					StartCoroutine(UpdateSkillCoolTime());
 				}
@@ -171,7 +186,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 	public void OnAnimationEnd()
 	{
-		_blackboard.SetBoolValue("isActionLock", false);
+		_blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, false);
 	}
 
 	public void TestColorChange(Color color)

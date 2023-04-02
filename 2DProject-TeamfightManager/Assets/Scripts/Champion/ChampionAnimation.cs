@@ -72,12 +72,12 @@ public class ChampionAnimation : MonoBehaviour
 	/// </summary>
 	private static void SetupAnimatorKeyToHash()
 	{
-		s_isMoveKeyHash = Animator.StringToHash("isMove");
-		s_attackKeyHash = Animator.StringToHash("OnAttack");
-		s_skillKeyHash = Animator.StringToHash("OnSkill");
-		s_ultKeyHash = Animator.StringToHash("OnUltimate");
-		s_deathKeyHash = Animator.StringToHash("OnDeath");
-		s_revivalKeyHash = Animator.StringToHash("OnRevival");
+		s_isMoveKeyHash = Animator.StringToHash(AnimKeyTable.isMove);
+		s_attackKeyHash = Animator.StringToHash(AnimKeyTable.onAttack);
+		s_skillKeyHash = Animator.StringToHash(AnimKeyTable.onSkill);
+		s_ultKeyHash = Animator.StringToHash(AnimKeyTable.onUltimate);
+		s_deathKeyHash = Animator.StringToHash(AnimKeyTable.onDeath);
+		s_revivalKeyHash = Animator.StringToHash(AnimKeyTable.onRevival);
 
 		s_isHaveKeyHash = true;
 	}

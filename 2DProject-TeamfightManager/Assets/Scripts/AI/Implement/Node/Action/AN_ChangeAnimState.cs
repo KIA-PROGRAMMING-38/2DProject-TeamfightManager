@@ -43,12 +43,12 @@ public class AN_ChangeAnimState : ActionNode
 		if (true == _isUpdateFlipX)
 		{
 			Vector3 moveDirection;
-			blackboard.GetVectorValue("moveDirection", out moveDirection);
+			blackboard.GetVectorValue(BlackboardKeyTable.moveDirection, out moveDirection);
 			float moveDirX = moveDirection.x;
 			if (0f != moveDirX)
 			{
 				bool flipX = moveDirX < 0f;
-				blackboard.SetBoolValue("spriteFlipX", flipX);
+				blackboard.SetBoolValue(BlackboardKeyTable.spriteFlipX, flipX);
 				_championAnimation.flipX = flipX;
 			}
 		}

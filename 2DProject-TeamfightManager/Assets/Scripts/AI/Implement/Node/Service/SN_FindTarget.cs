@@ -34,7 +34,7 @@ public class SN_FindTarget : ServiceNode
 	{
 		GameObject findTarget = _findTargetFunc?.Invoke();
 
-		blackboard.SetObjectValue( "target", findTarget );
+		blackboard.SetObjectValue(BlackboardKeyTable.target, findTarget );
 
 		return State.Success;
 	}

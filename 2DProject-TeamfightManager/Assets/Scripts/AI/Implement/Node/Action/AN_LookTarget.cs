@@ -47,7 +47,7 @@ public class AN_LookTarget : ActionNode
 		Vector3 moveDirection = target.transform.position - _transform.position;
 		moveDirection = (moveDirection * _dirMul).normalized;
 
-		blackboard.SetVectorValue("moveDirection", moveDirection);
+		blackboard.SetVectorValue(BlackboardKeyTable.moveDirection, moveDirection);
 
 #if UNITY_EDITOR
 		Debug.Log("타겟을 바라보는 함수 끝.");
