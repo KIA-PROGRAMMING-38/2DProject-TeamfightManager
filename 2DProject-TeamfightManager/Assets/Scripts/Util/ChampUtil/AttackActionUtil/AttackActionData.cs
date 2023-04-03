@@ -1,6 +1,13 @@
 ﻿public enum ImpactRangeKind
 {
-	OnlyTarget
+	OnlyTarget,
+	Range_Circle,
+}
+
+public enum ActionStartPointKind
+{
+	TargetPosition,
+	MyPosition
 }
 
 public class AttackActionData
@@ -9,4 +16,5 @@ public class AttackActionData
 	public bool isPassive;
 	public float impactRange;
 	public int impactRangeType;
+	public int actionStartPointKind;
 }

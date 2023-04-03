@@ -2,7 +2,7 @@
 
 public class DecideTarget_OnlyTarget : AtkActionDecideTargetBase
 {
-	public DecideTarget_OnlyTarget(Champion ownerChampion, float realizeRange) : base(ownerChampion, realizeRange)
+	public DecideTarget_OnlyTarget(Champion ownerChampion, AttackActionData actionData) : base(ownerChampion, actionData)
 	{
 
 	}

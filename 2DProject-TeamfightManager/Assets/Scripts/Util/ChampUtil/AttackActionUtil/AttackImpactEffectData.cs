@@ -13,7 +13,14 @@ public enum AttackImpactType
 
 public enum TargetDecideKind
 {
-	OnlyTarget
+	OnlyTarget,
+	InRange
+}
+
+public enum TargetTeamKind
+{
+	Enemy,
+	Team,
 }
 
 public class AttackImpactData
@@ -23,5 +30,6 @@ public class AttackImpactData
 	public int amount;				// 효과량(공격의 경우 데미지)
 	public float duration;			// 효과 지속 시간(디버프의 경우 얼마나 지속될 것인지)..
 	public float tickTime;			// 틱 시간(장판의 경우 도트뎀 들어가는 시간?, ticktime마다 도트뎀 들어가게끔)..
-	public int targetDecideKind;	// 타겟 결정 방식(타겟 하나만 공격할 지 주변 범위의 적 모두를 공격할지 등등)..
+	public int targetDecideKind;    // 타겟 결정 방식(타겟 하나만 공격할 지 주변 범위의 적 모두를 공격할지 등등)..
+	public int targetTeamKind;		// 타겟 팀 종류(타겟이 적인지 아군인지)..
 }

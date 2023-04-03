@@ -1071,6 +1071,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Champion
       objectReference: {fileID: 0}
+    - target: {fileID: 4458707888445337510, guid: f2082e8ad41c78248b6b50343b0d92d1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2082e8ad41c78248b6b50343b0d92d1, type: 3}
 --- !u!1 &1455532885

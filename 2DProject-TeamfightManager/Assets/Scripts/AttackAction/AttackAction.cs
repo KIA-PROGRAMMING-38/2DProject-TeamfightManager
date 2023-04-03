@@ -32,7 +32,7 @@ public class AttackAction
 		switch (impactRangeKind)
 		{
 			case ImpactRangeKind.OnlyTarget:
-				_decideTargetLogic = new DecideTarget_OnlyTarget(ownerChampion, _actionData.impactRange);
+				_decideTargetLogic = new DecideTarget_OnlyTarget(ownerChampion, _actionData);
 				break;
 		}
 	}

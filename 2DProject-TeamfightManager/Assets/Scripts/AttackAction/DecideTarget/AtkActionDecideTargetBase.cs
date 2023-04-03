@@ -3,12 +3,12 @@
 public abstract class AtkActionDecideTargetBase
 {
 	protected Champion ownerChampion { get; private set; }
-	protected float realizeRange { get; private set; }
+	protected AttackActionData actionData { get; private set; }
 
-	public AtkActionDecideTargetBase(Champion champion, float realizeRange)
+	public AtkActionDecideTargetBase(Champion champion, AttackActionData actionData)
 	{
 		ownerChampion = champion;
-		this.realizeRange = realizeRange;
+		this.actionData = actionData;
 	}
 
 	public abstract void OnStart();

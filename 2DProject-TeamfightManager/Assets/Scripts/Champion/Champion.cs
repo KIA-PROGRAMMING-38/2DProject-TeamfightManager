@@ -43,6 +43,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 	public float speed { get => status.moveSpeed; private set => status.moveSpeed = value; }
 
 	private AttackAction _attackAction;
+	private AttackAction _skillAction;
 	private AttackAction _curAttackAction;
 	public Champion targetChampion { get => _blackboard?.GetObjectValue(BlackboardKeyTable.target) as Champion; }
 
@@ -78,6 +79,23 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 			tickTime = 0,
 			targetDecideKind = (int)TargetDecideKind.OnlyTarget
 		});
+
+		_skillAction = new AttackAction(this, new AttackActionData
+		{
+			isPassive = false,
+			uniqueKey = 1,
+			impactRange = 0,
+			impactRangeType = (int)ImpactRangeKind.Range_Circle
+		});
+		_skillAction.AddImpactData(new AttackImpactData
+		{
+			amount = 20,
+			detailKind = (int)AttackImpactType.DefaultAttack,
+			duration = 0,
+			kind = (int)AttackImpactEffectKind.Attack,
+			tickTime = 0,
+			targetDecideKind = (int)TargetDecideKind.InRange
+		});
 	}
 
 	private void OnDisable()
@@ -88,8 +106,6 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 	private void Update()
 	{
-		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
-
 		//if(null != _blackboard.GetObjectValue(BlackboardKeyTable.target))
 		//{
 		//	Champion target = _blackboard.GetObjectValue(BlackboardKeyTable.target) as Champion;
@@ -176,18 +192,9 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 				break;
 
 			case "Skill":
-				{
-					GameObject target = _blackboard.GetObjectValue(BlackboardKeyTable.target) as GameObject;
-
-					target.GetComponent<Champion>().Hit(status.atkStat * 2);
-
-					_animComponent.ChangeState(ChampionAnimation.AnimState.Skill);
-
-					_blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
-					_blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
-
-					StartCoroutine(UpdateSkillCoolTime());
-				}
+				_curAttackAction = _skillAction;
+				_curAttackAction?.OnStart();
+				StartCoroutine(UpdateSkillCoolTime());
 				break;
 
 			case "Ultimate":
