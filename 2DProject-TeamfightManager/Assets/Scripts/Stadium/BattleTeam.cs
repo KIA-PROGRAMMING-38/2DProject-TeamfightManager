@@ -47,10 +47,10 @@ public class BattleTeam : MonoBehaviour
 		_pilots.Add(pilotBattleComponent);
 	}
 
-	public GameObject ComputeMostNearestEnemyTarget( Vector3 originPoint )
+	public Champion ComputeMostNearestEnemyTarget( Vector3 originPoint )
     {
 		float result = float.MaxValue;
-		GameObject target = null;
+		Champion target = null;
 		foreach(var pilot in enemyTeam._pilots)
 		{
 			if (pilot.controlChampion.isDead)
@@ -60,7 +60,7 @@ public class BattleTeam : MonoBehaviour
 			if (dist < result)
 			{
 				result = dist;
-				target = pilot.controlChampion.gameObject;
+				target = pilot.controlChampion;
 			}
 		}
 

@@ -15,7 +15,7 @@ public class PilotBattle : MonoBehaviour
     private Champion _controlChampion;
     public BattleTeam myTeam { private get; set; }
 
-    public GameObject FindTarget(Champion champion)
+    public Champion FindTarget(Champion champion)
     {
         return myTeam.ComputeMostNearestEnemyTarget(champion.transform.position);
 	}

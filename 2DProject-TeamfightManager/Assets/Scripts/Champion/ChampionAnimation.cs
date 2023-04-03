@@ -138,7 +138,7 @@ public class ChampionAnimation : MonoBehaviour
 		_animator.SetTrigger("OnAnimEnd");
 
 		yield return YieldInstructionStore.GetWaitForSec(delayEventTime);
-		_champion.OnAnimationEnd();
+		_champion.OnAnimEvent("OnAnimEnd");
 	}
 
 	/// <summary>
@@ -188,5 +188,10 @@ public class ChampionAnimation : MonoBehaviour
 		_atkAnimRuntime = animData.atkAnim.length;
 		_skillAnimRuntime = animData.skillAnim.length;
 		_ultAnimRuntime = animData.ultAnim.length;
+	}
+
+	public void OnAnimationEvent(string eventName)
+	{
+		_champion?.OnAnimEvent(eventName);
 	}
 }

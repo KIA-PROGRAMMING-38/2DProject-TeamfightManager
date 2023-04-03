@@ -7,9 +7,9 @@ using UnityEngine;
 /// </summary>
 public class SN_FindTarget : ServiceNode
 {
-	private Func<GameObject> _findTargetFunc;
+	private Func<Champion> _findTargetFunc;
 
-	public SN_FindTarget( Func<GameObject> findTargetFunc, float updateTick)
+	public SN_FindTarget( Func<Champion> findTargetFunc, float updateTick)
 		: base(updateTick)
 	{
 		_findTargetFunc = findTargetFunc;
@@ -32,7 +32,7 @@ public class SN_FindTarget : ServiceNode
 
 	protected override State UpdateService()
 	{
-		GameObject findTarget = _findTargetFunc?.Invoke();
+		Champion findTarget = _findTargetFunc?.Invoke();
 
 		blackboard.SetObjectValue(BlackboardKeyTable.target, findTarget );
 

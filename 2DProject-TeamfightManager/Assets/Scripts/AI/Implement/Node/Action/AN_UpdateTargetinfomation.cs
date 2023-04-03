@@ -27,11 +27,11 @@ public class AN_UpdateTargetinfomation : ActionNode
 
 	protected override State OnUpdate()
 	{
-		GameObject targetObject = blackboard.GetObjectValue(BlackboardKeyTable.target) as GameObject;
-		if ( null == targetObject )
+		Champion target = blackboard.GetObjectValue(BlackboardKeyTable.target) as Champion;
+		if ( null == target)
 			return State.Failure;
 
-		Vector3 distance = targetObject.transform.position - _transform.transform.position;
+		Vector3 distance = target.transform.position - _transform.transform.position;
 
 		blackboard.SetFloatValue(BlackboardKeyTable.targetDistance, distance.magnitude);
 

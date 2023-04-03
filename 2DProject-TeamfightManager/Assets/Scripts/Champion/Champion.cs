@@ -15,17 +15,17 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 	public PilotBattle pilotBattleComponent { private get; set; }
 	private Blackboard _blackboard;
 
-	public string champName { get => "Swordman"; }
 	public ChampionStatus status { get; private set; }
 	public ChampionClassType type { get; set; }
 
+	public string champName { get => "Swordman"; }
 	public string atkEffectName { get => "Effect_" + champName + "_Attack"; }
 	public string skillEffectName { get => "Effect_" + champName + "_Skill"; }
 
 	public bool flipX { get => _animComponent.flipX; }
 
+	// 현재 상태 관련..
 	[SerializeField] private int _curHp = 0;
-
 	public int curHp
 	{
 		private get => _curHp;
@@ -39,10 +39,12 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 			}
 		}
 	}
-
 	public bool isDead { get => _curHp == 0; }
-
 	public float speed { get => status.moveSpeed; private set => status.moveSpeed = value; }
+
+	private AttackAction _attackAction;
+	private AttackAction _curAttackAction;
+	public Champion targetChampion { get => _blackboard?.GetObjectValue(BlackboardKeyTable.target) as Champion; }
 
 	private void Awake()
 	{
@@ -59,12 +61,53 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
 		StartCoroutine(UpdateSkillCoolTime());
+
+		_attackAction = new AttackAction(this, new AttackActionData
+		{
+			isPassive = false,
+			uniqueKey = 0,
+			impactRange = 0,
+			impactRangeType = (int)ImpactRangeKind.OnlyTarget
+		});
+		_attackAction.AddImpactData(new AttackImpactData
+		{
+			amount = 10,
+			detailKind = (int)AttackImpactType.DefaultAttack,
+			duration = 0,
+			kind = (int)AttackImpactEffectKind.Attack,
+			tickTime = 0,
+			targetDecideKind = (int)TargetDecideKind.OnlyTarget
+		});
 	}
 
 	private void OnDisable()
 	{
 		OnAnimationEnd();
 		StopAllCoroutines();
+	}
+
+	private void Update()
+	{
+		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
+
+		//if(null != _blackboard.GetObjectValue(BlackboardKeyTable.target))
+		//{
+		//	Champion target = _blackboard.GetObjectValue(BlackboardKeyTable.target) as Champion;
+		//	if (null != target)
+		//		Debug.Log($"{target.name}은 나의 타겟");
+		//	else
+		//		Debug.Log($"{name}'s target is not null but champion is null");
+
+		//	target = targetChampion;
+		//	if (null != target)
+		//		Debug.Log($"{target.name}은 나의 타겟2");
+		//	else
+		//		Debug.Log($"{name}'s target is not null but champion is null2");
+		//}
+		//else
+		//{
+		//	Debug.Log($"{name}'s target is null");
+		//}
 	}
 
 	public string ComputeEffectName(string _effectCategory)
@@ -106,6 +149,8 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 	IEnumerator UpdateAtkCooltime()
 	{
+		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, false);
+
 		yield return YieldInstructionStore.GetWaitForSec(status.atkSpeed);
 
 		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, true);
@@ -124,18 +169,10 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 		switch(atkKind)
 		{
 			case "Attack":
-				{
-					GameObject target = _blackboard.GetObjectValue(BlackboardKeyTable.target) as GameObject;
+				_curAttackAction = _attackAction;
+				_curAttackAction?.OnStart();
+				StartCoroutine(UpdateAtkCooltime());
 
-					target.GetComponent<Champion>().Hit(status.atkStat);
-
-					_animComponent.ChangeState(ChampionAnimation.AnimState.Attack);
-
-					_blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, false);
-					_blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
-
-					StartCoroutine(UpdateAtkCooltime());
-				}
 				break;
 
 			case "Skill":
@@ -175,7 +212,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 		curHp -= damage;
 	}
 
-	public GameObject FindTarget()
+	public Champion FindTarget()
 	{
 #if UNITY_EDITOR
 		Debug.Assert(null != pilotBattleComponent);
@@ -184,8 +221,23 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 		return pilotBattleComponent.FindTarget(this);
 	}
 
-	public void OnAnimationEnd()
+	public void OnAnimEvent(string eventName)
 	{
+		switch (eventName)
+		{
+			case "OnAttackAction":
+				_curAttackAction?.OnAction();
+				break;
+
+			case "OnAnimEnd":
+				OnAnimationEnd();
+				break;
+		}
+	}
+
+	private void OnAnimationEnd()
+	{
+		_curAttackAction?.OnEnd();
 		_blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, false);
 	}
 
