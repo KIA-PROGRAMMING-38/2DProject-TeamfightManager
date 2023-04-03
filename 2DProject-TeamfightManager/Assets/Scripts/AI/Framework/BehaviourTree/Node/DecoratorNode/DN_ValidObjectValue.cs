@@ -4,7 +4,7 @@ namespace MH_AIFramework
 {
 	public class DN_ValidObjectValue : DecoratorNode
 	{
-		[SerializeField] private string _bbKey;
+		private string _bbKey;
 
 		public DN_ValidObjectValue( string bbKey )
 		{

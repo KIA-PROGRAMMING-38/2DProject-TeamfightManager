@@ -2,11 +2,10 @@
 
 namespace MH_AIFramework
 {
-	[System.Serializable]
 	public sealed class DN_CheckVectorValue : DecoratorNode
 	{
-		[SerializeField] private Vector3 _cmpValue;
-		[SerializeField] private string _bbKey;
+		private Vector3 _cmpValue;
+		private string _bbKey;
 
 		private Vector3 _bbValue;
 

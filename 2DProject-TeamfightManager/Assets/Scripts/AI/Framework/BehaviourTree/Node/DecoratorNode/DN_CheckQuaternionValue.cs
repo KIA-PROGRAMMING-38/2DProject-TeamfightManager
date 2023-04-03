@@ -2,11 +2,10 @@
 
 namespace MH_AIFramework
 {
-	[System.Serializable]
 	public sealed class DN_CheckQuaternionValue : DecoratorNode
 	{
-		[SerializeField] private Quaternion _cmpValue;
-		[SerializeField] private string _bbKey;
+		private Quaternion _cmpValue;
+		private string _bbKey;
 
 		private Quaternion _bbValue;
 

@@ -22,7 +22,7 @@ public class EffectManager : MonoBehaviour
 		set
 		{
 			_effectDataTable = value.dataTableManager.effectDataTable;
-			_effectDefaultPrefab = AssetDatabase.LoadAssetAtPath<Effect>(_effectDataTable.DEFAULT_EFFECT_PREFAB_PATH);
+			_effectDefaultPrefab = Resources.Load<Effect>(_effectDataTable.DEFAULT_EFFECT_PREFAB_PATH);
 		}
 	}
 	private EffectDataTable _effectDataTable;

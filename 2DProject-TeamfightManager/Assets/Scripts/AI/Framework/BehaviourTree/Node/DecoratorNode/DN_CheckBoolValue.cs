@@ -2,11 +2,10 @@
 
 namespace MH_AIFramework
 {
-	[System.Serializable]
 	public sealed class DN_CheckBoolValue : DecoratorNode
 	{
-		[SerializeField] private bool _cmpValue;
-		[SerializeField] private string _bbKey;
+		private bool _cmpValue;
+		private string _bbKey;
 
 		public DN_CheckBoolValue( bool cmpValue, string bbKey )
 		{

@@ -34,7 +34,7 @@ public class PilotManager : MonoBehaviour
 
 	private void Start()
 	{
-		defaultPilotInstance = AssetDatabase.LoadAssetAtPath<Pilot>("Assets/Prefabs/Pilot.prefab");
+		defaultPilotInstance = Resources.Load<Pilot>("Prefabs/Pilot");
 
 		foreach (KeyValuePair<string, PilotData> elementPair in _pilotDataTable.pilotDataContainer)
 		{

@@ -1,23 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class Logictest : MonoBehaviour
 {
-    public int TestParam;
+	private string DefaultPath;
+	public string FileName;
+	public 
 
-	public void Update()
+	void Update()
 	{
-		if(Input.GetKeyDown(KeyCode.Space))
+		if(Input.GetKeyDown(KeyCode.Return))
 		{
-			GetComponent<Animator>().SetInteger("Test", TestParam);
+			string filePath = Path.Combine(DefaultPath, FileName);
+
+			File.CreateText(filePath);
 		}
 	}
-
-	public void TestAnimEvent(string value)
-    {
-		Debug.Log($"애니메이션 이벤트 : {value}");
-
-		GetComponent<Animator>().SetInteger("Test", 0);
-    }
 }

@@ -106,6 +106,8 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 	private void Update()
 	{
+		//_blackboard?.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
+
 		//if(null != _blackboard.GetObjectValue(BlackboardKeyTable.target))
 		//{
 		//	Champion target = _blackboard.GetObjectValue(BlackboardKeyTable.target) as Champion;
@@ -174,6 +176,8 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 	IEnumerator UpdateSkillCoolTime()
 	{
+		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
+
 		yield return YieldInstructionStore.GetWaitForSec(status.atkSpeed * 2);
 
 		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, true);
@@ -187,16 +191,17 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 			case "Attack":
 				_curAttackAction = _attackAction;
 				_curAttackAction?.OnStart();
+				_blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
 				StartCoroutine(UpdateAtkCooltime());
 
 				break;
-
 			case "Skill":
 				_curAttackAction = _skillAction;
 				_curAttackAction?.OnStart();
+				_blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
 				StartCoroutine(UpdateSkillCoolTime());
-				break;
 
+				break;
 			case "Ultimate":
 				{
 					GameObject target = _blackboard.GetObjectValue(BlackboardKeyTable.target) as GameObject;

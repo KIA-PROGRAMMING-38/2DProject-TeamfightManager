@@ -36,10 +36,10 @@ public class GameSaveLoader
 	};
 
 	private EffectInfo _testAtkEffectData =
-		new EffectInfo("Effect_Swordman_Attack", "Assets/Animations/Effect/Champion/Effect_Swordman_Attack.anim", new Vector3(-0.1f, 0.18f, 0f));
+		new EffectInfo("Effect_Swordman_Attack", "Animations/Effect/Champion/Effect_Swordman_Attack", new Vector3(-0.1f, 0.18f, 0f));
 
 	private EffectInfo _testSkillEffectData =
-		new EffectInfo("Effect_Swordman_Skill", "Assets/Animations/Effect/Champion/Effect_Swordman_Skill.anim", new Vector3(0.11f, 0.12f, 0f));
+		new EffectInfo("Effect_Swordman_Skill", "Animations/Effect/Champion/Effect_Swordman_Skill", new Vector3(0.11f, 0.12f, 0f));
 
 	/// <summary>
 	/// 게임 파일을 불러와 데이터 테이블에 저장한다..
@@ -68,25 +68,25 @@ public class GameSaveLoader
 		ChampionAnimData newChampionAnimData = new ChampionAnimData();
 
 		// 기본 애니메이션 경로..
-		string defaultPath = "Assets\\Animations\\Champion";
+		string defaultPath = "Animations\\Champion";
 
 		// 기본 애니메이션 파일 이름..
-		string idleFileName = "Idle.anim";
-		string moveFileName = "Move.anim";
-		string atkFileName = "Attack.anim";
-		string skillFileName = "Skill.anim";
-		string ultFileName = "Ultimate.anim";
-		string deathFileName = "Death.anim";
-		string deadLoopFileName = "DeadLoop.anim";
+		string idleFileName = "Idle";
+		string moveFileName = "Move";
+		string atkFileName = "Attack";
+		string skillFileName = "Skill";
+		string ultFileName = "Ultimate";
+		string deathFileName = "Death";
+		string deadLoopFileName = "DeadLoop";
 
 		// 파일 경로를 가지고 애니메이션 파일을 찾아낸다..
-		newChampionAnimData.idleAnim = AssetDatabase.LoadAssetAtPath<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, idleFileName));
-		newChampionAnimData.moveAnim = AssetDatabase.LoadAssetAtPath<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, moveFileName));
-		newChampionAnimData.atkAnim = AssetDatabase.LoadAssetAtPath<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, atkFileName));
-		newChampionAnimData.skillAnim = AssetDatabase.LoadAssetAtPath<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, skillFileName));
-		newChampionAnimData.ultAnim = AssetDatabase.LoadAssetAtPath<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, ultFileName));
-		newChampionAnimData.deathAnim = AssetDatabase.LoadAssetAtPath<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, deathFileName));
-		newChampionAnimData.deadLoopAnim = AssetDatabase.LoadAssetAtPath<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, deadLoopFileName));
+		newChampionAnimData.idleAnim = Resources.Load<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, idleFileName));
+		newChampionAnimData.moveAnim = Resources.Load<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, moveFileName));
+		newChampionAnimData.atkAnim = Resources.Load<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, atkFileName));
+		newChampionAnimData.skillAnim = Resources.Load<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, skillFileName));
+		newChampionAnimData.ultAnim = Resources.Load<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, ultFileName));
+		newChampionAnimData.deathAnim = Resources.Load<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, deathFileName));
+		newChampionAnimData.deadLoopAnim = Resources.Load<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, deadLoopFileName));
 
 		return newChampionAnimData;
 	}

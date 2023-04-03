@@ -32,7 +32,7 @@ public class ChampionManager : MonoBehaviour
 
 	private void Start()
 	{
-        _championDefaultPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Champion.prefab").GetComponent<Champion>();
+        _championDefaultPrefab = Resources.Load<GameObject>("Prefabs/Champion").GetComponent<Champion>();
 
 		foreach (KeyValuePair<string, ChampionStatus> elementPair in _championDataTable.champStatusContainer)
         {

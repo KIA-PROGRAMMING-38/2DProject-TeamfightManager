@@ -8,8 +8,8 @@ using UnityEngine;
 /// </summary>
 public class EffectDataTable
 {
-	public readonly string DEFAULT_EFFECT_PATH = "Assets/Animations/Effect/Champion";
-	public readonly string DEFAULT_EFFECT_PREFAB_PATH = "Assets/Prefabs/Effect.prefab";
+	public readonly string DEFAULT_EFFECT_PATH = "Animations/Effect/Champion";
+	public readonly string DEFAULT_EFFECT_PREFAB_PATH = "Prefabs/Effect";
 
 	// 이펙트의 정보와 이펙트가 실행할 애니메이션을 이펙트 이름마다 저장할 컨테이너 생성..
 	// 여기에는 처음 파일을 불러와 모든 이펙트의 정보를 저장할 예정..
@@ -20,7 +20,7 @@ public class EffectDataTable
 	{
 		_effectsInfo.Add(effectName, effectInfo);
 
-		AnimationClip clip = AssetDatabase.LoadAssetAtPath<AnimationClip>(Path.Combine(DEFAULT_EFFECT_PATH, effectName + ".anim"));
+		AnimationClip clip = Resources.Load<AnimationClip>(Path.Combine(DEFAULT_EFFECT_PATH, effectName));
 		_effectsAnimClip.Add(effectName, clip);
 	}
 

@@ -34,6 +34,10 @@ public class AttackAction
 			case ImpactRangeKind.OnlyTarget:
 				_decideTargetLogic = new DecideTarget_OnlyTarget(ownerChampion, _actionData);
 				break;
+
+			case ImpactRangeKind.Range_Circle:
+				_decideTargetLogic = new DecideTarget_InCircleRange(ownerChampion, _actionData);
+				break;
 		}
 	}
 

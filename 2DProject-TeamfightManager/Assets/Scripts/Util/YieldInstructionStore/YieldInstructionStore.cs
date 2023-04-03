@@ -6,13 +6,29 @@ using UnityEngine;
 /// </summary>
 public static class YieldInstructionStore
 {
-	private static Dictionary<float, WaitForSeconds> _waitForSeconds = new Dictionary<float, WaitForSeconds>();
+	class FloatComparer : IEqualityComparer<float>
+	{
+		bool IEqualityComparer<float>.Equals(float x, float y)
+		{
+			return x == y;
+		}
+		int IEqualityComparer<float>.GetHashCode(float obj)
+		{
+			return obj.GetHashCode();
+		}
+	}
+
+	private static readonly Dictionary<float, WaitForSeconds> _waitForSeconds = new Dictionary<float, WaitForSeconds>();
 
 	public static WaitForSeconds GetWaitForSec(float second)
 	{
-		if( false == _waitForSeconds.ContainsKey(second) )
-			_waitForSeconds.Add(second, new WaitForSeconds(second));
+		WaitForSeconds outValue = null;
 
-		return _waitForSeconds[second];
+		if( false == _waitForSeconds.TryGetValue(second, out outValue))
+		{
+			_waitForSeconds.Add(second, outValue = new WaitForSeconds(second));
+		}
+
+		return outValue;
 	}
 }

@@ -82,8 +82,8 @@ namespace MH_AIFramework
 		public float GetFloatValue( string key ) => _floatContainer[key];
 		public int GetIntValue( string key ) => _intContainer[key];
 		public bool GetBoolValue( string key ) => _boolContainer[key];
-		public Vector3 GetVectorValue( string key ) => _vec3Container[key];
-		public Quaternion GetRotatorValue( string key ) => _quatContainer[key];
+		public void GetVectorValue(string key, out Vector3 get) => get = _vec3Container[key];
+		public void GetRotatorValue(string key, out Quaternion get) => get = _quatContainer[key];
 		public object GetObjectValue( string key ) => _objectContainer[key];
 #endif
 

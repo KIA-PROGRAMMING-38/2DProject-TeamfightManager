@@ -3,11 +3,10 @@ using UnityEngine;
 
 namespace MH_AIFramework
 {
-	[System.Serializable]
 	public sealed class DN_CheckFloatValue : DecoratorNode
 	{
-		[SerializeField] private float _cmpValue;
-		[SerializeField] private string _bbKey;
+		private float _cmpValue;
+		private string _bbKey;
 
 		public DN_CheckFloatValue( float cmpValue, string bbKey)
 		{
