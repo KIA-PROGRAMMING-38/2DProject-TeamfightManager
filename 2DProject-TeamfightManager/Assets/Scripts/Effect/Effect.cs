@@ -14,7 +14,7 @@ public class Effect : MonoBehaviour
     private AnimatorOverrideController _overrideController;
     private SpriteRenderer _spriteRenderer;
 
-    public EffectInfo info { private get; set; }
+    public EffectData info { private get; set; }
 
     public AnimationClip clip
     {

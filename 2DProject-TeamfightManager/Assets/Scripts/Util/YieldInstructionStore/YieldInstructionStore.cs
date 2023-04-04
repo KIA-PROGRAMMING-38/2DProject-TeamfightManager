@@ -24,7 +24,7 @@ public static class YieldInstructionStore
 	{
 		WaitForSeconds outValue = null;
 
-		if( false == _waitForSeconds.TryGetValue(second, out outValue))
+		if (false == _waitForSeconds.TryGetValue(second, out outValue))
 		{
 			_waitForSeconds.Add(second, outValue = new WaitForSeconds(second));
 		}
