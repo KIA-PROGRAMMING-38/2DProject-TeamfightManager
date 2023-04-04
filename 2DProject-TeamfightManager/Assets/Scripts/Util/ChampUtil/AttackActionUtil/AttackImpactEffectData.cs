@@ -11,6 +11,11 @@ public enum AttackImpactType
 	DefaultAttack
 }
 
+public enum DebuffImpactType
+{
+	DecreaseDefneceStat
+}
+
 public enum TargetDecideKind
 {
 	OnlyTarget,
