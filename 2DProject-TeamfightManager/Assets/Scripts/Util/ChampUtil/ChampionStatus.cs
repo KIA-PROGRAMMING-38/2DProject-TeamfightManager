@@ -1,9 +1,9 @@
 public class ChampionStatus
 {
-	public int atkStat { get; set; }
-	public float atkSpeed { get; set; }
-	public float range { get; set; }
-	public int defence { get; set; }
-	public int hp { get; set; }
-	public float moveSpeed { get; set; }
+	public int atkStat;
+	public float atkSpeed;
+	public float range;
+	public int defence;
+	public int hp;
+	public float moveSpeed;
 }
