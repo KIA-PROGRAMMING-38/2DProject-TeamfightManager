@@ -18,6 +18,9 @@ public class ChampionAnimation : MonoBehaviour
 	private Champion _champion;
 	private SpriteRenderer _spriteRenderer;
 
+	private Material _originMaterial;
+	[SerializeField] private Material _hitMaterial;
+
 	private Animator _animator;
 	private AnimState _state;
 	private AnimatorOverrideController _animatorOverrideController;
@@ -56,6 +59,8 @@ public class ChampionAnimation : MonoBehaviour
 		_spriteRenderer = GetComponent<SpriteRenderer>();
 		_champion = GetComponentInParent<Champion>();
 
+		_originMaterial = _spriteRenderer.material;
+
 		if (false == s_isHaveKeyHash)
 		{
 			SetupAnimatorKeyToHash();
@@ -65,6 +70,23 @@ public class ChampionAnimation : MonoBehaviour
 	void Start()
     {
 		
+	}
+
+	private void OnDisable()
+	{
+		StopAllCoroutines();
+	}
+
+	public void OnHit()
+	{
+		StartCoroutine(ShowHitMaterial(0.1f));
+	}
+
+	IEnumerator ShowHitMaterial(float time)
+	{
+		_spriteRenderer.material = _hitMaterial;
+		yield return YieldInstructionStore.GetWaitForSec(time);
+		_spriteRenderer.material = _originMaterial;
 	}
 
 	/// <summary>

@@ -77,7 +77,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 			duration = 0,
 			kind = (int)AttackImpactEffectKind.Attack,
 			tickTime = 0,
-			targetDecideKind = (int)TargetDecideKind.OnlyTarget
+			targetDecideKind = (int)TargetDecideKind.AllTarget
 		});
 
 		_skillAction = new AttackAction(this, new AttackActionData
@@ -94,7 +94,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 			duration = 0,
 			kind = (int)AttackImpactEffectKind.Attack,
 			tickTime = 0,
-			targetDecideKind = (int)TargetDecideKind.InRange
+			targetDecideKind = (int)TargetDecideKind.AllTarget
 		});
 	}
 
@@ -222,6 +222,9 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 	public void Hit(int damage)
 	{
 		curHp -= damage;
+
+		if (false == isDead)
+			_animComponent.OnHit();
 	}
 
 	public Champion FindTarget()

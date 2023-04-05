@@ -34,7 +34,7 @@ public class TestChampionFileSaver : MonoBehaviour
 				duration = 0,
 				kind = (int)AttackImpactEffectKind.Attack,
 				tickTime = 0,
-				targetDecideKind = (int)TargetDecideKind.InRange
+				targetDecideKind = (int)TargetDecideKind.AllTarget
 			};
 
 			AttackImpactData attackImpactData2 = new AttackImpactData
@@ -44,7 +44,7 @@ public class TestChampionFileSaver : MonoBehaviour
 				duration = 1f,
 				kind = (int)AttackImpactEffectKind.Debuff,
 				tickTime = 0,
-				targetDecideKind = (int)TargetDecideKind.InRange
+				targetDecideKind = (int)TargetDecideKind.AllTarget
 			};
 
 			List<AttackImpactData> attackImpactDataList = new List<AttackImpactData>();

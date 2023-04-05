@@ -18,8 +18,8 @@ public enum DebuffImpactType
 
 public enum TargetDecideKind
 {
-	OnlyTarget,
-	InRange
+	AllTarget,
+	OnlyMe,
 }
 
 public enum TargetTeamKind

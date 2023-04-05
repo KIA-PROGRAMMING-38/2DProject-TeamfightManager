@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 /// <summary>
 /// 배틀 스테이지에서 배틀을 하는 팀(하나의 팀)을 관리하기 위한 클래스..
@@ -21,6 +22,8 @@ public class BattleTeam : MonoBehaviour
 	}
 
     private List<PilotBattle> _pilots = new List<PilotBattle>();
+	private List<Champion> _activeChampions = new List<Champion>();
+	private List<Champion> _allChampions = new List<Champion>();
 
     public void AddPilot(string pilotName, string champName)
     {
@@ -45,31 +48,23 @@ public class BattleTeam : MonoBehaviour
 
 		// Pilot Battle Component 를 나의 팀으로 넣기..
 		_pilots.Add(pilotBattleComponent);
-	}
-
-	public Champion ComputeMostNearestEnemyTarget( Vector3 originPoint )
-    {
-		float result = float.MaxValue;
-		Champion target = null;
-		foreach(var pilot in enemyTeam._pilots)
-		{
-			if (pilot.controlChampion.isDead)
-				continue;
-
-			float dist = (originPoint - pilot.controlChampion.transform.position).sqrMagnitude;
-			if (dist < result)
-			{
-				result = dist;
-				target = pilot.controlChampion;
-			}
-		}
-
-        return target;
+		_allChampions.Add(champion);
+		_activeChampions.Add(champion);
 	}
 
 	public void OnChampionDead(Champion champion)
 	{
 		champion.gameObject.SetActive(false);
+
+		int activeChampCount = _activeChampions.Count;
+		for( int i = 0; i < activeChampCount; ++i)
+		{
+			if (_activeChampions[i] == champion)
+			{
+				_activeChampions.RemoveAt(i);
+				break;
+			}
+		}
 
 		battleStageManager.OnChampionDead(this, champion);
 	}
@@ -80,6 +75,8 @@ public class BattleTeam : MonoBehaviour
 
 		champion.transform.position = randomSpawnPoint;
 		champion.gameObject.SetActive(true);
+
+		_activeChampions.Add(champion);
 	}
 
 	public void TestColorChange(Color color)
@@ -88,5 +85,52 @@ public class BattleTeam : MonoBehaviour
 		{
 			pilot.controlChampion.TestColorChange(color);
 		}
+	}
+
+	// ==================================== 적을 찾는 함수들.. ====================================
+
+	// originPoint를 기준으로 가장 가까운 적을 찾는 함수..
+	public Champion ComputeMostNearestEnemyTarget(Vector3 originPoint)
+	{
+		float result = float.MaxValue;
+		Champion target = null;
+		int loopCount = enemyTeam._activeChampions.Count;
+		for( int i = 0; i < loopCount; ++i)
+		{
+			Champion enemy = enemyTeam._activeChampions[i];
+
+			float dist = (originPoint - enemy.transform.position).sqrMagnitude;
+			if (dist < result)
+			{
+				result = dist;
+				target = enemy;
+			}
+		}
+
+		return target;
+	}
+
+	// originPoint를 기준으로 범위 안의 적을 찾는 함수..
+	public int ComputeInCircleRangeEnemyTarget(Vector3 originPoint, float radius, Champion[] championCache)
+	{
+		int enemyCount = 0;
+		int championCacheLength = championCache.Length;
+
+		int loopCount = enemyTeam._activeChampions.Count;
+		for (int i = 0; i < loopCount; ++i)
+		{
+			Champion enemy = enemyTeam._activeChampions[i];
+
+			float dist = (originPoint - enemy.transform.position).magnitude;
+			if (dist <= radius)
+			{
+				if (championCacheLength <= enemyCount)
+					break;
+
+				championCache[enemyCount++] = enemy;
+			}
+		}
+
+		return enemyCount;
 	}
 }
