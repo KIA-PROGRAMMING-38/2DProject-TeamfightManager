@@ -1,4 +1,4 @@
 10,1,1,0,30,3
-Swordman,1,Sprites/UI/Champion/Icon/character_icons_16
+Swordman,1,Effect_Swordman_Attack, Effect_Swordman_Skill, Effect_Swordman_Ultimate
 검사 입니다.
 ,,

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -19,14 +17,14 @@ public class GameManager : MonoBehaviour
 	{
 		SetupManager();
 
-		LoadFile("");
+		LoadFile(0);
 
 		CreateBattleStageManager();
 	}
 
-	private void LoadFile(string fileName)
+	private void LoadFile(int loadFileNumber)
 	{
-		GameSaveLoader.LoadGameFile(fileName, dataTableManager);
+		GameSaveLoader.LoadGameFile(loadFileNumber, dataTableManager);
 	}
 
 	private void CreateBattleStageManager()

@@ -17,10 +17,14 @@ public class ChampionDataTable
 	public Dictionary<string, ChampionStatus> champStatusContainer { get => _champStatusContainer; }
 	public Dictionary<string, ChampionAnimData> champAnimContainer { get => _champAnimContainer; }
 
-	// Champion Data Getter Setter..
-	public void AddChampionData(string championName, ChampionData champData)
+	public void AddChampionData(string championName, ChampionData champData, ChampionStatus champStatus, ChampionResourceData resourceData)
 	{
 		_champDataContainer.Add(championName, champData);
+		champStatusContainer.Add(championName, champStatus);
+
+		_champImageContainer.Add(championName, Resources.Load<Sprite>(resourceData.champIconImagePath));
+		_skillIconContainer.Add(championName, Resources.Load<Sprite>(resourceData.skillIconImagePath));
+		_ultimateIconContainer.Add(championName, Resources.Load<Sprite>(resourceData.ultimateIconImagePath));
 	}
 
 	public ChampionData GetChampionData(string championName)
@@ -28,23 +32,9 @@ public class ChampionDataTable
 		return _champDataContainer[championName];
 	}
 
-	// Image Getter Setter..
-	public void AddChampionResourceData(string championName, ChampionResourceData championResourceData)
-	{
-		_champImageContainer.Add(championName, Resources.Load<Sprite>(championResourceData.champIconImagePath));
-		_skillIconContainer.Add(championName, Resources.Load<Sprite>(championResourceData.skillIconImagePath));
-		_ultimateIconContainer.Add(championName, Resources.Load<Sprite>(championResourceData.ultimateIconImagePath));
-	}
-
 	public Sprite GetChampionImage(string champName) => _champImageContainer[champName];
 	public Sprite GetSkillIconImage(string champName) => _skillIconContainer[champName];
 	public Sprite GetUltimateIconImage(string champName) => _ultimateIconContainer[champName];
-
-	// Champion Status Getter Setter..
-	public void AddChampionStatus(string championName, ChampionStatus championStatus)
-	{
-		champStatusContainer.Add(championName, championStatus);
-	}
 
 	public ChampionStatus GetChampionStatus(string championName)
 	{

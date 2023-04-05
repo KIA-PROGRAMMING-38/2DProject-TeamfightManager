@@ -75,8 +75,8 @@ public class BattleStageManager : MonoBehaviour
 
 		for (int i = 0; i < pilotCount; ++i)
 		{
-			redTeam.AddPilot("Test", "Swordman");
-			blueTeam.AddPilot("Test", "Swordman");
+			redTeam.AddPilot("Faker", "Swordman");
+			blueTeam.AddPilot("Faker", "Swordman");
 		}
 
 		redTeam.TestColorChange(Color.red);
