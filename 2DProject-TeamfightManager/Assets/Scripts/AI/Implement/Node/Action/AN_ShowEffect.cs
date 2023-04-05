@@ -67,6 +67,10 @@ public class AN_ShowEffect : ActionNode
 		_effect.OnDisableEvent -= ReceiveDisableEffectEvent;
 		_effect.OnDisableEvent += ReceiveDisableEffectEvent;
 
+		Vector3 direction;
+		blackboard.GetVectorValue(BlackboardKeyTable.moveDirection, out direction);
+		_effect.SetupAdditionalData(direction);
+
 		_effect.gameObject.SetActive(true);
 
 		return State.Success;

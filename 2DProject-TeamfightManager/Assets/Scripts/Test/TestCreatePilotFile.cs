@@ -26,7 +26,7 @@ public class TestCreatePilotFile : MonoBehaviour
     {
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			GameSaveLoader.SavePilotFile(CreatePilotData(), DefaultPath, pilotName, FileExtension);
+			SaveLoadLogic.SavePilotFile(CreatePilotData(), DefaultPath, pilotName, FileExtension);
 			Debug.Log($"파일럿 파일 생성 완료!! : {Path.Combine(DefaultPath, "Pilot", pilotName + FileExtension)}");
 		}
 	}

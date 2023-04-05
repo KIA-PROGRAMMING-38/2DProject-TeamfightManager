@@ -44,6 +44,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 	private AttackAction _attackAction;
 	private AttackAction _skillAction;
+	private AttackAction _ultimateAction;
 	private AttackAction _curAttackAction;
 
 	private void Awake()
@@ -61,9 +62,6 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
 		StartCoroutine(UpdateSkillCoolTime());
-
-		//_attackAction;
-		//_skillAction;
 	}
 
 	private void OnDisable()
@@ -118,10 +116,11 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 		_attackAction = s_dataTableManager.attackActionDataTable.GetAttackAction(this.data.atkActionUniqueKey);
 		_skillAction = s_dataTableManager.attackActionDataTable.GetAttackAction(this.data.skillActionUniqueKey);
-		//_ult = s_dataTableManager.attackActionDataTable.GetAttackAction(this.data.ultimateActionUniqueKey);
+		_ultimateAction = s_dataTableManager.attackActionDataTable.GetAttackAction(this.data.ultimateActionUniqueKey);
 
 		_attackAction.ownerChampion = this;
 		_skillAction.ownerChampion = this;
+		_ultimateAction.ownerChampion = this;
 
 		SetupBlackboard();
 	}
@@ -139,6 +138,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 		_animComponent.ResetAnimation();
 
 		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, true);
+		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, true);
 	}
 
 	IEnumerator UpdateAtkCooltime()

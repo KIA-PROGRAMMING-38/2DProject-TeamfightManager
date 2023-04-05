@@ -2,7 +2,7 @@
 
 public class DecideTarget_InCircleRange : AtkActionDecideTargetBase
 {
-	BattleTeam battleTeam;
+	private BattleTeam battleTeam;
 
 	public DecideTarget_InCircleRange(AttackActionData actionData) : base(actionData)
 	{
@@ -34,7 +34,14 @@ public class DecideTarget_InCircleRange : AtkActionDecideTargetBase
 				break;
 		}
 
-		return battleTeam.ComputeInCircleRangeEnemyTarget(startPoint, actionData.impactRange, getTargetArray); ;
+		// 범위 안에 들어오는 적을 찾는 로직..
+		bool TargetFindLogic(Vector3 enemyPosition)
+		{
+			float dist = (startPoint - enemyPosition).magnitude;
+			return (dist <= actionData.impactRange);
+		}
+
+		return battleTeam.ComputeEnemyTarget(TargetFindLogic, getTargetArray);
 	}
 
 	public override void OnEnd()

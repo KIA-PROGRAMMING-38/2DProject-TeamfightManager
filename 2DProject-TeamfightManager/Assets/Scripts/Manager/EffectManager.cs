@@ -63,7 +63,7 @@ public class EffectManager : MonoBehaviour
 	{
 		Effect outEffect = _pooler.Get();
 
-		outEffect.info = _effectDataTable.GetEffectInfo(effectName);
+		outEffect.data = _effectDataTable.GetEffectInfo(effectName);
 		outEffect.clip = _effectDataTable.GetEffectAnimClip(effectName);
 		outEffect.flipX = flipX;
 
@@ -80,7 +80,7 @@ public class EffectManager : MonoBehaviour
     {
 		Effect outEffect = _pooler.Get();
 
-		outEffect.info = _effectDataTable.GetEffectInfo(effectName);
+		outEffect.data = _effectDataTable.GetEffectInfo(effectName);
 		outEffect.clip = _effectDataTable.GetEffectAnimClip(effectName);
 
 		return outEffect;
@@ -94,7 +94,7 @@ public class EffectManager : MonoBehaviour
 	{
 		Effect outEffect = _pooler.Get();
 
-		outEffect.info = _effectDataTable.GetEffectInfo(effectName);
+		outEffect.data = _effectDataTable.GetEffectInfo(effectName);
 		outEffect.clip = _effectDataTable.GetEffectAnimClip(effectName);
 		outEffect.flipX = flipX;
 

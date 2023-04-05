@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 /// <summary>
 /// 배틀 스테이지에서 배틀을 하는 팀(하나의 팀)을 관리하기 위한 클래스..
@@ -17,7 +17,7 @@ public class BattleTeam : MonoBehaviour
 	{
 		get
 		{
-			return new Vector3(Random.Range(spawnArea[0].x, spawnArea[1].x), Random.Range(spawnArea[0].y, spawnArea[1].y), 0f);
+			return new Vector3(UnityEngine.Random.Range(spawnArea[0].x, spawnArea[1].x), UnityEngine.Random.Range(spawnArea[0].y, spawnArea[1].y), 0f);
 		}
 	}
 
@@ -110,8 +110,7 @@ public class BattleTeam : MonoBehaviour
 		return target;
 	}
 
-	// originPoint를 기준으로 범위 안의 적을 찾는 함수..
-	public int ComputeInCircleRangeEnemyTarget(Vector3 originPoint, float radius, Champion[] championCache)
+	public int ComputeEnemyTarget(Func<Vector3, bool> findLogicFunction, Champion[] championCache)
 	{
 		int enemyCount = 0;
 		int championCacheLength = championCache.Length;
@@ -121,8 +120,7 @@ public class BattleTeam : MonoBehaviour
 		{
 			Champion enemy = enemyTeam._activeChampions[i];
 
-			float dist = (originPoint - enemy.transform.position).magnitude;
-			if (dist <= radius)
+			if( true == findLogicFunction(enemy.transform.position) )
 			{
 				if (championCacheLength <= enemyCount)
 					break;

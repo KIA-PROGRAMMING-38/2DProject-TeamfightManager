@@ -51,7 +51,7 @@ public class TestChampionFileSaver : MonoBehaviour
 			attackImpactDataList.Add(attackImpactData);
 			attackImpactDataList.Add(attackImpactData2);
 
-			GameSaveLoader.SaveAttackActionFile(attackAction, attackImpactDataList, "Assets/Data", "Swordman_Skill", ".data");
+			SaveLoadLogic.SaveAttackActionFile(attackAction, attackImpactDataList, "Assets/Data", "Swordman_Skill", ".data");
 			//GameSaveLoader.SaveChampionFile(CreateChampionStatus(), CreateChampionData(), CreateChampionResourceData(), DefaultPath, FileName, FileExtension);
 			//Debug.Log($"챔피언 파일 생성 완료!! : {Path.Combine(DefaultPath, "Champion", FileName + FileExtension)}");
 		}

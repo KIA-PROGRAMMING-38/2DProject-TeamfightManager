@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Effect : MonoBehaviour
 {
@@ -14,7 +11,7 @@ public class Effect : MonoBehaviour
     private AnimatorOverrideController _overrideController;
     private SpriteRenderer _spriteRenderer;
 
-    public EffectData info { private get; set; }
+    public EffectData data { private get; set; }
 
     public AnimationClip clip
     {
@@ -44,26 +41,25 @@ public class Effect : MonoBehaviour
 
     private void OnEnable()
     {
-        if (null != info)
+        if (null != data)
         {
-            Vector3 offsetPosition = info.offsetPos;
+            Vector3 offsetPosition = data.offsetPos;
             if (_spriteRenderer.flipX)
                 offsetPosition.x *= -1f;
 
-			transform.position += offsetPosition;
-
-            _animator.Play("Effect");
+            transform.Translate(offsetPosition);
         }
     }
 
 	private void OnDisable()
 	{
         OnDisableEvent?.Invoke(this);
+		transform.rotation = Quaternion.identity;
 	}
 
 	public void OnEndAnimation()
     {
-        if (true == info.isAutoDestroy && false == info.isUseLifeTime)
+        if (true == data.isAutoDestroy && false == data.isUseLifeTime)
         {
             Release();
         }
@@ -76,4 +72,13 @@ public class Effect : MonoBehaviour
 
 		s_effectManager.ReleaseEffect(this);
 	}
+
+    public void SetupAdditionalData(in Vector3 rotationDirection)
+    {
+        if (data.rotationType == EffectRotationType.SettingToOwner)
+        {
+            transform.LookAt(transform.position + rotationDirection);
+            _spriteRenderer.flipX = false;
+		}
+    }
 }
