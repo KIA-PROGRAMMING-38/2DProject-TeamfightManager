@@ -30,13 +30,16 @@ public class EffectManager : MonoBehaviour
 	// 이펙트 오브젝트 풀링을 위한 풀러 객체..
 	private EffectPooler _pooler;
 
-	private void Start()
+	private void Awake()
 	{
-		_pooler = new EffectPooler(CreateEffect, OnGetEffect, OnReleaseEffect, null, 20, 20, 40);
-
 		Effect.s_effectManager = this;
 		Champion.s_effectManager = this;
 		ChampionBT.s_effectManager = this;
+	}
+
+	private void Start()
+	{
+		_pooler = new EffectPooler(CreateEffect, OnGetEffect, OnReleaseEffect, null, 20, 20, 40);
 	}
 
 	/// <summary>

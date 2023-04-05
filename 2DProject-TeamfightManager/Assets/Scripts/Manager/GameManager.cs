@@ -18,7 +18,10 @@ public class GameManager : MonoBehaviour
 		SetupManager();
 
 		LoadFile(0);
+	}
 
+	private void Start()
+	{
 		CreateBattleStageManager();
 	}
 
@@ -54,6 +57,11 @@ public class GameManager : MonoBehaviour
 		newGameObject.transform.parent = transform;
 		dataTableManager = newGameObject.AddComponent<DataTableManager>();
 
+		// Effect Manager 积己..
+		newGameObject = new GameObject("Effect Manager");
+		newGameObject.transform.parent = transform;
+		effectManager = newGameObject.AddComponent<EffectManager>();
+
 		// Champion Manager 积己..
 		newGameObject = new GameObject("Champion Manager");
 		newGameObject.transform.parent = transform;
@@ -68,11 +76,6 @@ public class GameManager : MonoBehaviour
 		newGameObject = new GameObject("Team Manager");
 		newGameObject.transform.parent = transform;
 		teamManager = newGameObject.AddComponent<TeamManager>();
-
-		// Effect Manager 积己..
-		newGameObject = new GameObject("Effect Manager");
-		newGameObject.transform.parent = transform;
-		effectManager = newGameObject.AddComponent<EffectManager>();
 
 		// 积己沁栏聪 曼炼 逞败林扁..
 		championManager.gameManager = this;

@@ -27,6 +27,13 @@ public class ChampionDataTable
 		_ultimateIconContainer.Add(championName, Resources.Load<Sprite>(resourceData.ultimateIconImagePath));
 	}
 
+	public void GetChampionAllData(string championName, out ChampionData champData, out ChampionStatus champStatus, out ChampionAnimData animData)
+	{
+		champData = _champDataContainer[championName];
+		champStatus = _champStatusContainer[championName];
+		animData = _champAnimContainer[championName];
+	}
+
 	public ChampionData GetChampionData(string championName)
 	{
 		return _champDataContainer[championName];

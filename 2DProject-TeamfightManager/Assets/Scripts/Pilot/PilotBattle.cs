@@ -13,7 +13,7 @@ public class PilotBattle : MonoBehaviour
 		}
     }
     private Champion _controlChampion;
-    public BattleTeam myTeam { private get; set; }
+    public BattleTeam myTeam { get; set; }
 
     public Champion FindTarget(Champion champion)
     {

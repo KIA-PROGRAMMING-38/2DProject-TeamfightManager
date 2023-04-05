@@ -75,6 +75,8 @@ public class ChampionAnimation : MonoBehaviour
 	private void OnDisable()
 	{
 		StopAllCoroutines();
+
+		_spriteRenderer.material = _originMaterial;
 	}
 
 	public void OnHit()

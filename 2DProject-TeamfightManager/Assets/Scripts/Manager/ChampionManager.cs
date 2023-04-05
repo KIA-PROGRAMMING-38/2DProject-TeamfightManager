@@ -1,16 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+using Util.Pool;
 
 public class ChampionManager : MonoBehaviour
 {
-    public class MakeChampionData
-    {
-        public ChampionStatus ChampStatus;
-        public ChampionAnimData ChampAnimData;
-    }
-
     private GameManager _gameManager;
     private DataTableManager _dataTableManager;
     private ChampionDataTable _championDataTable;
@@ -27,33 +19,45 @@ public class ChampionManager : MonoBehaviour
 		}
     }
 
+    private ObjectPooler<Champion> _championPooler;
+
 	public Champion _championDefaultPrefab;
-	private Dictionary<string, MakeChampionData> _champions = new Dictionary<string, MakeChampionData>();
+
+	private void Awake()
+	{
+		_championDefaultPrefab = Resources.Load<GameObject>("Prefabs/Champion").GetComponent<Champion>();
+		_championPooler = new ObjectPooler<Champion>(CreateChampion, null, null, null, 8, 8);
+	}
 
 	private void Start()
 	{
-        _championDefaultPrefab = Resources.Load<GameObject>("Prefabs/Champion").GetComponent<Champion>();
 
-		foreach (KeyValuePair<string, ChampionStatus> elementPair in _championDataTable.champStatusContainer)
-        {
-            MakeChampionData newMakeChampData =
-                new MakeChampionData { ChampStatus = elementPair.Value, ChampAnimData = _championDataTable.GetChampionAnimData(elementPair.Key) };
-
-            _champions[elementPair.Key] = newMakeChampData;
-		}
 	}
 
-	public void AddChampionMakeData(string championName, in MakeChampionData makeChampionData)
-    {
-        _champions.Add(championName, makeChampionData);
-    }
+	private Champion CreateChampion()
+	{
+		Champion newChampion = Instantiate<Champion>(_championDefaultPrefab);
+
+		newChampion.gameObject.SetActive(false);
+		newChampion.transform.parent = transform;
+
+		return newChampion;
+	}
 
     public Champion GetChampionInstance(string championName)
     {
-        Champion newChampion = Instantiate<Champion>(_championDefaultPrefab);
+        Champion newChampion = _championPooler.Get();
 
-		MakeChampionData makeChampData = _champions[championName];
-        newChampion.SetupNecessaryData(makeChampData.ChampStatus, makeChampData.ChampAnimData);
+		ChampionStatus champStatus;
+	    ChampionData champData;
+	    ChampionAnimData champAnimData;
+
+		_championDataTable.GetChampionAllData(championName, out champData, out champStatus, out champAnimData);
+
+        newChampion.SetupNecessaryData(champStatus, champData, champAnimData);
+
+		newChampion.transform.parent = null;
+		newChampion.gameObject.SetActive(true);
 
 		return newChampion;
 	}

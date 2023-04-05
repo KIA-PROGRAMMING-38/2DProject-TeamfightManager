@@ -2,12 +2,11 @@
 
 public abstract class AtkActionDecideTargetBase
 {
-	protected Champion ownerChampion { get; private set; }
+	public Champion ownerChampion { protected get; set; }
 	protected AttackActionData actionData { get; private set; }
 
-	public AtkActionDecideTargetBase(Champion champion, AttackActionData actionData)
+	public AtkActionDecideTargetBase(AttackActionData actionData)
 	{
-		ownerChampion = champion;
 		this.actionData = actionData;
 	}
 

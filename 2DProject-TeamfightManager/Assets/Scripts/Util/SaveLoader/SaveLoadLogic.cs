@@ -12,6 +12,8 @@ public static class SaveLoadLogic
 			string[] attackActionsFilePath = Directory.GetFiles(attackDataActionDefaultPath);
 
 			int loopCount = attackActionsFilePath.Length;
+			dataTableManager.attackActionDataTable.actionCount = loopCount / 2;
+
 			for (int i = 0; i < loopCount; ++i)
 			{
 				if (attackActionsFilePath[i].Contains(".meta"))
@@ -118,6 +120,7 @@ public static class SaveLoadLogic
 		getChampionStatus.defence = int.Parse(championStatusDatas[3]);
 		getChampionStatus.hp = int.Parse(championStatusDatas[4]);
 		getChampionStatus.moveSpeed = float.Parse(championStatusDatas[5]);
+		getChampionStatus.skillCooltime = float.Parse(championStatusDatas[6]);
 
 		// Champion Data 데이터 설정..
 		string[] championDatas = loadData[1].Split(',');
@@ -129,6 +132,10 @@ public static class SaveLoadLogic
 		getChampData.atkEffectName = championDatas[2];
 		getChampData.skillEffectName = championDatas[3];
 		getChampData.ultimateEffectName = championDatas[4];
+		getChampData.atkActionUniqueKey = int.Parse(championDatas[5]);
+		getChampData.skillActionUniqueKey = int.Parse(championDatas[6]);
+		getChampData.ultimateActionUniqueKey = int.Parse(championDatas[7]);
+
 		getChampData.champDescription = loadData[2];
 
 		// Champion Resource 데이터 설정..
@@ -151,19 +158,24 @@ public static class SaveLoadLogic
 		string[] saveDatas =
 		{
 			new string(
-				championStatus.atkStat.ToString() + "," +
-				championStatus.atkSpeed.ToString() + "," +
-				championStatus.range.ToString() + "," +
-				championStatus.defence.ToString() + "," +
-				championStatus.hp.ToString() + "," +
-				championStatus.moveSpeed.ToString()),
+				championStatus.atkStat + "," +
+				championStatus.atkSpeed + "," +
+				championStatus.range + "," +
+				championStatus.defence + "," +
+				championStatus.hp + "," +
+				championStatus.moveSpeed + "," +
+				championStatus.skillCooltime
+				),
 
 			new string(
 					championData.name + "," +
 					(int)championData.type + "," +
 					championData.atkEffectName + "," +
 					championData.skillEffectName + "," +
-					championData.ultimateEffectName
+					championData.ultimateEffectName + "," +
+					championData.atkActionUniqueKey + "," +
+					championData.skillActionUniqueKey + "," +
+					championData.ultimateActionUniqueKey
 					),
 
 			championData.champDescription,

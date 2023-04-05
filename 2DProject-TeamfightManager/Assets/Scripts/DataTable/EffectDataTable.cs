@@ -26,11 +26,19 @@ public class EffectDataTable
 
 	public EffectData GetEffectInfo(string effectName)
 	{
+#if UNITY_EDITOR
+		Debug.Assert(true == _effectsDataNameKey.ContainsKey(effectName), $"{effectName} invalid key");
+#endif
+
 		return _effectsDataNameKey[effectName];
 	}
 
 	public AnimationClip GetEffectAnimClip(string effectName)
 	{
+#if UNITY_EDITOR
+		Debug.Assert(true == _effectsAnimClipNameKey.ContainsKey(effectName), $"{effectName} invalid key");
+#endif
+
 		return _effectsAnimClipNameKey[effectName];
 	}
 }

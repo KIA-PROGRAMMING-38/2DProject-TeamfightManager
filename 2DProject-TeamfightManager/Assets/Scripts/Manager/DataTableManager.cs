@@ -13,5 +13,7 @@ public class DataTableManager : MonoBehaviour
 		pilotDataTable = new PilotDataTable();
 		effectDataTable = new EffectDataTable();
 		attackActionDataTable = new AttackActionDataTable();
+
+		Champion.s_dataTableManager = this;
 	}
 }

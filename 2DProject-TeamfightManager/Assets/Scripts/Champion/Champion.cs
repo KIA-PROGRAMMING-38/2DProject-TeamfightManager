@@ -10,17 +10,15 @@ using static UnityEngine.Rendering.DebugUI;
 public class Champion : MonoBehaviour, IAttackable, IHitable
 {
 	public static EffectManager s_effectManager { private get; set; }
+	public static DataTableManager s_dataTableManager { private get; set; }
 
 	private ChampionAnimation _animComponent;
-	public PilotBattle pilotBattleComponent { private get; set; }
+	public PilotBattle pilotBattleComponent { get; set; }
 	private Blackboard _blackboard;
 
 	public ChampionStatus status { get; private set; }
+	public ChampionData data { get; private set; }
 	public ChampionClassType type { get; set; }
-
-	public string champName { get => "Swordman"; }
-	public string atkEffectName { get => "Effect_" + champName + "_Attack"; }
-	public string skillEffectName { get => "Effect_" + champName + "_Skill"; }
 
 	public bool flipX { get => _animComponent.flipX; }
 
@@ -42,10 +40,11 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 	public bool isDead { get => _curHp == 0; }
 	public float speed { get => status.moveSpeed; private set => status.moveSpeed = value; }
 
+	public Champion targetChampion { get => _blackboard?.GetObjectValue(BlackboardKeyTable.target) as Champion; }
+
 	private AttackAction _attackAction;
 	private AttackAction _skillAction;
 	private AttackAction _curAttackAction;
-	public Champion targetChampion { get => _blackboard?.GetObjectValue(BlackboardKeyTable.target) as Champion; }
 
 	private void Awake()
 	{
@@ -63,39 +62,8 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
 		StartCoroutine(UpdateSkillCoolTime());
 
-		_attackAction = new AttackAction(this, new AttackActionData
-		{
-			isPassive = false,
-			uniqueKey = 0,
-			impactRange = 0,
-			impactRangeType = (int)ImpactRangeKind.OnlyTarget
-		});
-		_attackAction.AddImpactData(new AttackImpactData
-		{
-			amount = 10,
-			detailKind = (int)AttackImpactType.DefaultAttack,
-			duration = 0,
-			kind = (int)AttackImpactEffectKind.Attack,
-			tickTime = 0,
-			targetDecideKind = (int)TargetDecideKind.AllTarget
-		});
-
-		_skillAction = new AttackAction(this, new AttackActionData
-		{
-			isPassive = false,
-			uniqueKey = 1,
-			impactRange = 0,
-			impactRangeType = (int)ImpactRangeKind.Range_Circle
-		});
-		_skillAction.AddImpactData(new AttackImpactData
-		{
-			amount = 20,
-			detailKind = (int)AttackImpactType.DefaultAttack,
-			duration = 0,
-			kind = (int)AttackImpactEffectKind.Attack,
-			tickTime = 0,
-			targetDecideKind = (int)TargetDecideKind.AllTarget
-		});
+		//_attackAction;
+		//_skillAction;
 	}
 
 	private void OnDisable()
@@ -133,19 +101,27 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 		switch (_effectCategory)
 		{
 			case "Attack":
-				return atkEffectName;
+				return data.atkEffectName;
 			case "Skill":
-				return skillEffectName;
+				return data.skillEffectName;
 		}
 
 		return "";
 	}
 
-	public void SetupNecessaryData(ChampionStatus status, ChampionAnimData animData)
+	public void SetupNecessaryData(ChampionStatus status, ChampionData champData, ChampionAnimData animData)
 	{
 		this.status = status;
+		this.data = champData;
 
 		_animComponent.animData = animData;
+
+		_attackAction = s_dataTableManager.attackActionDataTable.GetAttackAction(this.data.atkActionUniqueKey);
+		_skillAction = s_dataTableManager.attackActionDataTable.GetAttackAction(this.data.skillActionUniqueKey);
+		//_ult = s_dataTableManager.attackActionDataTable.GetAttackAction(this.data.ultimateActionUniqueKey);
+
+		_attackAction.ownerChampion = this;
+		_skillAction.ownerChampion = this;
 
 		SetupBlackboard();
 	}
@@ -169,7 +145,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 	{
 		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, false);
 
-		yield return YieldInstructionStore.GetWaitForSec(status.atkSpeed);
+		yield return YieldInstructionStore.GetWaitForSec(1f / status.atkSpeed);
 
 		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, true);
 	}
@@ -178,7 +154,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 	{
 		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
 
-		yield return YieldInstructionStore.GetWaitForSec(status.atkSpeed * 2);
+		yield return YieldInstructionStore.GetWaitForSec(status.skillCooltime);
 
 		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, true);
 	}
@@ -253,6 +229,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 	private void OnAnimationEnd()
 	{
 		_curAttackAction?.OnEnd();
+		_curAttackAction = null;
 		_blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, false);
 	}
 

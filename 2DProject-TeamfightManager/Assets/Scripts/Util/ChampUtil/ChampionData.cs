@@ -9,6 +9,10 @@ public class ChampionData
 	public string skillEffectName;
 	public string ultimateEffectName;
 
+	public int atkActionUniqueKey;
+	public int skillActionUniqueKey;
+	public int ultimateActionUniqueKey;
+
 	public string champDescription;
 }
 

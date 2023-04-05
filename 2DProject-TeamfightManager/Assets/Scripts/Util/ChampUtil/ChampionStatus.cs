@@ -6,4 +6,5 @@ public class ChampionStatus
 	public int defence;
 	public int hp;
 	public float moveSpeed;
+	public float skillCooltime;
 }

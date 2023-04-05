@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 public class AttackAction
 {
@@ -11,15 +12,27 @@ public class AttackAction
 
 	private Champion[] _findTargetsCache;
 
+	public Champion ownerChampion
+	{
+		set
+		{
+#if UNITY_EDITOR
+			Debug.Assert(null != _decideTargetLogic && null != value, "AttackAction's ownerChampion : invalid reference");
+
+#endif
+			_decideTargetLogic.ownerChampion = value;
+		}
+	}
+
 	static AttackAction()
 	{
 		s_actionImpactLogics = new ActionImpactBase[(int)AttackImpactEffectKind.End];
-		s_actionImpactLogics[(int)AttackImpactEffectKind.Buff] = null;
-		s_actionImpactLogics[(int)AttackImpactEffectKind.Debuff] = null;
+		s_actionImpactLogics[(int)AttackImpactEffectKind.Buff] = new Impact_Debuf();
+		s_actionImpactLogics[(int)AttackImpactEffectKind.Debuff] = new Impact_Debuf();
 		s_actionImpactLogics[(int)AttackImpactEffectKind.Attack] = new Impact_AttackDamage();
 	}
 
-	public AttackAction(Champion ownerChampion, AttackActionData attackActionData)
+	public AttackAction(AttackActionData attackActionData)
 	{
 		_actionData = attackActionData;
 		_impactData = new List<AttackImpactData>();
@@ -31,11 +44,11 @@ public class AttackAction
 		switch (impactRangeKind)
 		{
 			case ImpactRangeKind.OnlyTarget:
-				_decideTargetLogic = new DecideTarget_OnlyTarget(ownerChampion, _actionData);
+				_decideTargetLogic = new DecideTarget_OnlyTarget(_actionData);
 				break;
 
 			case ImpactRangeKind.Range_Circle:
-				_decideTargetLogic = new DecideTarget_InCircleRange(ownerChampion, _actionData);
+				_decideTargetLogic = new DecideTarget_InCircleRange(_actionData);
 				break;
 		}
 	}
