@@ -29,6 +29,7 @@ public static class GameSaveLoader
 				if (attackActionsFilePath[i].Contains(".meta"))
 					continue;
 
+				// 각각의 공격 행동에게 필요한 데이터 파일을 불러와 데이터 테이블에 저장..
 				AttackActionData getActionData;
 				List<AttackImpactData> getImpactDatas;
 				AttackPerformanceData getPerformanceData;
@@ -50,6 +51,7 @@ public static class GameSaveLoader
 				if (championsFilePath[i].Contains(".meta"))
 					continue;
 
+				// 각각의 챔피언에게 필요한 데이터 파일을 불러와 데이터 테이블에 저장..
 				ChampionStatus championStatus;
 				ChampionData championData;
 				ChampionResourceData resourceData;
@@ -73,6 +75,7 @@ public static class GameSaveLoader
 				if (effectsFilePath[i].Contains(".meta"))
 					continue;
 
+				// 각각의 이펙트에게 필요한 데이터 파일을 불러와 데이터 테이블에 저장..
 				EffectData effectData;
 
 				if (true == SaveLoadLogic.LoadEffectFile(effectsFilePath[i], out effectData))
@@ -93,6 +96,7 @@ public static class GameSaveLoader
 				if (pilotsFilePath[i].Contains(".meta"))
 					continue;
 
+				// 각각의 파일럿에게 필요한 데이터 파일을 불러와 데이터 테이블에 저장..
 				PilotData pilotData;
 
 				if (true == SaveLoadLogic.LoadPilotFile(pilotsFilePath[i], out pilotData))

@@ -7,6 +7,7 @@ public static class SaveLoadLogic
 {
 	public static bool LoadChampionFile(string fileName, out ChampionStatus getChampionStatus, out ChampionData getChampData, out ChampionResourceData getResourceData)
 	{
+		// 파일이 있는지 검사..
 		if (false == File.Exists(fileName))
 		{
 			getChampionStatus = null;
@@ -65,6 +66,7 @@ public static class SaveLoadLogic
 
 		string[] saveDatas =
 		{
+			// 챔피언 status 저장..
 			new string(
 				championStatus.atkStat + "," +
 				championStatus.atkSpeed + "," +
@@ -75,6 +77,7 @@ public static class SaveLoadLogic
 				championStatus.skillCooltime
 				),
 
+			// 챔피언 Data 저장..
 			new string(
 					championData.name + "," +
 					(int)championData.type + "," +
@@ -88,6 +91,7 @@ public static class SaveLoadLogic
 
 			championData.champDescription,
 
+			// 챔피언 Resource Data 저장..
 			champResourceData.champIconImagePath + "," +
 			champResourceData.skillIconImagePath + "," +
 			champResourceData.ultimateIconImagePath,
@@ -98,6 +102,7 @@ public static class SaveLoadLogic
 
 	public static bool LoadPilotFile(string fileName, out PilotData getPilotData)
 	{
+		// 파일이 있는지 검사..
 		if (false == File.Exists(fileName))
 		{
 			getPilotData = null;
@@ -133,11 +138,13 @@ public static class SaveLoadLogic
 	{
 		string filePath = Path.Combine(baseGameSaveFilePath, "Pilot", pilotName + fileExtension);
 
+		// 파일럿 data 저장..
 		string saveDatas =
 			pilotData.name + "," +
 			pilotData.atkStat + "," +
 			pilotData.defStat + "\n";
 
+		// 파일럿 숙련도 저장..
 		if (null != pilotData.champSkillLevelContainer)
 		{
 			saveDatas += pilotData.champSkillLevelContainer.Count;
@@ -157,6 +164,7 @@ public static class SaveLoadLogic
 
 	public static bool LoadEffectFile(string fileName, out EffectData getEffectData)
 	{
+		// 파일이 있는지 여부 판단..
 		if (false == File.Exists(fileName))
 		{
 			getEffectData = null;
@@ -164,6 +172,8 @@ public static class SaveLoadLogic
 		}
 
 		string loadData = File.ReadAllText(fileName);
+
+		// 이펙트 Data 파일에서 불러와 저장..
 		string[] effectDatas = loadData.Split(',');
 
 		getEffectData = new EffectData();
@@ -182,6 +192,7 @@ public static class SaveLoadLogic
 	{
 		string filePath = Path.Combine(baseGameSaveFilePath, "Effect", effectData.name + fileExtension);
 
+		// 이펙트 data 저장..
 		string saveDatas =
 			effectData.name + "," +
 			effectData.animClipPath + "," +
@@ -200,6 +211,7 @@ public static class SaveLoadLogic
 	public static bool LoadAttackActionFile(string fileName, out AttackActionData getActionData, out List<AttackImpactData> getImpactDatas, 
 		out AttackPerformanceData getPerformaceData)
 	{
+		// 파일 있는지 유무 판단..
 		if (false == File.Exists(fileName))
 		{
 			getActionData = null;
@@ -210,6 +222,7 @@ public static class SaveLoadLogic
 
 		string[] loadData = File.ReadAllLines(fileName);
 
+		// 공격 행동 Data 저장..
 		string[] attackActionData = loadData[0].Split(',');
 
 		getActionData = new AttackActionData();
@@ -219,6 +232,7 @@ public static class SaveLoadLogic
 		getActionData.impactRangeType = int.Parse(attackActionData[3]);
 		getActionData.actionStartPointKind = int.Parse(attackActionData[4]);
 
+		// Attack Impact Data 저장..
 		int impactDataCount = int.Parse(loadData[1]);
 		getImpactDatas = new List<AttackImpactData>(impactDataCount);
 
@@ -240,6 +254,7 @@ public static class SaveLoadLogic
 				});
 		}
 
+		// Attack Performance 저장..
 		string[] performaceDatas = loadData[index++].Split(',');
 
 		getPerformaceData = new AttackPerformanceData();
@@ -281,6 +296,7 @@ public static class SaveLoadLogic
 	{
 		string filePath = Path.Combine(baseGameSaveFilePath, "AttackAction", attackActionName + fileExtension);
 
+		// 공격 Data 저장..
 		string[] saveDatas = new string[attackImpactDatas.Count + 2 + 3];
 
 		saveDatas[0] = new string(
@@ -291,6 +307,7 @@ public static class SaveLoadLogic
 				attackAcionData.actionStartPointKind
 				);
 
+		// Attack Impact Data 저장..
 		int impactDataCount = attackImpactDatas.Count;
 		saveDatas[1] = impactDataCount.ToString();
 
@@ -309,6 +326,7 @@ public static class SaveLoadLogic
 
 		int index = impactDataCount + 3;
 
+		// Attack Performance Data 저장..
 		saveDatas[index++] = new string(
 			performanceData.isUsePerf + "," +
 			(int)performanceData.perfType + "," +
