@@ -43,6 +43,7 @@ public class ChampionBT : BehaviourTree
 
 		// Vector 값들 기본 세팅..
 		blackboard.SetVectorValue(BlackboardKeyTable.moveDirection, Vector3.zero);
+		blackboard.SetVectorValue(BlackboardKeyTable.effectDirection, Vector3.zero);
 
 		// Object 값들 기본 세팅..
 		blackboard.SetObjectValue(BlackboardKeyTable.target, null);

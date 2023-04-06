@@ -48,6 +48,8 @@ public class Effect : MonoBehaviour
                 offsetPosition.x *= -1f;
 
             transform.Translate(offsetPosition);
+
+            _animator.Play("Effect");
         }
     }
 
@@ -77,7 +79,7 @@ public class Effect : MonoBehaviour
     {
         if (data.rotationType == EffectRotationType.SettingToOwner)
         {
-            transform.LookAt(transform.position + rotationDirection);
+            transform.right = rotationDirection.normalized;
             _spriteRenderer.flipX = false;
 		}
     }

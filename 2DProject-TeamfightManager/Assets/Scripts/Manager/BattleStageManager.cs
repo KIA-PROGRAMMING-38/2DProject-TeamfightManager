@@ -71,7 +71,7 @@ public class BattleStageManager : MonoBehaviour
 
 	private void SetupPilot()
 	{
-		int pilotCount = 3;
+		int pilotCount = 100;
 
 		for (int i = 0; i < pilotCount; ++i)
 		{

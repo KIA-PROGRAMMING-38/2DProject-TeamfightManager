@@ -7,10 +7,16 @@ public class AttackAction
 
 	private AttackActionData _actionData;
 	private List<AttackImpactData> _impactData;
+	private ActionContinuousPerformance _contPerf;
 
 	private AtkActionDecideTargetBase _decideTargetLogic;
 
 	private Champion[] _findTargetsCache;
+
+	private bool _isEndAction;
+	private bool _isEndAnimation;
+
+	public bool isEndAction { get => _isEndAnimation && _isEndAction; }
 
 	public Champion ownerChampion
 	{
@@ -21,6 +27,8 @@ public class AttackAction
 
 #endif
 			_decideTargetLogic.ownerChampion = value;
+			if (null != _contPerf)
+				_contPerf.ownerChampion = value;
 		}
 	}
 
@@ -32,7 +40,7 @@ public class AttackAction
 		s_actionImpactLogics[(int)AttackImpactEffectKind.Attack] = new Impact_AttackDamage();
 	}
 
-	public AttackAction(AttackActionData attackActionData)
+	public AttackAction(AttackActionData attackActionData, AttackPerformanceData performanceData)
 	{
 		_actionData = attackActionData;
 		_impactData = new List<AttackImpactData>();
@@ -50,6 +58,20 @@ public class AttackAction
 			case ImpactRangeKind.Range_Circle:
 				_decideTargetLogic = new DecideTarget_InCircleRange(_actionData);
 				break;
+
+			case ImpactRangeKind.Range_InTwoPointBox:
+				_decideTargetLogic = new DecideTarget_InTwoPoint(_actionData);
+				break;
+		}
+
+		if (true == performanceData.isUsePerf)
+		{
+			switch (performanceData.perfType)
+			{
+				case AttackPerformanceType.Move:
+					_contPerf = new ContPerf_Move(performanceData);
+					break;
+			}
 		}
 	}
 
@@ -65,16 +87,38 @@ public class AttackAction
 
 	public void OnStart()
 	{
+		_isEndAction = false;
+		_isEndAnimation = false;
+
 		_decideTargetLogic.OnStart();
+		_contPerf?.OnStart();
+	}
+
+	public void OnUpdate()
+	{
+		if (null != _contPerf)
+		{
+			_contPerf.OnUpdate();
+		}
 	}
 
 	public void OnAction()
 	{
+		if (null == _contPerf)
+		{
+			_isEndAction = true;
+		}
+		else
+		{
+			_contPerf.OnAction();
+			_isEndAction = _contPerf.isEndPerformance;
+		}
+
 		int findTargetCount = _decideTargetLogic.FindTarget(_findTargetsCache);
 		for (int i = 0; i < findTargetCount; ++i)
 		{
 			int jLoopCount = _impactData.Count;
-			for( int j = 0; j < jLoopCount; ++j)
+			for (int j = 0; j < jLoopCount; ++j)
 			{
 				s_actionImpactLogics[_impactData[j].kind].Impact(_findTargetsCache[i], _impactData[j]);
 			}
@@ -84,5 +128,11 @@ public class AttackAction
 	public void OnEnd()
 	{
 		_decideTargetLogic.OnEnd();
+		_contPerf?.OnEnd();
+	}
+
+	public void OnAnimationEndEvent()
+	{
+		_isEndAnimation = true;
 	}
 }

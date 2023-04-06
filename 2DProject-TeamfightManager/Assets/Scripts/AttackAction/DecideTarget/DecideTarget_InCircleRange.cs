@@ -19,12 +19,18 @@ public class DecideTarget_InCircleRange : AtkActionDecideTargetBase
 
 	public override int FindTarget(Champion[] getTargetArray)
 	{
+		if (null == ownerChampion)
+			return 0;
+
 		ActionStartPointKind startPointKind = (ActionStartPointKind)actionData.actionStartPointKind;
 		Vector3 startPoint = Vector3.zero;
 
 		switch (startPointKind)
 		{
 			case ActionStartPointKind.TargetPosition:
+				if (null == ownerChampion.targetChampion)
+					return 0;
+
 				startPoint = ownerChampion.targetChampion.transform.position;
 
 				break;

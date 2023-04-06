@@ -139,6 +139,7 @@ public class ChampionAnimation : MonoBehaviour
 				break;
 			case AnimState.Ultimate:
 				_animator.SetTrigger(s_ultKeyHash);
+				StartCoroutine(WaitAnimationEnd(_ultAnimRuntime, 0.1f));
 
 				break;
 			case AnimState.Dead:
