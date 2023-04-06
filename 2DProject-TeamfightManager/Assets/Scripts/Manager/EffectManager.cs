@@ -76,12 +76,14 @@ public class EffectManager : MonoBehaviour
 	/// 외부에서 이펙트를 가져오려고 할 때 사용할 함수..
 	/// </summary>
 	/// <param name="effectName"> 가져오고 싶은 이펙트 이름.. </param>
-	public Effect GetEffect(string effectName)
+	public Effect GetEffect(string effectName, in Vector3 position)
     {
 		Effect outEffect = _pooler.Get();
 
 		outEffect.data = _effectDataTable.GetEffectInfo(effectName);
 		outEffect.clip = _effectDataTable.GetEffectAnimClip(effectName);
+
+		outEffect.transform.position = position;
 
 		return outEffect;
     }
