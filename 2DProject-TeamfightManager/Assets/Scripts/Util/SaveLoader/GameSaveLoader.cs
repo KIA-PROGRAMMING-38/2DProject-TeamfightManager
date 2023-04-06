@@ -31,9 +31,10 @@ public static class GameSaveLoader
 
 				AttackActionData getActionData;
 				List<AttackImpactData> getImpactDatas;
-				if (true == SaveLoadLogic.LoadAttackActionFile(attackActionsFilePath[i], out getActionData, out getImpactDatas))
+				AttackPerformanceData getPerformanceData;
+				if (true == SaveLoadLogic.LoadAttackActionFile(attackActionsFilePath[i], out getActionData, out getImpactDatas, out getPerformanceData))
 				{
-					dataTableManager.attackActionDataTable.AddActionData(getActionData, getImpactDatas);
+					dataTableManager.attackActionDataTable.AddActionData(getActionData, getImpactDatas, getPerformanceData);
 				}
 			}
 		}

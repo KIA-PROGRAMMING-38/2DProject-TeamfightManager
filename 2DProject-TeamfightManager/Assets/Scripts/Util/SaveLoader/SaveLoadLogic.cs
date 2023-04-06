@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -196,12 +197,14 @@ public static class SaveLoadLogic
 	}
 
 	// ==================================== AttackAction Save Load.. ==================================== //
-	public static bool LoadAttackActionFile(string fileName, out AttackActionData getActionData, out List<AttackImpactData> getImpactDatas)
+	public static bool LoadAttackActionFile(string fileName, out AttackActionData getActionData, out List<AttackImpactData> getImpactDatas, 
+		out AttackPerformanceData getPerformaceData)
 	{
 		if (false == File.Exists(fileName))
 		{
 			getActionData = null;
 			getImpactDatas = null;
+			getPerformaceData = null;
 			return false;
 		}
 
@@ -219,9 +222,10 @@ public static class SaveLoadLogic
 		int impactDataCount = int.Parse(loadData[1]);
 		getImpactDatas = new List<AttackImpactData>(impactDataCount);
 
+		int index = 2;
 		for (int i = 0; i < impactDataCount; ++i)
 		{
-			string[] impactData = loadData[i + 2].Split(',');
+			string[] impactData = loadData[index++].Split(',');
 
 			getImpactDatas.Add(
 				new AttackImpactData
@@ -236,15 +240,48 @@ public static class SaveLoadLogic
 				});
 		}
 
+		string[] performaceDatas = loadData[index++].Split(',');
+
+		getPerformaceData = new AttackPerformanceData();
+
+		getPerformaceData.isUsePerf = bool.Parse(performaceDatas[0]);
+		getPerformaceData.perfType = (AttackPerformanceType)int.Parse(performaceDatas[1]);
+		getPerformaceData.detailType = int.Parse(performaceDatas[2]);
+
+		string[] performaceVectprDatas = loadData[index++].Split(',');
+		int vectorDataSize = int.Parse(performaceVectprDatas[0]);
+		if (0 < vectorDataSize)
+		{
+			getPerformaceData.vectorData = new Vector3[vectorDataSize];
+			for (int i = 0; i < vectorDataSize; ++i)
+			{
+				Vector3 vectorData = new Vector3(float.Parse(performaceVectprDatas[i * 3 + 1]),
+					float.Parse(performaceVectprDatas[i * 3 + 2]), float.Parse(performaceVectprDatas[i * 3 + 3]));
+				getPerformaceData.vectorData[i] = vectorData;
+			}
+		}
+
+		string[] performaceFloatDatas = loadData[index++].Split(',');
+		int floatDataSize = int.Parse(performaceFloatDatas[0]);
+		if (0 < floatDataSize)
+		{
+			getPerformaceData.floatData = new float[floatDataSize];
+			for (int i = 0; i < floatDataSize; ++i)
+			{
+				getPerformaceData.floatData[i] = float.Parse(performaceFloatDatas[i + 1]);
+			}
+		}
+
 		return true;
 	}
 
 	public static void SaveAttackActionFile(
-		AttackActionData attackAcionData, List<AttackImpactData> attackImpactDatas, string baseGameSaveFilePath, string attackActionName, string fileExtension)
+		AttackActionData attackAcionData, List<AttackImpactData> attackImpactDatas, AttackPerformanceData performanceData
+		, string baseGameSaveFilePath, string attackActionName, string fileExtension)
 	{
 		string filePath = Path.Combine(baseGameSaveFilePath, "AttackAction", attackActionName + fileExtension);
 
-		string[] saveDatas = new string[attackImpactDatas.Count + 2];
+		string[] saveDatas = new string[attackImpactDatas.Count + 2 + 3];
 
 		saveDatas[0] = new string(
 				attackAcionData.uniqueKey + "," +
@@ -267,7 +304,33 @@ public static class SaveLoadLogic
 				attackImpactDatas[i].tickTime + "," +
 				attackImpactDatas[i].targetDecideKind + "," +
 				attackImpactDatas[i].targetTeamKind
-				);
+			);
+		}
+
+		int index = impactDataCount + 3;
+
+		saveDatas[index++] = new string(
+			performanceData.isUsePerf + "," +
+			(int)performanceData.perfType + "," +
+			performanceData.detailType
+			);
+
+		int vectorDataSize = (null != performanceData.vectorData) ? performanceData.vectorData.Length : 0;
+		saveDatas[index] = vectorDataSize.ToString();
+
+		for (int i = 0; i < vectorDataSize; ++i)
+		{
+			saveDatas[index] += "," + performanceData.vectorData[i].x + "," + performanceData.vectorData[i].y + "," + performanceData.vectorData[i].z;
+		}
+
+		++index;
+
+		int floatDataSize = (null != performanceData.floatData) ? performanceData.floatData.Length : 0;
+		saveDatas[index] = floatDataSize.ToString();
+
+		for (int i = 0; i < floatDataSize; ++i)
+		{
+			saveDatas[index] += "," + performanceData.vectorData[i].x + "," + performanceData.vectorData[i].y + "," + performanceData.vectorData[i].z;
 		}
 
 		File.WriteAllLines(filePath, saveDatas);

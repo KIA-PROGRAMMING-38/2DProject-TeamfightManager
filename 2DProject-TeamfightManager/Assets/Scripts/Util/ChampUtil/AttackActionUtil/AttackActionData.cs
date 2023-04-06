@@ -2,6 +2,7 @@
 {
 	OnlyTarget,
 	Range_Circle,
+	Range_InTwoPointBox
 }
 
 public enum ActionStartPointKind
