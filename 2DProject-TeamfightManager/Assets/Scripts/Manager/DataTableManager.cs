@@ -9,6 +9,7 @@ public class DataTableManager : MonoBehaviour
 	public PilotDataTable pilotDataTable { get; private set; }
 	public EffectDataTable effectDataTable { get; private set; }
 	public AttackActionDataTable attackActionDataTable { get; private set; }
+	public BattleStageDataTable battleStageDataTable { get; private set; }
 
 	private void Awake()
 	{
@@ -16,6 +17,7 @@ public class DataTableManager : MonoBehaviour
 		pilotDataTable = new PilotDataTable();
 		effectDataTable = new EffectDataTable();
 		attackActionDataTable = new AttackActionDataTable();
+		battleStageDataTable = new BattleStageDataTable();
 
 		Champion.s_dataTableManager = this;
 	}

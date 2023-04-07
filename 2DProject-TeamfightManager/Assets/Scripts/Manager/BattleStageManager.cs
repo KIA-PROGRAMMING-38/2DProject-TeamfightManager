@@ -17,6 +17,8 @@ public class BattleStageManager : MonoBehaviour
 			_dataTableManager = gameManager.dataTableManager;
 			_championManager = gameManager.championManager;
 			_pilotManager = gameManager.pilotManager;
+
+			_battleStageDataTable = _dataTableManager.battleStageDataTable;
 		}
 	}
 
@@ -24,6 +26,7 @@ public class BattleStageManager : MonoBehaviour
 	private ChampionManager _championManager;
 	private PilotManager _pilotManager;
 	private DataTableManager _dataTableManager;
+	private BattleStageDataTable _battleStageDataTable;
 
 	public BattleTeam redTeam { get; private set; }
 	public BattleTeam blueTeam { get; private set; }
@@ -38,10 +41,25 @@ public class BattleStageManager : MonoBehaviour
 		new Vector2(-5f, -2.5f), new Vector2(-3f, 1.5f)
 	};
 
+	private void Awake()
+	{
+		
+	}
+
 	private void Start()
 	{
 		SetupBattleTeam();
 		SetupPilot();
+
+		_battleStageDataTable.OnUpdateBattleRemainTime -= OnUpdateBattleRemainTime;
+		_battleStageDataTable.OnUpdateBattleRemainTime += OnUpdateBattleRemainTime;
+
+		_battleStageDataTable.Initialize(10f);
+	}
+
+	private void Update()
+	{
+		_battleStageDataTable.updateTime = Time.deltaTime;
 	}
 
 	private void SetupBattleTeam()
@@ -85,5 +103,36 @@ public class BattleStageManager : MonoBehaviour
 
 		redTeam.TestColorChange(Color.red);
 		blueTeam.TestColorChange(Color.blue);
+	}
+
+	UnityEngine.UI.Text _remainTimeText;
+
+	private void OnUpdateBattleRemainTime(float remainTime)
+	{
+		if(null == _remainTimeText)
+		{
+			_remainTimeText = GameObject.Find("remainingTimeText").GetComponent<UnityEngine.UI.Text>();
+		}
+
+		// 소수점 자리 올린 뒤 텍스트 표현..
+		_remainTimeText.text = ((int)(remainTime + 0.99f)).ToString();
+
+		if (remainTime <= 0f)
+		{
+			OnBattleEnd();
+
+			_battleStageDataTable.Reset();
+		}
+	}
+
+	// 배틀 종료 시 호출될 함수..
+	private void OnBattleEnd()
+	{
+		Debug.Log("배틀이 종료되었다.");
+
+		StopAllCoroutines();
+
+		redTeam.OnBattleEnd();
+		blueTeam.OnBattleEnd();
 	}
 }

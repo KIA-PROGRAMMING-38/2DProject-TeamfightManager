@@ -95,6 +95,17 @@ public class BattleTeam : MonoBehaviour
 		_activeChampions.Add(champion);
 	}
 
+	public void OnBattleEnd()
+	{
+		StopAllCoroutines();
+
+		int loopCount = _pilots.Count;
+		for (int i = 0; i < loopCount; ++i)
+		{
+			_pilots[i].StopChampionLogic();
+		}
+	}
+
 	public void TestColorChange(Color color)
 	{
 		foreach (var pilot in enemyTeam._pilots)

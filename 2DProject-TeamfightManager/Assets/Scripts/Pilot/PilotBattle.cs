@@ -27,4 +27,11 @@ public class PilotBattle : MonoBehaviour
     {
         myTeam.OnChampionDead(champion);
     }
+
+    public void StopChampionLogic()
+    {
+        _controlChampion.GetComponent<ChampionController>().enabled = false;
+        _controlChampion.GetComponentInChildren<ChampionAnimation>().ChangeState(ChampionAnimation.AnimState.Idle);
+		_controlChampion.enabled = false;
+	}
 }
