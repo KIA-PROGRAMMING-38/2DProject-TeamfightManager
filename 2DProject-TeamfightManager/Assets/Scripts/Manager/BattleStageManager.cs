@@ -105,14 +105,11 @@ public class BattleStageManager : MonoBehaviour
 		blueTeam.TestColorChange(Color.blue);
 	}
 
-	UnityEngine.UI.Text _remainTimeText;
-
+	// 배틀 남은 시간 갱신되면 호출되는 콜백 함수..
 	private void OnUpdateBattleRemainTime(float remainTime)
 	{
-		if(null == _remainTimeText)
-		{
-			_remainTimeText = GameObject.Find("remainingTimeText").GetComponent<UnityEngine.UI.Text>();
-		}
+		// 이 부분은 테스트용 코드다(UI 작업 시 UI 스크립트에서 처리하도록 바꿔야 한다)
+		UnityEngine.UI.Text _remainTimeText = GameObject.Find("remainingTimeText").GetComponent<UnityEngine.UI.Text>();
 
 		// 소수점 자리 올린 뒤 텍스트 표현..
 		_remainTimeText.text = ((int)(remainTime + 0.99f)).ToString();
@@ -128,7 +125,9 @@ public class BattleStageManager : MonoBehaviour
 	// 배틀 종료 시 호출될 함수..
 	private void OnBattleEnd()
 	{
+#if UNITY_EDITOR
 		Debug.Log("배틀이 종료되었다.");
+#endif
 
 		StopAllCoroutines();
 
