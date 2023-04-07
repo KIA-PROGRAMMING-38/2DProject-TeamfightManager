@@ -1,6 +1,9 @@
 using UnityEngine;
 using Util.Pool;
 
+/// <summary>
+/// 챔피언을 관리하는 매니저 클래스..
+/// </summary>
 public class ChampionManager : MonoBehaviour
 {
     private GameManager _gameManager;
@@ -34,6 +37,7 @@ public class ChampionManager : MonoBehaviour
 
 	}
 
+	// Champion Pooler에서 챔피언을 생성하기 위해 넘겨줄 메소드..
 	private Champion CreateChampion()
 	{
 		Champion newChampion = Instantiate<Champion>(_championDefaultPrefab);
@@ -44,6 +48,7 @@ public class ChampionManager : MonoBehaviour
 		return newChampion;
 	}
 
+	// 외부에서 챔피언 인스턴스를 받아오려고 할 때 호출될 함수..
     public Champion GetChampionInstance(string championName)
     {
         Champion newChampion = _championPooler.Get();

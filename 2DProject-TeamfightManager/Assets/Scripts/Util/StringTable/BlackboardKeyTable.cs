@@ -17,6 +17,9 @@
 	public const string isCanActSkill = "isCanActSkill";
 	public const string isCanActUltimate = "isCanActUltimate";
 
+	// Effect 관련..
+	public const string effectDirection = "effectDirection";
+
 	// 타겟 관련..
 	public const string target = "target";
 	public const string targetDistance = "isDeath";

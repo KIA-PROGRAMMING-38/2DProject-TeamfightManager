@@ -1,104 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
 public static class SaveLoadLogic
 {
-	public static void LoadGameFile(string filePath, DataTableManager dataTableManager)
-	{
-		{
-			// Attack Action의 파일들 불러온다..
-			string attackDataActionDefaultPath = Path.Combine(filePath, "AttackAction");
-			string[] attackActionsFilePath = Directory.GetFiles(attackDataActionDefaultPath);
-
-			int loopCount = attackActionsFilePath.Length;
-			dataTableManager.attackActionDataTable.actionCount = loopCount / 2;
-
-			for (int i = 0; i < loopCount; ++i)
-			{
-				if (attackActionsFilePath[i].Contains(".meta"))
-					continue;
-
-				AttackActionData getActionData;
-				List<AttackImpactData> getImpactDatas;
-				if (true == LoadAttackActionFile(attackActionsFilePath[i], out getActionData, out getImpactDatas))
-				{
-					dataTableManager.attackActionDataTable.AddActionData(getActionData, getImpactDatas);
-				}
-			}
-		}
-
-		{
-			// Champion의 파일들 불러온다..
-			string championDataDefaultPath = Path.Combine(filePath, "Champion");
-			string[] championsFilePath = Directory.GetFiles(championDataDefaultPath);
-
-			int loopCount = championsFilePath.Length;
-			for (int i = 0; i < loopCount; ++i)
-			{
-				if (championsFilePath[i].Contains(".meta"))
-					continue;
-
-				ChampionStatus championStatus;
-				ChampionData championData;
-				ChampionResourceData resourceData;
-
-				if (true == LoadChampionFile(championsFilePath[i], out championStatus, out championData, out resourceData))
-				{
-					dataTableManager.championDataTable.AddChampionData(championData.name, championData, championStatus, resourceData);
-					dataTableManager.championDataTable.AddChampionAnimData(championData.name, CreateChampAnimData(championData.name));
-				}
-			}
-		}
-
-		{
-			// Effect의 파일들 불러온다..
-			string effectDataDefaultPath = Path.Combine(filePath, "Effect");
-			string[] effectsFilePath = Directory.GetFiles(effectDataDefaultPath);
-
-			int loopCount = effectsFilePath.Length;
-			for (int i = 0; i < loopCount; ++i)
-			{
-				if (effectsFilePath[i].Contains(".meta"))
-					continue;
-
-				EffectData effectData;
-
-				if (true == LoadEffectFile(effectsFilePath[i], out effectData))
-				{
-					dataTableManager.effectDataTable.AddEffectInfo(effectData.name, effectData);
-				}
-			}
-		}
-
-		{
-			// Pilot의 파일들 불러온다..
-			string pilotDataDefaultPath = Path.Combine(filePath, "Pilot");
-			string[] pilotsFilePath = Directory.GetFiles(pilotDataDefaultPath);
-
-			int loopCount = pilotsFilePath.Length;
-			for (int i = 0; i < loopCount; ++i)
-			{
-				if (pilotsFilePath[i].Contains(".meta"))
-					continue;
-
-				PilotData pilotData;
-
-				if (true == LoadPilotFile(pilotsFilePath[i], out pilotData))
-				{
-					dataTableManager.pilotDataTable.AddPilotData(pilotData.name, pilotData);
-				}
-			}
-		}
-	}
-
-	public static void SaveGameFile(string filePath, DataTableManager dataTableManager)
-	{
-		
-	}
-
 	public static bool LoadChampionFile(string fileName, out ChampionStatus getChampionStatus, out ChampionData getChampData, out ChampionResourceData getResourceData)
 	{
+		// 파일이 있는지 검사..
 		if (false == File.Exists(fileName))
 		{
 			getChampionStatus = null;
@@ -157,6 +66,7 @@ public static class SaveLoadLogic
 
 		string[] saveDatas =
 		{
+			// 챔피언 status 저장..
 			new string(
 				championStatus.atkStat + "," +
 				championStatus.atkSpeed + "," +
@@ -167,6 +77,7 @@ public static class SaveLoadLogic
 				championStatus.skillCooltime
 				),
 
+			// 챔피언 Data 저장..
 			new string(
 					championData.name + "," +
 					(int)championData.type + "," +
@@ -180,6 +91,7 @@ public static class SaveLoadLogic
 
 			championData.champDescription,
 
+			// 챔피언 Resource Data 저장..
 			champResourceData.champIconImagePath + "," +
 			champResourceData.skillIconImagePath + "," +
 			champResourceData.ultimateIconImagePath,
@@ -190,6 +102,7 @@ public static class SaveLoadLogic
 
 	public static bool LoadPilotFile(string fileName, out PilotData getPilotData)
 	{
+		// 파일이 있는지 검사..
 		if (false == File.Exists(fileName))
 		{
 			getPilotData = null;
@@ -225,11 +138,13 @@ public static class SaveLoadLogic
 	{
 		string filePath = Path.Combine(baseGameSaveFilePath, "Pilot", pilotName + fileExtension);
 
+		// 파일럿 data 저장..
 		string saveDatas =
 			pilotData.name + "," +
-			pilotData.atkStat.ToString() + "," +
-			pilotData.defStat.ToString() + "\n";
+			pilotData.atkStat + "," +
+			pilotData.defStat + "\n";
 
+		// 파일럿 숙련도 저장..
 		if (null != pilotData.champSkillLevelContainer)
 		{
 			saveDatas += pilotData.champSkillLevelContainer.Count;
@@ -249,6 +164,7 @@ public static class SaveLoadLogic
 
 	public static bool LoadEffectFile(string fileName, out EffectData getEffectData)
 	{
+		// 파일이 있는지 여부 판단..
 		if (false == File.Exists(fileName))
 		{
 			getEffectData = null;
@@ -256,6 +172,8 @@ public static class SaveLoadLogic
 		}
 
 		string loadData = File.ReadAllText(fileName);
+
+		// 이펙트 Data 파일에서 불러와 저장..
 		string[] effectDatas = loadData.Split(',');
 
 		getEffectData = new EffectData();
@@ -265,6 +183,7 @@ public static class SaveLoadLogic
 		getEffectData.isAutoDestroy = bool.Parse(effectDatas[5]);
 		getEffectData.isUseLifeTime = bool.Parse(effectDatas[6]);
 		getEffectData.lifeTime = float.Parse(effectDatas[7]);
+		getEffectData.rotationType = (EffectRotationType)int.Parse(effectDatas[8]);
 
 		return true;
 	}
@@ -273,31 +192,37 @@ public static class SaveLoadLogic
 	{
 		string filePath = Path.Combine(baseGameSaveFilePath, "Effect", effectData.name + fileExtension);
 
+		// 이펙트 data 저장..
 		string saveDatas =
 			effectData.name + "," +
 			effectData.animClipPath + "," +
 			effectData.offsetPos.x + "," +
 			effectData.offsetPos.y + "," +
 			effectData.offsetPos.z + "," +
-			effectData.isAutoDestroy.ToString() + "," +
-			effectData.isUseLifeTime.ToString() + "," +
-			effectData.lifeTime.ToString();
+			effectData.isAutoDestroy + "," +
+			effectData.isUseLifeTime + "," +
+			effectData.lifeTime + "," +
+			effectData.rotationType;
 
 		File.WriteAllText(filePath, saveDatas);
 	}
 
 	// ==================================== AttackAction Save Load.. ==================================== //
-	public static bool LoadAttackActionFile(string fileName, out AttackActionData getActionData, out List<AttackImpactData> getImpactDatas)
+	public static bool LoadAttackActionFile(string fileName, out AttackActionData getActionData, out List<AttackImpactData> getImpactDatas, 
+		out AttackPerformanceData getPerformaceData)
 	{
+		// 파일 있는지 유무 판단..
 		if (false == File.Exists(fileName))
 		{
 			getActionData = null;
 			getImpactDatas = null;
+			getPerformaceData = null;
 			return false;
 		}
 
 		string[] loadData = File.ReadAllLines(fileName);
 
+		// 공격 행동 Data 저장..
 		string[] attackActionData = loadData[0].Split(',');
 
 		getActionData = new AttackActionData();
@@ -307,12 +232,14 @@ public static class SaveLoadLogic
 		getActionData.impactRangeType = int.Parse(attackActionData[3]);
 		getActionData.actionStartPointKind = int.Parse(attackActionData[4]);
 
+		// Attack Impact Data 저장..
 		int impactDataCount = int.Parse(loadData[1]);
 		getImpactDatas = new List<AttackImpactData>(impactDataCount);
 
+		int index = 2;
 		for (int i = 0; i < impactDataCount; ++i)
 		{
-			string[] impactData = loadData[i + 2].Split(',');
+			string[] impactData = loadData[index++].Split(',');
 
 			getImpactDatas.Add(
 				new AttackImpactData
@@ -327,15 +254,50 @@ public static class SaveLoadLogic
 				});
 		}
 
+		// Attack Performance 저장..
+		string[] performaceDatas = loadData[index++].Split(',');
+
+		getPerformaceData = new AttackPerformanceData();
+
+		getPerformaceData.isUsePerf = bool.Parse(performaceDatas[0]);
+		getPerformaceData.perfType = (AttackPerformanceType)int.Parse(performaceDatas[1]);
+		getPerformaceData.detailType = int.Parse(performaceDatas[2]);
+
+		string[] performaceVectprDatas = loadData[index++].Split(',');
+		int vectorDataSize = int.Parse(performaceVectprDatas[0]);
+		if (0 < vectorDataSize)
+		{
+			getPerformaceData.vectorData = new Vector3[vectorDataSize];
+			for (int i = 0; i < vectorDataSize; ++i)
+			{
+				Vector3 vectorData = new Vector3(float.Parse(performaceVectprDatas[i * 3 + 1]),
+					float.Parse(performaceVectprDatas[i * 3 + 2]), float.Parse(performaceVectprDatas[i * 3 + 3]));
+				getPerformaceData.vectorData[i] = vectorData;
+			}
+		}
+
+		string[] performaceFloatDatas = loadData[index++].Split(',');
+		int floatDataSize = int.Parse(performaceFloatDatas[0]);
+		if (0 < floatDataSize)
+		{
+			getPerformaceData.floatData = new float[floatDataSize];
+			for (int i = 0; i < floatDataSize; ++i)
+			{
+				getPerformaceData.floatData[i] = float.Parse(performaceFloatDatas[i + 1]);
+			}
+		}
+
 		return true;
 	}
 
 	public static void SaveAttackActionFile(
-		AttackActionData attackAcionData, List<AttackImpactData> attackImpactDatas, string baseGameSaveFilePath, string attackActionName, string fileExtension)
+		AttackActionData attackAcionData, List<AttackImpactData> attackImpactDatas, AttackPerformanceData performanceData
+		, string baseGameSaveFilePath, string attackActionName, string fileExtension)
 	{
 		string filePath = Path.Combine(baseGameSaveFilePath, "AttackAction", attackActionName + fileExtension);
 
-		string[] saveDatas = new string[attackImpactDatas.Count + 2];
+		// 공격 Data 저장..
+		string[] saveDatas = new string[attackImpactDatas.Count + 2 + 3];
 
 		saveDatas[0] = new string(
 				attackAcionData.uniqueKey + "," +
@@ -345,6 +307,7 @@ public static class SaveLoadLogic
 				attackAcionData.actionStartPointKind
 				);
 
+		// Attack Impact Data 저장..
 		int impactDataCount = attackImpactDatas.Count;
 		saveDatas[1] = impactDataCount.ToString();
 
@@ -358,42 +321,36 @@ public static class SaveLoadLogic
 				attackImpactDatas[i].tickTime + "," +
 				attackImpactDatas[i].targetDecideKind + "," +
 				attackImpactDatas[i].targetTeamKind
-				);
+			);
+		}
+
+		int index = impactDataCount + 3;
+
+		// Attack Performance Data 저장..
+		saveDatas[index++] = new string(
+			performanceData.isUsePerf + "," +
+			(int)performanceData.perfType + "," +
+			performanceData.detailType
+			);
+
+		int vectorDataSize = (null != performanceData.vectorData) ? performanceData.vectorData.Length : 0;
+		saveDatas[index] = vectorDataSize.ToString();
+
+		for (int i = 0; i < vectorDataSize; ++i)
+		{
+			saveDatas[index] += "," + performanceData.vectorData[i].x + "," + performanceData.vectorData[i].y + "," + performanceData.vectorData[i].z;
+		}
+
+		++index;
+
+		int floatDataSize = (null != performanceData.floatData) ? performanceData.floatData.Length : 0;
+		saveDatas[index] = floatDataSize.ToString();
+
+		for (int i = 0; i < floatDataSize; ++i)
+		{
+			saveDatas[index] += "," + performanceData.vectorData[i].x + "," + performanceData.vectorData[i].y + "," + performanceData.vectorData[i].z;
 		}
 
 		File.WriteAllLines(filePath, saveDatas);
-	}
-
-	/// <summary>
-	/// 챔피언 이름을 넣어주면 그에 맞는 애니메이션 경로를 계산해 ChampionAnimData 클래스를 만들어 넣어준다..
-	/// </summary>
-	/// <param name="championName"> 챔피언 이름 </param>
-	/// <returns> 해당 이름의 챔피언에 맞는 애니메이션 정보 </returns>
-	private static ChampionAnimData CreateChampAnimData(string championName)
-	{
-		ChampionAnimData newChampionAnimData = new ChampionAnimData();
-
-		// 기본 애니메이션 경로..
-		string defaultPath = "Animations\\Champion";
-
-		// 기본 애니메이션 파일 이름..
-		string idleFileName = "Idle";
-		string moveFileName = "Move";
-		string atkFileName = "Attack";
-		string skillFileName = "Skill";
-		string ultFileName = "Ultimate";
-		string deathFileName = "Death";
-		string deadLoopFileName = "DeadLoop";
-
-		// 파일 경로를 가지고 애니메이션 파일을 찾아낸다..
-		newChampionAnimData.idleAnim = Resources.Load<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, idleFileName));
-		newChampionAnimData.moveAnim = Resources.Load<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, moveFileName));
-		newChampionAnimData.atkAnim = Resources.Load<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, atkFileName));
-		newChampionAnimData.skillAnim = Resources.Load<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, skillFileName));
-		newChampionAnimData.ultAnim = Resources.Load<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, ultFileName));
-		newChampionAnimData.deathAnim = Resources.Load<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, deathFileName));
-		newChampionAnimData.deadLoopAnim = Resources.Load<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, deadLoopFileName));
-
-		return newChampionAnimData;
 	}
 }

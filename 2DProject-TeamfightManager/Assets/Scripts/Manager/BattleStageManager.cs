@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Dynamic;
 using UnityEngine;
 
+/// <summary>
+/// 배틀 스테이지를 관리하는 매니저 클래스..
+/// </summary>
 public class BattleStageManager : MonoBehaviour
 {
 	public GameManager gameManager
@@ -69,9 +72,10 @@ public class BattleStageManager : MonoBehaviour
 		blueTeam.spawnArea = _blueTeamSpawnArea;
 	}
 
+	// 배틀 스테이지의 각 팀들의 파일럿 생성해주는 함수..
 	private void SetupPilot()
 	{
-		int pilotCount = 3;
+		int pilotCount = 10;
 
 		for (int i = 0; i < pilotCount; ++i)
 		{
@@ -81,17 +85,5 @@ public class BattleStageManager : MonoBehaviour
 
 		redTeam.TestColorChange(Color.red);
 		blueTeam.TestColorChange(Color.blue);
-	}
-
-	public void OnChampionDead(BattleTeam battleTeam, Champion champion)
-	{
-		StartCoroutine(Test(battleTeam, champion));
-	}
-
-	IEnumerator Test( BattleTeam battleTeam, Champion champion )
-	{
-		yield return new WaitForSeconds(1f);
-
-		battleTeam.OnSuccessRevival(champion);
 	}
 }

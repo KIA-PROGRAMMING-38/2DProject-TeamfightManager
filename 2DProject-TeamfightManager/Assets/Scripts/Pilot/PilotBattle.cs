@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// 파일럿의 전투 관련 기능들을 담당하는 클래스..
+/// </summary>
 public class PilotBattle : MonoBehaviour
 {
     public Champion controlChampion

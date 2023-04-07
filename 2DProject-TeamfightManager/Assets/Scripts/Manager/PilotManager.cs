@@ -1,9 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using static ChampionManager;
 
+/// <summary>
+/// 파일럿을 관리하는 매니저 클래스..
+/// </summary>
 public class PilotManager : MonoBehaviour
 {
 	public class MakePilotData
@@ -45,6 +45,7 @@ public class PilotManager : MonoBehaviour
 		}
 	}
 
+	// 외부에서 파일럿의 인스턴스를 받아오고 싶을 때 호출되는 함수..
 	public Pilot GetPilotInstance(string pilotName)
 	{
 		Pilot newPilot = Instantiate<Pilot>(defaultPilotInstance);

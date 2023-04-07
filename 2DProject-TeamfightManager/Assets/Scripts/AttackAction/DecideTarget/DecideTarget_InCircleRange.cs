@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// 효과를 받는 대상을 원 범위에 있는지 검사한다..
+/// </summary>
 public class DecideTarget_InCircleRange : AtkActionDecideTargetBase
 {
-	BattleTeam battleTeam;
+	private BattleTeam battleTeam;
 
-	public DecideTarget_InCircleRange(AttackActionData actionData) : base(actionData)
+	public DecideTarget_InCircleRange(AttackAction attackAction, AttackActionData actionData) : base(attackAction, actionData)
 	{
 		
 	}
@@ -19,13 +22,19 @@ public class DecideTarget_InCircleRange : AtkActionDecideTargetBase
 
 	public override int FindTarget(Champion[] getTargetArray)
 	{
+		if (null == ownerChampion)
+			return 0;
+
 		ActionStartPointKind startPointKind = (ActionStartPointKind)actionData.actionStartPointKind;
 		Vector3 startPoint = Vector3.zero;
 
 		switch (startPointKind)
 		{
 			case ActionStartPointKind.TargetPosition:
-				startPoint = ownerChampion.targetChampion.transform.position;
+				if (null == attackAction.targetChampion)
+					return 0;
+
+				startPoint = attackAction.targetChampion.transform.position;
 
 				break;
 			case ActionStartPointKind.MyPosition:
@@ -34,7 +43,14 @@ public class DecideTarget_InCircleRange : AtkActionDecideTargetBase
 				break;
 		}
 
-		return battleTeam.ComputeInCircleRangeEnemyTarget(startPoint, actionData.impactRange, getTargetArray); ;
+		// 범위 안에 들어오는 적을 찾는 로직..
+		bool TargetFindLogic(Vector3 enemyPosition)
+		{
+			float dist = (startPoint - enemyPosition).magnitude;
+			return (dist <= actionData.impactRange);
+		}
+
+		return battleTeam.ComputeEnemyTarget(TargetFindLogic, getTargetArray);
 	}
 
 	public override void OnEnd()

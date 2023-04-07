@@ -34,7 +34,7 @@ public class AN_Attack : ActionNode
 	protected override State OnUpdate()
 	{
 #if UNITY_EDITOR
-		Debug.Log("°ø°Ý AI Node ½ÇÇàµÊ");
+		//Debug.Log("°ø°Ý AI Node ½ÇÇàµÊ");
 #endif
 
 		_attackComponent.Attack(_atkKind);

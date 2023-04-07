@@ -1,7 +1,6 @@
 using MH_AIFramework;
 using System.Collections;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 /// <summary>
 /// °ÔÀÓ¿¡¼­ ½ÇÁ¦ ½Î¿ì´Â Ã¨ÇÇ¾ð..
@@ -14,7 +13,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 	private ChampionAnimation _animComponent;
 	public PilotBattle pilotBattleComponent { get; set; }
-	private Blackboard _blackboard;
+	public Blackboard blackboard { get; private set; }
 
 	public ChampionStatus status { get; private set; }
 	public ChampionData data { get; private set; }
@@ -40,16 +39,17 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 	public bool isDead { get => _curHp == 0; }
 	public float speed { get => status.moveSpeed; private set => status.moveSpeed = value; }
 
-	public Champion targetChampion { get => _blackboard?.GetObjectValue(BlackboardKeyTable.target) as Champion; }
+	public Champion targetChampion { get => blackboard?.GetObjectValue(BlackboardKeyTable.target) as Champion; }
 
 	private AttackAction _attackAction;
 	private AttackAction _skillAction;
+	private AttackAction _ultimateAction;
 	private AttackAction _curAttackAction;
 
 	private void Awake()
 	{
 		AIController aiController = gameObject.AddComponent<ChampionController>();
-		_blackboard = GetComponent<AIController>().blackboard;
+		blackboard = GetComponent<AIController>().blackboard;
 
 		if (null == _animComponent)
 			_animComponent = GetComponentInChildren<ChampionAnimation>();
@@ -59,17 +59,34 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 	{
 		Revival();
 
-		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
+		blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
 		StartCoroutine(UpdateSkillCoolTime());
 
-		//_attackAction;
-		//_skillAction;
+		//StartCoroutine(TestUltOn());
+	}
+
+	void OnEnable()
+	{
+		StartCoroutine(TestUltOn());
+	}
+
+	IEnumerator TestUltOn()
+	{
+		blackboard.SetBoolValue(BlackboardKeyTable.isCanActUltimate, false);
+
+		yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 1f));
+
+		blackboard.SetBoolValue(BlackboardKeyTable.isCanActUltimate, true);
+		Debug.Log("±Ã±Ø±â On");
 	}
 
 	private void OnDisable()
 	{
 		OnAnimationEnd();
 		StopAllCoroutines();
+
+		_curAttackAction?.OnEnd();
+		_curAttackAction = null;
 	}
 
 	private void Update()
@@ -104,6 +121,8 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 				return data.atkEffectName;
 			case "Skill":
 				return data.skillEffectName;
+			case "Ultimate":
+				return data.ultimateEffectName;
 		}
 
 		return "";
@@ -118,18 +137,19 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 		_attackAction = s_dataTableManager.attackActionDataTable.GetAttackAction(this.data.atkActionUniqueKey);
 		_skillAction = s_dataTableManager.attackActionDataTable.GetAttackAction(this.data.skillActionUniqueKey);
-		//_ult = s_dataTableManager.attackActionDataTable.GetAttackAction(this.data.ultimateActionUniqueKey);
+		_ultimateAction = s_dataTableManager.attackActionDataTable.GetAttackAction(this.data.ultimateActionUniqueKey);
 
 		_attackAction.ownerChampion = this;
 		_skillAction.ownerChampion = this;
+		_ultimateAction.ownerChampion = this;
 
 		SetupBlackboard();
 	}
 
 	private void SetupBlackboard()
 	{
-		_blackboard.SetFloatValue(BlackboardKeyTable.attackRange, status.range);
-		_blackboard.SetFloatValue(BlackboardKeyTable.moveSpeed, status.moveSpeed);
+		blackboard.SetFloatValue(BlackboardKeyTable.attackRange, status.range);
+		blackboard.SetFloatValue(BlackboardKeyTable.moveSpeed, status.moveSpeed);
 	}
 
 	public void Revival()
@@ -138,25 +158,26 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 		_animComponent.ResetAnimation();
 
-		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, true);
+		blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, true);
+		blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, true);
 	}
 
 	IEnumerator UpdateAtkCooltime()
 	{
-		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, false);
+		blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, false);
 
 		yield return YieldInstructionStore.GetWaitForSec(1f / status.atkSpeed);
 
-		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, true);
+		blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, true);
 	}
 
 	IEnumerator UpdateSkillCoolTime()
 	{
-		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
+		blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
 
 		yield return YieldInstructionStore.GetWaitForSec(status.skillCooltime);
 
-		_blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, true);
+		blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, true);
 	}
 
 	public void Attack(string atkKind)
@@ -167,32 +188,50 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 			case "Attack":
 				_curAttackAction = _attackAction;
 				_curAttackAction?.OnStart();
-				_blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
+				blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
 				StartCoroutine(UpdateAtkCooltime());
 
 				break;
 			case "Skill":
 				_curAttackAction = _skillAction;
 				_curAttackAction?.OnStart();
-				_blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
+				blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
 				StartCoroutine(UpdateSkillCoolTime());
 
 				break;
 			case "Ultimate":
-				{
-					GameObject target = _blackboard.GetObjectValue(BlackboardKeyTable.target) as GameObject;
-
-					target.GetComponent<Champion>().Hit(1000);
-
-					_animComponent.ChangeState(ChampionAnimation.AnimState.Ultimate);
-
-					_blackboard.SetBoolValue(BlackboardKeyTable.isCanActUltimate, false);
-					_blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
-
-					StartCoroutine(UpdateSkillCoolTime());
-				}
+				_curAttackAction = _ultimateAction;
+				_curAttackAction?.OnStart();
+				blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
+				blackboard.SetBoolValue(BlackboardKeyTable.isCanActUltimate, false);
 				break;
+
+			default:
+				Debug.Assert(false, "Champion's Attack() : invalid atkKind string");
+				return;
 		}
+
+		StartCoroutine(OnActionUpdate());
+	}
+
+	private IEnumerator OnActionUpdate()
+	{
+		if(null != _curAttackAction)
+		{
+			while (true)
+			{
+				_curAttackAction.OnUpdate();
+
+				if (_curAttackAction.isEndAction)
+					break;
+
+				yield return null;
+			}
+
+			_curAttackAction = null;
+		}
+
+		blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, false);
 	}
 
 	public void Hit(int damage)
@@ -228,9 +267,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 	private void OnAnimationEnd()
 	{
-		_curAttackAction?.OnEnd();
-		_curAttackAction = null;
-		_blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, false);
+		_curAttackAction?.OnAnimationEndEvent();
 	}
 
 	public void TestColorChange(Color color)

@@ -36,7 +36,7 @@ public class AN_ChangeAnimState : ActionNode
 	protected override State OnUpdate()
 	{
 #if UNITY_EDITOR
-		Debug.Log("Change Anim State Update 시작");
+		//Debug.Log("Change Anim State Update 시작");
 		Debug.Assert(null != _championAnimation);
 #endif
 
@@ -56,7 +56,7 @@ public class AN_ChangeAnimState : ActionNode
 		_championAnimation.ChangeState(_changeAnimState);
 
 #if UNITY_EDITOR
-		Debug.Log("Change Anim State Update 끝");
+		//Debug.Log("Change Anim State Update 끝");
 #endif
 
 		return State.Success;

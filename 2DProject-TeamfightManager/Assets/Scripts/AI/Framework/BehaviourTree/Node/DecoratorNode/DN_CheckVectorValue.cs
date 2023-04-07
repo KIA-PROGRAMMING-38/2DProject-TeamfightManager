@@ -9,7 +9,7 @@ namespace MH_AIFramework
 
 		private Vector3 _bbValue;
 
-		public DN_CheckVectorValue( Vector3 cmpValue, string bbKey)
+		public DN_CheckVectorValue(in Vector3 cmpValue, string bbKey)
 		{
 			_cmpValue = cmpValue;
 			_bbKey = bbKey;

@@ -1,9 +1,10 @@
 using System;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using Util.Pool;
 
+/// <summary>
+/// 이펙트를 관리할 매니저 클래스..
+/// </summary>
 public class EffectManager : MonoBehaviour
 {
 	public class EffectPooler : ObjectPooler<Effect>
@@ -63,7 +64,7 @@ public class EffectManager : MonoBehaviour
 	{
 		Effect outEffect = _pooler.Get();
 
-		outEffect.info = _effectDataTable.GetEffectInfo(effectName);
+		outEffect.data = _effectDataTable.GetEffectInfo(effectName);
 		outEffect.clip = _effectDataTable.GetEffectAnimClip(effectName);
 		outEffect.flipX = flipX;
 
@@ -76,12 +77,14 @@ public class EffectManager : MonoBehaviour
 	/// 외부에서 이펙트를 가져오려고 할 때 사용할 함수..
 	/// </summary>
 	/// <param name="effectName"> 가져오고 싶은 이펙트 이름.. </param>
-	public Effect GetEffect(string effectName)
+	public Effect GetEffect(string effectName, in Vector3 position)
     {
 		Effect outEffect = _pooler.Get();
 
-		outEffect.info = _effectDataTable.GetEffectInfo(effectName);
+		outEffect.data = _effectDataTable.GetEffectInfo(effectName);
 		outEffect.clip = _effectDataTable.GetEffectAnimClip(effectName);
+
+		outEffect.transform.position = position;
 
 		return outEffect;
     }
@@ -94,7 +97,7 @@ public class EffectManager : MonoBehaviour
 	{
 		Effect outEffect = _pooler.Get();
 
-		outEffect.info = _effectDataTable.GetEffectInfo(effectName);
+		outEffect.data = _effectDataTable.GetEffectInfo(effectName);
 		outEffect.clip = _effectDataTable.GetEffectAnimClip(effectName);
 		outEffect.flipX = flipX;
 
@@ -106,7 +109,6 @@ public class EffectManager : MonoBehaviour
 	/// <summary>
 	/// 이펙트가 할 일을 끝내고 다시 풀러에 들어갈 때 호출될 함수..
 	/// </summary>
-	/// <param name="effect"></param>
 	public void ReleaseEffect(Effect effect)
 	{
 		_pooler.Release(effect);
@@ -115,7 +117,6 @@ public class EffectManager : MonoBehaviour
 	/// <summary>
 	/// 사용하는 이펙트는 나의 자식에서 뺀다(추후에 최종 빌드 시에는 제거할 예정)..
 	/// </summary>
-	/// <param name="effect"> 비활성화된 이펙트 </param>
 	private void OnGetEffect(Effect effect)
 	{
 #if UNITY_EDITOR
@@ -128,7 +129,6 @@ public class EffectManager : MonoBehaviour
 	/// <summary>
 	/// Hierarchy 창 관리를 위해 사용하지 않는 이펙트를 나의 자식으로 둔다(추후에 최종 빌드 시에는 제거할 예정)..
 	/// </summary>
-	/// <param name="effect"></param>
 	private void OnReleaseEffect(Effect effect)
 	{
 #if UNITY_EDITOR
