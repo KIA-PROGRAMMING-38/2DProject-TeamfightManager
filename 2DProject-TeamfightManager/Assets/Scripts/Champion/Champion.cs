@@ -1,8 +1,6 @@
 using MH_AIFramework;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 /// <summary>
 /// 게임에서 실제 싸우는 챔피언..

@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 
+/// <summary>
+/// 챔피언의 공격 행동 로직을 수행하는 클래스..
+/// </summary>
 public class AttackAction
 {
 	private static readonly ActionImpactBase[] s_actionImpactLogics;

@@ -4,6 +4,9 @@ using System.Diagnostics.Tracing;
 using System.IO;
 using UnityEngine;
 
+/// <summary>
+/// 공격 행동을 생성할 때 필요한 정보를 가지고 있는 데이터 테이블..
+/// </summary>
 public class AttackActionDataTable
 {
 	// 이펙트의 정보와 이펙트가 실행할 애니메이션을 이펙트 이름마다 저장할 컨테이너 생성..

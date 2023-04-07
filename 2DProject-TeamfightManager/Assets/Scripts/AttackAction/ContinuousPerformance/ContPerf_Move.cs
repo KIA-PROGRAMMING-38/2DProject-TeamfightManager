@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// 퍼포먼스 행동이 움직임 관련인 경우 관련 로직을 제공하는 클래스..
+/// </summary>
 public class ContPerf_Move : ActionContinuousPerformance
 {
 	private bool isUseUpdate = false;

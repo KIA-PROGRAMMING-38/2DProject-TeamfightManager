@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,8 +26,15 @@ public class BattleTeam : MonoBehaviour
 	private List<Champion> _activeChampions = new List<Champion>();
 	private List<Champion> _allChampions = new List<Champion>();
 
+	/// <summary>
+	/// 소속될 파일럿을 추가해주는 함수..
+	/// 배틀 스테이지에서 사용될 파일럿과 챔피언을 받아와 저장한다..
+	/// </summary>
+	/// <param name="pilotName"></param>
+	/// <param name="champName"></param>
     public void AddPilot(string pilotName, string champName)
     {
+		// 각각의 매니저에게서 인스턴스를 받아온다..
 		Pilot pilot = pilotManager.GetPilotInstance(pilotName);
 		Champion champion = championManager.GetChampionInstance(champName);
 
@@ -56,6 +64,7 @@ public class BattleTeam : MonoBehaviour
 	{
 		champion.gameObject.SetActive(false);
 
+		// 활성화 목록에서 지운다..
 		int activeChampCount = _activeChampions.Count;
 		for( int i = 0; i < activeChampCount; ++i)
 		{
@@ -66,7 +75,14 @@ public class BattleTeam : MonoBehaviour
 			}
 		}
 
-		battleStageManager.OnChampionDead(this, champion);
+		StartCoroutine( WaitRevival( champion ) );
+	}
+
+	IEnumerator WaitRevival(Champion champion)
+	{
+		yield return YieldInstructionStore.GetWaitForSec( 1f );
+
+		OnSuccessRevival( champion );
 	}
 
 	public void OnSuccessRevival(Champion champion)
@@ -110,6 +126,7 @@ public class BattleTeam : MonoBehaviour
 		return target;
 	}
 
+	// 적을 찾는 로직을 받아와 계산한다..
 	public int ComputeEnemyTarget(Func<Vector3, bool> findLogicFunction, Champion[] championCache)
 	{
 		int enemyCount = 0;

@@ -16,9 +16,4 @@ public class EffectData
 	public bool isUseLifeTime;				// lifeTime을 사용하는지 안하는지(사용하지 않는 애는 애니메이션이 끝났을 때 삭제되도록한다)..
 	public float lifeTime;					// 생존 시간..
 	public EffectRotationType rotationType; // 로테이션 타입..
-
-	public EffectData()
-	{
-
-	}
 }

@@ -1,6 +1,9 @@
 ﻿using System.ComponentModel;
 using UnityEngine;
 
+/// <summary>
+/// 효과를 받는 대상을 두 지점을 기준으로 네모를 만들어 그 안에 있는지 검사..
+/// </summary>
 public class DecideTarget_InTwoPoint : AtkActionDecideTargetBase
 {
 	private BattleTeam battleTeam;

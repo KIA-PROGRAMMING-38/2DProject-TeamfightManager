@@ -25,11 +25,13 @@ public class GameManager : MonoBehaviour
 		CreateBattleStageManager();
 	}
 
+	// 저장된 파일을 불러오는 메소드..
 	private void LoadFile(int loadFileNumber)
 	{
 		GameSaveLoader.LoadGameFile(loadFileNumber, dataTableManager);
 	}
 
+	// 배틀 스테이지를 생성하는 함수..
 	private void CreateBattleStageManager()
 	{
 		// BattleStage Manager 생성..

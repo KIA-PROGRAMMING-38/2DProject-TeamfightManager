@@ -1,6 +1,9 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// 이펙트 최상위 클래스(필요하다면 상속받아 재정의 함)..
+/// </summary>
 public class Effect : MonoBehaviour
 {
     public event Action<Effect> OnDisableEvent;

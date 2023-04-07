@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+/// <summary>
+/// 챔피언의 애니메이션 및 스프라이트와 관련된 기능들을 제공하는 클래스..
+/// </summary>
 public class ChampionAnimation : MonoBehaviour
 {
 	public enum AnimState

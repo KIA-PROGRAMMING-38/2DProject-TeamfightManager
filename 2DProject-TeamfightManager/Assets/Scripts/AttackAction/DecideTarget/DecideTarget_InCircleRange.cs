@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// 효과를 받는 대상을 원 범위에 있는지 검사한다..
+/// </summary>
 public class DecideTarget_InCircleRange : AtkActionDecideTargetBase
 {
 	private BattleTeam battleTeam;
