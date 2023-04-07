@@ -11,7 +11,7 @@ public class DecideTarget_InTwoPoint : AtkActionDecideTargetBase
 
 	private Vector3[] _boxPointsCache;
 
-	public DecideTarget_InTwoPoint(AttackActionData actionData) : base(actionData)
+	public DecideTarget_InTwoPoint(AttackAction attackAction, AttackActionData actionData) : base(attackAction, actionData)
 	{
 		_boxPointsCache = new Vector3[4];
 	}

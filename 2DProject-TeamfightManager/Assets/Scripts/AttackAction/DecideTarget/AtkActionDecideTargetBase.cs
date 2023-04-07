@@ -6,11 +6,13 @@
 public abstract class AtkActionDecideTargetBase
 {
 	public Champion ownerChampion { protected get; set; }
+	protected AttackAction attackAction { get; private set; }
 	protected AttackActionData actionData { get; private set; }
 
-	public AtkActionDecideTargetBase(AttackActionData actionData)
+	public AtkActionDecideTargetBase(AttackAction attackAction, AttackActionData actionData)
 	{
 		this.actionData = actionData;
+		this.attackAction = attackAction;
 	}
 
 	public abstract void OnStart();

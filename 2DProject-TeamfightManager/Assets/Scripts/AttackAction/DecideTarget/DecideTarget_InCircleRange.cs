@@ -7,7 +7,7 @@ public class DecideTarget_InCircleRange : AtkActionDecideTargetBase
 {
 	private BattleTeam battleTeam;
 
-	public DecideTarget_InCircleRange(AttackActionData actionData) : base(actionData)
+	public DecideTarget_InCircleRange(AttackAction attackAction, AttackActionData actionData) : base(attackAction, actionData)
 	{
 		
 	}
@@ -31,10 +31,10 @@ public class DecideTarget_InCircleRange : AtkActionDecideTargetBase
 		switch (startPointKind)
 		{
 			case ActionStartPointKind.TargetPosition:
-				if (null == ownerChampion.targetChampion)
+				if (null == attackAction.targetChampion)
 					return 0;
 
-				startPoint = ownerChampion.targetChampion.transform.position;
+				startPoint = attackAction.targetChampion.transform.position;
 
 				break;
 			case ActionStartPointKind.MyPosition:

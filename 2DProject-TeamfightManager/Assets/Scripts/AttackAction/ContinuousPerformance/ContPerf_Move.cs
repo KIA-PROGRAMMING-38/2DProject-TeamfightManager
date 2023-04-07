@@ -11,7 +11,7 @@ public class ContPerf_Move : ActionContinuousPerformance
 	private Transform targetTransform;
 	private Vector3 targetPosition;
 
-	public ContPerf_Move(AttackPerformanceData performanceData) : base(performanceData)
+	public ContPerf_Move(AttackAction attackAction, AttackPerformanceData performanceData) : base(attackAction, performanceData)
 	{
 		movePerformanceType = (MovePerformanceType)performanceData.detailType;
 

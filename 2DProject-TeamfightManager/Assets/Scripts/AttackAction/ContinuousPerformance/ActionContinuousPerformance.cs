@@ -4,11 +4,13 @@
 public abstract class ActionContinuousPerformance
 {
 	protected AttackPerformanceData performanceData { get; private set; }
+	protected AttackAction attackAction { get; private set; }
 	public bool isEndPerformance { get; protected set; }
 
-	public ActionContinuousPerformance(AttackPerformanceData performanceData)
+	public ActionContinuousPerformance(AttackAction attackAction, AttackPerformanceData performanceData)
 	{
 		this.performanceData = performanceData;
+		this.attackAction = attackAction;
 	}
 
 	public Champion ownerChampion { protected get; set; }

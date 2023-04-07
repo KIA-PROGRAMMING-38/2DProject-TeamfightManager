@@ -8,10 +8,12 @@ public class AttackAction
 {
 	private static readonly ActionImpactBase[] s_actionImpactLogics;
 
+	public Champion targetChampion { get; private set; }
+
 	private AttackActionData _actionData;
 	private List<AttackImpactData> _impactData;
-	private ActionContinuousPerformance _contPerf;
 
+	private ActionContinuousPerformance _contPerf;
 	private AtkActionDecideTargetBase _decideTargetLogic;
 
 	private Champion[] _findTargetsCache;
@@ -21,14 +23,18 @@ public class AttackAction
 
 	public bool isEndAction { get => _isEndAnimation && _isEndAction; }
 
+	private Champion _ownerChampion;
 	public Champion ownerChampion
 	{
+		get => _ownerChampion;
 		set
 		{
 #if UNITY_EDITOR
 			Debug.Assert(null != _decideTargetLogic && null != value, "AttackAction's ownerChampion : invalid reference");
 
 #endif
+			_ownerChampion = value;
+
 			_decideTargetLogic.ownerChampion = value;
 			if (null != _contPerf)
 				_contPerf.ownerChampion = value;
@@ -55,15 +61,15 @@ public class AttackAction
 		switch (impactRangeKind)
 		{
 			case ImpactRangeKind.OnlyTarget:
-				_decideTargetLogic = new DecideTarget_OnlyTarget(_actionData);
+				_decideTargetLogic = new DecideTarget_OnlyTarget(this, _actionData);
 				break;
 
 			case ImpactRangeKind.Range_Circle:
-				_decideTargetLogic = new DecideTarget_InCircleRange(_actionData);
+				_decideTargetLogic = new DecideTarget_InCircleRange(this, _actionData);
 				break;
 
 			case ImpactRangeKind.Range_InTwoPointBox:
-				_decideTargetLogic = new DecideTarget_InTwoPoint(_actionData);
+				_decideTargetLogic = new DecideTarget_InTwoPoint(this, _actionData);
 				break;
 		}
 
@@ -72,7 +78,7 @@ public class AttackAction
 			switch (performanceData.perfType)
 			{
 				case AttackPerformanceType.Move:
-					_contPerf = new ContPerf_Move(performanceData);
+					_contPerf = new ContPerf_Move(this, performanceData);
 					break;
 			}
 		}
@@ -95,18 +101,33 @@ public class AttackAction
 
 		_decideTargetLogic.OnStart();
 		_contPerf?.OnStart();
+
+		targetChampion = ownerChampion.targetChampion;
 	}
 
 	public void OnUpdate()
 	{
+		if(null == targetChampion)
+		{
+			_isEndAction = true;
+			return;
+		}
+
 		if (null != _contPerf)
 		{
 			_contPerf.OnUpdate();
+			_isEndAction = _contPerf.isEndPerformance;
 		}
 	}
 
 	public void OnAction()
 	{
+		if (null == targetChampion)
+		{
+			_isEndAction = true;
+			return;
+		}
+
 		if (null == _contPerf)
 		{
 			_isEndAction = true;
@@ -132,6 +153,8 @@ public class AttackAction
 	{
 		_decideTargetLogic.OnEnd();
 		_contPerf?.OnEnd();
+
+		targetChampion = null;
 	}
 
 	public void OnAnimationEndEvent()
