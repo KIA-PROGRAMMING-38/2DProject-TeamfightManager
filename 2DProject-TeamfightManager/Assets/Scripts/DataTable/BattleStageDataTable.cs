@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 
 public class BattleStageDataTable
 {
 	public event Action<float> OnUpdateBattleRemainTime;
+	private float _battleRemainTime = 0f;   // 배틀 총 남은 시간..
 
-	private float _battleRemainTime = 0f;	// 배틀 총 남은 시간..
+	private Dictionary<Champion, BattleStageChampionDataTable> battleStageChampDataTables = new Dictionary<Champion, BattleStageChampionDataTable>();
+	public int battleStageChampDataTableCount { get => battleStageChampDataTables.Count; }
 
 	// 배틀 시간 갱신..
 	public float updateTime
@@ -28,5 +31,32 @@ public class BattleStageDataTable
 	public void Reset()
 	{
 		OnUpdateBattleRemainTime = null;
+	}
+
+	public void AddPilot(Pilot pilot)
+	{
+		BattleStageChampionDataTable battleStagePilotDataTable = new BattleStageChampionDataTable();
+		battleStagePilotDataTable.pilot = pilot;
+		battleStagePilotDataTable.champion = pilot.battleComponent.controlChampion;
+
+		// 챔피언의 이벤트 등록..
+		battleStagePilotDataTable.champion.OnHit -= OnChampionHit;
+		battleStagePilotDataTable.champion.OnHit += OnChampionHit;
+
+		battleStagePilotDataTable.champion.OnHill -= OnChampionHill;
+		battleStagePilotDataTable.champion.OnHill += OnChampionHill;
+
+		battleStageChampDataTables.Add(battleStagePilotDataTable.champion, battleStagePilotDataTable);
+	}
+
+	private void OnChampionHit(Champion sufferhampion, Champion hitChampion, int damage)
+	{
+		battleStageChampDataTables[sufferhampion].takeDamage = damage;
+		battleStageChampDataTables[hitChampion].attackDamage = damage;
+	}
+
+	private void OnChampionHill(Champion sufferhampion, Champion hillChampion, int hill)
+	{
+		battleStageChampDataTables[hillChampion].attackDamage = hill;
 	}
 }

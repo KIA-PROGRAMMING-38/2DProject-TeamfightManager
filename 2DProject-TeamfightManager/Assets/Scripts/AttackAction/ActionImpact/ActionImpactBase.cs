@@ -5,5 +5,7 @@
 /// </summary>
 public abstract class ActionImpactBase
 {
+	public Champion ownerChampion { protected get; set; }
+
 	public abstract void Impact(Champion target, in AttackImpactData impactData);
 }

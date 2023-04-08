@@ -38,6 +38,12 @@ public class AttackAction
 			_decideTargetLogic.ownerChampion = value;
 			if (null != _contPerf)
 				_contPerf.ownerChampion = value;
+
+			int loopCount = (int)AttackImpactEffectKind.End;
+			for( int i = 0; i < loopCount; ++i )
+			{
+				s_actionImpactLogics[i].ownerChampion = value;
+			}
 		}
 	}
 

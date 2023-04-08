@@ -5,6 +5,7 @@ using UnityEngine;
 /// </summary>
 public class PilotBattle : MonoBehaviour
 {
+    public Pilot pilot { get; private set; }
     public Champion controlChampion
     {
         get => _controlChampion;
@@ -18,7 +19,12 @@ public class PilotBattle : MonoBehaviour
     private Champion _controlChampion;
     public BattleTeam myTeam { get; set; }
 
-    public Champion FindTarget(Champion champion)
+	private void Awake()
+	{
+		pilot = GetComponent<Pilot>();
+	}
+
+	public Champion FindTarget(Champion champion)
     {
         return myTeam.ComputeMostNearestEnemyTarget(champion.transform.position);
 	}

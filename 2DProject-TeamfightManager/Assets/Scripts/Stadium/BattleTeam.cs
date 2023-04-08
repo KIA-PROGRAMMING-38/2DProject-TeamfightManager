@@ -12,6 +12,7 @@ public class BattleTeam : MonoBehaviour
     public PilotManager pilotManager { private get; set; }
 	public BattleStageManager battleStageManager { private get; set; }
 	public BattleTeam enemyTeam { private get; set; }
+	public BattleStageDataTable battleStageDataTable { private get; set; }
 
 	public Vector2[] spawnArea;
 	private Vector3 randomSpawnPoint
@@ -158,5 +159,12 @@ public class BattleTeam : MonoBehaviour
 		}
 
 		return enemyCount;
+	}
+
+	// 내 팀 소속 챔피언이 맞았을 때 호출되는 콜백 함수..
+	// (맞은 놈, 때린 놈) <<--- 이런 식으로 인자로 들어온다.
+	private void OnHitMyTeamChampion(Champion damagedChampion, Champion hitChampion)
+	{
+		
 	}
 }

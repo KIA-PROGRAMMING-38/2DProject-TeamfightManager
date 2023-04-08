@@ -12,7 +12,7 @@ public class Impact_AttackDamage : ActionImpactBase
 		switch (atkImpactType)
 		{
 			case AttackImpactType.DefaultAttack:
-				target.Hit(impactData.amount);
+				target.TakeDamage(ownerChampion, impactData.amount);
 				break;
 			default:
 				Debug.Assert(false, "Impact_AttackDamage's Impact() : Invalid Data");

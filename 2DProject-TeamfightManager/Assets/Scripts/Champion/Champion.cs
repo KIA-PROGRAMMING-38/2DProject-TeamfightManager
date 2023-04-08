@@ -1,4 +1,5 @@
 using MH_AIFramework;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ using UnityEngine;
 /// 게임에서 실제 싸우는 챔피언..
 /// AI 와 Animation에서 필요한 정보들 및 챔피언의 능력치 같은 챔피언 관련 정보들을 저장 및 연결해주는 역할..
 /// </summary>
-public class Champion : MonoBehaviour, IAttackable, IHitable
+public class Champion : MonoBehaviour, IAttackable
 {
 	public static EffectManager s_effectManager { private get; set; }
 	public static DataTableManager s_dataTableManager { private get; set; }
@@ -40,11 +41,19 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 	public float speed { get => status.moveSpeed; private set => status.moveSpeed = value; }
 
 	public Champion targetChampion { get => blackboard?.GetObjectValue(BlackboardKeyTable.target) as Champion; }
+	public Champion lastHitChampion { get; private set; }
 
 	private AttackAction _attackAction;
 	private AttackAction _skillAction;
 	private AttackAction _ultimateAction;
 	private AttackAction _curAttackAction;
+
+	// 공격 시, 피격 시 등등의 이벤트..
+	public event Action<Champion, Champion, int> OnHit;		// <맞은 놈, 때린 놈> 이렇게 인수로 보냄..
+	public event Action<Champion, Champion, int> OnHill;    // <힐 당한 놈, 힐을 한 놈> 이렇게 인수로 보냄..
+	public event Action<float> OnChangedHPRatio;
+	public event Action<float> OnChangedMana;
+	public event Action<bool> OnChangedUseUltimate;
 
 	private void Awake()
 	{
@@ -87,30 +96,8 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 
 		_curAttackAction?.OnEnd();
 		_curAttackAction = null;
-	}
 
-	private void Update()
-	{
-		//_blackboard?.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
-
-		//if(null != _blackboard.GetObjectValue(BlackboardKeyTable.target))
-		//{
-		//	Champion target = _blackboard.GetObjectValue(BlackboardKeyTable.target) as Champion;
-		//	if (null != target)
-		//		Debug.Log($"{target.name}은 나의 타겟");
-		//	else
-		//		Debug.Log($"{name}'s target is not null but champion is null");
-
-		//	target = targetChampion;
-		//	if (null != target)
-		//		Debug.Log($"{target.name}은 나의 타겟2");
-		//	else
-		//		Debug.Log($"{name}'s target is not null but champion is null2");
-		//}
-		//else
-		//{
-		//	Debug.Log($"{name}'s target is null");
-		//}
+		lastHitChampion = null;
 	}
 
 	public string ComputeEffectName(string _effectCategory)
@@ -128,6 +115,7 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 		return "";
 	}
 
+	// 챔피언이 동작하기 위해 필요한 데이터를 받아와 초기화 하는 함수(챔피언 매니저 클래스에서 함수를 호출한다)..
 	public void SetupNecessaryData(ChampionStatus status, ChampionData champData, ChampionAnimData animData)
 	{
 		this.status = status;
@@ -234,12 +222,27 @@ public class Champion : MonoBehaviour, IAttackable, IHitable
 		blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, false);
 	}
 
-	public void Hit(int damage)
+	public void TakeDamage(Champion hitChampion, int damage)
 	{
 		curHp -= damage;
 
+		if (null != hitChampion)
+		{
+			lastHitChampion = hitChampion;
+		}
+
+		OnHit?.Invoke(this, hitChampion, damage);
+		OnChangedHPRatio?.Invoke(curHp / (float)status.hp);
+
 		if (false == isDead)
+		{
 			_animComponent.OnHit();
+
+			if (null != hitChampion)
+			{
+				lastHitChampion = hitChampion;
+			}
+		}
 	}
 
 	public Champion FindTarget()
