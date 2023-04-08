@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 	public DataTableManager dataTableManager { get; private set; }
 	public PilotManager pilotManager { get; private set; }
 	public EffectManager effectManager { get; private set; }
+	public UIManager uiManager { get; private set; }
 
 	public BattleStageManager battleStageManager;
 
@@ -79,10 +80,16 @@ public class GameManager : MonoBehaviour
 		newGameObject.transform.parent = transform;
 		teamManager = newGameObject.AddComponent<TeamManager>();
 
+		// UI Manager 생성..
+		newGameObject = new GameObject("UI Manager");
+		newGameObject.transform.parent = transform;
+		uiManager = newGameObject.AddComponent<UIManager>();
+
 		// 생성했으니 참조 넘겨주기..
 		championManager.gameManager = this;
 		teamManager.gameManager = this;
 		pilotManager.gameManager = this;
 		effectManager.gameManager = this;
+		uiManager.gameManager = this;
 	}
 }
