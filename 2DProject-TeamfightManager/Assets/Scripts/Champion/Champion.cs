@@ -49,8 +49,9 @@ public class Champion : MonoBehaviour, IAttackable
 	private AttackAction _curAttackAction;
 
 	// 공격 시, 피격 시 등등의 이벤트..
-	public event Action<Champion, Champion, int> OnHit;		// <맞은 놈, 때린 놈> 이렇게 인수로 보냄..
-	public event Action<Champion, Champion, int> OnHill;    // <힐 당한 놈, 힐을 한 놈> 이렇게 인수로 보냄..
+	public event Action<Champion, int> OnHit;		// <때린놈, 데미지> 순으로 보냄..
+	public event Action<Champion, int> OnHill;		// <힐 당한놈, 힐량> 순으로 보냄..
+	public event Action<Champion, int> OnAttack;	// <맞은놈, 데미지> 순으로 보냄..
 	public event Action<float> OnChangedHPRatio;
 	public event Action<float> OnChangedMana;
 	public event Action<bool> OnChangedUseUltimate;
@@ -231,7 +232,8 @@ public class Champion : MonoBehaviour, IAttackable
 			lastHitChampion = hitChampion;
 		}
 
-		OnHit?.Invoke(this, hitChampion, damage);
+		OnHit?.Invoke(hitChampion, damage);
+		hitChampion.OnAttack?.Invoke(this, damage);
 		OnChangedHPRatio?.Invoke(curHp / (float)status.hp);
 
 		if (false == isDead)

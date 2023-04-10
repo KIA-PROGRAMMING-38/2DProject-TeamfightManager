@@ -6,8 +6,7 @@ public class BattleStageDataTable
 	public event Action<float> OnUpdateBattleRemainTime;
 	private float _battleRemainTime = 0f;   // 배틀 총 남은 시간..
 
-	private Dictionary<Champion, BattleStageChampionDataTable> battleStageChampDataTables = new Dictionary<Champion, BattleStageChampionDataTable>();
-	public int battleStageChampDataTableCount { get => battleStageChampDataTables.Count; }
+	private Action<int, BattleInfoData>[] OnChangedChampionBattleData;
 
 	// 배틀 시간 갱신..
 	public float updateTime
@@ -19,6 +18,11 @@ public class BattleStageDataTable
 			_battleRemainTime = MathF.Max(0f, _battleRemainTime);
 			OnUpdateBattleRemainTime?.Invoke(_battleRemainTime);
 		}
+	}
+
+	public BattleStageDataTable()
+	{
+		OnChangedChampionBattleData = new Action<int, BattleInfoData>[2];
 	}
 
 	// 배틀 시작 시 총 배틀해야하는 시간 받아서 초기화하는 부분..
@@ -33,30 +37,14 @@ public class BattleStageDataTable
 		OnUpdateBattleRemainTime = null;
 	}
 
-	public void AddPilot(Pilot pilot)
+	public void ModifyChampionBattleData(BattleTeamKind teamKind, int index, BattleInfoData data)
 	{
-		BattleStageChampionDataTable battleStagePilotDataTable = new BattleStageChampionDataTable();
-		battleStagePilotDataTable.pilot = pilot;
-		battleStagePilotDataTable.champion = pilot.battleComponent.controlChampion;
-
-		// 챔피언의 이벤트 등록..
-		battleStagePilotDataTable.champion.OnHit -= OnChampionHit;
-		battleStagePilotDataTable.champion.OnHit += OnChampionHit;
-
-		battleStagePilotDataTable.champion.OnHill -= OnChampionHill;
-		battleStagePilotDataTable.champion.OnHill += OnChampionHill;
-
-		battleStageChampDataTables.Add(battleStagePilotDataTable.champion, battleStagePilotDataTable);
+		OnChangedChampionBattleData[(int)teamKind]?.Invoke(index, data);
 	}
 
-	private void OnChampionHit(Champion sufferhampion, Champion hitChampion, int damage)
+	public void AddChampionBattleDataEvent(BattleTeamKind teamKind, Action<int, BattleInfoData> callbackFunc)
 	{
-		battleStageChampDataTables[sufferhampion].takeDamage = damage;
-		battleStageChampDataTables[hitChampion].attackDamage = damage;
-	}
-
-	private void OnChampionHill(Champion sufferhampion, Champion hillChampion, int hill)
-	{
-		battleStageChampDataTables[hillChampion].attackDamage = hill;
+		OnChangedChampionBattleData[(int)teamKind] -= callbackFunc;
+		OnChangedChampionBattleData[(int)teamKind] += callbackFunc;
 	}
 }
