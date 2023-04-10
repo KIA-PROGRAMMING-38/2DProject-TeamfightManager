@@ -77,7 +77,7 @@ public class Champion : MonoBehaviour, IAttackable
 
 	void OnEnable()
 	{
-		StartCoroutine(TestUltOn());
+		//StartCoroutine(TestUltOn());
 	}
 
 	IEnumerator TestUltOn()

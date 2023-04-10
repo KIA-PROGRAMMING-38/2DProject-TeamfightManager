@@ -6,12 +6,11 @@ using System.Diagnostics;
 /// </summary>
 public class AttackAction
 {
-	private static readonly ActionImpactBase[] s_actionImpactLogics;
-
 	public Champion targetChampion { get; private set; }
 
 	private AttackActionData _actionData;
 	private List<AttackImpactData> _impactData;
+	private ActionImpactBase[] _actionImpactLogics;
 
 	private ActionContinuousPerformance _contPerf;
 	private AtkActionDecideTargetBase _decideTargetLogic;
@@ -42,17 +41,9 @@ public class AttackAction
 			int loopCount = (int)AttackImpactEffectKind.End;
 			for( int i = 0; i < loopCount; ++i )
 			{
-				s_actionImpactLogics[i].ownerChampion = value;
+				_actionImpactLogics[i].ownerChampion = value;
 			}
 		}
-	}
-
-	static AttackAction()
-	{
-		s_actionImpactLogics = new ActionImpactBase[(int)AttackImpactEffectKind.End];
-		s_actionImpactLogics[(int)AttackImpactEffectKind.Buff] = new Impact_Debuf();
-		s_actionImpactLogics[(int)AttackImpactEffectKind.Debuff] = new Impact_Debuf();
-		s_actionImpactLogics[(int)AttackImpactEffectKind.Attack] = new Impact_AttackDamage();
 	}
 
 	public AttackAction(AttackActionData attackActionData, AttackPerformanceData performanceData)
@@ -88,6 +79,11 @@ public class AttackAction
 					break;
 			}
 		}
+
+		_actionImpactLogics = new ActionImpactBase[(int)AttackImpactEffectKind.End];
+		_actionImpactLogics[(int)AttackImpactEffectKind.Buff] = new Impact_Debuf();
+		_actionImpactLogics[(int)AttackImpactEffectKind.Debuff] = new Impact_Debuf();
+		_actionImpactLogics[(int)AttackImpactEffectKind.Attack] = new Impact_AttackDamage();
 	}
 
 	public void AddImpactData(AttackImpactData impactData)
@@ -150,7 +146,7 @@ public class AttackAction
 			int jLoopCount = _impactData.Count;
 			for (int j = 0; j < jLoopCount; ++j)
 			{
-				s_actionImpactLogics[_impactData[j].kind].Impact(_findTargetsCache[i], _impactData[j]);
+				_actionImpactLogics[_impactData[j].kind].Impact(_findTargetsCache[i], _impactData[j]);
 			}
 		}
 	}

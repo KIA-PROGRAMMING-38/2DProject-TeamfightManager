@@ -54,6 +54,17 @@ public class BattleTeam : MonoBehaviour
 		Debug.Assert(null != pilotBattleComponent);
 #endif
 
+		if(battleTeamKind == BattleTeamKind.RedTeam)
+		{
+			pilot.gameObject.name = "RedTeam_Faker";
+			champion.gameObject.name = "RedTeam_Swordman";
+		}
+		else
+		{
+			pilot.gameObject.name = "BlueTeam_Faker";
+			champion.gameObject.name = "BlueTeam_Swordman";
+		}
+
 		// √ ±‚»≠..
 		pilotBattleComponent.controlChampion = champion;
 		pilotBattleComponent.myTeam = this;

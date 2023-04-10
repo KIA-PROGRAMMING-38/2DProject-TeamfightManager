@@ -96,11 +96,11 @@ public class BattleStageManager : MonoBehaviour
 		blueTeam.spawnArea = _blueTeamSpawnArea;
 
 		// 각 팀 컴포넌트의 이벤트 구독..
-		redTeam.OnChangedChampionBattleInfoData -= OnChangedMyChampionBattleData;
-		redTeam.OnChangedChampionBattleInfoData += OnChangedMyChampionBattleData;
+		redTeam.OnChangedChampionBattleInfoData -= OnChangedChampionBattleData;
+		redTeam.OnChangedChampionBattleInfoData += OnChangedChampionBattleData;
 
-		redTeam.OnChangedChampionBattleInfoData -= OnChangedMyChampionBattleData;
-		blueTeam.OnChangedChampionBattleInfoData += OnChangedMyChampionBattleData;
+		blueTeam.OnChangedChampionBattleInfoData -= OnChangedChampionBattleData;
+		blueTeam.OnChangedChampionBattleInfoData += OnChangedChampionBattleData;
 	}
 
 	// 배틀 스테이지의 각 팀들의 파일럿 생성해주는 함수..
@@ -148,7 +148,8 @@ public class BattleStageManager : MonoBehaviour
 		blueTeam.OnBattleEnd();
 	}
 
-	private void OnChangedMyChampionBattleData(BattleTeamKind teamKind, int index, BattleInfoData data)
+	// 배틀 스테이지의 챔피언들의 배틀 정보가 바뀔 때마다 호출된다..
+	private void OnChangedChampionBattleData(BattleTeamKind teamKind, int index, BattleInfoData data)
 	{
 		Debug.Log($"정보가 변경되었다. 팀 : {teamKind.ToString()}, 인덱스 : {index}");
 		_battleStageDataTable?.ModifyChampionBattleData(teamKind, index, data);

@@ -70,8 +70,13 @@ public class PilotBattle : MonoBehaviour
 			++_battleInfoData.killCount;
 
             ++takeDamagedChampion.lastHitChampion.pilotBattleComponent._battleInfoData.assistCount;
-			takeDamagedChampion.lastHitChampion.pilotBattleComponent.OnChangedBattleInfoData?.Invoke(battleTeamIndexKey, _battleInfoData);
+
+			takeDamagedChampion.lastHitChampion.pilotBattleComponent.OnChangedBattleInfoData?.Invoke(
+				takeDamagedChampion.lastHitChampion.pilotBattleComponent.battleTeamIndexKey,
+                takeDamagedChampion.lastHitChampion.pilotBattleComponent._battleInfoData);
 		}
+
+        _battleInfoData.totalDamage += damage;
 
 		OnChangedBattleInfoData?.Invoke(battleTeamIndexKey, _battleInfoData);
 	}
