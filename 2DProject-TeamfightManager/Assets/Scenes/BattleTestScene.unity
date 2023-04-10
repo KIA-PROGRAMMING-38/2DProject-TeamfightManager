@@ -1595,6 +1595,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 327031093}
     m_Modifications:
+    - target: {fileID: 3325744912123982047, guid: 2fdd4205302f9894d8fe61db38a69000, type: 3}
+      propertyPath: m_Name
+      value: ChampionFightInfo
+      objectReference: {fileID: 0}
     - target: {fileID: 3325744912166977433, guid: 2fdd4205302f9894d8fe61db38a69000, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1682,6 +1686,14 @@ PrefabInstance:
     - target: {fileID: 3325744912166977434, guid: 2fdd4205302f9894d8fe61db38a69000, type: 3}
       propertyPath: m_Name
       value: BattleStageUIParent
+      objectReference: {fileID: 0}
+    - target: {fileID: 3325744912320539724, guid: 2fdd4205302f9894d8fe61db38a69000, type: 3}
+      propertyPath: m_Name
+      value: FightStadiumInfo
+      objectReference: {fileID: 0}
+    - target: {fileID: 3325744913222546502, guid: 2fdd4205302f9894d8fe61db38a69000, type: 3}
+      propertyPath: m_Name
+      value: FightInfoParent
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3325744912166977432, guid: 2fdd4205302f9894d8fe61db38a69000, type: 3}

@@ -1,7 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Dynamic;
+using System;
 using UnityEngine;
+
+public enum BattleTeamKind
+{
+	RedTeam,
+	BlueTeam
+}
 
 /// <summary>
 /// 배틀 스테이지를 관리하는 매니저 클래스..
@@ -77,23 +81,32 @@ public class BattleStageManager : MonoBehaviour
 		blueTeam = newGameobject.AddComponent<BattleTeam>();
 
 		// 각 팀 컴포넌트에서 필요한 참조들 넘겨주기..
+		redTeam.battleTeamKind = BattleTeamKind.RedTeam;
 		redTeam.enemyTeam = blueTeam;
 		redTeam.championManager = _championManager;
 		redTeam.pilotManager = _pilotManager;
 		redTeam.battleStageManager = this;
 		redTeam.spawnArea = _redTeamSpawnArea;
 
+		blueTeam.battleTeamKind = BattleTeamKind.BlueTeam;
 		blueTeam.enemyTeam = redTeam;
 		blueTeam.championManager = _championManager;
 		blueTeam.pilotManager = _pilotManager;
 		blueTeam.battleStageManager = this;
 		blueTeam.spawnArea = _blueTeamSpawnArea;
+
+		// 각 팀 컴포넌트의 이벤트 구독..
+		redTeam.OnChangedChampionBattleInfoData -= OnChangedMyChampionBattleData;
+		redTeam.OnChangedChampionBattleInfoData += OnChangedMyChampionBattleData;
+
+		redTeam.OnChangedChampionBattleInfoData -= OnChangedMyChampionBattleData;
+		blueTeam.OnChangedChampionBattleInfoData += OnChangedMyChampionBattleData;
 	}
 
 	// 배틀 스테이지의 각 팀들의 파일럿 생성해주는 함수..
 	private void SetupPilot()
 	{
-		int pilotCount = 10;
+		int pilotCount = 4;
 
 		for (int i = 0; i < pilotCount; ++i)
 		{
@@ -133,5 +146,11 @@ public class BattleStageManager : MonoBehaviour
 
 		redTeam.OnBattleEnd();
 		blueTeam.OnBattleEnd();
+	}
+
+	private void OnChangedMyChampionBattleData(BattleTeamKind teamKind, int index, BattleInfoData data)
+	{
+		Debug.Log($"정보가 변경되었다. 팀 : {teamKind.ToString()}, 인덱스 : {index}");
+		_battleStageDataTable?.ModifyChampionBattleData(teamKind, index, data);
 	}
 }

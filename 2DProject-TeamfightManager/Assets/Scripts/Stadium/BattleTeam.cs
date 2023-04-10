@@ -23,9 +23,13 @@ public class BattleTeam : MonoBehaviour
 		}
 	}
 
-    private List<PilotBattle> _pilots = new List<PilotBattle>();
+	public BattleTeamKind battleTeamKind { private get; set; }
+
+	private List<PilotBattle> _pilots = new List<PilotBattle>();
 	private List<Champion> _activeChampions = new List<Champion>();
 	private List<Champion> _allChampions = new List<Champion>();
+
+	public event Action<BattleTeamKind, int, BattleInfoData> OnChangedChampionBattleInfoData;
 
 	/// <summary>
 	/// 소속될 파일럿을 추가해주는 함수..
@@ -53,12 +57,17 @@ public class BattleTeam : MonoBehaviour
 		// 초기화..
 		pilotBattleComponent.controlChampion = champion;
 		pilotBattleComponent.myTeam = this;
+		pilotBattleComponent.battleTeamIndexKey = _pilots.Count;
 		champion.transform.position = randomSpawnPoint;
 
 		// Pilot Battle Component 를 나의 팀으로 넣기..
 		_pilots.Add(pilotBattleComponent);
 		_allChampions.Add(champion);
 		_activeChampions.Add(champion);
+
+		// 파일럿 이벤트 연결..
+		pilotBattleComponent.OnChangedBattleInfoData -= OnChangedChampionBattleData;
+		pilotBattleComponent.OnChangedBattleInfoData += OnChangedChampionBattleData;
 	}
 
 	public void OnChampionDead(Champion champion)
@@ -161,10 +170,8 @@ public class BattleTeam : MonoBehaviour
 		return enemyCount;
 	}
 
-	// 내 팀 소속 챔피언이 맞았을 때 호출되는 콜백 함수..
-	// (맞은 놈, 때린 놈) <<--- 이런 식으로 인자로 들어온다.
-	private void OnHitMyTeamChampion(Champion damagedChampion, Champion hitChampion)
+	private void OnChangedChampionBattleData(int index, BattleInfoData data)
 	{
-		
+		OnChangedChampionBattleInfoData?.Invoke(battleTeamKind, index, data);
 	}
 }
