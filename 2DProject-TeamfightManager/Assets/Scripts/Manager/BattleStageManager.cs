@@ -4,7 +4,8 @@ using UnityEngine;
 public enum BattleTeamKind
 {
 	RedTeam,
-	BlueTeam
+	BlueTeam,
+	End
 }
 
 /// <summary>
@@ -23,6 +24,7 @@ public class BattleStageManager : MonoBehaviour
 			_pilotManager = gameManager.pilotManager;
 
 			_battleStageDataTable = _dataTableManager.battleStageDataTable;
+			_battleStageDataTable.battleStageManager = this;
 		}
 	}
 
@@ -99,14 +101,34 @@ public class BattleStageManager : MonoBehaviour
 		redTeam.OnChangedChampionBattleInfoData -= OnChangedChampionBattleData;
 		redTeam.OnChangedChampionBattleInfoData += OnChangedChampionBattleData;
 
+		redTeam.OnChangedChampionHPRatio -= OnUpdateChampionHPRatio;
+		redTeam.OnChangedChampionHPRatio += OnUpdateChampionHPRatio;
+
+		redTeam.OnChangedChampionMPRatio -= OnUpdateChampionMPRatio;
+		redTeam.OnChangedChampionMPRatio += OnUpdateChampionMPRatio;
+
+		redTeam.OnChampionUseUltimate -= OnChampionUseUltimate;
+		redTeam.OnChampionUseUltimate += OnChampionUseUltimate;
+
+
 		blueTeam.OnChangedChampionBattleInfoData -= OnChangedChampionBattleData;
 		blueTeam.OnChangedChampionBattleInfoData += OnChangedChampionBattleData;
+
+		blueTeam.OnChangedChampionHPRatio -= OnUpdateChampionHPRatio;
+		blueTeam.OnChangedChampionHPRatio += OnUpdateChampionHPRatio;
+
+		blueTeam.OnChangedChampionMPRatio -= OnUpdateChampionMPRatio;
+		blueTeam.OnChangedChampionMPRatio += OnUpdateChampionMPRatio;
+
+		blueTeam.OnChampionUseUltimate -= OnChampionUseUltimate;
+		blueTeam.OnChampionUseUltimate += OnChampionUseUltimate;
 	}
 
 	// 배틀 스테이지의 각 팀들의 파일럿 생성해주는 함수..
 	private void SetupPilot()
 	{
-		int pilotCount = 4;
+		int pilotCount = 1;
+		_battleStageDataTable.battleChampionTotalCount = pilotCount * 2;
 
 		for (int i = 0; i < pilotCount; ++i)
 		{
@@ -116,6 +138,20 @@ public class BattleStageManager : MonoBehaviour
 
 		redTeam.TestColorChange(Color.red);
 		blueTeam.TestColorChange(Color.blue);
+	}
+
+	// 팀 종류와 인덱스를 받아와 챔피언의 이름을 리턴하는 함수..
+	public string GetChampionName(BattleTeamKind teamKind, int index)
+	{
+		return GetChampion(teamKind, index).data.name;
+	}
+
+	public Champion GetChampion(BattleTeamKind teamKind, int index)
+	{
+		if (teamKind == BattleTeamKind.RedTeam)
+			return redTeam.GetChampion(index);
+		else
+			return blueTeam.GetChampion(index);
 	}
 
 	// 배틀 남은 시간 갱신되면 호출되는 콜백 함수..
@@ -151,7 +187,31 @@ public class BattleStageManager : MonoBehaviour
 	// 배틀 스테이지의 챔피언들의 배틀 정보가 바뀔 때마다 호출된다..
 	private void OnChangedChampionBattleData(BattleTeamKind teamKind, int index, BattleInfoData data)
 	{
-		Debug.Log($"정보가 변경되었다. 팀 : {teamKind.ToString()}, 인덱스 : {index}");
 		_battleStageDataTable?.ModifyChampionBattleData(teamKind, index, data);
+	}
+
+	private void OnUpdateChampionHPRatio(BattleTeamKind teamKind, int index, float ratio)
+	{
+		_battleStageDataTable?.ModifyChampionHPRatio(teamKind, index, ratio);
+	}
+
+	private void OnUpdateChampionMPRatio(BattleTeamKind teamKind, int index, float ratio)
+	{
+		_battleStageDataTable?.ModifyChampionMPRatio(teamKind, index, ratio);
+	}
+
+	private void OnChampionUseUltimate(BattleTeamKind teamKind, int index)
+	{
+		_battleStageDataTable?.ModifyChampionUseUltimateState(teamKind, index);
+	}
+
+	public void OnChampionDeadState(BattleTeamKind teamKind, int index)
+	{
+		_battleStageDataTable?.OnChampionDeath(teamKind, index);
+	}
+
+	public void OnChampionRevivalState(BattleTeamKind teamKind, int index)
+	{
+		_battleStageDataTable?.OnChampionRevival(teamKind, index);
 	}
 }
