@@ -1,13 +1,6 @@
 using System;
 using UnityEngine;
 
-public enum BattleTeamKind
-{
-	RedTeam,
-	BlueTeam,
-	End
-}
-
 /// <summary>
 /// 배틀 스테이지를 관리하는 매니저 클래스..
 /// </summary>
@@ -127,8 +120,8 @@ public class BattleStageManager : MonoBehaviour
 	// 배틀 스테이지의 각 팀들의 파일럿 생성해주는 함수..
 	private void SetupPilot()
 	{
-		int pilotCount = 1;
-		_battleStageDataTable.battleChampionTotalCount = pilotCount * 2;
+		int pilotCount = 100;
+		_battleStageDataTable.battleChampionTotalCount = Math.Min(pilotCount, 4) * 2;
 
 		for (int i = 0; i < pilotCount; ++i)
 		{

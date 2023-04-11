@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 파일럿의 정보 및 파일럿이 현재 픽한 챔피언의 이미지를 화면에 보여주는 UI..
+/// </summary>
 public class PilotDataUI : UIBase
 {
 	[SerializeField] private Image _backgroundImage;
@@ -49,6 +52,7 @@ public class PilotDataUI : UIBase
 		}
 	}
 
+	// Champion Icon Image를 외부에서 받아와 화면에 보여준다..
 	private void SetupChampionIconSprite(Sprite champSprite)
 	{
 		// Champion Icon Image 바꿔주기..

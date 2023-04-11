@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// ChampStatusBar를 관리하며 필요한 정보 및 변하는 정보들을 가져와 ChampStatusBar들에게 넘겨준다..
+/// </summary>
 public class ChampStatusBarManager : UIBase
 {
 	public ChampStatusBar ChampStatusBarPrefab;
@@ -48,6 +51,7 @@ public class ChampStatusBarManager : UIBase
 	private void SetupStatusBar()
 	{
 		BattleStageDataTable dataTable = s_dataTableManager.battleStageDataTable;
+		RectTransform myUITransform = GetComponent<RectTransform>();
 
 		_halfChampCount = dataTable.battleChampionTotalCount / 2;
 
@@ -62,7 +66,7 @@ public class ChampStatusBarManager : UIBase
 				ChampStatusBar newChampStatusBar = null;
 
 				newChampStatusBar = Instantiate<ChampStatusBar>(ChampStatusBarPrefab);
-				newChampStatusBar.transform.parent = transform;
+				newChampStatusBar.GetComponent<RectTransform>().parent = myUITransform;
 				newChampStatusBar.target = dataTable.GetChampionTransform(teamKind, j);
 				newChampStatusBar.teamKind = teamKind;
 				newChampStatusBar.SetUltimateIconSprite(dataTable.GetChampionUltimateIconSprite(teamKind, j));
@@ -102,6 +106,9 @@ public class ChampStatusBarManager : UIBase
 
 	public void OnChampionDead(BattleTeamKind teamKind, int index)
 	{
+		if (_halfChampCount <= index)
+			return;
+
 		int teamIndex = (int)teamKind;
 
 		_champStatusBarContainer[(int)teamKind][index].gameObject.SetActive(false);
@@ -109,6 +116,9 @@ public class ChampStatusBarManager : UIBase
 
 	public void OnChampionRevival(BattleTeamKind teamKind, int index)
 	{
+		if (_halfChampCount <= index)
+			return;
+
 		int teamIndex = (int)teamKind;
 
 		_champStatusBarContainer[(int)teamKind][index].gameObject.SetActive(true);

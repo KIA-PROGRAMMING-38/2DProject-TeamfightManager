@@ -6,4 +6,5 @@
 	public const string onUltimate = "OnUltimate";
 	public const string onDeath = "OnDeath";
 	public const string onRevival = "OnRevival";
+	public const string onAnimEnd = "OnAnimEnd";
 }

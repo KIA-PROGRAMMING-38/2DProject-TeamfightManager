@@ -29,10 +29,22 @@ public class BattleTeam : MonoBehaviour
 	private List<Champion> _activeChampions = new List<Champion>();
 	private List<Champion> _allChampions = new List<Champion>();
 
+	// 챔피언 정보가 갱신될 때마다 외부의 구독자들에게 알려줄 이벤트들..
 	public event Action<BattleTeamKind, int, BattleInfoData> OnChangedChampionBattleInfoData;
 	public event Action<BattleTeamKind, int, float> OnChangedChampionHPRatio;
 	public event Action<BattleTeamKind, int, float> OnChangedChampionMPRatio;
 	public event Action<BattleTeamKind, int> OnChampionUseUltimate;
+
+	// 부활 관련 필드들..
+	private float _revivalWaitTime = 1f;
+	private WaitForSeconds _revivalWaitSecInst;
+
+	private List<IEnumerator> _revivalCoroutines = new List<IEnumerator>();
+
+	private void Start()
+	{
+		_revivalWaitSecInst = YieldInstructionStore.GetWaitForSec(_revivalWaitTime);
+	}
 
 	/// <summary>
 	/// 소속될 파일럿을 추가해주는 함수..
@@ -57,17 +69,6 @@ public class BattleTeam : MonoBehaviour
 		Debug.Assert(null != pilotBattleComponent);
 #endif
 
-		if(battleTeamKind == BattleTeamKind.RedTeam)
-		{
-			pilot.gameObject.name = "RedTeam_Faker";
-			champion.gameObject.name = "RedTeam_Swordman";
-		}
-		else
-		{
-			pilot.gameObject.name = "BlueTeam_Faker";
-			champion.gameObject.name = "BlueTeam_Swordman";
-		}
-
 		// 초기화..
 		pilotBattleComponent.controlChampion = champion;
 		pilotBattleComponent.myTeam = this;
@@ -91,6 +92,9 @@ public class BattleTeam : MonoBehaviour
 
 		pilotBattleComponent.OnChampionUseUltimate -= UpdateChampionUseUltimateState;
 		pilotBattleComponent.OnChampionUseUltimate += UpdateChampionUseUltimateState;
+
+		// 코루틴 등록..
+		_revivalCoroutines.Add(WaitRevival(_pilots.Count - 1));
 	}
 
 	public Champion GetChampion(int index)
@@ -103,15 +107,15 @@ public class BattleTeam : MonoBehaviour
 		return _pilots[index].pilot;
 	}
 
-	public void OnChampionDead(Champion champion, int pilotIndex)
+	public void OnChampionDead(int pilotIndex)
 	{
-		champion.gameObject.SetActive(false);
+		_allChampions[pilotIndex].gameObject.SetActive(false);
 
 		// 활성화 목록에서 지운다..
 		int activeChampCount = _activeChampions.Count;
 		for( int i = 0; i < activeChampCount; ++i)
 		{
-			if (_activeChampions[i] == champion)
+			if (_activeChampions[i] == _allChampions[pilotIndex])
 			{
 				_activeChampions.RemoveAt(i);
 				break;
@@ -120,16 +124,23 @@ public class BattleTeam : MonoBehaviour
 
 		battleStageManager.OnChampionDeadState(battleTeamKind, pilotIndex);
 
-		StartCoroutine( WaitRevival( champion, pilotIndex ) );
+		StartCoroutine(_revivalCoroutines[pilotIndex]);
 	}
 
-	IEnumerator WaitRevival(Champion champion, int pilotIndex)
+	IEnumerator WaitRevival(int pilotIndex)
 	{
-		yield return YieldInstructionStore.GetWaitForSec(1f);
+		while(true)
+		{
+			yield return _revivalWaitSecInst;
 
-		battleStageManager.OnChampionRevivalState(battleTeamKind, pilotIndex);
+			battleStageManager.OnChampionRevivalState(battleTeamKind, pilotIndex);
 
-		OnSuccessRevival(champion);
+			OnSuccessRevival(_allChampions[pilotIndex]);
+
+			StopCoroutine(_revivalCoroutines[pilotIndex]);
+
+			yield return null;
+		}
 	}
 
 	public void OnSuccessRevival(Champion champion)

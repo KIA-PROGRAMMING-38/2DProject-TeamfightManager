@@ -1,7 +1,4 @@
-﻿using MH_AIFramework;
-using System.Collections.Generic;
-using System.Diagnostics.Tracing;
-using System.IO;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -31,6 +28,7 @@ public class AttackActionDataTable
 		}
 	}
 
+	// 공격 행동 데이터를 받아와 컨테이너에 추가한다..
 	public void AddActionData(AttackActionData actionData, List<AttackImpactData> impactData, AttackPerformanceData performanceData)
 	{
 		_actionDataContainer[actionData.uniqueKey] = actionData;
@@ -38,20 +36,25 @@ public class AttackActionDataTable
 		_performanceDataContinaer[actionData.uniqueKey] = performanceData;
 	}
 
+	// 인자로 받은 인덱스 값을 컨테이너에서 가져와 AttackAction을 만들고 초기화한 뒤 반환한다..
 	public AttackAction GetAttackAction(int uniqueKey)
 	{
 #if UNITY_EDITOR
 		Debug.Assert(uniqueKey < _actionDataContainer.Count, "AttackActionDataTable's GetAttackAction() : Index out of range");
 #endif
 
-		AttackAction attackAction = new AttackAction(_actionDataContainer[uniqueKey], _performanceDataContinaer[uniqueKey]);
+		AttackActionData actionData = _actionDataContainer[uniqueKey];
+		AttackPerformanceData performanceData = _performanceDataContinaer[uniqueKey];
+		List<AttackImpactData> impactData = _impactDataContainer[uniqueKey];
 
-		int loopCount = _impactDataContainer[uniqueKey].Count;
-		for( int i = 0; i < loopCount; ++i)
+		AttackAction newAction = new AttackAction(actionData, performanceData);
+
+		int loopCount = impactData.Count;
+		for (int i = 0; i < loopCount; ++i)
 		{
-			attackAction.AddImpactData(_impactDataContainer[uniqueKey][i]);
+			newAction.AddImpactData(impactData[i]);
 		}
 
-		return attackAction;
+		return newAction;
 	}
 }

@@ -1,5 +1,8 @@
 using UnityEngine.UI;
 
+/// <summary>
+/// 챔피언 숙련도를 화면에 보여주는 UI..
+/// </summary>
 public class ChampSkillLevelUI : UIBase
 {
     private Text _levelText;
@@ -11,6 +14,7 @@ public class ChampSkillLevelUI : UIBase
 		_levelText = transform.Find("LevelBG").GetComponentInChildren<Text>();
 	}
 
+	// 파일럿의 챔피언 숙련도를 받아와 UI를 갱신해주는 함수..
 	public void SetChampionSkillLevel(ChampionSkillLevelInfo championSkillLevelInfo)
 	{
 		_levelText.text = championSkillLevelInfo.level.ToString();

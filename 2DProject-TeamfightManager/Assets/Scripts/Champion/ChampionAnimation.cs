@@ -41,6 +41,18 @@ public class ChampionAnimation : MonoBehaviour
 	private static int s_ultKeyHash = 0;
 	private static int s_deathKeyHash = 0;
 	private static int s_revivalKeyHash = 0;
+	private static int s_onAnimEndKeyHash = 0;
+
+	// 적에게 피격 시 흰색으로 깜빡거리는 효과 관련 필드..
+	private readonly static float s_hitEffectTime = 0.1f;
+	private WaitForSeconds _hitEffectWaitForSecInstance;
+	private IEnumerator _showHitMatCoroutine;
+	private bool _isRunningHitEvent = false;
+
+	// 공격 관련 애니메이션 종료 시 챔피언에게 몇 초 있다가 이벤트를 전달하는 기능 관련 필드..
+	private readonly static float s_delayreceiveAnimEndEventTime = 0.1f;
+	private WaitForSeconds _delayReceiveToChampionWaitSecInst;
+	private IEnumerator _delayReceiveToChampionCoroutine;
 
 	public bool flipX { get => _spriteRenderer.flipX; set => _spriteRenderer.flipX = value; }
 
@@ -72,26 +84,39 @@ public class ChampionAnimation : MonoBehaviour
 
 	void Start()
     {
-		
+		_hitEffectWaitForSecInstance = YieldInstructionStore.GetWaitForSec(s_hitEffectTime);
+		_delayReceiveToChampionWaitSecInst = YieldInstructionStore.GetWaitForSec(s_delayreceiveAnimEndEventTime);
+
+		_showHitMatCoroutine = ShowHitMaterial();
+		_delayReceiveToChampionCoroutine = StartReceiveEventDelay();
 	}
 
 	private void OnDisable()
 	{
-		StopAllCoroutines();
-
 		_spriteRenderer.material = _originMaterial;
 	}
 
 	public void OnHit()
 	{
-		StartCoroutine(ShowHitMaterial(0.1f));
+		if (false == _isRunningHitEvent)
+			StartCoroutine(_showHitMatCoroutine);
 	}
 
-	IEnumerator ShowHitMaterial(float time)
+	IEnumerator ShowHitMaterial()
 	{
-		_spriteRenderer.material = _hitMaterial;
-		yield return YieldInstructionStore.GetWaitForSec(time);
-		_spriteRenderer.material = _originMaterial;
+		while(true)
+		{
+			_isRunningHitEvent = true;
+
+			_spriteRenderer.material = _hitMaterial;
+			yield return _hitEffectWaitForSecInstance;
+			_spriteRenderer.material = _originMaterial;
+
+			StopCoroutine(_showHitMatCoroutine);
+
+			_isRunningHitEvent = false;
+			yield return null;
+		}
 	}
 
 	/// <summary>
@@ -105,6 +130,7 @@ public class ChampionAnimation : MonoBehaviour
 		s_ultKeyHash = Animator.StringToHash(AnimKeyTable.onUltimate);
 		s_deathKeyHash = Animator.StringToHash(AnimKeyTable.onDeath);
 		s_revivalKeyHash = Animator.StringToHash(AnimKeyTable.onRevival);
+		s_onAnimEndKeyHash = Animator.StringToHash(AnimKeyTable.onAnimEnd);
 
 		s_isHaveKeyHash = true;
 	}
@@ -132,17 +158,14 @@ public class ChampionAnimation : MonoBehaviour
 				break;
 			case AnimState.Attack:
 				_animator.SetTrigger(s_attackKeyHash);
-				StartCoroutine(WaitAnimationEnd(_atkAnimRuntime, 0.1f));
 
 				break;
 			case AnimState.Skill:
 				_animator.SetTrigger(s_skillKeyHash);
-				StartCoroutine(WaitAnimationEnd(_skillAnimRuntime, 0.1f));
 
 				break;
 			case AnimState.Ultimate:
 				_animator.SetTrigger(s_ultKeyHash);
-				StartCoroutine(WaitAnimationEnd(_ultAnimRuntime, 0.1f));
 
 				break;
 			case AnimState.Dead:
@@ -152,21 +175,6 @@ public class ChampionAnimation : MonoBehaviour
 		}
 
 		_state = newState;
-	}
-
-	/// <summary>
-	/// 애니메이션 재생 시간이 끝나게 되면 파라미터 값 변경하고 챔피언에게 이벤트 전달..
-	/// </summary>
-	/// <param name="waitSecond"></param>
-	/// <param name="delayEventTime"></param>
-	/// <returns></returns>
-	IEnumerator WaitAnimationEnd(float waitSecond, float delayEventTime)
-	{
-		yield return YieldInstructionStore.GetWaitForSec(waitSecond);
-		_animator.SetTrigger("OnAnimEnd");
-
-		yield return YieldInstructionStore.GetWaitForSec(delayEventTime);
-		_champion.OnAnimEvent("OnAnimEnd");
 	}
 
 	/// <summary>
@@ -221,5 +229,27 @@ public class ChampionAnimation : MonoBehaviour
 	public void OnAnimationEvent(string eventName)
 	{
 		_champion?.OnAnimEvent(eventName);
+	}
+
+	// 애니메이션 이벤트 : 애니메이션이 종료될 때 호출..
+	private void OnAnimationEnd()
+	{
+		_animator.SetTrigger(s_onAnimEndKeyHash);
+
+		StartCoroutine(_delayReceiveToChampionCoroutine);
+	}
+
+	// 애니메이션이 끝나자마자 챔피언에게 종료 사실을 전달하지 않고 딜레이를 주기 위한 코루틴..
+	IEnumerator StartReceiveEventDelay()
+	{
+		while(true)
+		{
+			yield return _delayReceiveToChampionWaitSecInst;
+			OnAnimationEvent("OnAnimEnd");
+
+			StopCoroutine(_delayReceiveToChampionCoroutine);
+
+			yield return null;
+		}
 	}
 }

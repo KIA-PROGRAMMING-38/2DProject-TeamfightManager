@@ -33,7 +33,7 @@ public class Champion : MonoBehaviour, IAttackable
 
 			if (0 == _curHp)
 			{
-				pilotBattleComponent.OnChampionDead(this);
+				pilotBattleComponent.OnChampionDead();
 			}
 
 			OnChangedHPRatio?.Invoke(curHp / (float)status.hp);
@@ -44,9 +44,6 @@ public class Champion : MonoBehaviour, IAttackable
 
 	public Champion targetChampion { get => blackboard?.GetObjectValue(BlackboardKeyTable.target) as Champion; }
 	public Champion lastHitChampion { get; private set; }
-
-	private IEnumerator _atkCooltimeCoroutine;
-	private IEnumerator _skillCooltimeCoroutine;
 
 	private AttackAction _attackAction;
 	private AttackAction _skillAction;
@@ -61,36 +58,51 @@ public class Champion : MonoBehaviour, IAttackable
 	public event Action<float> OnChangedMPRatio;
 	public event Action OnUseUltimate;
 
-	private bool _isAtkCooltime;
-	private float _atkActTime;
+	// Attack Cooltime On/Off Logic..
 	private bool isAtkCooltime
 	{
 		set
 		{
-			_isAtkCooltime = value;
-			if (true == _isAtkCooltime)
+			if (true == value)
+			{
 				_atkActTime = Time.time;
-
-			blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, !_isAtkCooltime);
+				StartCoroutine(_updateAtkCooltimeCoroutine);
+				blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, false);
+			}
+			else
+			{
+				StopCoroutine(_updateAtkCooltimeCoroutine);
+				blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, true);
+			}
 		}
 	}
+	private float _atkActTime;
 
-	private bool _isSkillCooltime;
-	private float _skillActTime;
+	// Skill Cooltime On/Off Logic..
 	private bool isSkillCooltime
 	{
 		set
 		{
-			_isSkillCooltime = value;
-
-			if (true == _isSkillCooltime)
+			if (true == value)
+			{
 				_skillActTime = Time.time;
+				StartCoroutine(_updateSkillCooltimeCoroutine);
+				blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
+			}
 			else
+			{
 				OnChangedMPRatio?.Invoke(1f);
-
-			blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, !_isSkillCooltime);
+				StopCoroutine(_updateSkillCooltimeCoroutine);
+				blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, true);
+			}
 		}
 	}
+	private float _skillActTime;
+
+	// 사용하는 코루틴은 미리 캐싱..
+	private IEnumerator _onActiveUpdateCoroutine;
+	private IEnumerator _updateAtkCooltimeCoroutine;
+	private IEnumerator _updateSkillCooltimeCoroutine;
 
 	private void Awake()
 	{
@@ -103,34 +115,14 @@ public class Champion : MonoBehaviour, IAttackable
 
 	private void Start()
 	{
+		_onActiveUpdateCoroutine = OnActionUpdate();
+		_updateAtkCooltimeCoroutine = UpdateAtkCooltime();
+		_updateSkillCooltimeCoroutine = UpdateSkillCooltime();
+
 		Revival();
 
 		isSkillCooltime = true;
-
 		StartCoroutine(TestUltOn());
-	}
-
-	private void Update()
-	{
-		if (true == _isAtkCooltime)
-		{
-			if (Time.time - _atkActTime >= 1f / status.atkSpeed)
-			{
-				isAtkCooltime = false;
-			}
-		}
-		if (true == _isSkillCooltime)
-		{
-			float elaspedTime = Time.time - _skillActTime;
-			if (elaspedTime >= status.skillCooltime)
-			{
-				isSkillCooltime = false;
-			}
-			else
-			{
-				OnChangedMPRatio?.Invoke(elaspedTime / status.skillCooltime);
-			}
-		}
 	}
 
 	IEnumerator TestUltOn()
@@ -145,9 +137,7 @@ public class Champion : MonoBehaviour, IAttackable
 
 	private void OnDisable()
 	{
-		OnAnimationEnd();
-		StopAllCoroutines();
-
+		_curAttackAction?.OnAnimationEndEvent();
 		_curAttackAction?.OnEnd();
 		_curAttackAction = null;
 
@@ -204,45 +194,25 @@ public class Champion : MonoBehaviour, IAttackable
 		isSkillCooltime = false;
 	}
 
-	IEnumerator UpdateAtkCooltime()
-	{
-		while (true)
-		{
-			Debug.Log("공격 시작");
-
-			yield return YieldInstructionStore.GetWaitForSec(1f / status.atkSpeed);
-
-			blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, true);
-
-			StopCoroutine(_atkCooltimeCoroutine);
-		}
-	}
-
 	public void Attack(string atkKind)
 	{
-		//_attackAction.OnAction();
 		switch (atkKind)
 		{
 			case "Attack":
 				_curAttackAction = _attackAction;
 				_curAttackAction?.OnStart();
-				blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
-				blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, false);
 				isAtkCooltime = true;
 
 				break;
 			case "Skill":
 				_curAttackAction = _skillAction;
 				_curAttackAction?.OnStart();
-				blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
-				blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
 				isSkillCooltime = true;
 
 				break;
 			case "Ultimate":
 				_curAttackAction = _ultimateAction;
 				_curAttackAction?.OnStart();
-				blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
 				blackboard.SetBoolValue(BlackboardKeyTable.isCanActUltimate, false);
 
 				OnUseUltimate?.Invoke();
@@ -253,32 +223,78 @@ public class Champion : MonoBehaviour, IAttackable
 				return;
 		}
 
-		StartCoroutine(OnActionUpdate());
+		blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
+		StartCoroutine(_onActiveUpdateCoroutine);
 	}
 
+	// Attack Action Update Logic..
 	private IEnumerator OnActionUpdate()
 	{
-		if (null != _curAttackAction)
+		while(true)
 		{
-			while (true)
+			if (null != _curAttackAction)
 			{
 				_curAttackAction.OnUpdate();
 
 				if (_curAttackAction.isEndAction)
-					break;
+				{
+					_curAttackAction = null;
+
+					blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, false);
+
+					StopCoroutine(_onActiveUpdateCoroutine);
+				}
 
 				yield return null;
 			}
+			else
+			{
+				blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, false);
 
-			_curAttackAction = null;
+				StopCoroutine(_onActiveUpdateCoroutine);
+
+				yield return null;
+			}
 		}
-
-		blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, false);
 	}
 
+	// 공격 쿨타임 On(버프에 따라 달라질 수도 있기 때문에 WaitForSec 못 쓸듯)..
+	private IEnumerator UpdateAtkCooltime()
+	{
+		while(true)
+		{
+			yield return null;
+
+			if (Time.time - _atkActTime >= 1f / status.atkSpeed)
+			{
+				isAtkCooltime = false;
+			}
+		}
+	}
+
+	// 스킬 쿨타임 On(버프에 따라 달라질 수도 있기 때문에 WaitForSec 못 쓸듯)..
+	private IEnumerator UpdateSkillCooltime()
+	{
+		while (true)
+		{
+			yield return null;
+
+			float elaspedTime = Time.time - _skillActTime;
+			if (elaspedTime >= status.skillCooltime)
+			{
+				isSkillCooltime = false;
+			}
+			else
+			{
+				OnChangedMPRatio?.Invoke(elaspedTime / status.skillCooltime);
+			}
+		}
+	}
+
+	// 적에게 데미지를 입었을 때 호출되는 함수..
 	public void TakeDamage(Champion hitChampion, int damage)
 	{
-		damage = Math.Min(CalcDefenceApplyDamage(damage), curHp);
+		damage = Math.Min(CalcDefenceApplyDamage(damage), curHp) * 5;
 		curHp -= damage;
 
 		if (null != hitChampion)
@@ -300,6 +316,7 @@ public class Champion : MonoBehaviour, IAttackable
 		}
 	}
 
+	// 쫓아갈 적을 찾는 함수..
 	public Champion FindTarget()
 	{
 #if UNITY_EDITOR
@@ -309,6 +326,7 @@ public class Champion : MonoBehaviour, IAttackable
 		return pilotBattleComponent.FindTarget(this);
 	}
 
+	// 애니메이션 이벤트 시 호출되는 함수..
 	public void OnAnimEvent(string eventName)
 	{
 		switch (eventName)
@@ -318,16 +336,12 @@ public class Champion : MonoBehaviour, IAttackable
 				break;
 
 			case "OnAnimEnd":
-				OnAnimationEnd();
+				_curAttackAction?.OnAnimationEndEvent();
 				break;
 		}
 	}
 
-	private void OnAnimationEnd()
-	{
-		_curAttackAction?.OnAnimationEndEvent();
-	}
-
+	// 방어력에 따라 데미지 감소되는 로직..
 	private int CalcDefenceApplyDamage(int damage)
 	{
 		return (int)((50f / (50 + status.defence)) * damage);

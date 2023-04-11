@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 궁극기 아이콘 및 사용 여부를 화면에 보여주는 UI..
+/// </summary>
 public class UltimateIconUI : UIBase
 {
     [SerializeField] private Image _iconImage;
