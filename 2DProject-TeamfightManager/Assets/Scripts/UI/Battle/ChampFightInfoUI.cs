@@ -26,4 +26,9 @@ public class ChampFightInfoUI : UIBase
 		_champBattleDataUI.SetBackgroundImage(teamKind);
 		_pilotDataUI.SetBackgroundImage(teamKind);
 	}
+
+	public void SetPilot(Pilot pilot)
+	{
+		_pilotDataUI.pilot = pilot;
+	}
 }

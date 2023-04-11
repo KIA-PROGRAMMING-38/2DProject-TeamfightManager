@@ -123,12 +123,16 @@ public static class SaveLoadLogic
 		string[] pilotChampSkillLevelDatas = loadData[1].Split(',');
 		int champSkillLevelDataCount = int.Parse(pilotChampSkillLevelDatas[0]);
 
-		getPilotData.champSkillLevelContainer = new List<(string champName, int level)>();
+		getPilotData.champSkillLevelContainer = new List<ChampionSkillLevelInfo>();
 		getPilotData.champSkillLevelContainer.Capacity = champSkillLevelDataCount;
 
 		for (int i = 0; i < champSkillLevelDataCount; ++i)
 		{
-			getPilotData.champSkillLevelContainer.Add(new(pilotChampSkillLevelDatas[i * 2 + 1], int.Parse(pilotChampSkillLevelDatas[i * 2 + 2])));
+			getPilotData.champSkillLevelContainer.Add(new ChampionSkillLevelInfo
+			{
+				champName = pilotChampSkillLevelDatas[i * 2 + 1],
+				level = int.Parse(pilotChampSkillLevelDatas[i * 2 + 2])
+			});
 		}
 
 		return true;

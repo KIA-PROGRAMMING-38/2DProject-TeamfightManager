@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,8 +6,7 @@ using UnityEngine;
 public class ChampStatusBarManager : UIBase
 {
 	public ChampStatusBar ChampStatusBarPrefab;
-	private ChampStatusBar[] _champStatusBarContainer;
-	private int _champCount;
+	private ChampStatusBar[][] _champStatusBarContainer;
 	private int _halfChampCount;
 
 	private void Awake()
@@ -49,64 +49,68 @@ public class ChampStatusBarManager : UIBase
 	{
 		BattleStageDataTable dataTable = s_dataTableManager.battleStageDataTable;
 
-		_champCount = dataTable.battleChampionTotalCount;
-		_halfChampCount = _champCount / 2;
+		_halfChampCount = dataTable.battleChampionTotalCount / 2;
 
-		_champStatusBarContainer = new ChampStatusBar[_champCount];
-		for( int i = 0; i < _champCount; ++i)
+		_champStatusBarContainer = new ChampStatusBar[(int)BattleTeamKind.End][];
+		for( int i = 0; i < (int)BattleTeamKind.End; ++i)
 		{
-			BattleTeamKind teamKind = (BattleTeamKind)(i / _halfChampCount);
-			int teamIndex = (i % _halfChampCount);
+			BattleTeamKind teamKind = (BattleTeamKind)i;
+			_champStatusBarContainer[i] = new ChampStatusBar[_halfChampCount];
 
-			_champStatusBarContainer[i] = Instantiate<ChampStatusBar>(ChampStatusBarPrefab);
-			_champStatusBarContainer[i].transform.parent = transform;
-			_champStatusBarContainer[i].target = dataTable.GetChampionTransform(teamKind, teamIndex);
-			_champStatusBarContainer[i].teamKind = teamKind;
-			_champStatusBarContainer[i].SetUltimateIconSprite(dataTable.GetChampionUltimateIconSprite(teamKind, teamIndex));
+			for ( int j = 0; j < _halfChampCount; ++j)
+			{
+				ChampStatusBar newChampStatusBar = null;
+
+				newChampStatusBar = Instantiate<ChampStatusBar>(ChampStatusBarPrefab);
+				newChampStatusBar.transform.parent = transform;
+				newChampStatusBar.target = dataTable.GetChampionTransform(teamKind, j);
+				newChampStatusBar.teamKind = teamKind;
+				newChampStatusBar.SetUltimateIconSprite(dataTable.GetChampionUltimateIconSprite(teamKind, j));
+
+				_champStatusBarContainer[i][j] = newChampStatusBar;
+			}
 		}
 	}
 
 	public void OnChangedChampionHPRatio(BattleTeamKind teamKind, int index, float hpRatio)
 	{
-		if (_champCount <= index)
+		if (_halfChampCount <= index)
 			return;
 
-		int teamIndex = (int)teamKind;
-
-		_champStatusBarContainer[teamIndex * _halfChampCount + index].SetHPRatio(hpRatio);
+		_champStatusBarContainer[(int)teamKind][index].SetHPRatio(hpRatio);
 	}
 
 	public void OnChangedChampionMPRatio(BattleTeamKind teamKind, int index, float mpRatio)
 	{
-		if (_champCount <= index)
+		if (_halfChampCount <= index)
 			return;
 
 		int teamIndex = (int)teamKind;
 
-		_champStatusBarContainer[teamIndex * _halfChampCount + index].SetMPRatio(mpRatio);
+		_champStatusBarContainer[(int)teamKind][index].SetMPRatio(mpRatio);
 	}
 
 	public void OnChampionUseUltimate(BattleTeamKind teamKind, int index)
 	{
-		if (_champCount <= index)
+		if (_halfChampCount <= index)
 			return;
 
 		int teamIndex = (int)teamKind;
 
-		_champStatusBarContainer[teamIndex * _halfChampCount + index].SetUltimateActive(false);
+		_champStatusBarContainer[(int)teamKind][index].SetUltimateActive(false);
 	}
 
 	public void OnChampionDead(BattleTeamKind teamKind, int index)
 	{
 		int teamIndex = (int)teamKind;
 
-		_champStatusBarContainer[teamIndex * _halfChampCount + index].gameObject.SetActive(false);
+		_champStatusBarContainer[(int)teamKind][index].gameObject.SetActive(false);
 	}
 
 	public void OnChampionRevival(BattleTeamKind teamKind, int index)
 	{
 		int teamIndex = (int)teamKind;
 
-		_champStatusBarContainer[teamIndex * _halfChampCount + index].gameObject.SetActive(true);
+		_champStatusBarContainer[(int)teamKind][index].gameObject.SetActive(true);
 	}
 }

@@ -7,11 +7,16 @@ using UnityEngine;
 /// </summary>
 public class Pilot : MonoBehaviour
 {
-    public PilotData data { get; set; }
+    public PilotData data { get; private set; }
     public PilotBattle battleComponent { get; private set; }
 
 	private void Awake()
 	{
 		battleComponent = GetComponent<PilotBattle>();
+	}
+
+	public void Initialize(PilotData data)
+	{
+		this.data = data;
 	}
 }

@@ -41,7 +41,7 @@ public class TestCreatePilotFile : MonoBehaviour
 		};
 
 		foreach (var champLevelData in champSkillLevelContainer)
-			pilotData.champSkillLevelContainer.Add(new(champLevelData.champName, champLevelData.level));
+			pilotData.champSkillLevelContainer.Add(new ChampionSkillLevelInfo { champName = champLevelData.champName, level = champLevelData.level });
 
 		return pilotData;
 	}

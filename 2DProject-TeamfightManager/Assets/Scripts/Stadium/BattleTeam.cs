@@ -98,6 +98,11 @@ public class BattleTeam : MonoBehaviour
 		return _pilots[index].controlChampion;
 	}
 
+	public Pilot GetPilot(int index)
+	{
+		return _pilots[index].pilot;
+	}
+
 	public void OnChampionDead(Champion champion, int pilotIndex)
 	{
 		champion.gameObject.SetActive(false);

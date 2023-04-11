@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 /// <summary>
@@ -29,13 +30,10 @@ public class PilotManager : MonoBehaviour
 		}
 	}
 
-	private Pilot defaultPilotInstance;
 	private Dictionary<string, MakePilotData> _pilots = new Dictionary<string, MakePilotData>();
 
 	private void Start()
 	{
-		defaultPilotInstance = Resources.Load<Pilot>("Prefabs/Pilot");
-
 		foreach (KeyValuePair<string, PilotData> elementPair in _pilotDataTable.pilotDataContainer)
 		{
 			MakePilotData newPilotMakeData =
@@ -48,9 +46,9 @@ public class PilotManager : MonoBehaviour
 	// 외부에서 파일럿의 인스턴스를 받아오고 싶을 때 호출되는 함수..
 	public Pilot GetPilotInstance(string pilotName)
 	{
-		Pilot newPilot = Instantiate<Pilot>(defaultPilotInstance);
+		Pilot newPilot = Instantiate<Pilot>(_pilotDataTable.DefaultPilotPrefab);
 
-		newPilot.data = _pilots[pilotName].pilotData;
+		newPilot.Initialize(_pilots[pilotName].pilotData);
 
 		return newPilot;
 	}
