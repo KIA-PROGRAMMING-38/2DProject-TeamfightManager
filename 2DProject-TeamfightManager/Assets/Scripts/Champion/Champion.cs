@@ -33,7 +33,7 @@ public class Champion : MonoBehaviour, IAttackable
 
 			if (0 == _curHp)
 			{
-				pilotBattleComponent.OnChampionDead(this);
+				pilotBattleComponent.OnChampionDead();
 			}
 
 			OnChangedHPRatio?.Invoke(curHp / (float)status.hp);
@@ -58,7 +58,7 @@ public class Champion : MonoBehaviour, IAttackable
 	public event Action<float> OnChangedMPRatio;
 	public event Action OnUseUltimate;
 
-	private float _atkActTime;
+	// Attack Cooltime On/Off Logic..
 	private bool isAtkCooltime
 	{
 		set
@@ -76,8 +76,9 @@ public class Champion : MonoBehaviour, IAttackable
 			}
 		}
 	}
+	private float _atkActTime;
 
-	private float _skillActTime;
+	// Skill Cooltime On/Off Logic..
 	private bool isSkillCooltime
 	{
 		set
@@ -96,7 +97,9 @@ public class Champion : MonoBehaviour, IAttackable
 			}
 		}
 	}
+	private float _skillActTime;
 
+	// 사용하는 코루틴은 미리 캐싱..
 	private IEnumerator _onActiveUpdateCoroutine;
 	private IEnumerator _updateAtkCooltimeCoroutine;
 	private IEnumerator _updateSkillCooltimeCoroutine;
@@ -134,9 +137,7 @@ public class Champion : MonoBehaviour, IAttackable
 
 	private void OnDisable()
 	{
-		OnAnimationEnd();
-		StopAllCoroutines();
-
+		_curAttackAction?.OnAnimationEndEvent();
 		_curAttackAction?.OnEnd();
 		_curAttackAction = null;
 
@@ -195,29 +196,23 @@ public class Champion : MonoBehaviour, IAttackable
 
 	public void Attack(string atkKind)
 	{
-		//_attackAction.OnAction();
 		switch (atkKind)
 		{
 			case "Attack":
 				_curAttackAction = _attackAction;
 				_curAttackAction?.OnStart();
-				blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
-				blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, false);
 				isAtkCooltime = true;
 
 				break;
 			case "Skill":
 				_curAttackAction = _skillAction;
 				_curAttackAction?.OnStart();
-				blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
-				blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
 				isSkillCooltime = true;
 
 				break;
 			case "Ultimate":
 				_curAttackAction = _ultimateAction;
 				_curAttackAction?.OnStart();
-				blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
 				blackboard.SetBoolValue(BlackboardKeyTable.isCanActUltimate, false);
 
 				OnUseUltimate?.Invoke();
@@ -228,35 +223,42 @@ public class Champion : MonoBehaviour, IAttackable
 				return;
 		}
 
+		blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
 		StartCoroutine(_onActiveUpdateCoroutine);
 	}
 
+	// Attack Action Update Logic..
 	private IEnumerator OnActionUpdate()
 	{
 		while(true)
 		{
 			if (null != _curAttackAction)
 			{
-				while (true)
+				_curAttackAction.OnUpdate();
+
+				if (_curAttackAction.isEndAction)
 				{
-					_curAttackAction.OnUpdate();
+					_curAttackAction = null;
 
-					if (_curAttackAction.isEndAction)
-						break;
+					blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, false);
 
-					yield return null;
+					StopCoroutine(_onActiveUpdateCoroutine);
 				}
 
-				_curAttackAction = null;
+				yield return null;
 			}
+			else
+			{
+				blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, false);
 
-			blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, false);
+				StopCoroutine(_onActiveUpdateCoroutine);
 
-			StopCoroutine(_onActiveUpdateCoroutine);
-			yield return null;
+				yield return null;
+			}
 		}
 	}
 
+	// 공격 쿨타임 On(버프에 따라 달라질 수도 있기 때문에 WaitForSec 못 쓸듯)..
 	private IEnumerator UpdateAtkCooltime()
 	{
 		while(true)
@@ -270,6 +272,7 @@ public class Champion : MonoBehaviour, IAttackable
 		}
 	}
 
+	// 스킬 쿨타임 On(버프에 따라 달라질 수도 있기 때문에 WaitForSec 못 쓸듯)..
 	private IEnumerator UpdateSkillCooltime()
 	{
 		while (true)
@@ -288,6 +291,7 @@ public class Champion : MonoBehaviour, IAttackable
 		}
 	}
 
+	// 적에게 데미지를 입었을 때 호출되는 함수..
 	public void TakeDamage(Champion hitChampion, int damage)
 	{
 		damage = Math.Min(CalcDefenceApplyDamage(damage), curHp) * 5;
@@ -312,6 +316,7 @@ public class Champion : MonoBehaviour, IAttackable
 		}
 	}
 
+	// 쫓아갈 적을 찾는 함수..
 	public Champion FindTarget()
 	{
 #if UNITY_EDITOR
@@ -321,6 +326,7 @@ public class Champion : MonoBehaviour, IAttackable
 		return pilotBattleComponent.FindTarget(this);
 	}
 
+	// 애니메이션 이벤트 시 호출되는 함수..
 	public void OnAnimEvent(string eventName)
 	{
 		switch (eventName)
@@ -330,16 +336,12 @@ public class Champion : MonoBehaviour, IAttackable
 				break;
 
 			case "OnAnimEnd":
-				OnAnimationEnd();
+				_curAttackAction?.OnAnimationEndEvent();
 				break;
 		}
 	}
 
-	private void OnAnimationEnd()
-	{
-		_curAttackAction?.OnAnimationEndEvent();
-	}
-
+	// 방어력에 따라 데미지 감소되는 로직..
 	private int CalcDefenceApplyDamage(int damage)
 	{
 		return (int)((50f / (50 + status.defence)) * damage);

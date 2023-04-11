@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// 챔피언의 HP, MP, 궁극기 관련 정보를 화면에 보여주는 UI..
+/// 챔피언을 따라다닌다..
+/// </summary>
 public class ChampStatusBar : UIBase
 {
     public Transform target { private get; set; }

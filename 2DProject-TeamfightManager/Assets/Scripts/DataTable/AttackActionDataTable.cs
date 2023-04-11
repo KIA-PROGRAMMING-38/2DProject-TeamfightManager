@@ -28,6 +28,7 @@ public class AttackActionDataTable
 		}
 	}
 
+	// 공격 행동 데이터를 받아와 컨테이너에 추가한다..
 	public void AddActionData(AttackActionData actionData, List<AttackImpactData> impactData, AttackPerformanceData performanceData)
 	{
 		_actionDataContainer[actionData.uniqueKey] = actionData;
@@ -35,6 +36,7 @@ public class AttackActionDataTable
 		_performanceDataContinaer[actionData.uniqueKey] = performanceData;
 	}
 
+	// 인자로 받은 인덱스 값을 컨테이너에서 가져와 AttackAction을 만들고 초기화한 뒤 반환한다..
 	public AttackAction GetAttackAction(int uniqueKey)
 	{
 #if UNITY_EDITOR

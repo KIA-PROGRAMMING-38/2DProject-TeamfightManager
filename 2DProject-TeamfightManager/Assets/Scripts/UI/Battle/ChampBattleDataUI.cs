@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 챔피언의 KDA, 피해량, 맞은량, 힐량을 보여주는 UI..
+/// </summary>
 public class ChampBattleDataUI : MonoBehaviour
 {
 	// 챔피언 전투 관련 정보를 화면에 띄워주기 위한 UI..

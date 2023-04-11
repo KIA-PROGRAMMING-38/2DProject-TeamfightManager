@@ -29,6 +29,7 @@ public class BattleTeam : MonoBehaviour
 	private List<Champion> _activeChampions = new List<Champion>();
 	private List<Champion> _allChampions = new List<Champion>();
 
+	// 챔피언 정보가 갱신될 때마다 외부의 구독자들에게 알려줄 이벤트들..
 	public event Action<BattleTeamKind, int, BattleInfoData> OnChangedChampionBattleInfoData;
 	public event Action<BattleTeamKind, int, float> OnChangedChampionHPRatio;
 	public event Action<BattleTeamKind, int, float> OnChangedChampionMPRatio;
@@ -68,17 +69,6 @@ public class BattleTeam : MonoBehaviour
 		Debug.Assert(null != pilotBattleComponent);
 #endif
 
-		if(battleTeamKind == BattleTeamKind.RedTeam)
-		{
-			pilot.gameObject.name = "RedTeam_Faker";
-			champion.gameObject.name = "RedTeam_Swordman";
-		}
-		else
-		{
-			pilot.gameObject.name = "BlueTeam_Faker";
-			champion.gameObject.name = "BlueTeam_Swordman";
-		}
-
 		// 초기화..
 		pilotBattleComponent.controlChampion = champion;
 		pilotBattleComponent.myTeam = this;
@@ -117,15 +107,15 @@ public class BattleTeam : MonoBehaviour
 		return _pilots[index].pilot;
 	}
 
-	public void OnChampionDead(Champion champion, int pilotIndex)
+	public void OnChampionDead(int pilotIndex)
 	{
-		champion.gameObject.SetActive(false);
+		_allChampions[pilotIndex].gameObject.SetActive(false);
 
 		// 활성화 목록에서 지운다..
 		int activeChampCount = _activeChampions.Count;
 		for( int i = 0; i < activeChampCount; ++i)
 		{
-			if (_activeChampions[i] == champion)
+			if (_activeChampions[i] == _allChampions[pilotIndex])
 			{
 				_activeChampions.RemoveAt(i);
 				break;
@@ -145,7 +135,7 @@ public class BattleTeam : MonoBehaviour
 
 			battleStageManager.OnChampionRevivalState(battleTeamKind, pilotIndex);
 
-			OnSuccessRevival(_pilots[pilotIndex].controlChampion);
+			OnSuccessRevival(_allChampions[pilotIndex]);
 
 			StopCoroutine(_revivalCoroutines[pilotIndex]);
 

@@ -16,6 +16,7 @@ public class PilotBattle : MonoBehaviour
 
             _controlChampion.pilotBattleComponent = this;
 
+            // 챔피언의 이벤트들 구독..
             _controlChampion.OnHit -= OnChampionTakeDamaged;
             _controlChampion.OnHit += OnChampionTakeDamaged;
 
@@ -39,6 +40,7 @@ public class PilotBattle : MonoBehaviour
 
     private BattleInfoData _battleInfoData;
 
+    // 외부의 구독자들을 위한 이벤트들..
     public event Action<int, BattleInfoData> OnChangedBattleInfoData;
     public event Action<int, float> OnChangedChampionHPRatio;
     public event Action<int, float> OnChangedChampionMPRatio;
@@ -55,9 +57,9 @@ public class PilotBattle : MonoBehaviour
         return myTeam.ComputeMostNearestEnemyTarget(champion.transform.position);
 	}
 
-    public void OnChampionDead(Champion champion)
+    public void OnChampionDead()
     {
-        myTeam.OnChampionDead(champion, battleTeamIndexKey);
+        myTeam.OnChampionDead(battleTeamIndexKey);
 
         ++_battleInfoData.deathCount;
     }

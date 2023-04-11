@@ -44,7 +44,9 @@ public class BattleStageDataTable
 		OnUpdateBattleRemainTime = null;
 	}
 
-	// Battle Info Data가 수정 시 호출되는 콜백 함수..
+	// ============================================================================================================
+	// --- 챔피언 정보가 바뀔 때마다 호출되는 콜백 함수들..
+	// ============================================================================================================
 	public void ModifyChampionBattleData(BattleTeamKind teamKind, int index, BattleInfoData data)
 	{
 		OnChangedChampionBattleData?.Invoke(teamKind, index, data);
@@ -65,6 +67,19 @@ public class BattleStageDataTable
 		OnChampionUseUltimate?.Invoke(teamKind, index);
 	}
 
+	public void OnChampionDeath(BattleTeamKind teamKind, int index)
+	{
+		OnChampionDeadEvent?.Invoke(teamKind, index);
+	}
+
+	public void OnChampionRevival(BattleTeamKind teamKind, int index)
+	{
+		OnChampionRevivalEvent?.Invoke(teamKind, index);
+	}
+
+	// ============================================================================================================
+	// --- 챔피언 및 파일럿 관련된 인스턴스 혹은 리소스를 반환하는 함수들..
+	// ============================================================================================================
 	public Sprite GetChampionUltimateIconSprite(BattleTeamKind teamKind, int index)
 	{
 		string championName = battleStageManager.GetChampionName(teamKind, index);
@@ -85,15 +100,5 @@ public class BattleStageDataTable
 	public Pilot GetPilot(BattleTeamKind teamKind, int index)
 	{
 		return battleStageManager.GetPilot(teamKind, index);
-	}
-
-	public void OnChampionDeath(BattleTeamKind teamKind, int index)
-	{
-		OnChampionDeadEvent?.Invoke(teamKind, index);
-	}
-
-	public void OnChampionRevival(BattleTeamKind teamKind, int index)
-	{
-		OnChampionRevivalEvent?.Invoke(teamKind, index);
 	}
 }
