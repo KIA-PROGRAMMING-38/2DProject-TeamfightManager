@@ -54,9 +54,9 @@ public class Champion : MonoBehaviour, IAttackable
 	private AttackAction _curAttackAction;
 
 	// °ø°Ý ½Ã, ÇÇ°Ý ½Ã µîµîÀÇ ÀÌº¥Æ®..
-	public event Action<Champion, int> OnHit;		// <¶§¸°³ð, µ¥¹ÌÁö> ¼øÀ¸·Î º¸³¿..
-	public event Action<Champion, int> OnHill;		// <Èú ´çÇÑ³ð, Èú·®> ¼øÀ¸·Î º¸³¿..
-	public event Action<Champion, int> OnAttack;	// <¸ÂÀº³ð, µ¥¹ÌÁö> ¼øÀ¸·Î º¸³¿..
+	public event Action<Champion, int> OnHit;       // <¶§¸°³ð, µ¥¹ÌÁö> ¼øÀ¸·Î º¸³¿..
+	public event Action<Champion, int> OnHill;      // <Èú ´çÇÑ³ð, Èú·®> ¼øÀ¸·Î º¸³¿..
+	public event Action<Champion, int> OnAttack;    // <¸ÂÀº³ð, µ¥¹ÌÁö> ¼øÀ¸·Î º¸³¿..
 	public event Action<float> OnChangedHPRatio;
 	public event Action<float> OnChangedMPRatio;
 	public event Action OnUseUltimate;
@@ -82,8 +82,11 @@ public class Champion : MonoBehaviour, IAttackable
 		set
 		{
 			_isSkillCooltime = value;
+
 			if (true == _isSkillCooltime)
 				_skillActTime = Time.time;
+			else
+				OnChangedMPRatio?.Invoke(1f);
 
 			blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, !_isSkillCooltime);
 		}
@@ -102,8 +105,6 @@ public class Champion : MonoBehaviour, IAttackable
 	{
 		Revival();
 
-		blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
-
 		isSkillCooltime = true;
 
 		StartCoroutine(TestUltOn());
@@ -121,10 +122,9 @@ public class Champion : MonoBehaviour, IAttackable
 		if (true == _isSkillCooltime)
 		{
 			float elaspedTime = Time.time - _skillActTime;
-			if ( elaspedTime >= status.skillCooltime)
+			if (elaspedTime >= status.skillCooltime)
 			{
 				isSkillCooltime = false;
-				OnChangedMPRatio?.Invoke(1f);
 			}
 			else
 			{
@@ -200,13 +200,13 @@ public class Champion : MonoBehaviour, IAttackable
 
 		_animComponent.ResetAnimation();
 
-		blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, true);
-		blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, true);
+		isAtkCooltime = false;
+		isSkillCooltime = false;
 	}
 
 	IEnumerator UpdateAtkCooltime()
 	{
-		while(true)
+		while (true)
 		{
 			Debug.Log("°ø°Ý ½ÃÀÛ");
 
@@ -221,7 +221,7 @@ public class Champion : MonoBehaviour, IAttackable
 	public void Attack(string atkKind)
 	{
 		//_attackAction.OnAction();
-		switch(atkKind)
+		switch (atkKind)
 		{
 			case "Attack":
 				_curAttackAction = _attackAction;
@@ -258,7 +258,7 @@ public class Champion : MonoBehaviour, IAttackable
 
 	private IEnumerator OnActionUpdate()
 	{
-		if(null != _curAttackAction)
+		if (null != _curAttackAction)
 		{
 			while (true)
 			{
@@ -278,6 +278,7 @@ public class Champion : MonoBehaviour, IAttackable
 
 	public void TakeDamage(Champion hitChampion, int damage)
 	{
+		damage = Math.Min(CalcDefenceApplyDamage(damage), curHp);
 		curHp -= damage;
 
 		if (null != hitChampion)
@@ -325,6 +326,11 @@ public class Champion : MonoBehaviour, IAttackable
 	private void OnAnimationEnd()
 	{
 		_curAttackAction?.OnAnimationEndEvent();
+	}
+
+	private int CalcDefenceApplyDamage(int damage)
+	{
+		return (int)((50f / (50 + status.defence)) * damage);
 	}
 
 	public void TestColorChange(Color color)
