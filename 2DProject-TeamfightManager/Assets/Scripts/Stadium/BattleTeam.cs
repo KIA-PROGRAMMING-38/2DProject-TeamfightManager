@@ -30,6 +30,9 @@ public class BattleTeam : MonoBehaviour
 	private List<Champion> _allChampions = new List<Champion>();
 
 	public event Action<BattleTeamKind, int, BattleInfoData> OnChangedChampionBattleInfoData;
+	public event Action<BattleTeamKind, int, float> OnChangedChampionHPRatio;
+	public event Action<BattleTeamKind, int, float> OnChangedChampionMPRatio;
+	public event Action<BattleTeamKind, int> OnChampionUseUltimate;
 
 	/// <summary>
 	/// 소속될 파일럿을 추가해주는 함수..
@@ -37,7 +40,7 @@ public class BattleTeam : MonoBehaviour
 	/// </summary>
 	/// <param name="pilotName"></param>
 	/// <param name="champName"></param>
-    public void AddPilot(string pilotName, string champName)
+	public void AddPilot(string pilotName, string champName)
     {
 		// 각각의 매니저에게서 인스턴스를 받아온다..
 		Pilot pilot = pilotManager.GetPilotInstance(pilotName);
@@ -79,9 +82,23 @@ public class BattleTeam : MonoBehaviour
 		// 파일럿 이벤트 연결..
 		pilotBattleComponent.OnChangedBattleInfoData -= OnChangedChampionBattleData;
 		pilotBattleComponent.OnChangedBattleInfoData += OnChangedChampionBattleData;
+
+		pilotBattleComponent.OnChangedChampionHPRatio -= UpdateChampionHPRatio;
+		pilotBattleComponent.OnChangedChampionHPRatio += UpdateChampionHPRatio;
+
+		pilotBattleComponent.OnChangedChampionMPRatio -= UpdateChampionMPRatio;
+		pilotBattleComponent.OnChangedChampionMPRatio += UpdateChampionMPRatio;
+
+		pilotBattleComponent.OnChampionUseUltimate -= UpdateChampionUseUltimateState;
+		pilotBattleComponent.OnChampionUseUltimate += UpdateChampionUseUltimateState;
 	}
 
-	public void OnChampionDead(Champion champion)
+	public Champion GetChampion(int index)
+	{
+		return _pilots[index].controlChampion;
+	}
+
+	public void OnChampionDead(Champion champion, int pilotIndex)
 	{
 		champion.gameObject.SetActive(false);
 
@@ -96,14 +113,18 @@ public class BattleTeam : MonoBehaviour
 			}
 		}
 
-		StartCoroutine( WaitRevival( champion ) );
+		battleStageManager.OnChampionDeadState(battleTeamKind, pilotIndex);
+
+		StartCoroutine( WaitRevival( champion, pilotIndex ) );
 	}
 
-	IEnumerator WaitRevival(Champion champion)
+	IEnumerator WaitRevival(Champion champion, int pilotIndex)
 	{
-		yield return YieldInstructionStore.GetWaitForSec( 1f );
+		yield return YieldInstructionStore.GetWaitForSec(1f);
 
-		OnSuccessRevival( champion );
+		battleStageManager.OnChampionRevivalState(battleTeamKind, pilotIndex);
+
+		OnSuccessRevival(champion);
 	}
 
 	public void OnSuccessRevival(Champion champion)
@@ -184,5 +205,20 @@ public class BattleTeam : MonoBehaviour
 	private void OnChangedChampionBattleData(int index, BattleInfoData data)
 	{
 		OnChangedChampionBattleInfoData?.Invoke(battleTeamKind, index, data);
+	}
+
+	private void UpdateChampionHPRatio(int index, float ratio)
+	{
+		OnChangedChampionHPRatio?.Invoke(battleTeamKind, index, ratio);
+	}
+
+	private void UpdateChampionMPRatio(int index, float ratio)
+	{
+		OnChangedChampionMPRatio?.Invoke(battleTeamKind, index, ratio);
+	}
+
+	private void UpdateChampionUseUltimateState(int index)
+	{
+		OnChampionUseUltimate?.Invoke(battleTeamKind, index);
 	}
 }

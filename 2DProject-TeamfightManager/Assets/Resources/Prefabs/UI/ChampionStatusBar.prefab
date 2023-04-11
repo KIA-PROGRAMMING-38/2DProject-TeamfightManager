@@ -614,7 +614,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _iconImage: {fileID: 7758424401104126405}
-  _activeOffColor: {r: 0.7254902, g: 0.7254902, b: 0.7254902, a: 1}
+  _backgroundImage: {fileID: 7758424402089024699}
+  _activeOffColor: {r: 1, g: 1, b: 1, a: 0.39215687}
   _deactiveBackgroundSprite: {fileID: 21300000, guid: d36ef2b8ed1027046b35c9017a21ce51, type: 3}
 --- !u!1 &7758424402724968835
 GameObject:

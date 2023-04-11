@@ -19,6 +19,8 @@ public class DataTableManager : MonoBehaviour
 		attackActionDataTable = new AttackActionDataTable();
 		battleStageDataTable = new BattleStageDataTable();
 
+		battleStageDataTable.championDataTable = championDataTable;
+
 		Champion.s_dataTableManager = this;
 	}
 }

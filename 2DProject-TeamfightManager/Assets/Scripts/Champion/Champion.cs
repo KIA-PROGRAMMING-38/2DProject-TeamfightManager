@@ -35,6 +35,8 @@ public class Champion : MonoBehaviour, IAttackable
 			{
 				pilotBattleComponent.OnChampionDead(this);
 			}
+
+			OnChangedHPRatio?.Invoke(curHp / (float)status.hp);
 		}
 	}
 	public bool isDead { get => _curHp == 0; }
@@ -42,6 +44,9 @@ public class Champion : MonoBehaviour, IAttackable
 
 	public Champion targetChampion { get => blackboard?.GetObjectValue(BlackboardKeyTable.target) as Champion; }
 	public Champion lastHitChampion { get; private set; }
+
+	private IEnumerator _atkCooltimeCoroutine;
+	private IEnumerator _skillCooltimeCoroutine;
 
 	private AttackAction _attackAction;
 	private AttackAction _skillAction;
@@ -53,8 +58,36 @@ public class Champion : MonoBehaviour, IAttackable
 	public event Action<Champion, int> OnHill;		// <Èú ´çÇÑ³ð, Èú·®> ¼øÀ¸·Î º¸³¿..
 	public event Action<Champion, int> OnAttack;	// <¸ÂÀº³ð, µ¥¹ÌÁö> ¼øÀ¸·Î º¸³¿..
 	public event Action<float> OnChangedHPRatio;
-	public event Action<float> OnChangedMana;
-	public event Action<bool> OnChangedUseUltimate;
+	public event Action<float> OnChangedMPRatio;
+	public event Action OnUseUltimate;
+
+	private bool _isAtkCooltime;
+	private float _atkActTime;
+	private bool isAtkCooltime
+	{
+		set
+		{
+			_isAtkCooltime = value;
+			if (true == _isAtkCooltime)
+				_atkActTime = Time.time;
+
+			blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, !_isAtkCooltime);
+		}
+	}
+
+	private bool _isSkillCooltime;
+	private float _skillActTime;
+	private bool isSkillCooltime
+	{
+		set
+		{
+			_isSkillCooltime = value;
+			if (true == _isSkillCooltime)
+				_skillActTime = Time.time;
+
+			blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, !_isSkillCooltime);
+		}
+	}
 
 	private void Awake()
 	{
@@ -70,14 +103,34 @@ public class Champion : MonoBehaviour, IAttackable
 		Revival();
 
 		blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
-		StartCoroutine(UpdateSkillCoolTime());
 
-		//StartCoroutine(TestUltOn());
+		isSkillCooltime = true;
+
+		StartCoroutine(TestUltOn());
 	}
 
-	void OnEnable()
+	private void Update()
 	{
-		//StartCoroutine(TestUltOn());
+		if (true == _isAtkCooltime)
+		{
+			if (Time.time - _atkActTime >= 1f / status.atkSpeed)
+			{
+				isAtkCooltime = false;
+			}
+		}
+		if (true == _isSkillCooltime)
+		{
+			float elaspedTime = Time.time - _skillActTime;
+			if ( elaspedTime >= status.skillCooltime)
+			{
+				isSkillCooltime = false;
+				OnChangedMPRatio?.Invoke(1f);
+			}
+			else
+			{
+				OnChangedMPRatio?.Invoke(elaspedTime / status.skillCooltime);
+			}
+		}
 	}
 
 	IEnumerator TestUltOn()
@@ -153,20 +206,16 @@ public class Champion : MonoBehaviour, IAttackable
 
 	IEnumerator UpdateAtkCooltime()
 	{
-		blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, false);
+		while(true)
+		{
+			Debug.Log("°ø°Ý ½ÃÀÛ");
 
-		yield return YieldInstructionStore.GetWaitForSec(1f / status.atkSpeed);
+			yield return YieldInstructionStore.GetWaitForSec(1f / status.atkSpeed);
 
-		blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, true);
-	}
+			blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, true);
 
-	IEnumerator UpdateSkillCoolTime()
-	{
-		blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
-
-		yield return YieldInstructionStore.GetWaitForSec(status.skillCooltime);
-
-		blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, true);
+			StopCoroutine(_atkCooltimeCoroutine);
+		}
 	}
 
 	public void Attack(string atkKind)
@@ -178,14 +227,16 @@ public class Champion : MonoBehaviour, IAttackable
 				_curAttackAction = _attackAction;
 				_curAttackAction?.OnStart();
 				blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
-				StartCoroutine(UpdateAtkCooltime());
+				blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, false);
+				isAtkCooltime = true;
 
 				break;
 			case "Skill":
 				_curAttackAction = _skillAction;
 				_curAttackAction?.OnStart();
 				blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
-				StartCoroutine(UpdateSkillCoolTime());
+				blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
+				isSkillCooltime = true;
 
 				break;
 			case "Ultimate":
@@ -193,6 +244,8 @@ public class Champion : MonoBehaviour, IAttackable
 				_curAttackAction?.OnStart();
 				blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
 				blackboard.SetBoolValue(BlackboardKeyTable.isCanActUltimate, false);
+
+				OnUseUltimate?.Invoke();
 				break;
 
 			default:
@@ -234,7 +287,6 @@ public class Champion : MonoBehaviour, IAttackable
 
 		OnHit?.Invoke(hitChampion, damage);
 		hitChampion.OnAttack?.Invoke(this, damage);
-		OnChangedHPRatio?.Invoke(curHp / (float)status.hp);
 
 		if (false == isDead)
 		{

@@ -1,12 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class BattleStageDataTable
 {
+	public ChampionDataTable championDataTable { private get; set; }
+	public BattleStageManager battleStageManager { private get; set; }
+
 	public event Action<float> OnUpdateBattleRemainTime;
 	private float _battleRemainTime = 0f;   // 배틀 총 남은 시간..
 
 	public event Action<BattleTeamKind, int, BattleInfoData> OnChangedChampionBattleData;
+
+	public event Action<BattleTeamKind, int, float> OnChangedChampionHPRatio;
+	public event Action<BattleTeamKind, int, float> OnChangedChampionMPRatio;
+	public event Action<BattleTeamKind, int> OnChampionUseUltimate;
+	public event Action<BattleTeamKind, int> OnChampionDeadEvent;
+	public event Action<BattleTeamKind, int> OnChampionRevivalEvent;
+
+	public int battleChampionTotalCount { get; set; }
 
 	// 배틀 시간 갱신..
 	public float updateTime
@@ -32,8 +44,46 @@ public class BattleStageDataTable
 		OnUpdateBattleRemainTime = null;
 	}
 
+	// Battle Info Data가 수정 시 호출되는 콜백 함수..
 	public void ModifyChampionBattleData(BattleTeamKind teamKind, int index, BattleInfoData data)
 	{
 		OnChangedChampionBattleData?.Invoke(teamKind, index, data);
+	}
+
+	public void ModifyChampionHPRatio(BattleTeamKind teamKind, int index, float ratio)
+	{
+		OnChangedChampionHPRatio?.Invoke(teamKind, index, ratio);
+	}
+
+	public void ModifyChampionMPRatio(BattleTeamKind teamKind, int index, float ratio)
+	{
+		OnChangedChampionMPRatio?.Invoke(teamKind, index, ratio);
+	}
+
+	public void ModifyChampionUseUltimateState(BattleTeamKind teamKind, int index)
+	{
+		OnChampionUseUltimate?.Invoke(teamKind, index);
+	}
+
+	public Sprite GetChampionUltimateIconSprite(BattleTeamKind teamKind, int index)
+	{
+		string championName = battleStageManager.GetChampionName(teamKind, index);
+
+		return championDataTable.GetUltimateIconImage(championName);
+	}
+
+	public Transform GetChampionTransform(BattleTeamKind teamKind, int index)
+	{
+		return battleStageManager.GetChampion(teamKind, index).transform;
+	}
+
+	public void OnChampionDeath(BattleTeamKind teamKind, int index)
+	{
+		OnChampionDeadEvent?.Invoke(teamKind, index);
+	}
+
+	public void OnChampionRevival(BattleTeamKind teamKind, int index)
+	{
+		OnChampionRevivalEvent?.Invoke(teamKind, index);
 	}
 }
