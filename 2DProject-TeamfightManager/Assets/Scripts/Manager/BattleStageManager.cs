@@ -53,7 +53,7 @@ public class BattleStageManager : MonoBehaviour
 		_battleStageDataTable.OnUpdateBattleRemainTime -= OnUpdateBattleRemainTime;
 		_battleStageDataTable.OnUpdateBattleRemainTime += OnUpdateBattleRemainTime;
 
-		_battleStageDataTable.Initialize(10f);
+		_battleStageDataTable.Initialize(60f);
 	}
 
 	private void Update()
@@ -120,8 +120,8 @@ public class BattleStageManager : MonoBehaviour
 	// 배틀 스테이지의 각 팀들의 파일럿 생성해주는 함수..
 	private void SetupPilot()
 	{
-		int pilotCount = 1;
-		_battleStageDataTable.battleChampionTotalCount = pilotCount * 2;
+		int pilotCount = 100;
+		_battleStageDataTable.battleChampionTotalCount = Math.Min(pilotCount, 4) * 2;
 
 		for (int i = 0; i < pilotCount; ++i)
 		{

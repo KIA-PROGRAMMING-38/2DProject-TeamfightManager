@@ -47,12 +47,12 @@ public class ChampionAnimation : MonoBehaviour
 	private readonly static float s_hitEffectTime = 0.1f;
 	private WaitForSeconds _hitEffectWaitForSecInstance;
 	private IEnumerator _showHitMatCoroutine;
+	private bool _isRunningHitEvent = false;
 
 	// 공격 관련 애니메이션 종료 시 챔피언에게 몇 초 있다가 이벤트를 전달하는 기능 관련 필드..
 	private readonly static float s_delayreceiveAnimEndEventTime = 0.1f;
 	private WaitForSeconds _delayReceiveToChampionWaitSecInst;
 	private IEnumerator _delayReceiveToChampionCoroutine;
-
 
 	public bool flipX { get => _spriteRenderer.flipX; set => _spriteRenderer.flipX = value; }
 
@@ -86,6 +86,9 @@ public class ChampionAnimation : MonoBehaviour
     {
 		_hitEffectWaitForSecInstance = YieldInstructionStore.GetWaitForSec(s_hitEffectTime);
 		_delayReceiveToChampionWaitSecInst = YieldInstructionStore.GetWaitForSec(s_delayreceiveAnimEndEventTime);
+
+		_showHitMatCoroutine = ShowHitMaterial();
+		_delayReceiveToChampionCoroutine = StartReceiveEventDelay();
 	}
 
 	private void OnDisable()
@@ -95,18 +98,23 @@ public class ChampionAnimation : MonoBehaviour
 
 	public void OnHit()
 	{
-		_showHitMatCoroutine = ShowHitMaterial();
-		StartCoroutine(_showHitMatCoroutine);
+		if (false == _isRunningHitEvent)
+			StartCoroutine(_showHitMatCoroutine);
 	}
 
 	IEnumerator ShowHitMaterial()
 	{
 		while(true)
 		{
+			_isRunningHitEvent = true;
+
 			_spriteRenderer.material = _hitMaterial;
 			yield return _hitEffectWaitForSecInstance;
 			_spriteRenderer.material = _originMaterial;
+
 			StopCoroutine(_showHitMatCoroutine);
+
+			_isRunningHitEvent = false;
 			yield return null;
 		}
 	}
@@ -228,14 +236,20 @@ public class ChampionAnimation : MonoBehaviour
 	{
 		_animator.SetTrigger(s_onAnimEndKeyHash);
 
-		_delayReceiveToChampionCoroutine = StartReceiveEventDelay();
 		StartCoroutine(_delayReceiveToChampionCoroutine);
 	}
 
 	// 애니메이션이 끝나자마자 챔피언에게 종료 사실을 전달하지 않고 딜레이를 주기 위한 코루틴..
 	IEnumerator StartReceiveEventDelay()
 	{
-		yield return _delayReceiveToChampionWaitSecInst;
-		OnAnimationEvent("OnAnimEnd");
+		while(true)
+		{
+			yield return _delayReceiveToChampionWaitSecInst;
+			OnAnimationEvent("OnAnimEnd");
+
+			StopCoroutine(_delayReceiveToChampionCoroutine);
+
+			yield return null;
+		}
 	}
 }

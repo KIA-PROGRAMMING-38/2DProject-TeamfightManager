@@ -102,6 +102,9 @@ public class ChampStatusBarManager : UIBase
 
 	public void OnChampionDead(BattleTeamKind teamKind, int index)
 	{
+		if (_halfChampCount <= index)
+			return;
+
 		int teamIndex = (int)teamKind;
 
 		_champStatusBarContainer[(int)teamKind][index].gameObject.SetActive(false);
@@ -109,6 +112,9 @@ public class ChampStatusBarManager : UIBase
 
 	public void OnChampionRevival(BattleTeamKind teamKind, int index)
 	{
+		if (_halfChampCount <= index)
+			return;
+
 		int teamIndex = (int)teamKind;
 
 		_champStatusBarContainer[(int)teamKind][index].gameObject.SetActive(true);

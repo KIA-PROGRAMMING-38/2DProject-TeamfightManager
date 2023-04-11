@@ -38,6 +38,8 @@ public class BattleTeam : MonoBehaviour
 	private float _revivalWaitTime = 1f;
 	private WaitForSeconds _revivalWaitSecInst;
 
+	private List<IEnumerator> _revivalCoroutines = new List<IEnumerator>();
+
 	private void Start()
 	{
 		_revivalWaitSecInst = YieldInstructionStore.GetWaitForSec(_revivalWaitTime);
@@ -100,6 +102,9 @@ public class BattleTeam : MonoBehaviour
 
 		pilotBattleComponent.OnChampionUseUltimate -= UpdateChampionUseUltimateState;
 		pilotBattleComponent.OnChampionUseUltimate += UpdateChampionUseUltimateState;
+
+		// 코루틴 등록..
+		_revivalCoroutines.Add(WaitRevival(_pilots.Count - 1));
 	}
 
 	public Champion GetChampion(int index)
@@ -129,16 +134,23 @@ public class BattleTeam : MonoBehaviour
 
 		battleStageManager.OnChampionDeadState(battleTeamKind, pilotIndex);
 
-		StartCoroutine( WaitRevival( champion, pilotIndex ) );
+		StartCoroutine(_revivalCoroutines[pilotIndex]);
 	}
 
-	IEnumerator WaitRevival(Champion champion, int pilotIndex)
+	IEnumerator WaitRevival(int pilotIndex)
 	{
-		yield return _revivalWaitSecInst;
+		while(true)
+		{
+			yield return _revivalWaitSecInst;
 
-		battleStageManager.OnChampionRevivalState(battleTeamKind, pilotIndex);
+			battleStageManager.OnChampionRevivalState(battleTeamKind, pilotIndex);
 
-		OnSuccessRevival(champion);
+			OnSuccessRevival(_pilots[pilotIndex].controlChampion);
+
+			StopCoroutine(_revivalCoroutines[pilotIndex]);
+
+			yield return null;
+		}
 	}
 
 	public void OnSuccessRevival(Champion champion)
