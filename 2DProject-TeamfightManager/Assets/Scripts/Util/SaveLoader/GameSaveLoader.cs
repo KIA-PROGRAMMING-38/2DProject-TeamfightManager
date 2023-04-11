@@ -17,6 +17,22 @@ public static class GameSaveLoader
 		string filePath = "Assets/Data";
 
 		{
+			// Pilot 전역적으로 사용될 파일 불러온다..
+			string pilotGlobalFilePath = Path.Combine(filePath, "PilotGlobal.data");
+			string[] loadData = File.ReadAllLines(pilotGlobalFilePath);
+
+			string[] conditionsFilePath = loadData[0].Split(',');
+			int loopCount = conditionsFilePath.Length;
+			for( int i = 0; i < loopCount; ++i)
+			{
+				Sprite loadSprite = Resources.Load<Sprite>(conditionsFilePath[i]);
+				dataTableManager.pilotDataTable.AddConditionSprite(loadSprite);
+			}
+
+			dataTableManager.pilotDataTable.SetPilotDefaultPrefab(Resources.Load<GameObject>(loadData[1]));
+		}
+
+		{
 			// Attack Action의 파일들 불러온다..
 			string attackDataActionDefaultPath = Path.Combine(filePath, "AttackAction");
 			string[] attackActionsFilePath = Directory.GetFiles(attackDataActionDefaultPath);

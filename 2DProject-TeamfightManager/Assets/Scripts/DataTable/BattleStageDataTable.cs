@@ -77,6 +77,16 @@ public class BattleStageDataTable
 		return battleStageManager.GetChampion(teamKind, index).transform;
 	}
 
+	public Champion GetChampion(BattleTeamKind teamKind, int index)
+	{
+		return battleStageManager.GetChampion(teamKind, index);
+	}
+
+	public Pilot GetPilot(BattleTeamKind teamKind, int index)
+	{
+		return battleStageManager.GetPilot(teamKind, index);
+	}
+
 	public void OnChampionDeath(BattleTeamKind teamKind, int index)
 	{
 		OnChampionDeadEvent?.Invoke(teamKind, index);

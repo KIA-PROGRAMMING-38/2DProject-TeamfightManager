@@ -154,6 +154,14 @@ public class BattleStageManager : MonoBehaviour
 			return blueTeam.GetChampion(index);
 	}
 
+	public Pilot GetPilot(BattleTeamKind teamKind, int index)
+	{
+		if (teamKind == BattleTeamKind.RedTeam)
+			return redTeam.GetPilot(index);
+		else
+			return blueTeam.GetPilot(index);
+	}
+
 	// 배틀 남은 시간 갱신되면 호출되는 콜백 함수..
 	private void OnUpdateBattleRemainTime(float remainTime)
 	{
