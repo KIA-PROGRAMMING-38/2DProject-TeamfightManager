@@ -92,6 +92,8 @@ public class Champion : MonoBehaviour, IAttackable
 		}
 	}
 
+	private IEnumerator _onActiveUpdateCoroutine;
+
 	private void Awake()
 	{
 		AIController aiController = gameObject.AddComponent<ChampionController>();
@@ -107,7 +109,7 @@ public class Champion : MonoBehaviour, IAttackable
 
 		isSkillCooltime = true;
 
-		StartCoroutine(TestUltOn());
+		//StartCoroutine(TestUltOn());
 	}
 
 	private void Update()
@@ -253,7 +255,8 @@ public class Champion : MonoBehaviour, IAttackable
 				return;
 		}
 
-		StartCoroutine(OnActionUpdate());
+		_onActiveUpdateCoroutine = OnActionUpdate();
+		StartCoroutine(_onActiveUpdateCoroutine);
 	}
 
 	private IEnumerator OnActionUpdate()

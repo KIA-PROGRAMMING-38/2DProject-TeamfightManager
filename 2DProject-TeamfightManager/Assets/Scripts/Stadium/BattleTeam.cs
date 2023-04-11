@@ -34,6 +34,15 @@ public class BattleTeam : MonoBehaviour
 	public event Action<BattleTeamKind, int, float> OnChangedChampionMPRatio;
 	public event Action<BattleTeamKind, int> OnChampionUseUltimate;
 
+	// 부활 관련 필드들..
+	private float _revivalWaitTime = 1f;
+	private WaitForSeconds _revivalWaitSecInst;
+
+	private void Start()
+	{
+		_revivalWaitSecInst = YieldInstructionStore.GetWaitForSec(_revivalWaitTime);
+	}
+
 	/// <summary>
 	/// 소속될 파일럿을 추가해주는 함수..
 	/// 배틀 스테이지에서 사용될 파일럿과 챔피언을 받아와 저장한다..
@@ -125,7 +134,7 @@ public class BattleTeam : MonoBehaviour
 
 	IEnumerator WaitRevival(Champion champion, int pilotIndex)
 	{
-		yield return YieldInstructionStore.GetWaitForSec(1f);
+		yield return _revivalWaitSecInst;
 
 		battleStageManager.OnChampionRevivalState(battleTeamKind, pilotIndex);
 

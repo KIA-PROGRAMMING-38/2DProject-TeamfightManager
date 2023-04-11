@@ -18,5 +18,21 @@ public class Pilot : MonoBehaviour
 	public void Initialize(PilotData data)
 	{
 		this.data = data;
+
+		IEnumerator c = Cor();
+	}
+
+	IEnumerator Cor()
+	{
+		while(true)
+		{
+			Debug.Log("Start");
+
+			yield return new WaitForSeconds(1f);
+
+			Debug.Log("End");
+
+			yield return null;
+		}
 	}
 }

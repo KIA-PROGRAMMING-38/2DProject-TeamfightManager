@@ -1,13 +1,6 @@
 using System;
 using UnityEngine;
 
-public enum BattleTeamKind
-{
-	RedTeam,
-	BlueTeam,
-	End
-}
-
 /// <summary>
 /// 배틀 스테이지를 관리하는 매니저 클래스..
 /// </summary>

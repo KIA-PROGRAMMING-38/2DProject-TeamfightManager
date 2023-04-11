@@ -1,7 +1,4 @@
-﻿using MH_AIFramework;
-using System.Collections.Generic;
-using System.Diagnostics.Tracing;
-using System.IO;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -44,14 +41,18 @@ public class AttackActionDataTable
 		Debug.Assert(uniqueKey < _actionDataContainer.Count, "AttackActionDataTable's GetAttackAction() : Index out of range");
 #endif
 
-		AttackAction attackAction = new AttackAction(_actionDataContainer[uniqueKey], _performanceDataContinaer[uniqueKey]);
+		AttackActionData actionData = _actionDataContainer[uniqueKey];
+		AttackPerformanceData performanceData = _performanceDataContinaer[uniqueKey];
+		List<AttackImpactData> impactData = _impactDataContainer[uniqueKey];
 
-		int loopCount = _impactDataContainer[uniqueKey].Count;
-		for( int i = 0; i < loopCount; ++i)
+		AttackAction newAction = new AttackAction(actionData, performanceData);
+
+		int loopCount = impactData.Count;
+		for (int i = 0; i < loopCount; ++i)
 		{
-			attackAction.AddImpactData(_impactDataContainer[uniqueKey][i]);
+			newAction.AddImpactData(impactData[i]);
 		}
 
-		return attackAction;
+		return newAction;
 	}
 }

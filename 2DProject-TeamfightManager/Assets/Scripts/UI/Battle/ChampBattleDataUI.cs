@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class ChampBattleDataUI : MonoBehaviour
 {
+	// 챔피언 전투 관련 정보를 화면에 띄워주기 위한 UI..
     [SerializeField] private Text _killCountText;
     [SerializeField] private Text _deathCountText;
     [SerializeField] private Text _assistCountText;
@@ -15,6 +16,7 @@ public class ChampBattleDataUI : MonoBehaviour
     [SerializeField] private Sprite _redTeamBackgroundSprite;
     [SerializeField] private Sprite _blueTeamBackgroundSprite;
 
+	// 챔피언 전투 정보가 갱신되면 호출되는 콜백 함수..
 	public void UpdateData(BattleInfoData data)
     {
         _killCountText.text = data.killCount.ToString();
@@ -25,6 +27,7 @@ public class ChampBattleDataUI : MonoBehaviour
 		_totalHillText.text = data.totalHill.ToString();
 	}
 
+	// UI가 출력할 챔피언의 팀에 따라 배경색을 바꿔주기 위한 함수..
     public void SetBackgroundImage(BattleTeamKind teamKind)
     {
 		switch (teamKind)
