@@ -218,7 +218,7 @@ public class ChampionBuffSystem
 		{
 			BuffInfo curBuffInfo = _buffInfoContainer[index][i];
 
-			resultMulCal *= 1f + curBuffInfo.amount * 0.01f;
+			resultMulCal *= curBuffInfo.amount;
 		}
 	}
 
