@@ -1,3 +1,4 @@
+[System.Serializable]
 public class ChampionStatus
 {
 	public int atkStat;					// °ø°Ý·Â..

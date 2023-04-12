@@ -53,7 +53,7 @@ public class BattleStageManager : MonoBehaviour
 		_battleStageDataTable.OnUpdateBattleRemainTime -= OnUpdateBattleRemainTime;
 		_battleStageDataTable.OnUpdateBattleRemainTime += OnUpdateBattleRemainTime;
 
-		_battleStageDataTable.Initialize(10f);
+		_battleStageDataTable.Initialize(gameManager.gameGlobalData.battleFightTime);
 	}
 
 	private void Update()

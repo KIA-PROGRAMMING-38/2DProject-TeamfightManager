@@ -51,11 +51,8 @@ public class ChampFightInfoUIManager : UIBase
 		for ( int i = 0; i < _halfChampionCount; ++i)
         {
             // 생성한 뒤 적절하게 초기화해준다..
-            fightInfoUIContainer[blueTeamIndex][i] = Instantiate<ChampFightInfoUI>(ChampFightInfoUIPrefab);
-			fightInfoUIContainer[redTeamIndex][i] = Instantiate<ChampFightInfoUI>(ChampFightInfoUIPrefab);
-
-            fightInfoUIContainer[blueTeamIndex][i].transform.parent = _blueTeamUIParent;
-			fightInfoUIContainer[redTeamIndex][i].transform.parent = _redTeamUIParent;
+            fightInfoUIContainer[blueTeamIndex][i] = Instantiate<ChampFightInfoUI>(ChampFightInfoUIPrefab, _blueTeamUIParent);
+			fightInfoUIContainer[redTeamIndex][i] = Instantiate<ChampFightInfoUI>(ChampFightInfoUIPrefab, _redTeamUIParent);
 
 			fightInfoUIContainer[blueTeamIndex][i].SetBackgroundImage(BattleTeamKind.BlueTeam);
             fightInfoUIContainer[redTeamIndex][i].SetBackgroundImage(BattleTeamKind.RedTeam);

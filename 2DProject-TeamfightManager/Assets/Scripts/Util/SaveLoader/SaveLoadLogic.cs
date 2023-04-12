@@ -232,9 +232,13 @@ public static class SaveLoadLogic
 		getActionData = new AttackActionData();
 		getActionData.uniqueKey = int.Parse(attackActionData[0]);
 		getActionData.isPassive = bool.Parse(attackActionData[1]);
-		getActionData.impactRange = float.Parse(attackActionData[2]);
-		getActionData.impactRangeType = int.Parse(attackActionData[3]);
-		getActionData.actionStartPointKind = int.Parse(attackActionData[4]);
+		getActionData.findTargetData = new FindTargetData
+		{
+			targetDecideKind = (TargetDecideKind)int.Parse(attackActionData[2]),
+			targetTeamKind = (TargetTeamKind)int.Parse(attackActionData[3]),
+			impactRange = float.Parse(attackActionData[4]),
+			actionStartPointKind = (ActionStartPointKind)int.Parse(attackActionData[5]),
+		};
 
 		// Attack Impact Data 저장..
 		int impactDataCount = int.Parse(loadData[1]);
@@ -245,17 +249,32 @@ public static class SaveLoadLogic
 		{
 			string[] impactData = loadData[index++].Split(',');
 
-			getImpactDatas.Add(
-				new AttackImpactData
+			AttackImpactData newImpactData = new AttackImpactData
+			{
+				mainData = new AttackImpactMainData
 				{
-					kind = int.Parse(impactData[0]),
+					kind = (AttackImpactEffectKind)int.Parse(impactData[0]),
 					detailKind = int.Parse(impactData[1]),
-					amount = int.Parse(impactData[2]),
+					amount = float.Parse(impactData[2]),
 					duration = float.Parse(impactData[3]),
-					tickTime = float.Parse(impactData[4]),
-					targetDecideKind = int.Parse(impactData[5]),
-					targetTeamKind = int.Parse(impactData[6]),
-				});
+					tickTime = float.Parse(impactData[4])
+				},
+
+				isSeparateTargetFindLogic = bool.Parse(impactData[5])
+			};
+
+			if(newImpactData.isSeparateTargetFindLogic)
+			{
+				newImpactData.findTargetData = new FindTargetData
+				{
+					targetDecideKind = (TargetDecideKind)int.Parse(impactData[6]),
+					targetTeamKind = (TargetTeamKind)int.Parse(impactData[7]),
+					impactRange = float.Parse(impactData[8]),
+					actionStartPointKind = (ActionStartPointKind)int.Parse(impactData[9]),
+				};
+			}
+
+			getImpactDatas.Add(newImpactData);
 		}
 
 		// Attack Performance 저장..
@@ -295,7 +314,7 @@ public static class SaveLoadLogic
 	}
 
 	public static void SaveAttackActionFile(
-		AttackActionData attackAcionData, List<AttackImpactData> attackImpactDatas, AttackPerformanceData performanceData
+		AttackActionData attackActionData, List<AttackImpactData> attackImpactDatas, AttackPerformanceData performanceData
 		, string baseGameSaveFilePath, string attackActionName, string fileExtension)
 	{
 		string filePath = Path.Combine(baseGameSaveFilePath, "AttackAction", attackActionName + fileExtension);
@@ -304,11 +323,12 @@ public static class SaveLoadLogic
 		string[] saveDatas = new string[attackImpactDatas.Count + 2 + 3];
 
 		saveDatas[0] = new string(
-				attackAcionData.uniqueKey + "," +
-				attackAcionData.isPassive + "," +
-				attackAcionData.impactRange + "," +
-				attackAcionData.impactRangeType + "," +
-				attackAcionData.actionStartPointKind
+				attackActionData.uniqueKey + "," +
+				attackActionData.isPassive + "," +
+				(int)attackActionData.findTargetData.targetDecideKind + "," +
+				(int)attackActionData.findTargetData.targetTeamKind + "," +
+				attackActionData.findTargetData.impactRange + "," +
+				(int)attackActionData.findTargetData.actionStartPointKind
 				);
 
 		// Attack Impact Data 저장..
@@ -318,17 +338,26 @@ public static class SaveLoadLogic
 		for( int i = 0; i < impactDataCount; ++i)
 		{
 			saveDatas[i + 2] = new string(
-				attackImpactDatas[i].kind + "," +
-				attackImpactDatas[i].detailKind + "," +
-				attackImpactDatas[i].amount + "," +
-				attackImpactDatas[i].duration + "," +
-				attackImpactDatas[i].tickTime + "," +
-				attackImpactDatas[i].targetDecideKind + "," +
-				attackImpactDatas[i].targetTeamKind
+				(int)attackImpactDatas[i].mainData.kind + "," +
+				attackImpactDatas[i].mainData.detailKind + "," +
+				attackImpactDatas[i].mainData.amount + "," +
+				attackImpactDatas[i].mainData.duration + "," +
+				attackImpactDatas[i].mainData.tickTime + "," +
+				attackImpactDatas[i].isSeparateTargetFindLogic
 			);
+
+			if (true == attackImpactDatas[i].isSeparateTargetFindLogic)
+			{
+				saveDatas[i + 2] += new string(
+					"," + (int)attackImpactDatas[i].findTargetData.targetDecideKind +
+					"," + (int)attackImpactDatas[i].findTargetData.targetTeamKind +
+					"," + attackImpactDatas[i].findTargetData.impactRange +
+					"," + (int)attackImpactDatas[i].findTargetData.actionStartPointKind
+					);
+			}
 		}
 
-		int index = impactDataCount + 3;
+		int index = impactDataCount + 2;
 
 		// Attack Performance Data 저장..
 		saveDatas[index++] = new string(

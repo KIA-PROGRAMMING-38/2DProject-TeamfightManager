@@ -16,7 +16,8 @@ public class Champion : MonoBehaviour, IAttackable
 	public PilotBattle pilotBattleComponent { get; set; }
 	public Blackboard blackboard { get; private set; }
 
-	public ChampionStatus status { get; private set; }
+	[field: SerializeField] public ChampionStatus status { get; private set; }
+	private ChampionStatus _baseStatus;
 	public ChampionData data { get; private set; }
 	public ChampionClassType type { get; set; }
 
@@ -103,6 +104,31 @@ public class Champion : MonoBehaviour, IAttackable
 	private IEnumerator _onActiveUpdateCoroutine;
 	private IEnumerator _updateAtkCooltimeCoroutine;
 	private IEnumerator _updateSkillCooltimeCoroutine;
+	private IEnumerator _updateModifyStatusSystemCoroutine;
+
+	// 버프, 디버프에 따라 변화되는 스탯 관련 로직 수행 및 변화된 스탯을 제공하는 객체..
+	private ChampionModifyStatusSystem _modifyStatusSystem;
+	private bool _isRunningModifyStatusSystemLogic;
+	private bool isRunningModifyStatusSystemLogic
+	{
+		get => isRunningModifyStatusSystemLogic;
+		set
+		{
+			if(_isRunningModifyStatusSystemLogic != value)
+			{
+				_isRunningModifyStatusSystemLogic = value;
+
+				if (true == _isRunningModifyStatusSystemLogic)
+				{
+					StartCoroutine(_updateModifyStatusSystemCoroutine);
+				}
+				else
+				{
+					StopCoroutine(_updateModifyStatusSystemCoroutine);
+				}
+			}
+		}
+	}
 
 	private void Awake()
 	{
@@ -111,18 +137,27 @@ public class Champion : MonoBehaviour, IAttackable
 
 		if (null == _animComponent)
 			_animComponent = GetComponentInChildren<ChampionAnimation>();
+
+		status = new ChampionStatus();
+
+		// Modify Status System 초기화..
+		_modifyStatusSystem = new ChampionModifyStatusSystem(this);
+		_modifyStatusSystem.OnChangedStatus -= UpdateStatus; 
+		_modifyStatusSystem.OnChangedStatus += UpdateStatus;
+
+		// 코루틴 함수 미리 필드 객체에 저장..
+		_onActiveUpdateCoroutine = OnActionUpdate();
+		_updateAtkCooltimeCoroutine = UpdateAtkCooltime();
+		_updateSkillCooltimeCoroutine = UpdateSkillCooltime();
+		_updateModifyStatusSystemCoroutine = UpdateModifyStatusSystem();
 	}
 
 	private void Start()
 	{
-		_onActiveUpdateCoroutine = OnActionUpdate();
-		_updateAtkCooltimeCoroutine = UpdateAtkCooltime();
-		_updateSkillCooltimeCoroutine = UpdateSkillCooltime();
-
 		Revival();
 
 		isSkillCooltime = true;
-		StartCoroutine(TestUltOn());
+		//StartCoroutine(TestUltOn());
 	}
 
 	IEnumerator TestUltOn()
@@ -142,6 +177,52 @@ public class Champion : MonoBehaviour, IAttackable
 		_curAttackAction = null;
 
 		lastHitChampion = null;
+
+		isRunningModifyStatusSystemLogic = false;
+		_modifyStatusSystem?.Reset();
+	}
+
+	public ChampionStatus debugStatue;
+	private void UpdateStatus(ChampionStatus status)
+	{
+		if (null == _baseStatus)
+			return;
+
+		this.status.atkStat = _baseStatus.atkStat + status.atkStat;
+		this.status.atkSpeed = _baseStatus.atkSpeed + status.atkSpeed;
+		this.status.range = _baseStatus.range + status.range;
+		this.status.defence = _baseStatus.defence + status.defence;
+		this.status.hp = _baseStatus.hp + status.hp;
+		this.status.moveSpeed = _baseStatus.moveSpeed + status.moveSpeed;
+		this.status.skillCooltime = _baseStatus.skillCooltime + status.skillCooltime;
+
+		debugStatue = status;
+	}
+
+	private void ResetStatus()
+	{
+		status.atkStat = 0;
+		status.atkSpeed = 0f;
+		status.range = 0f;
+		status.defence = 0;
+		status.hp = 0;
+		status.moveSpeed = 0f;
+		status.skillCooltime = 0f;
+	}
+
+	IEnumerator UpdateModifyStatusSystem()
+	{
+		while(true)
+		{
+			_modifyStatusSystem.Update();
+
+			if (true == _modifyStatusSystem.isEnded)
+			{
+				StopCoroutine(_updateModifyStatusSystemCoroutine);
+			}
+
+			yield return null;
+		}
 	}
 
 	public string ComputeEffectName(string _effectCategory)
@@ -162,15 +243,24 @@ public class Champion : MonoBehaviour, IAttackable
 	// 챔피언이 동작하기 위해 필요한 데이터를 받아와 초기화 하는 함수(챔피언 매니저 클래스에서 함수를 호출한다)..
 	public void SetupNecessaryData(ChampionStatus status, ChampionData champData, ChampionAnimData animData)
 	{
-		this.status = status;
+		_baseStatus = status;
 		this.data = champData;
+
+		// status 초기화..
+		ResetStatus();
+		UpdateStatus(this.status);
+
+		// 스탯 변화 로직 시스템에게 base status 넘겨주기..
+		_modifyStatusSystem.championBaseStatus = _baseStatus;
 
 		_animComponent.animData = animData;
 
+		// Data Table에서 챔피언에 맞는 공격 행동을 가져온다..
 		_attackAction = s_dataTableManager.attackActionDataTable.GetAttackAction(this.data.atkActionUniqueKey);
 		_skillAction = s_dataTableManager.attackActionDataTable.GetAttackAction(this.data.skillActionUniqueKey);
 		_ultimateAction = s_dataTableManager.attackActionDataTable.GetAttackAction(this.data.ultimateActionUniqueKey);
 
+		// 공격 행동의 주인을 <나>로 설정..
 		_attackAction.ownerChampion = this;
 		_skillAction.ownerChampion = this;
 		_ultimateAction.ownerChampion = this;
@@ -294,7 +384,7 @@ public class Champion : MonoBehaviour, IAttackable
 	// 적에게 데미지를 입었을 때 호출되는 함수..
 	public void TakeDamage(Champion hitChampion, int damage)
 	{
-		damage = Math.Min(CalcDefenceApplyDamage(damage), curHp) * 5;
+		damage = Math.Min(CalcDefenceApplyDamage(damage), curHp);
 		curHp -= damage;
 
 		if (null != hitChampion)
@@ -314,6 +404,32 @@ public class Champion : MonoBehaviour, IAttackable
 				lastHitChampion = hitChampion;
 			}
 		}
+	}
+
+	// 체력이 회복될 때(힐을 받을 때 등등) 호출되는 함수..
+	public void RecoverHP(Champion hilledChampion, int hillAmount)
+	{
+		hillAmount = _modifyStatusSystem.CalcHillDebuff(hillAmount);
+
+		curHp += hillAmount;
+
+		hilledChampion.OnHill?.Invoke(this, hillAmount);
+	}
+
+	public void AddBuff(AttackImpactMainData impactMainData)
+	{
+		_modifyStatusSystem.AddBuff((BuffImpactType)impactMainData.detailKind, impactMainData.amount, impactMainData.duration);
+
+		if (false == isDead)
+			isRunningModifyStatusSystemLogic = true;
+	}
+
+	public void AddDebuff(AttackImpactMainData impactMainData)
+	{
+		_modifyStatusSystem.AddDebuff((DebuffImpactType)impactMainData.detailKind, impactMainData.amount, impactMainData.duration);
+
+		if (false == isDead)
+			isRunningModifyStatusSystemLogic = true;
 	}
 
 	// 쫓아갈 적을 찾는 함수..

@@ -4,6 +4,7 @@
 public class GameGlobalData : ScriptableObject
 {
 	public int PilotCount = 4;
+	public float battleFightTime = 60f;
 
 	public string pilotGlobalFilePath;
 

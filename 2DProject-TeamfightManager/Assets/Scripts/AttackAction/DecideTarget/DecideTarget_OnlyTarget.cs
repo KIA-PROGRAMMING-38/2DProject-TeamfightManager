@@ -5,7 +5,6 @@ public class DecideTarget_OnlyTarget : AtkActionDecideTargetBase
 {
 	public DecideTarget_OnlyTarget(AttackAction attackAction, AttackActionData actionData) : base(attackAction, actionData)
 	{
-
 	}
 
 	public override void OnStart()
@@ -13,18 +12,27 @@ public class DecideTarget_OnlyTarget : AtkActionDecideTargetBase
 
 	}
 
-	public override int FindTarget(Champion[] getChampionArray)
+	public override int FindTarget(FindTargetData findTargetData, Champion[] getTargetArray)
 	{
 		// 인자로 받은 챔피언 캐시 배열이 빈 배열이라면..
-		if (null == getChampionArray || 0 == getChampionArray.Length)
+		if (null == getTargetArray || 0 == getTargetArray.Length)
 			return 0;
 
 		// 챔피언의 타겟을 찾지 못한 상태라면..
 		if (null == ownerChampion.targetChampion)
 			return 0;
 
-		// 챔피언의 타겟 넣어주고 리턴..
-		getChampionArray[0] = attackAction.targetChampion;
+		TargetTeamKind teamKind = (TargetTeamKind)findTargetData.targetTeamKind;
+
+		switch (teamKind)
+		{
+			case TargetTeamKind.Enemy:
+				getTargetArray[0] = attackAction.targetChampion;
+				break;
+			case TargetTeamKind.Team:
+				getTargetArray[0] = ownerChampion;
+				break;
+		}
 
 		return 1;
 	}
