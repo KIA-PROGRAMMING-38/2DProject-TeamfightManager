@@ -139,7 +139,7 @@ public class ChampionAnimation : MonoBehaviour
 	/// 애니메이션 상태 변경..
 	/// </summary>
 	/// <param name="newState"></param>
-	public void ChangeState(AnimState newState)
+	public void ChangeState(AnimState newState, bool isForceChange = false)
 	{
 		if (_state == AnimState.Move && newState != _state)
 			_animator.SetBool(s_isMoveKeyHash, false);
@@ -157,14 +157,20 @@ public class ChampionAnimation : MonoBehaviour
 
 				break;
 			case AnimState.Attack:
+				if (true == isForceChange)
+					_animator.SetTrigger(s_onAnimEndKeyHash);
 				_animator.SetTrigger(s_attackKeyHash);
 
 				break;
 			case AnimState.Skill:
+				if (true == isForceChange)
+					_animator.SetTrigger(s_onAnimEndKeyHash);
 				_animator.SetTrigger(s_skillKeyHash);
 
 				break;
 			case AnimState.Ultimate:
+				if (true == isForceChange)
+					_animator.SetTrigger(s_onAnimEndKeyHash);
 				_animator.SetTrigger(s_ultKeyHash);
 
 				break;

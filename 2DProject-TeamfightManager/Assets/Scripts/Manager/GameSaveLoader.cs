@@ -12,13 +12,15 @@ public static class GameSaveLoader
 	/// 게임 파일을 불러와 데이터 테이블에 저장한다..
 	/// </summary>
 	/// <param name="fileName"> 게임 파일 경로 </param>
-	public static void LoadGameFile(int loadFileNumber, DataTableManager dataTableManager)
+	public static void LoadGameFile(int loadFileNumber, GameManager gameManager)
 	{
+		DataTableManager dataTableManager = gameManager.dataTableManager;
+
 		string filePath = "Assets/Data";
 
 		{
 			// Pilot 전역적으로 사용될 파일 불러온다..
-			string pilotGlobalFilePath = Path.Combine(filePath, "PilotGlobal.data");
+			string pilotGlobalFilePath = Path.Combine(filePath, gameManager.gameGlobalData.pilotGlobalFilePath);
 			string[] loadData = File.ReadAllLines(pilotGlobalFilePath);
 
 			string[] conditionsFilePath = loadData[0].Split(',');
@@ -34,7 +36,7 @@ public static class GameSaveLoader
 
 		{
 			// Attack Action의 파일들 불러온다..
-			string attackDataActionDefaultPath = Path.Combine(filePath, "AttackAction");
+			string attackDataActionDefaultPath = Path.Combine(filePath, gameManager.gameGlobalData.attackActionDirectoryName);
 			string[] attackActionsFilePath = Directory.GetFiles(attackDataActionDefaultPath);
 
 			int loopCount = attackActionsFilePath.Length;
@@ -58,7 +60,7 @@ public static class GameSaveLoader
 
 		{
 			// Champion의 파일들 불러온다..
-			string championDataDefaultPath = Path.Combine(filePath, "Champion");
+			string championDataDefaultPath = Path.Combine(filePath, gameManager.gameGlobalData.championDirectoryName);
 			string[] championsFilePath = Directory.GetFiles(championDataDefaultPath);
 
 			int loopCount = championsFilePath.Length;
@@ -82,7 +84,7 @@ public static class GameSaveLoader
 
 		{
 			// Effect의 파일들 불러온다..
-			string effectDataDefaultPath = Path.Combine(filePath, "Effect");
+			string effectDataDefaultPath = Path.Combine(filePath, gameManager.gameGlobalData.effectDirectoryName);
 			string[] effectsFilePath = Directory.GetFiles(effectDataDefaultPath);
 
 			int loopCount = effectsFilePath.Length;
@@ -103,7 +105,7 @@ public static class GameSaveLoader
 
 		{
 			// Pilot의 파일들 불러온다..
-			string pilotDataDefaultPath = Path.Combine(filePath, "Pilot");
+			string pilotDataDefaultPath = Path.Combine(filePath, gameManager.gameGlobalData.pilotDirectoryName);
 			string[] pilotsFilePath = Directory.GetFiles(pilotDataDefaultPath);
 
 			int loopCount = pilotsFilePath.Length;
@@ -123,7 +125,7 @@ public static class GameSaveLoader
 		}
 	}
 
-	public static void SaveGameFile(int loadFileNumber, DataTableManager dataTableManager)
+	public static void SaveGameFile(int loadFileNumber, GameManager gameManager)
 	{
 
 	}
@@ -141,13 +143,13 @@ public static class GameSaveLoader
 		string defaultPath = "Animations\\Champion";
 
 		// 기본 애니메이션 파일 이름..
-		string idleFileName = "Idle";
-		string moveFileName = "Move";
-		string atkFileName = "Attack";
-		string skillFileName = "Skill";
-		string ultFileName = "Ultimate";
-		string deathFileName = "Death";
-		string deadLoopFileName = "DeadLoop";
+		string idleFileName = championName + "_Idle";
+		string moveFileName = championName + "_Move";
+		string atkFileName = championName + "_Attack";
+		string skillFileName = championName + "_Skill";
+		string ultFileName = championName + "_Ultimate";
+		string deathFileName = championName + "_Death";
+		string deadLoopFileName = championName + "_DeadLoop";
 
 		// 파일 경로를 가지고 애니메이션 파일을 찾아낸다..
 		newChampionAnimData.idleAnim = Resources.Load<AnimationClip>(System.IO.Path.Combine(defaultPath, championName, idleFileName));

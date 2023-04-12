@@ -120,7 +120,7 @@ public class BattleStageManager : MonoBehaviour
 	// 배틀 스테이지의 각 팀들의 파일럿 생성해주는 함수..
 	private void SetupPilot()
 	{
-		int pilotCount = 100;
+		int pilotCount = gameManager.gameGlobalData.PilotCount;
 		_battleStageDataTable.battleChampionTotalCount = Math.Min(pilotCount, 4) * 2;
 
 		for (int i = 0; i < pilotCount; ++i)
