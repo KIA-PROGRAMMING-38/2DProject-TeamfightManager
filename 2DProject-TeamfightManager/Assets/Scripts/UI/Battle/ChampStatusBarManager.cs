@@ -65,8 +65,7 @@ public class ChampStatusBarManager : UIBase
 			{
 				ChampStatusBar newChampStatusBar = null;
 
-				newChampStatusBar = Instantiate<ChampStatusBar>(ChampStatusBarPrefab);
-				newChampStatusBar.GetComponent<RectTransform>().parent = myUITransform;
+				newChampStatusBar = Instantiate<ChampStatusBar>(ChampStatusBarPrefab, myUITransform);
 				newChampStatusBar.target = dataTable.GetChampionTransform(teamKind, j);
 				newChampStatusBar.teamKind = teamKind;
 				newChampStatusBar.SetUltimateIconSprite(dataTable.GetChampionUltimateIconSprite(teamKind, j));

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07a55e2eef29155488a241fd5cafc05e, type: 3}
   m_Name: GameGlobalData
   m_EditorClassIdentifier: 
-  PilotCount: 4
+  PilotCount: 1
+  battleFightTime: 60
   pilotGlobalFilePath: PilotGlobal.data
   pilotDirectoryName: Pilot
   championDirectoryName: Champion
