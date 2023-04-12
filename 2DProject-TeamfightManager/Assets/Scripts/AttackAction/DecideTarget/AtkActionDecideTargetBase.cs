@@ -11,11 +11,11 @@ public abstract class AtkActionDecideTargetBase
 
 	public AtkActionDecideTargetBase(AttackAction attackAction, AttackActionData actionData)
 	{
-		this.actionData = actionData;
 		this.attackAction = attackAction;
+		this.actionData = actionData;
 	}
 
 	public abstract void OnStart();
-	public abstract int FindTarget(Champion[] getTargetArray);
+	public abstract int FindTarget(FindTargetData findTargetData, Champion[] getTargetArray);
 	public abstract void OnEnd();
 }

@@ -26,7 +26,7 @@ public class DecideTarget_InTwoPoint : AtkActionDecideTargetBase
 		_beginPosition = ownerChampion.transform.position;
 	}
 
-	public override int FindTarget(Champion[] getTargetArray)
+	public override int FindTarget(FindTargetData findTargetData, Champion[] getTargetArray)
 	{
 		Vector3 endPoint = ownerChampion.transform.position;
 
@@ -34,8 +34,8 @@ public class DecideTarget_InTwoPoint : AtkActionDecideTargetBase
 		float dirLength = dir.magnitude;
 		dir /= dirLength;
 
-		Vector3 rightDir = new Vector3(dir.y, dir.x, 0f) * actionData.impactRange;
-		Vector3 leftDir = new Vector3(-dir.y, dir.x, 0f) * actionData.impactRange;
+		Vector3 rightDir = new Vector3(dir.y, dir.x, 0f) * findTargetData.impactRange;
+		Vector3 leftDir = new Vector3(-dir.y, dir.x, 0f) * findTargetData.impactRange;
 
 		_boxPointsCache[0] = _beginPosition + leftDir;
 		_boxPointsCache[1] = _beginPosition + rightDir;
@@ -44,7 +44,7 @@ public class DecideTarget_InTwoPoint : AtkActionDecideTargetBase
 
 		bool TargetFindLogic(Vector3 enemyPosition)
 		{
-			return checkSquareInPoint(_boxPointsCache, actionData.impactRange, dirLength, enemyPosition);
+			return checkSquareInPoint(_boxPointsCache, findTargetData.impactRange, dirLength, enemyPosition);
 		}
 
 		// 범위 안에 들어오는 적을 찾는 로직..

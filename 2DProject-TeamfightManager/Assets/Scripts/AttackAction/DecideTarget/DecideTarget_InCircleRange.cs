@@ -20,12 +20,12 @@ public class DecideTarget_InCircleRange : AtkActionDecideTargetBase
 		}
 	}
 
-	public override int FindTarget(Champion[] getTargetArray)
+	public override int FindTarget(FindTargetData findTargetData, Champion[] getTargetArray)
 	{
 		if (null == ownerChampion)
 			return 0;
 
-		ActionStartPointKind startPointKind = (ActionStartPointKind)actionData.actionStartPointKind;
+		ActionStartPointKind startPointKind = (ActionStartPointKind)findTargetData.actionStartPointKind;
 		Vector3 startPoint = Vector3.zero;
 
 		switch (startPointKind)
@@ -47,7 +47,7 @@ public class DecideTarget_InCircleRange : AtkActionDecideTargetBase
 		bool TargetFindLogic(Vector3 enemyPosition)
 		{
 			float dist = (startPoint - enemyPosition).magnitude;
-			return (dist <= actionData.impactRange);
+			return (dist <= findTargetData.impactRange);
 		}
 
 		return battleTeam.ComputeEnemyTarget(TargetFindLogic, getTargetArray);

@@ -6,35 +6,21 @@
 	End
 }
 
-public enum AttackImpactType
-{
-	DefaultAttack
-}
-
-public enum DebuffImpactType
-{
-	DecreaseDefneceStat
-}
-
-public enum TargetDecideKind
-{
-	AllTarget,
-	OnlyMe,
-}
-
-public enum TargetTeamKind
-{
-	Enemy,
-	Team,
-}
-
+[System.Serializable]
 public class AttackImpactData
 {
-	public int kind;				// AttackImpactEffectKind의 값을 int로 변환해서 담는다(꺼내온 다음에는 AttackImpactEffectKind로 변환)..
-	public int detailKind;          // kind의 값에 따라 다른 enum을 파싱해서 사용..
-	public int amount;				// 효과량(공격의 경우 데미지)
-	public float duration;			// 효과 지속 시간(디버프의 경우 얼마나 지속될 것인지)..
-	public float tickTime;			// 틱 시간(장판의 경우 도트뎀 들어가는 시간?, ticktime마다 도트뎀 들어가게끔)..
-	public int targetDecideKind;    // 타겟 결정 방식(타겟 하나만 공격할 지 주변 범위의 적 모두를 공격할지 등등)..
-	public int targetTeamKind;		// 타겟 팀 종류(타겟이 적인지 아군인지)..
+	public AttackImpactMainData mainData;		// 효과를 주는 것 관련 데이터..
+
+	public bool isSeparateTargetFindLogic;      // 타겟 찾는 로직을 따로 구할 것인가..
+	public FindTargetData findTargetData;		// 타겟 찾는 로직 관련 데이터..
+}
+
+[System.Serializable]
+public class AttackImpactMainData
+{
+	public AttackImpactEffectKind kind;         // 공격 행동 시 어떤 효과를 줄 것인지 종류..
+	public int detailKind;                      // kind의 값에 따라 다른 enum을 파싱해서 사용..
+	public float amount;                        // 효과량(공격의 경우 데미지)
+	public float duration;                      // 효과 지속 시간(디버프의 경우 얼마나 지속될 것인지)..
+	public float tickTime;                      // 틱 시간(장판의 경우 도트뎀 들어가는 시간?, ticktime마다 도트뎀 들어가게끔)..
 }

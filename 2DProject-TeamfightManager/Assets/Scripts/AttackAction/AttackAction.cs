@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using UnityEditor.Timeline.Actions;
 
 /// <summary>
 /// 챔피언의 공격 행동 로직을 수행하는 클래스..
@@ -13,9 +14,12 @@ public class AttackAction
 	private ActionImpactBase[] _actionImpactLogics;
 
 	private ActionContinuousPerformance _contPerf;
-	private AtkActionDecideTargetBase _decideTargetLogic;
 
-	private Champion[] _findTargetsCache;
+	private AtkActionDecideTargetBase[] _decideTargetLogicContainer;
+	private AtkActionDecideTargetBase _baseDecideTargetLogic;
+	private int _decideTargetLogicContainerCount = 0;
+
+	public Champion[] _findTargetsCache { get; private set; }
 
 	private bool _isEndAction;
 	private bool _isEndAnimation;
@@ -29,17 +33,19 @@ public class AttackAction
 		set
 		{
 #if UNITY_EDITOR
-			Debug.Assert(null != _decideTargetLogic && null != value, "AttackAction's ownerChampion : invalid reference");
+			Debug.Assert(null != _decideTargetLogicContainer && null != value, "AttackAction's ownerChampion : invalid reference");
 
 #endif
 			_ownerChampion = value;
 
-			_decideTargetLogic.ownerChampion = value;
+			for (int i = 0; i < _decideTargetLogicContainerCount; ++i)
+				_decideTargetLogicContainer[i].ownerChampion = value;
+
 			if (null != _contPerf)
 				_contPerf.ownerChampion = value;
 
 			int loopCount = (int)AttackImpactEffectKind.End;
-			for( int i = 0; i < loopCount; ++i )
+			for (int i = 0; i < loopCount; ++i)
 			{
 				_actionImpactLogics[i].ownerChampion = value;
 			}
@@ -53,22 +59,16 @@ public class AttackAction
 
 		_findTargetsCache = new Champion[10];
 
-		ImpactRangeKind impactRangeKind = (ImpactRangeKind)_actionData.impactRangeType;
+		TargetDecideKind impactRangeKind = (TargetDecideKind)_actionData.findTargetData.targetDecideKind;
 
-		switch (impactRangeKind)
-		{
-			case ImpactRangeKind.OnlyTarget:
-				_decideTargetLogic = new DecideTarget_OnlyTarget(this, _actionData);
-				break;
+		_decideTargetLogicContainerCount = (int)TargetDecideKind.End;
+		_decideTargetLogicContainer = new AtkActionDecideTargetBase[_decideTargetLogicContainerCount];
 
-			case ImpactRangeKind.Range_Circle:
-				_decideTargetLogic = new DecideTarget_InCircleRange(this, _actionData);
-				break;
+		_decideTargetLogicContainer[(int)TargetDecideKind.OnlyTarget] = new DecideTarget_OnlyTarget(this, attackActionData);
+		_decideTargetLogicContainer[(int)TargetDecideKind.Range_Circle] = new DecideTarget_InCircleRange(this, attackActionData);
+		_decideTargetLogicContainer[(int)TargetDecideKind.Range_InTwoPointBox] = new DecideTarget_InTwoPoint(this, attackActionData);
 
-			case ImpactRangeKind.Range_InTwoPointBox:
-				_decideTargetLogic = new DecideTarget_InTwoPoint(this, _actionData);
-				break;
-		}
+		_baseDecideTargetLogic = _decideTargetLogicContainer[(int)_actionData.findTargetData.targetDecideKind];
 
 		if (true == performanceData.isUsePerf)
 		{
@@ -81,8 +81,8 @@ public class AttackAction
 		}
 
 		_actionImpactLogics = new ActionImpactBase[(int)AttackImpactEffectKind.End];
-		_actionImpactLogics[(int)AttackImpactEffectKind.Buff] = new Impact_Debuf();
-		_actionImpactLogics[(int)AttackImpactEffectKind.Debuff] = new Impact_Debuf();
+		_actionImpactLogics[(int)AttackImpactEffectKind.Buff] = new Impact_Debuff();
+		_actionImpactLogics[(int)AttackImpactEffectKind.Debuff] = new Impact_Debuff();
 		_actionImpactLogics[(int)AttackImpactEffectKind.Attack] = new Impact_AttackDamage();
 	}
 
@@ -101,7 +101,8 @@ public class AttackAction
 		_isEndAction = false;
 		_isEndAnimation = false;
 
-		_decideTargetLogic.OnStart();
+		for (int i = 0; i < _decideTargetLogicContainerCount; ++i)
+			_decideTargetLogicContainer[i].OnStart();
 		_contPerf?.OnStart();
 
 		targetChampion = ownerChampion.targetChampion;
@@ -140,20 +141,22 @@ public class AttackAction
 			_isEndAction = _contPerf.isEndPerformance;
 		}
 
-		int findTargetCount = _decideTargetLogic.FindTarget(_findTargetsCache);
+		int findTargetCount = _baseDecideTargetLogic.FindTarget(_actionData.findTargetData, _findTargetsCache);
 		for (int i = 0; i < findTargetCount; ++i)
 		{
 			int jLoopCount = _impactData.Count;
 			for (int j = 0; j < jLoopCount; ++j)
 			{
-				_actionImpactLogics[_impactData[j].kind].Impact(_findTargetsCache[i], _impactData[j]);
+				_actionImpactLogics[(int)_impactData[j].mainData.kind].Impact(_findTargetsCache[i], _impactData[j]);
 			}
 		}
 	}
 
 	public void OnEnd()
 	{
-		_decideTargetLogic.OnEnd();
+		for (int i = 0; i < _decideTargetLogicContainerCount; ++i)
+			_decideTargetLogicContainer[i].OnEnd();
+
 		_contPerf?.OnEnd();
 
 		targetChampion = null;

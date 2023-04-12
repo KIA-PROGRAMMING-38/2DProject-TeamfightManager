@@ -13,6 +13,7 @@ public enum AttackPerformanceType
 	Move
 }
 
+[System.Serializable]
 public class AttackPerformanceData
 {
 	public bool isUsePerf;					// 퍼포먼스 사용하는지 여부..

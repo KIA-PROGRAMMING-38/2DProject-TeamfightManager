@@ -7,16 +7,18 @@ public class Impact_AttackDamage : ActionImpactBase
 {
 	public override void Impact(Champion target, in AttackImpactData impactData)
 	{
-		AttackImpactType atkImpactType = (AttackImpactType)impactData.detailKind;
+		AttackImpactType atkImpactType = (AttackImpactType)impactData.mainData.detailKind;
 
 		switch (atkImpactType)
 		{
 			case AttackImpactType.DefaultAttack:
-				target.TakeDamage(ownerChampion, impactData.amount);
+				target.TakeDamage(ownerChampion, (int)(impactData.mainData.amount * ownerChampion.status.atkStat));
 				break;
 			default:
 				Debug.Assert(false, "Impact_AttackDamage's Impact() : Invalid Data");
 				break;
 		}
+
+		isEnded = true;
 	}
 }
