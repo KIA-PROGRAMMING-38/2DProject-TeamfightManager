@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 	public UIManager uiManager { get; private set; }
 
 	public BattleStageManager battleStageManager;
+	[SerializeField] private GameGlobalData _gameGlobalData;
+	public GameGlobalData gameGlobalData { get => _gameGlobalData; }
 
 	private void Awake()
 	{
@@ -29,7 +31,7 @@ public class GameManager : MonoBehaviour
 	// 저장된 파일을 불러오는 메소드..
 	private void LoadFile(int loadFileNumber)
 	{
-		GameSaveLoader.LoadGameFile(loadFileNumber, dataTableManager);
+		GameSaveLoader.LoadGameFile(loadFileNumber, this);
 	}
 
 	// 배틀 스테이지를 생성하는 함수..
