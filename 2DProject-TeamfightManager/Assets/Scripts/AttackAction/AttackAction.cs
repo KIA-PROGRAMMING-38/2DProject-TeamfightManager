@@ -26,9 +26,30 @@ public class AttackAction
 	private Champion[][] _allLogicsFindTargetsCache;
 
 	private bool _isEndAction;
+	public bool isEndAction
+	{
+		get => _isEndAction;
+		private set
+		{
+			_isEndAction = value;
+
+			if (true == _isEndAction)
+			{
+				int findTargetCount = _decideTargetLogicContainer[_baseDecideTargetLogicIndex].FindTarget(_actionData.findTargetData, baseFindTargetsCache);
+				for (int i = 0; i < findTargetCount; ++i)
+				{
+					int jLoopCount = _impactData.Count;
+					for (int j = 0; j < jLoopCount; ++j)
+					{
+						_actionImpactLogics[(int)_impactData[j].mainData.kind].Impact(baseFindTargetsCache[i], _impactData[j]);
+					}
+				}
+			}
+		}
+	}
 	private bool _isEndAnimation;
 
-	public bool isEndAction { get => _isEndAnimation && _isEndAction; }
+	public bool isEnded { get => _isEndAnimation && _isEndAction; }
 
 	private Champion _ownerChampion;
 	public Champion ownerChampion
@@ -120,7 +141,7 @@ public class AttackAction
 
 	public void OnStart()
 	{
-		_isEndAction = false;
+		isEndAction = false;
 		_isEndAnimation = false;
 
 		for (int i = 0; i < _decideTargetLogicContainerCount; ++i)
@@ -143,14 +164,14 @@ public class AttackAction
 	{
 		if(null == targetChampion)
 		{
-			_isEndAction = true;
+			isEndAction = true;
 			return;
 		}
 
 		if (null != _contPerf)
 		{
 			_contPerf.OnUpdate();
-			_isEndAction = _contPerf.isEndPerformance;
+			isEndAction = _contPerf.isEndPerformance;
 		}
 	}
 
@@ -158,28 +179,18 @@ public class AttackAction
 	{
 		if (null == targetChampion)
 		{
-			_isEndAction = true;
+			isEndAction = true;
 			return;
 		}
 
 		if (null == _contPerf)
 		{
-			_isEndAction = true;
+			isEndAction = true;
 		}
 		else
 		{
 			_contPerf.OnAction();
-			_isEndAction = _contPerf.isEndPerformance;
-		}
-
-		int findTargetCount = _decideTargetLogicContainer[_baseDecideTargetLogicIndex].FindTarget(_actionData.findTargetData, baseFindTargetsCache);
-		for (int i = 0; i < findTargetCount; ++i)
-		{
-			int jLoopCount = _impactData.Count;
-			for (int j = 0; j < jLoopCount; ++j)
-			{
-				_actionImpactLogics[(int)_impactData[j].mainData.kind].Impact(baseFindTargetsCache[i], _impactData[j]);
-			}
+			isEndAction = _contPerf.isEndPerformance;
 		}
 	}
 
