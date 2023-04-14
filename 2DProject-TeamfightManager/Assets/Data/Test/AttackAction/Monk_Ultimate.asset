@@ -25,7 +25,7 @@ MonoBehaviour:
   impactData:
   - mainData:
       kind: 0
-      detailKind: 8
+      detailKind: 9
       amount: 1
       duration: 0
       tickTime: 0
@@ -42,7 +42,7 @@ MonoBehaviour:
       effectPointKind: 0
   - mainData:
       kind: 0
-      detailKind: 9
+      detailKind: 10
       amount: 1.1
       duration: 0
       tickTime: 0

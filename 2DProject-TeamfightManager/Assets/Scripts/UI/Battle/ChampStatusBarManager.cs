@@ -114,7 +114,7 @@ public class ChampStatusBarManager : UIBase
 
 		int teamIndex = (int)teamKind;
 
-		_champStatusBarContainer[(int)teamKind][index].SetBarrierRatio(ratio);
+		_champStatusBarContainer[(int)teamKind][index].SetBarrierRatio(Mathf.Min(ratio, 1f));
 	}
 
 	public void OnChampionDead(BattleTeamKind teamKind, int index)

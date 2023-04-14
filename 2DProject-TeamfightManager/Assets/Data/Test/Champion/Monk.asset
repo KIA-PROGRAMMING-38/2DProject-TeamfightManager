@@ -15,9 +15,6 @@ MonoBehaviour:
   championData:
     name: Monk
     type: 4
-    atkEffectName: Effect_Monk_Attack
-    skillEffectName: Effect_Monk_Skill
-    ultimateEffectName: Effect_Monk_Ultimate
     atkActionUniqueKey: 6
     skillActionUniqueKey: 7
     ultimateActionUniqueKey: 8
@@ -31,8 +28,8 @@ MonoBehaviour:
     moveSpeed: 2.5
     skillCooltime: 5.4
   championResourceData:
-    champIconImagePath: Assets/Resources/Sprites/UI/Champion/Icon/character_icons_9
-    skillIconImagePath: Assets/Resources/Sprites/UI/Champion/Skill/monk_skill
-    ultimateIconImagePath: Assets/Resources/Sprites/UI/Champion/Skill/monk_ult
+    champIconImagePath: Sprites/UI/Champion/Icon/character_icons_9
+    skillIconImagePath: Sprites/UI/Champion/Skill/monk_skill
+    ultimateIconImagePath: Sprites/UI/Champion/Skill/monk_ult
   baseFilePath: Assets/Data
   extension: .data
