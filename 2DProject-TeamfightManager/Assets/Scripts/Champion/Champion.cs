@@ -65,6 +65,7 @@ public class Champion : MonoBehaviour, IAttackable
 	public event Action<float> OnChangedMPRatio;
 	public event Action OnUseUltimate;
 	public event Action<float> OnChangedBarrierRatio;
+	public event Action<Champion> OnKill;
 
 	// 강제 지정 타겟(이 필드의 값이 유효하다면 무조건 타겟은 얘다)..
 	private Champion _forcedTarget;
@@ -254,6 +255,9 @@ public class Champion : MonoBehaviour, IAttackable
 		this.status.hp = _baseStatus.hp + status.hp;
 		this.status.moveSpeed = _baseStatus.moveSpeed + status.moveSpeed;
 		this.status.skillCooltime = _baseStatus.skillCooltime + status.skillCooltime;
+
+		float animSpeed = 1f + (this.status.atkSpeed - _baseStatus.atkSpeed / _baseStatus.atkSpeed) / 100f;
+		_animComponent.animationSpeed = animSpeed;
 	}
 
 	private void ResetStatus()
@@ -449,6 +453,8 @@ public class Champion : MonoBehaviour, IAttackable
 			{
 				_animComponent.OnHit();
 			}
+			else
+				hitChampion.OnKill?.Invoke(this);
 		}
 
 		hitChampion.OnAttack?.Invoke(this, damage);

@@ -259,7 +259,7 @@ public class ChampionBuffSystem
 				break;
 		}
 
-		UpdateResultStatus();
+		UpdateResultStatus(true);
 	}
 
 	// =========================================================================================================

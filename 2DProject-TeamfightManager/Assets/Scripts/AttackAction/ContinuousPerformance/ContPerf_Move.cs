@@ -5,64 +5,67 @@
 /// </summary>
 public class ContPerf_Move : ActionContinuousPerformance
 {
-	private bool isUseUpdate = false;
-	private MovePerformanceType movePerformanceType;
+	private bool _isUseUpdate = false;
+	private MovePerformanceType _movePerformanceType;
 
-	private Transform targetTransform;
-	private Vector3 targetPosition;
+	private bool _isOnAction = false;
+
+	private Transform _targetTransform;
+	private Vector3 _targetPosition;
 
 	private float _moveSpeed = 0f;
 
 	public ContPerf_Move(AttackAction attackAction, AttackPerformanceData performanceData) : base(attackAction, performanceData)
 	{
-		movePerformanceType = (MovePerformanceType)performanceData.detailType;
+		_movePerformanceType = (MovePerformanceType)performanceData.detailType;
 
-		if (movePerformanceType == MovePerformanceType.MoveToTarget || movePerformanceType == MovePerformanceType.MoveToPosition)
+		if (_movePerformanceType == MovePerformanceType.MoveToTarget || _movePerformanceType == MovePerformanceType.MoveToPosition)
 		{
-			isUseUpdate = true;
+			_isUseUpdate = true;
 			_moveSpeed = performanceData.floatData[0];
 		}
 	}
 
 	public override void OnStart()
 	{
-		targetTransform = ownerChampion.targetChampion.transform;
-		if (null != targetTransform)
+		_targetTransform = ownerChampion.targetChampion.transform;
+		if (null != _targetTransform)
 		{
-			targetPosition = targetTransform.position;
+			_targetPosition = _targetTransform.position;
 
-			Vector3 dir = (targetPosition - ownerChampion.transform.position).normalized;
+			Vector3 dir = (_targetPosition - ownerChampion.transform.position).normalized;
 
 			ownerChampion.blackboard.SetVectorValue(BlackboardKeyTable.EFFECT_DRIECTION, dir);
 		}
 
+		_isOnAction = false;
 		isEndPerformance = false;
 	}
 
 	public override void OnUpdate()
 	{
-		if (false == isUseUpdate)
+		if (false == _isUseUpdate)
 			return;
-		if (true == isEndPerformance)
+		if (true == isEndPerformance || false == _isOnAction)
 			return;
 		if (null == ownerChampion || null == ownerChampion.targetChampion)
 			return;
 
-		switch (movePerformanceType)
+		switch (_movePerformanceType)
 		{
 			case MovePerformanceType.MoveToPosition:
 				break;
 			case MovePerformanceType.MoveToTarget:
 				{
-					targetPosition = targetTransform.position;
-					Vector3 dir = (targetPosition - ownerChampion.transform.position);
+					_targetPosition = _targetTransform.position;
+					Vector3 dir = (_targetPosition - ownerChampion.transform.position);
 					float distance = dir.magnitude;
 
 					if (distance <= ownerChampion.status.range)
 					{
 						isEndPerformance = true;
 
-						ownerChampion.OnAnimEvent("OnAnimEnd");
+						ownerChampion.GetComponentInChildren<ChampionAnimation>().OnAnimationEnd();
 					}
 					else
 					{
@@ -78,35 +81,38 @@ public class ContPerf_Move : ActionContinuousPerformance
 
 	public override void OnAction()
 	{
-		if (true == isUseUpdate)
-			return;
-		if (null == ownerChampion || null == targetTransform)
-			return;
+		_isOnAction = true;
 
-		switch(movePerformanceType)
+		if (false == _isUseUpdate)
 		{
-			case MovePerformanceType.TeleportToPosition:
-				{
-					Vector3 dir = (targetPosition - ownerChampion.transform.position).normalized;
-					float distance = performanceData.vectorData[0].z;
+			if (null == ownerChampion || null == _targetTransform)
+				return;
 
-					RaycastHit2D hit = Physics2D.Raycast(ownerChampion.transform.position, dir, distance, 1 << LayerMask.NameToLayer("StageOutside"));
-					if (null != hit.collider)
+			switch (_movePerformanceType)
+			{
+				case MovePerformanceType.TeleportToPosition:
 					{
-						distance = hit.distance;
-						Debug.Log("맞음");
+						Vector3 dir = (_targetPosition - ownerChampion.transform.position).normalized;
+						float distance = performanceData.vectorData[0].z;
+
+						RaycastHit2D hit = Physics2D.Raycast(ownerChampion.transform.position, dir, distance, 1 << LayerMask.NameToLayer("StageOutside"));
+						if (null != hit.collider)
+						{
+							distance = hit.distance;
+							Debug.Log("맞음");
+						}
+
+						Vector3 destinationPos = ownerChampion.transform.position + dir * distance;
+						ownerChampion.transform.position = destinationPos;
 					}
+					break;
 
-					Vector3 destinationPos = ownerChampion.transform.position + dir * distance;
-					ownerChampion.transform.position = destinationPos;
-				}
-				break;
+				case MovePerformanceType.TeleportToTarget:
+					break;
+			}
 
-			case MovePerformanceType.TeleportToTarget:
-				break;
+			isEndPerformance = true;
 		}
-
-		isEndPerformance = true;
 	}
 
 	public override void OnEnd()

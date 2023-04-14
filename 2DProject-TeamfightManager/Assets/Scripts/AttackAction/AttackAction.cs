@@ -17,6 +17,7 @@ public class AttackAction
 	private ActionImpactBase[] _actionImpactLogics;
 
 	private ActionContinuousPerformance _contPerf;
+	private AtkActionPassiveSystem _passiveSystem;
 
 	private AtkActionDecideTargetBase[] _decideTargetLogicContainer;
 	private int _baseDecideTargetLogicIndex;
@@ -71,6 +72,8 @@ public class AttackAction
 
 			if (null != _contPerf)
 				_contPerf.ownerChampion = value;
+			if (null != _passiveSystem)
+				_passiveSystem.ownerChampion = value;
 
 			int loopCount = (int)AttackImpactEffectKind.End;
 			for (int i = 0; i < loopCount; ++i)
@@ -108,6 +111,13 @@ public class AttackAction
 			}
 		}
 
+		// 패시브 행동인 경우 관련 로직 스크립트 생성..
+		if(attackActionData.isPassive)
+		{
+			_passiveSystem = new AtkActionPassiveSystem(this, attackActionData.passiveData);
+		}
+
+		// 공격 시 효과 주는 것 관련 로직 스크립트 생성..
 		_actionImpactLogics = new ActionImpactBase[(int)AttackImpactEffectKind.End];
 		_actionImpactLogics[(int)AttackImpactEffectKind.Buff] = new Impact_Buff();
 		_actionImpactLogics[(int)AttackImpactEffectKind.Debuff] = new Impact_Debuff();
@@ -171,7 +181,11 @@ public class AttackAction
 		if (null != _contPerf)
 		{
 			_contPerf.OnUpdate();
-			isEndAction = _contPerf.isEndPerformance;
+			if(true == _contPerf.isEndPerformance)
+			{
+				isEndAction = true;
+				_isEndAnimation = true;
+			}
 		}
 	}
 

@@ -10,6 +10,7 @@ public static class AnimatorHashStore
 	public static readonly int DEATH_KEY_HASH = Animator.StringToHash(AnimKeyTable.ON_DEATH);
 	public static readonly int REVIVAL_KEY_HASH = Animator.StringToHash(AnimKeyTable.ON_REVIVAL);
 	public static readonly int ON_ANIMEND_KEY_HASH = Animator.StringToHash(AnimKeyTable.ON_ANIMEND);
+	public static readonly int ANIMATION_SPEED = Animator.StringToHash(AnimKeyTable.ANIMATION_SPEED);
 
 	public static readonly int EFFECT_KEY_HASH = Animator.StringToHash(AnimKeyTable.EFFECT);
 }

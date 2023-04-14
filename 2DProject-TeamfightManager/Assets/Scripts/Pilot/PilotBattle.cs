@@ -20,6 +20,9 @@ public class PilotBattle : MonoBehaviour
             _controlChampion.OnHit -= OnChampionTakeDamaged;
             _controlChampion.OnHit += OnChampionTakeDamaged;
 
+			_controlChampion.OnKill -= OnChampionKill;
+			_controlChampion.OnKill += OnChampionKill;
+
 			_controlChampion.OnAttack -= OnChampionAttack;
 			_controlChampion.OnAttack += OnChampionAttack;
 
@@ -83,22 +86,24 @@ public class PilotBattle : MonoBehaviour
 
     private void OnChampionAttack(Champion takeDamagedChampion, int damage)
     {
-        if (true == takeDamagedChampion.isDead)
-        {
-			++_battleInfoData.killCount;
-
-            Champion assistChampion = takeDamagedChampion.lastHitChampion;
-			if (null != assistChampion && this != assistChampion.pilotBattleComponent)
-            {
-                PilotBattle assistPilotBattle = assistChampion.pilotBattleComponent;
-				++assistPilotBattle._battleInfoData.assistCount;
-
-                assistPilotBattle.OnChangedBattleInfoData?.Invoke(assistPilotBattle.battleTeamIndexKey, assistPilotBattle._battleInfoData);
-            }
-		}
-
         _battleInfoData.totalDamage += damage;
 
+		OnChangedBattleInfoData?.Invoke(battleTeamIndexKey, _battleInfoData);
+	}
+
+    private void OnChampionKill(Champion killedChampion)
+    {
+        // 어시스트한 챔피언이 있는지 검사 후 있다면 계산..
+		Champion assistChampion = killedChampion.lastHitChampion;
+		if (null != assistChampion && this != assistChampion.pilotBattleComponent)
+		{
+			PilotBattle assistPilotBattle = assistChampion.pilotBattleComponent;
+			++assistPilotBattle._battleInfoData.assistCount;
+
+			assistPilotBattle.OnChangedBattleInfoData?.Invoke(assistPilotBattle.battleTeamIndexKey, assistPilotBattle._battleInfoData);
+		}
+
+		++_battleInfoData.killCount;
 		OnChangedBattleInfoData?.Invoke(battleTeamIndexKey, _battleInfoData);
 	}
 

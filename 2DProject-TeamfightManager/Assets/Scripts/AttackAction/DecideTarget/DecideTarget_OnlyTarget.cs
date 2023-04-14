@@ -18,19 +18,23 @@ public class DecideTarget_OnlyTarget : AtkActionDecideTargetBase
 		if (null == getTargetArray || 0 == getTargetArray.Length)
 			return 0;
 
-		// 챔피언의 타겟을 찾지 못한 상태라면..
-		if (null == ownerChampion.targetChampion)
-			return 0;
-
 		TargetTeamKind teamKind = (TargetTeamKind)findTargetData.targetTeamKind;
 
 		switch (teamKind)
 		{
 			case TargetTeamKind.Enemy:
+				if (null == ownerChampion.targetChampion)
+					return 0;
+
 				getTargetArray[0] = attackAction.targetChampion;
+
 				break;
 			case TargetTeamKind.Team:
+				if (null == ownerChampion)
+					return 0;
+
 				getTargetArray[0] = ownerChampion;
+
 				break;
 		}
 
