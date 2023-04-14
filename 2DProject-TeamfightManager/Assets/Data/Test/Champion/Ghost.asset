@@ -15,9 +15,6 @@ MonoBehaviour:
   championData:
     name: Ghost
     type: 5
-    atkEffectName: Effect_Ghost_Attack
-    skillEffectName: Effect_Ghost_Skill
-    ultimateEffectName: Effect_Ghost_Ultimate
     atkActionUniqueKey: 9
     skillActionUniqueKey: 10
     ultimateActionUniqueKey: 11
@@ -31,8 +28,8 @@ MonoBehaviour:
     moveSpeed: 4
     skillCooltime: 3.7
   championResourceData:
-    champIconImagePath: Assets/Resources/Sprites/UI/Champion/Icon/character_icons_22
-    skillIconImagePath: Assets/Resources/Sprites/UI/Champion/Skill/ghost_skill
-    ultimateIconImagePath: Assets/Resources/Sprites/UI/Champion/Skill/ghost_ult
+    champIconImagePath: Sprites/UI/Champion/Icon/character_icons_22
+    skillIconImagePath: Sprites/UI/Champion/Skill/ghost_skill
+    ultimateIconImagePath: Sprites/UI/Champion/Skill/ghost_ult
   baseFilePath: Assets/Data
   extension: .data

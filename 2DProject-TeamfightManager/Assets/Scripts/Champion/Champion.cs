@@ -377,7 +377,7 @@ public class Champion : MonoBehaviour, IAttackable
 			{
 				_curAttackAction.OnUpdate();
 
-				if (_curAttackAction.isEndAction)
+				if (_curAttackAction.isEnded)
 				{
 					_curAttackAction = null;
 
@@ -516,6 +516,6 @@ public class Champion : MonoBehaviour, IAttackable
 	// 방어력에 따라 데미지 감소되는 로직..
 	private int CalcDefenceApplyDamage(int damage)
 	{
-		return (int)((100f / (100 + status.defence)) * damage);
+		return (int)(100f / (100 + status.defence) * damage);
 	}
 }

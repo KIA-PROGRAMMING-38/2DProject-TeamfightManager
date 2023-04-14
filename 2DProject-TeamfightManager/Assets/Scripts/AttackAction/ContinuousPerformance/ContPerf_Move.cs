@@ -11,12 +11,17 @@ public class ContPerf_Move : ActionContinuousPerformance
 	private Transform targetTransform;
 	private Vector3 targetPosition;
 
+	private float _moveSpeed = 0f;
+
 	public ContPerf_Move(AttackAction attackAction, AttackPerformanceData performanceData) : base(attackAction, performanceData)
 	{
 		movePerformanceType = (MovePerformanceType)performanceData.detailType;
 
 		if (movePerformanceType == MovePerformanceType.MoveToTarget || movePerformanceType == MovePerformanceType.MoveToPosition)
+		{
 			isUseUpdate = true;
+			_moveSpeed = performanceData.floatData[0];
+		}
 	}
 
 	public override void OnStart()
@@ -30,14 +35,45 @@ public class ContPerf_Move : ActionContinuousPerformance
 
 			ownerChampion.blackboard.SetVectorValue(BlackboardKeyTable.EFFECT_DRIECTION, dir);
 		}
+
+		isEndPerformance = false;
 	}
 
 	public override void OnUpdate()
 	{
 		if (false == isUseUpdate)
 			return;
+		if (true == isEndPerformance)
+			return;
 		if (null == ownerChampion || null == ownerChampion.targetChampion)
 			return;
+
+		switch (movePerformanceType)
+		{
+			case MovePerformanceType.MoveToPosition:
+				break;
+			case MovePerformanceType.MoveToTarget:
+				{
+					targetPosition = targetTransform.position;
+					Vector3 dir = (targetPosition - ownerChampion.transform.position);
+					float distance = dir.magnitude;
+
+					if (distance <= ownerChampion.status.range)
+					{
+						isEndPerformance = true;
+
+						ownerChampion.OnAnimEvent("OnAnimEnd");
+					}
+					else
+					{
+						dir /= distance;
+
+						ownerChampion.transform.Translate(Time.deltaTime * _moveSpeed * dir);
+					}
+				}
+				break;
+		}
+
 	}
 
 	public override void OnAction()
