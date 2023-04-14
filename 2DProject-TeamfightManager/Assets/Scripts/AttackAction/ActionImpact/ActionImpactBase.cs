@@ -6,6 +6,7 @@
 public abstract class ActionImpactBase
 {
 	public Champion ownerChampion { protected get; set; }
+	public AttackAction attackAction { protected get; set; }
 	public bool isEnded { get; protected set; }
 
 	public abstract void Impact(Champion target, in AttackImpactData impactData);

@@ -23,4 +23,5 @@
 	// 타겟 관련..
 	public const string target = "target";
 	public const string targetDistance = "isDeath";
+	public const string forcedTarget = "forcedTarget";
 }

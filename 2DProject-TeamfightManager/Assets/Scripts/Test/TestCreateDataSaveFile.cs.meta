@@ -3,7 +3,12 @@ guid: 93a284aecb0d03c41a27a084f96f8d4c
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - attackActionDataPrefab: {instanceID: 0}
+  - championDataPrefab: {instanceID: 0}
+  - effectDataPrefab: {instanceID: 0}
+  - container: {fileID: 11400000, guid: fbd0db16e6b6fb142b856657f5624942, type: 2}
+  - text: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

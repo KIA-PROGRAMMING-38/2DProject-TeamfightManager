@@ -5,6 +5,7 @@ public class ChampionBuffSystem
 {
 	class BuffInfo
 	{
+		public Champion didChampion;
 		public float amount;
 		public float impactTime;
 	}
@@ -104,13 +105,14 @@ public class ChampionBuffSystem
 		status.skillCooltime = 0f;
 	}
 
-	public void AddBuff(BuffImpactType type, float amount, float impactTime)
+	public void AddBuff(BuffImpactType type, Champion didChampion, float amount, float impactTime)
 	{
 		int index = (int)type;
 
 		if (_buffInfoContainer[index].Count <= _buffInfoContainerActiveCount[index])
 			_buffInfoContainer[index].Add(new BuffInfo());
 
+		_buffInfoContainer[index][_buffInfoContainerActiveCount[index]].didChampion = didChampion;
 		_buffInfoContainer[index][_buffInfoContainerActiveCount[index]].amount = amount;
 		_buffInfoContainer[index][_buffInfoContainerActiveCount[index]].impactTime = impactTime;
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "GameGlobalData", menuName = "Config/GameGlobalData")]
 public class GameGlobalData : ScriptableObject
@@ -12,4 +13,10 @@ public class GameGlobalData : ScriptableObject
 	public string championDirectoryName;
 	public string attackActionDirectoryName;
 	public string effectDirectoryName;
+
+	public List<string> testRedChampionCreateOrder;
+	public List<string> testRedPilotCreateOrder;
+
+	public List<string> testBlueChampionCreateOrder;
+	public List<string> testBluePilotCreateOrder;
 }

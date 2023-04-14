@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3badb764ed79700489f4683a77d3e102, type: 3}
+  m_Name: Ghost
+  m_EditorClassIdentifier: 
+  championData:
+    name: Ghost
+    type: 5
+    atkEffectName: Effect_Ghost_Attack
+    skillEffectName: Effect_Ghost_Skill
+    ultimateEffectName: Effect_Ghost_Ultimate
+    atkActionUniqueKey: 9
+    skillActionUniqueKey: 10
+    ultimateActionUniqueKey: 11
+    champDescription: "\uC720\uB839\uC785\uB2C8\uB2E4."
+  championStatus:
+    atkStat: 20
+    atkSpeed: 1
+    range: 0.4
+    defence: 0
+    hp: 160
+    moveSpeed: 4
+    skillCooltime: 3.7
+  championResourceData:
+    champIconImagePath: Assets/Resources/Sprites/UI/Champion/Icon/character_icons_22
+    skillIconImagePath: Assets/Resources/Sprites/UI/Champion/Skill/ghost_skill
+    ultimateIconImagePath: Assets/Resources/Sprites/UI/Champion/Skill/ghost_ult
+  baseFilePath: Assets/Data
+  extension: .data

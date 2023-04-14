@@ -50,7 +50,7 @@ public class DecideTarget_InCircleRange : AtkActionDecideTargetBase
 			return (dist <= findTargetData.impactRange);
 		}
 
-		return battleTeam.ComputeEnemyTarget(TargetFindLogic, getTargetArray);
+		return battleTeam.ComputeEnemyTarget(TargetFindLogic, getTargetArray, findTargetData.targetTeamKind);
 	}
 
 	public override void OnEnd()

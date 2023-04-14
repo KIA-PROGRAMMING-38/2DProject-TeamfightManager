@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -123,14 +124,16 @@ public class BattleStageManager : MonoBehaviour
 		int pilotCount = gameManager.gameGlobalData.PilotCount;
 		_battleStageDataTable.battleChampionTotalCount = Math.Min(pilotCount, 4) * 2;
 
+		List<string> blueTeamPilotCreateOrder = gameManager.gameGlobalData.testBluePilotCreateOrder;
+		List<string> blueTeamChampCreateOrder = gameManager.gameGlobalData.testBlueChampionCreateOrder;
+		List<string> redTeamPilotCreateOrder = gameManager.gameGlobalData.testRedPilotCreateOrder;
+		List<string> redTeamChampCreateOrder = gameManager.gameGlobalData.testRedChampionCreateOrder;
+
 		for (int i = 0; i < pilotCount; ++i)
 		{
-			redTeam.AddPilot("Faker", "Swordman");
-			blueTeam.AddPilot("Faker", "Swordman");
+			redTeam.AddPilot(redTeamPilotCreateOrder[i % redTeamPilotCreateOrder.Count], redTeamChampCreateOrder[i % redTeamChampCreateOrder.Count]);
+			blueTeam.AddPilot(blueTeamPilotCreateOrder[i % blueTeamPilotCreateOrder.Count], blueTeamChampCreateOrder[i % blueTeamChampCreateOrder.Count]);
 		}
-
-		redTeam.TestColorChange(Color.red);
-		blueTeam.TestColorChange(Color.blue);
 	}
 
 	// 팀 종류와 인덱스를 받아와 챔피언의 이름을 리턴하는 함수..

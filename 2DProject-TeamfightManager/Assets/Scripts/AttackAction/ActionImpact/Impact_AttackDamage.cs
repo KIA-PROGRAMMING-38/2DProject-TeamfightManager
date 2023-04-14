@@ -19,6 +19,11 @@ public class Impact_AttackDamage : ActionImpactBase
 				break;
 		}
 
+		if(true == impactData.isShowEffect)
+		{
+			attackAction.ShowEffect(impactData.effectData, ownerChampion, target);
+		}
+
 		isEnded = true;
 	}
 }

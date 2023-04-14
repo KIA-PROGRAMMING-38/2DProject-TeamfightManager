@@ -10,6 +10,14 @@ public class ChampionModifyStatusSystem
 	private ChampionBuffSystem _buffSystem;
 	private ChampionDeBuffSystem _debuffSystem;
 
+	public EffectManager effectManager
+	{
+		set
+		{
+			_debuffSystem.effectManager = value;
+		}
+	}
+
 	public bool isEnded { get => _buffSystem.isEnded && _debuffSystem.isEnded; }
 	public ChampionStatus championBaseStatus
 	{
@@ -80,13 +88,13 @@ public class ChampionModifyStatusSystem
 		return (int)(hillAmount * (2f - _debuffSystem.hillAmountDebuff));
 	}
 
-	public void AddBuff(BuffImpactType type, float amount, float impactTime)
+	public void AddBuff(BuffImpactType type, Champion didChampion, float amount, float impactTime)
 	{
-		_buffSystem?.AddBuff(type, amount, impactTime);
+		_buffSystem?.AddBuff(type, didChampion, amount, impactTime);
 	}
 
-	public void AddDebuff(DebuffImpactType type, float amount, float impactTime)
+	public void AddDebuff(DebuffImpactType type, Champion didChampion, float amount, float impactTime)
 	{
-		_debuffSystem?.AddBuff(type, amount, impactTime);
+		_debuffSystem?.AddDebuff(type, didChampion, amount, impactTime);
 	}
 }

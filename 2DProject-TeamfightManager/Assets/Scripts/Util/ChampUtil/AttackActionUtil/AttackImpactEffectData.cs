@@ -12,7 +12,10 @@ public class AttackImpactData
 	public AttackImpactMainData mainData;		// 효과를 주는 것 관련 데이터..
 
 	public bool isSeparateTargetFindLogic;      // 타겟 찾는 로직을 따로 구할 것인가..
-	public FindTargetData findTargetData;		// 타겟 찾는 로직 관련 데이터..
+	public FindTargetData findTargetData;       // 타겟 찾는 로직 관련 데이터..
+
+	public bool isShowEffect;
+	public AttackActionEffectData effectData;
 }
 
 [System.Serializable]

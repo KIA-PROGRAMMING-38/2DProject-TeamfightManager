@@ -1,6 +1,7 @@
 using MH_AIFramework;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -35,6 +36,11 @@ public class Champion : MonoBehaviour, IAttackable
 			if (0 == _curHp)
 			{
 				pilotBattleComponent.OnChampionDead();
+
+				foreach (Effect effect in _activeEffectList)
+					effect.Release();
+
+				_activeEffectList.Clear();
 			}
 
 			OnChangedHPRatio?.Invoke(curHp / (float)status.hp);
@@ -58,6 +64,24 @@ public class Champion : MonoBehaviour, IAttackable
 	public event Action<float> OnChangedHPRatio;
 	public event Action<float> OnChangedMPRatio;
 	public event Action OnUseUltimate;
+
+	// 강제 지정 타겟(이 필드의 값이 유효하다면 무조건 타겟은 얘다)..
+	private Champion _forcedTarget;
+	public Champion forcedTarget
+	{
+		private get => _forcedTarget;
+		set
+		{
+			_forcedTarget = value;
+
+			if(null != _forcedTarget)
+			{
+				_curAttackAction?.OnAnimationEndEvent();
+				_curAttackAction?.OnEnd();
+				_curAttackAction = null;
+			}
+		}
+	}
 
 	// Attack Cooltime On/Off Logic..
 	private bool isAtkCooltime
@@ -130,6 +154,8 @@ public class Champion : MonoBehaviour, IAttackable
 		}
 	}
 
+	private LinkedList<Effect> _activeEffectList = new LinkedList<Effect>();
+
 	private void Awake()
 	{
 		AIController aiController = gameObject.AddComponent<ChampionController>();
@@ -157,7 +183,9 @@ public class Champion : MonoBehaviour, IAttackable
 		Revival();
 
 		isSkillCooltime = true;
-		//StartCoroutine(TestUltOn());
+		StartCoroutine(TestUltOn());
+
+		_modifyStatusSystem.effectManager = s_effectManager;
 	}
 
 	IEnumerator TestUltOn()
@@ -182,11 +210,38 @@ public class Champion : MonoBehaviour, IAttackable
 		_modifyStatusSystem?.Reset();
 	}
 
+	public void AddActiveEffect(Effect effect)
+	{
+#if UNITY_EDITOR
+		Debug.Assert(null != effect);
+#endif
+
+		effect.OnDisableEvent -= OnDisableEffect;
+
+		_activeEffectList.AddLast(effect);
+	}
+
+	private void OnDisableEffect(Effect effect)
+	{
+		_activeEffectList.Remove(effect);
+	}
+
 	public ChampionStatus debugStatue;
 	private void UpdateStatus(ChampionStatus status)
 	{
 		if (null == _baseStatus)
 			return;
+
+		debugStatue = new ChampionStatus
+		{
+			atkStat = status.atkStat,
+			atkSpeed = status.atkSpeed,
+			range = status.range,
+			defence = status.defence,
+			hp = status.hp,
+			moveSpeed = status.moveSpeed,
+			skillCooltime = status.skillCooltime,
+		};
 
 		this.status.atkStat = _baseStatus.atkStat + status.atkStat;
 		this.status.atkSpeed = _baseStatus.atkSpeed + status.atkSpeed;
@@ -195,8 +250,6 @@ public class Champion : MonoBehaviour, IAttackable
 		this.status.hp = _baseStatus.hp + status.hp;
 		this.status.moveSpeed = _baseStatus.moveSpeed + status.moveSpeed;
 		this.status.skillCooltime = _baseStatus.skillCooltime + status.skillCooltime;
-
-		debugStatue = status;
 	}
 
 	private void ResetStatus()
@@ -225,21 +278,6 @@ public class Champion : MonoBehaviour, IAttackable
 		}
 	}
 
-	public string ComputeEffectName(string _effectCategory)
-	{
-		switch (_effectCategory)
-		{
-			case "Attack":
-				return data.atkEffectName;
-			case "Skill":
-				return data.skillEffectName;
-			case "Ultimate":
-				return data.ultimateEffectName;
-		}
-
-		return "";
-	}
-
 	// 챔피언이 동작하기 위해 필요한 데이터를 받아와 초기화 하는 함수(챔피언 매니저 클래스에서 함수를 호출한다)..
 	public void SetupNecessaryData(ChampionStatus status, ChampionData champData, ChampionAnimData animData)
 	{
@@ -264,6 +302,10 @@ public class Champion : MonoBehaviour, IAttackable
 		_attackAction.ownerChampion = this;
 		_skillAction.ownerChampion = this;
 		_ultimateAction.ownerChampion = this;
+
+		_attackAction.effectManager = s_effectManager;
+		_skillAction.effectManager = s_effectManager;
+		_ultimateAction.effectManager = s_effectManager;
 
 		SetupBlackboard();
 	}
@@ -416,17 +458,17 @@ public class Champion : MonoBehaviour, IAttackable
 		hilledChampion.OnHill?.Invoke(this, hillAmount);
 	}
 
-	public void AddBuff(AttackImpactMainData impactMainData)
+	public void AddBuff(AttackImpactMainData impactMainData, Champion didChampion)
 	{
-		_modifyStatusSystem.AddBuff((BuffImpactType)impactMainData.detailKind, impactMainData.amount, impactMainData.duration);
+		_modifyStatusSystem.AddBuff((BuffImpactType)impactMainData.detailKind, didChampion, impactMainData.amount, impactMainData.duration);
 
 		if (false == isDead)
 			isRunningModifyStatusSystemLogic = true;
 	}
 
-	public void AddDebuff(AttackImpactMainData impactMainData)
+	public void AddDebuff(AttackImpactMainData impactMainData, Champion didChampion)
 	{
-		_modifyStatusSystem.AddDebuff((DebuffImpactType)impactMainData.detailKind, impactMainData.amount, impactMainData.duration);
+		_modifyStatusSystem.AddDebuff((DebuffImpactType)impactMainData.detailKind, didChampion, impactMainData.amount, impactMainData.duration);
 
 		if (false == isDead)
 			isRunningModifyStatusSystemLogic = true;
@@ -438,6 +480,9 @@ public class Champion : MonoBehaviour, IAttackable
 #if UNITY_EDITOR
 		Debug.Assert(null != pilotBattleComponent);
 #endif
+
+		if (null != forcedTarget)
+			return forcedTarget;
 
 		return pilotBattleComponent.FindTarget(this);
 	}
@@ -460,11 +505,6 @@ public class Champion : MonoBehaviour, IAttackable
 	// 방어력에 따라 데미지 감소되는 로직..
 	private int CalcDefenceApplyDamage(int damage)
 	{
-		return (int)((50f / (50 + status.defence)) * damage);
-	}
-
-	public void TestColorChange(Color color)
-	{
-		GetComponentInChildren<SpriteRenderer>().color = color;
+		return (int)((100f / (100 + status.defence)) * damage);
 	}
 }

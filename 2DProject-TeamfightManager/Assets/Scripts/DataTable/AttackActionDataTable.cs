@@ -11,6 +11,7 @@ public class AttackActionDataTable
 	private List<AttackActionData> _actionDataContainer = new List<AttackActionData>();
 	private List<List<AttackImpactData>> _impactDataContainer = new List<List<AttackImpactData>>();
 	private List<AttackPerformanceData> _performanceDataContinaer = new List<AttackPerformanceData>();
+	private List<AttackActionEffectData> _effectDataContainer = new List<AttackActionEffectData>();
 
 	public int actionCount
 	{
@@ -24,16 +25,19 @@ public class AttackActionDataTable
 				_actionDataContainer.Add(null);
 				_impactDataContainer.Add(null);
 				_performanceDataContinaer.Add(null);
+				_effectDataContainer.Add(null);
 			}
 		}
 	}
 
 	// 공격 행동 데이터를 받아와 컨테이너에 추가한다..
-	public void AddActionData(AttackActionData actionData, List<AttackImpactData> impactData, AttackPerformanceData performanceData)
+	public void AddActionData(AttackActionData actionData, List<AttackImpactData> impactData, AttackPerformanceData performanceData,
+		AttackActionEffectData effectData)
 	{
 		_actionDataContainer[actionData.uniqueKey] = actionData;
 		_impactDataContainer[actionData.uniqueKey] = impactData;
 		_performanceDataContinaer[actionData.uniqueKey] = performanceData;
+		_effectDataContainer[actionData.uniqueKey] = effectData;
 	}
 
 	// 인자로 받은 인덱스 값을 컨테이너에서 가져와 AttackAction을 만들고 초기화한 뒤 반환한다..
@@ -46,8 +50,9 @@ public class AttackActionDataTable
 		AttackActionData actionData = _actionDataContainer[uniqueKey];
 		AttackPerformanceData performanceData = _performanceDataContinaer[uniqueKey];
 		List<AttackImpactData> impactData = _impactDataContainer[uniqueKey];
+		AttackActionEffectData effectData = _effectDataContainer[uniqueKey];
 
-		AttackAction newAction = new AttackAction(actionData, performanceData);
+		AttackAction newAction = new AttackAction(actionData, performanceData, effectData);
 
 		int loopCount = impactData.Count;
 		for (int i = 0; i < loopCount; ++i)

@@ -51,9 +51,11 @@ public static class GameSaveLoader
 				AttackActionData getActionData;
 				List<AttackImpactData> getImpactDatas;
 				AttackPerformanceData getPerformanceData;
-				if (true == SaveLoadLogic.LoadAttackActionFile(attackActionsFilePath[i], out getActionData, out getImpactDatas, out getPerformanceData))
+				AttackActionEffectData getEffectData;
+				if (true == SaveLoadLogic.LoadAttackActionFile(attackActionsFilePath[i], out getActionData, out getImpactDatas, out getPerformanceData
+					, out getEffectData))
 				{
-					dataTableManager.attackActionDataTable.AddActionData(getActionData, getImpactDatas, getPerformanceData);
+					dataTableManager.attackActionDataTable.AddActionData(getActionData, getImpactDatas, getPerformanceData, getEffectData);
 				}
 			}
 		}
@@ -127,7 +129,10 @@ public static class GameSaveLoader
 
 	public static void SaveGameFile(int loadFileNumber, GameManager gameManager)
 	{
+		GameObject newGameObject = new GameObject();
+		TestCreateDataSaveFile test = newGameObject.AddComponent<TestCreateDataSaveFile>();
 
+		test.CreateAll();
 	}
 
 	/// <summary>

@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
 	{
 		SetupManager();
 
+		GameSaveLoader.SaveGameFile(0, this);
+
 		LoadFile(0);
 	}
 

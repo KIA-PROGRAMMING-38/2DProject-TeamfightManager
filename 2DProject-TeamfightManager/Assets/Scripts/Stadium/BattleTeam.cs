@@ -164,14 +164,6 @@ public class BattleTeam : MonoBehaviour
 		}
 	}
 
-	public void TestColorChange(Color color)
-	{
-		foreach (var pilot in enemyTeam._pilots)
-		{
-			pilot.controlChampion.TestColorChange(color);
-		}
-	}
-
 	// ==================================== 적을 찾는 함수들.. ====================================
 
 	// originPoint를 기준으로 가장 가까운 적을 찾는 함수..
@@ -196,26 +188,40 @@ public class BattleTeam : MonoBehaviour
 	}
 
 	// 적을 찾는 로직을 받아와 계산한다..
-	public int ComputeEnemyTarget(Func<Vector3, bool> findLogicFunction, Champion[] championCache)
+	public int ComputeEnemyTarget(Func<Vector3, bool> findLogicFunction, Champion[] championCache, TargetTeamKind teamKind)
 	{
-		int enemyCount = 0;
+		int targetCount = 0;
 		int championCacheLength = championCache.Length;
 
-		int loopCount = enemyTeam._activeChampions.Count;
+		List<Champion> computeContainer = null;
+		switch (teamKind)
+		{
+			case TargetTeamKind.Enemy:
+				computeContainer = enemyTeam._activeChampions;
+				break;
+			case TargetTeamKind.Team:
+				computeContainer = _activeChampions;
+				break;
+
+			default:
+				return 0;
+		}
+
+		int loopCount = computeContainer.Count;
 		for (int i = 0; i < loopCount; ++i)
 		{
-			Champion enemy = enemyTeam._activeChampions[i];
+			Champion target = computeContainer[i];
 
-			if( true == findLogicFunction(enemy.transform.position) )
+			if( true == findLogicFunction(target.transform.position) )
 			{
-				if (championCacheLength <= enemyCount)
+				if (championCacheLength <= targetCount)
 					break;
 
-				championCache[enemyCount++] = enemy;
+				championCache[targetCount++] = target;
 			}
 		}
 
-		return enemyCount;
+		return targetCount;
 	}
 
 	private void OnChangedChampionBattleData(int index, BattleInfoData data)

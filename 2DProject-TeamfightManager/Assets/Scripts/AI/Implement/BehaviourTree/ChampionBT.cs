@@ -126,9 +126,6 @@ public class ChampionBT : BehaviourTree
 
 		// 궁극기 사용 노드 생성 및 등록..
 		AddNode(new AN_Attack(ActionKeyTable.ultimate), ultimateBodyNode);
-
-		// 궁극기 이펙트 생성 노드 생성 및 등록..
-		AddNode(new AN_ShowEffect(s_effectManager, ActionKeyTable.ultimate), ultimateBodyNode);
 		// =============================================================================
 
 		// =============================================================================
@@ -145,9 +142,6 @@ public class ChampionBT : BehaviourTree
 
 		// 스킬 사용 노드 생성 및 등록..
 		AddNode(new AN_Attack(ActionKeyTable.skill), skillBodyNode);
-
-		// 스킬 이펙트 생성 노드 생성 및 등록..
-		AddNode(new AN_ShowEffect(s_effectManager, ActionKeyTable.skill), skillBodyNode);
 		// =============================================================================
 
 		// =============================================================================
@@ -164,9 +158,6 @@ public class ChampionBT : BehaviourTree
 
 		// 적을 공격하는 노드 생성 및 등록..
 		AddNode(new AN_Attack(ActionKeyTable.attack), attackBodyNode);
-
-		// 공격 이펙트 생성 노드 생성 및 등록..
-		AddNode(new AN_ShowEffect(s_effectManager, ActionKeyTable.attack), attackBodyNode);
 		// =============================================================================
 
 

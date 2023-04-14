@@ -250,7 +250,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 766389806}
-  - component: {fileID: 766389805}
+  - component: {fileID: 766389807}
   m_Layer: 0
   m_Name: CreateAttackAction
   m_TagString: Untagged
@@ -258,21 +258,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &766389805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 766389804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93a284aecb0d03c41a27a084f96f8d4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackActionPrefab: {fileID: 11400000, guid: e90a12b74eb577242b96ec79c0a1c4e1, type: 2}
-  attackActionCreateKey: 32
-  text: {fileID: 1653956618}
 --- !u!4 &766389806
 Transform:
   m_ObjectHideFlags: 0
@@ -286,69 +271,29 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1274537687
-PrefabInstance:
+--- !u!114 &766389807
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 726562845603429860, guid: f2082e8ad41c78248b6b50343b0d92d1, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 726562845603429860, guid: f2082e8ad41c78248b6b50343b0d92d1, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 726562845603429860, guid: f2082e8ad41c78248b6b50343b0d92d1, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 726562845603429860, guid: f2082e8ad41c78248b6b50343b0d92d1, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 726562845603429860, guid: f2082e8ad41c78248b6b50343b0d92d1, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 726562845603429860, guid: f2082e8ad41c78248b6b50343b0d92d1, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 726562845603429860, guid: f2082e8ad41c78248b6b50343b0d92d1, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 726562845603429860, guid: f2082e8ad41c78248b6b50343b0d92d1, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 726562845603429860, guid: f2082e8ad41c78248b6b50343b0d92d1, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 726562845603429860, guid: f2082e8ad41c78248b6b50343b0d92d1, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 726562845603429860, guid: f2082e8ad41c78248b6b50343b0d92d1, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4458707888445337510, guid: f2082e8ad41c78248b6b50343b0d92d1, type: 3}
-      propertyPath: m_Name
-      value: Champion
-      objectReference: {fileID: 0}
-    - target: {fileID: 4458707888445337510, guid: f2082e8ad41c78248b6b50343b0d92d1, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f2082e8ad41c78248b6b50343b0d92d1, type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766389804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93a284aecb0d03c41a27a084f96f8d4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackActionDataPrefab: {fileID: 0}
+  attackActionCreateKey: 97
+  championDataPrefab: {fileID: 0}
+  championCreateKey: 115
+  effectDataPrefab: {fileID: 0}
+  effectCreateKey: 100
+  allCreateKey: 32
+  container: {fileID: 11400000, guid: fbd0db16e6b6fb142b856657f5624942, type: 2}
+  text: {fileID: 1653956618}
 --- !u!1 &1304705036
 GameObject:
   m_ObjectHideFlags: 0

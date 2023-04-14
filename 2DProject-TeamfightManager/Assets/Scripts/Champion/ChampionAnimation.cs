@@ -33,16 +33,6 @@ public class ChampionAnimation : MonoBehaviour
 	private float _skillAnimRuntime = 0f;
 	private float _ultAnimRuntime = 0f;
 
-	// 애니메이터에서 쓰는 파라미터들 이름을 미리 해시값으로 가지고 있기(전부 다 똑같고 다 쓰니까 static으로 해서 하나만 ㄱㄱ)..
-	private static bool s_isHaveKeyHash = false;
-	private static int s_isMoveKeyHash = 0;
-	private static int s_attackKeyHash = 0;
-	private static int s_skillKeyHash = 0;
-	private static int s_ultKeyHash = 0;
-	private static int s_deathKeyHash = 0;
-	private static int s_revivalKeyHash = 0;
-	private static int s_onAnimEndKeyHash = 0;
-
 	// 적에게 피격 시 흰색으로 깜빡거리는 효과 관련 필드..
 	private readonly static float s_hitEffectTime = 0.1f;
 	private WaitForSeconds _hitEffectWaitForSecInstance;
@@ -75,11 +65,6 @@ public class ChampionAnimation : MonoBehaviour
 		_champion = GetComponentInParent<Champion>();
 
 		_originMaterial = _spriteRenderer.material;
-
-		if (false == s_isHaveKeyHash)
-		{
-			SetupAnimatorKeyToHash();
-		}
 	}
 
 	void Start()
@@ -120,62 +105,46 @@ public class ChampionAnimation : MonoBehaviour
 	}
 
 	/// <summary>
-	/// 애니메이터에서 쓰는 파라미터들 이름을 해시값으로 변환하는 함수..
-	/// </summary>
-	private static void SetupAnimatorKeyToHash()
-	{
-		s_isMoveKeyHash = Animator.StringToHash(AnimKeyTable.isMove);
-		s_attackKeyHash = Animator.StringToHash(AnimKeyTable.onAttack);
-		s_skillKeyHash = Animator.StringToHash(AnimKeyTable.onSkill);
-		s_ultKeyHash = Animator.StringToHash(AnimKeyTable.onUltimate);
-		s_deathKeyHash = Animator.StringToHash(AnimKeyTable.onDeath);
-		s_revivalKeyHash = Animator.StringToHash(AnimKeyTable.onRevival);
-		s_onAnimEndKeyHash = Animator.StringToHash(AnimKeyTable.onAnimEnd);
-
-		s_isHaveKeyHash = true;
-	}
-
-	/// <summary>
 	/// 애니메이션 상태 변경..
 	/// </summary>
 	/// <param name="newState"></param>
 	public void ChangeState(AnimState newState, bool isForceChange = false)
 	{
 		if (_state == AnimState.Move && newState != _state)
-			_animator.SetBool(s_isMoveKeyHash, false);
+			_animator.SetBool(AnimatorHashStore.isMoveKeyHash, false);
 
 		// 새로운 애니메이션 상태에 따른 파라미터 값 갱신..
 		switch (newState)
 		{
 			case AnimState.Idle:
 				if (_state == AnimState.Dead)
-					_animator.SetTrigger(s_revivalKeyHash);
+					_animator.SetTrigger(AnimatorHashStore.revivalKeyHash);
 
 				break;
 			case AnimState.Move:
-				_animator.SetBool(s_isMoveKeyHash, true);
+				_animator.SetBool(AnimatorHashStore.isMoveKeyHash, true);
 
 				break;
 			case AnimState.Attack:
 				if (true == isForceChange)
-					_animator.SetTrigger(s_onAnimEndKeyHash);
-				_animator.SetTrigger(s_attackKeyHash);
+					_animator.SetTrigger(AnimatorHashStore.onAnimEndKeyHash);
+				_animator.SetTrigger(AnimatorHashStore.attackKeyHash);
 
 				break;
 			case AnimState.Skill:
 				if (true == isForceChange)
-					_animator.SetTrigger(s_onAnimEndKeyHash);
-				_animator.SetTrigger(s_skillKeyHash);
+					_animator.SetTrigger(AnimatorHashStore.onAnimEndKeyHash);
+				_animator.SetTrigger(AnimatorHashStore.skillKeyHash);
 
 				break;
 			case AnimState.Ultimate:
 				if (true == isForceChange)
-					_animator.SetTrigger(s_onAnimEndKeyHash);
-				_animator.SetTrigger(s_ultKeyHash);
+					_animator.SetTrigger(AnimatorHashStore.onAnimEndKeyHash);
+				_animator.SetTrigger(AnimatorHashStore.ultKeyHash);
 
 				break;
 			case AnimState.Dead:
-				_animator.SetTrigger(s_deathKeyHash);
+				_animator.SetTrigger(AnimatorHashStore.deathKeyHash);
 
 				break;
 		}
@@ -188,12 +157,12 @@ public class ChampionAnimation : MonoBehaviour
 	/// </summary>
 	public void ResetAnimation()
 	{
-		_animator.SetBool(s_isMoveKeyHash, false);
-		_animator.ResetTrigger(s_attackKeyHash);
-		_animator.ResetTrigger(s_skillKeyHash);
-		_animator.ResetTrigger(s_ultKeyHash);
-		_animator.ResetTrigger(s_deathKeyHash);
-		_animator.ResetTrigger(s_revivalKeyHash);
+		_animator.SetBool(AnimatorHashStore.isMoveKeyHash, false);
+		_animator.ResetTrigger(AnimatorHashStore.attackKeyHash);
+		_animator.ResetTrigger(AnimatorHashStore.skillKeyHash);
+		_animator.ResetTrigger(AnimatorHashStore.ultKeyHash);
+		_animator.ResetTrigger(AnimatorHashStore.deathKeyHash);
+		_animator.ResetTrigger(AnimatorHashStore.revivalKeyHash);
 
 		ChangeState(AnimState.Idle);
 	}
@@ -218,13 +187,13 @@ public class ChampionAnimation : MonoBehaviour
 		}
 
 		// 애니메이터의 클립들을 현재 챔피언에 맞는 애니메이션 클립들로 변경..
-		_animatorOverrideController["Idle"] = animData.idleAnim;
-		_animatorOverrideController["Move"] = animData.moveAnim;
-		_animatorOverrideController["Attack"] = animData.atkAnim;
-		_animatorOverrideController["Skill"] = animData.skillAnim;
-		_animatorOverrideController["Ultimate"] = animData.ultAnim;
-		_animatorOverrideController["Death"] = animData.deathAnim;
-		_animatorOverrideController["DeadLoop"] = animData.deadLoopAnim;
+		_animatorOverrideController["Champion_Idle"] = animData.idleAnim;
+		_animatorOverrideController["Champion_Move"] = animData.moveAnim;
+		_animatorOverrideController["Champion_Attack"] = animData.atkAnim;
+		_animatorOverrideController["Champion_Skill"] = animData.skillAnim;
+		_animatorOverrideController["Champion_Ultimate"] = animData.ultAnim;
+		_animatorOverrideController["Champion_Death"] = animData.deathAnim;
+		_animatorOverrideController["Champion_DeadLoop"] = animData.deadLoopAnim;
 
 		// 애니메이션 클립을 통해 공격, 스킬, 궁극기 애니메이션 실행 시간 계산..
 		_atkAnimRuntime = animData.atkAnim.length;
@@ -240,7 +209,7 @@ public class ChampionAnimation : MonoBehaviour
 	// 애니메이션 이벤트 : 애니메이션이 종료될 때 호출..
 	private void OnAnimationEnd()
 	{
-		_animator.SetTrigger(s_onAnimEndKeyHash);
+		_animator.SetTrigger(AnimatorHashStore.onAnimEndKeyHash);
 
 		StartCoroutine(_delayReceiveToChampionCoroutine);
 	}

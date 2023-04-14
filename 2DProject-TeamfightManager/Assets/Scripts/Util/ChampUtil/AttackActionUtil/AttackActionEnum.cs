@@ -25,5 +25,8 @@ public enum DebuffImpactType
 	AtkStatDown_Percent,
 	AtkSpeedDown_Percent,
 	MoveSpeedDown_Percent,
+
+	Provoke,					// 도발..
+
 	End
 }

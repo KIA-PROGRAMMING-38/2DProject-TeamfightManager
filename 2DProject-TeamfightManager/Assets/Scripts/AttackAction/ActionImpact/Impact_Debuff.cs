@@ -5,11 +5,11 @@ public class Impact_Debuff : ActionImpactBase
 {
 	public override void Impact(Champion target, in AttackImpactData impactData)
 	{
-		target.AddDebuff(impactData.mainData);
+		target.AddDebuff(impactData.mainData, ownerChampion);
 
-		if (impactData.mainData.duration <= 0.00001f)
+		if (true == impactData.isShowEffect)
 		{
-			isEnded = true;
+			attackAction.ShowEffect(impactData.effectData, ownerChampion, target);
 		}
 	}
 }

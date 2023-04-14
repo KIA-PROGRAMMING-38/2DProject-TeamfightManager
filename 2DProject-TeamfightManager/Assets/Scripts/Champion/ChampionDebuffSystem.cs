@@ -1,15 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class ChampionDeBuffSystem
 {
 	class DebuffInfo
 	{
+		public Champion didChampion;
 		public float amount;
 		public float impactTime;
 	}
 
 	public event Action OnChangedStatus;
+
+	public EffectManager effectManager
+	{
+		set
+		{
+			_prevokeEffect = value.GetEffect("Effect_Prevoke", UnityEngine.Vector3.zero);
+			_prevokeEffect.SetupAdditionalData(UnityEngine.Vector3.zero, _ownerChampion.transform);
+		}
+	}
 
 	public ChampionStatus status { get; private set; }
 	public ChampionStatus championBaseStatus { private get; set; }
@@ -25,6 +36,8 @@ public class ChampionDeBuffSystem
 	public float hillAmountDebuff { get; private set; }
 
 	public bool isEnded { get => _activeDebuffTable == 0; }
+
+	private Effect _prevokeEffect;
 
 	public ChampionDeBuffSystem(Champion ownerChampion)
 	{
@@ -106,15 +119,23 @@ public class ChampionDeBuffSystem
 		status.hp = 0;
 		status.moveSpeed = 0f;
 		status.skillCooltime = 0f;
+
+		for (int i = 0; i < _debuffCount; ++i)
+		{
+			_debuffInfoContainerActiveCount[i] = 0;
+		}
+
+		SetPrevokeEffectActive(false);
 	}
 
-	public void AddBuff(DebuffImpactType type, float amount, float impactTime)
+	public void AddDebuff(DebuffImpactType type, Champion didChampion, float amount, float impactTime)
 	{
 		int index = (int)type;
 
 		if (_debuffInfoContainer[index].Count <= _debuffInfoContainerActiveCount[index])
 			_debuffInfoContainer[index].Add(new DebuffInfo());
 
+		_debuffInfoContainer[index][_debuffInfoContainerActiveCount[index]].didChampion = didChampion;
 		_debuffInfoContainer[index][_debuffInfoContainerActiveCount[index]].amount = amount;
 		_debuffInfoContainer[index][_debuffInfoContainerActiveCount[index]].impactTime = impactTime;
 
@@ -177,9 +198,44 @@ public class ChampionDeBuffSystem
 				status.moveSpeed *= championBaseStatus.moveSpeed;
 
 				break;
+
+			case DebuffImpactType.Provoke:
+				if(_debuffInfoContainerActiveCount[(int)type] > 0)
+				{
+					int containerIndex = (int)DebuffImpactType.Provoke;
+					int lastIndex = _debuffInfoContainerActiveCount[containerIndex] - 1;
+
+					_ownerChampion.forcedTarget = _debuffInfoContainer[containerIndex][lastIndex].didChampion;
+
+					SetPrevokeEffectActive(true);
+				}
+				else
+				{
+					_ownerChampion.forcedTarget = null;
+
+					SetPrevokeEffectActive(false);
+				}
+
+				break;
 		}
 
 		OnChangedStatus?.Invoke();
+	}
+
+	private void SetPrevokeEffectActive(bool isActive)
+	{
+		if (null == _prevokeEffect)
+			return;
+
+		if(true == isActive)
+		{
+			_prevokeEffect.gameObject.SetActive(true);
+		}
+		else
+		{
+			_prevokeEffect.transform.localPosition = Vector3.zero;
+			_prevokeEffect.gameObject.SetActive(false);
+		}
 	}
 
 	// =========================================================================================================

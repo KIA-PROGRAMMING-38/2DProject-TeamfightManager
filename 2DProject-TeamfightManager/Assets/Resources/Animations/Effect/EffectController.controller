@@ -56,6 +56,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4df41fc703e825f40baa54f1a4c3a72d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _effectComponent: {fileID: 0}
+  _animPlayTime: 0
 --- !u!1102 &7987525833511732762
 AnimatorState:
   serializedVersion: 6
@@ -67,8 +69,7 @@ AnimatorState:
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
-  m_StateMachineBehaviours:
-  - {fileID: 462239475962850426}
+  m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1

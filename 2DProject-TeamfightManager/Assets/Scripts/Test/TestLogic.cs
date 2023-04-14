@@ -1,31 +1,23 @@
+using Mono.Cecil.Cil;
 using System.Collections;
 using UnityEngine;
 
 public class TestLogic : MonoBehaviour
 {
-    private IEnumerator Cor;
-    private IEnumerator Cor2;
-	private Coroutine co;
+	public GameObject target;
 
 	private void Start()
 	{
-		Cor = Test();
+		
 	}
 
-	private void Update()
+	public void Update()
 	{
 		if(Input.GetKeyDown(KeyCode.Space))
 		{
-			StartCoroutine(Cor);
+			Debug.Log("³ª");
+			target.SetActive(true);
+			target.SetActive(false);
 		}
-	}
-
-	IEnumerator Test()
-	{
-		Debug.Log("Start");
-
-		yield return new WaitForSeconds(0.1f);
-
-		Debug.Log("End");
 	}
 }
