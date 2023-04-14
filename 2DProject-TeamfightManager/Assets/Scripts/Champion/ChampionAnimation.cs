@@ -46,6 +46,18 @@ public class ChampionAnimation : MonoBehaviour
 
 	public bool flipX { get => _spriteRenderer.flipX; set => _spriteRenderer.flipX = value; }
 
+	[SerializeField] private float _animationSpeed;
+	public float animationSpeed
+	{
+		get => _animationSpeed;
+		set
+		{
+			_animationSpeed = Mathf.Min(1.1f, value);
+
+			_animator.SetFloat(AnimatorHashStore.ANIMATION_SPEED, _animationSpeed);
+		}
+	}
+
 	public ChampionAnimData animData
 	{
 		set
@@ -79,6 +91,7 @@ public class ChampionAnimation : MonoBehaviour
 	private void OnDisable()
 	{
 		_spriteRenderer.material = _originMaterial;
+		animationSpeed = 1f;
 	}
 
 	public void OnHit()
@@ -207,7 +220,7 @@ public class ChampionAnimation : MonoBehaviour
 	}
 
 	// 애니메이션 이벤트 : 애니메이션이 종료될 때 호출..
-	private void OnAnimationEnd()
+	public void OnAnimationEnd()
 	{
 		_animator.SetTrigger(AnimatorHashStore.ON_ANIMEND_KEY_HASH);
 

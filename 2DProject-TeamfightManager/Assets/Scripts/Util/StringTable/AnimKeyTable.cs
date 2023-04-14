@@ -7,6 +7,7 @@
 	public const string ON_DEATH = "OnDeath";
 	public const string ON_REVIVAL = "OnRevival";
 	public const string ON_ANIMEND = "OnAnimEnd";
+	public const string ANIMATION_SPEED = "AnimationSpeed";
 
 	public const string EFFECT = "Effect";
 }
