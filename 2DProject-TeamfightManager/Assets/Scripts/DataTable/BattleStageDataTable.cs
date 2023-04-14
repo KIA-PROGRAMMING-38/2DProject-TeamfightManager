@@ -17,6 +17,7 @@ public class BattleStageDataTable
 	public event Action<BattleTeamKind, int> OnChampionUseUltimate;
 	public event Action<BattleTeamKind, int> OnChampionDeadEvent;
 	public event Action<BattleTeamKind, int> OnChampionRevivalEvent;
+	public event Action<BattleTeamKind, int, float> OnChangedChampionBarrierRatio;
 
 	public int battleChampionTotalCount { get; set; }
 
@@ -65,6 +66,11 @@ public class BattleStageDataTable
 	public void ModifyChampionUseUltimateState(BattleTeamKind teamKind, int index)
 	{
 		OnChampionUseUltimate?.Invoke(teamKind, index);
+	}
+
+	public void ModifyChampionBarrierRatio(BattleTeamKind teamKind, int index, float ratio)
+	{
+		OnChangedChampionBarrierRatio?.Invoke(teamKind, index, ratio);
 	}
 
 	public void OnChampionDeath(BattleTeamKind teamKind, int index)

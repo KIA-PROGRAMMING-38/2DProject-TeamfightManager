@@ -88,7 +88,7 @@ public class AttackAction
 		}
 
 		_actionImpactLogics = new ActionImpactBase[(int)AttackImpactEffectKind.End];
-		_actionImpactLogics[(int)AttackImpactEffectKind.Buff] = new Impact_Debuff();
+		_actionImpactLogics[(int)AttackImpactEffectKind.Buff] = new Impact_Buff();
 		_actionImpactLogics[(int)AttackImpactEffectKind.Debuff] = new Impact_Debuff();
 		_actionImpactLogics[(int)AttackImpactEffectKind.Attack] = new Impact_AttackDamage();
 
@@ -231,7 +231,7 @@ public class AttackAction
 		Debug.Assert(null != target);
 #endif
 
-		Champion effectPointChampion = (effectData.effectPointKind == ActionStartPointKind.MyPosition) ? _ownerChampion : targetChampion;
+		Champion effectPointChampion = (effectData.effectPointKind == ActionStartPointKind.MyPosition) ? owner : target;
 
 		if (effectPointChampion.isDead)
 			return;
@@ -242,7 +242,7 @@ public class AttackAction
 		Effect effect = effectManager.GetEffect(effectData.showEffectName, effectStartPoint, flipX);
 
 		Vector3 direction;
-		effectPointChampion.blackboard.GetVectorValue(BlackboardKeyTable.moveDirection, out direction);
+		effectPointChampion.blackboard.GetVectorValue(BlackboardKeyTable.MOVE_DIRECTION, out direction);
 		effect.SetupAdditionalData(direction, effectPointChampion.transform);
 
 		effect.gameObject.SetActive(true);

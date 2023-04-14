@@ -111,40 +111,40 @@ public class ChampionAnimation : MonoBehaviour
 	public void ChangeState(AnimState newState, bool isForceChange = false)
 	{
 		if (_state == AnimState.Move && newState != _state)
-			_animator.SetBool(AnimatorHashStore.isMoveKeyHash, false);
+			_animator.SetBool(AnimatorHashStore.IS_MOVE_KEY_HASH, false);
 
 		// 새로운 애니메이션 상태에 따른 파라미터 값 갱신..
 		switch (newState)
 		{
 			case AnimState.Idle:
 				if (_state == AnimState.Dead)
-					_animator.SetTrigger(AnimatorHashStore.revivalKeyHash);
+					_animator.SetTrigger(AnimatorHashStore.REVIVAL_KEY_HASH);
 
 				break;
 			case AnimState.Move:
-				_animator.SetBool(AnimatorHashStore.isMoveKeyHash, true);
+				_animator.SetBool(AnimatorHashStore.IS_MOVE_KEY_HASH, true);
 
 				break;
 			case AnimState.Attack:
 				if (true == isForceChange)
-					_animator.SetTrigger(AnimatorHashStore.onAnimEndKeyHash);
-				_animator.SetTrigger(AnimatorHashStore.attackKeyHash);
+					_animator.SetTrigger(AnimatorHashStore.ON_ANIMEND_KEY_HASH);
+				_animator.SetTrigger(AnimatorHashStore.ATTACK_KEY_HASH);
 
 				break;
 			case AnimState.Skill:
 				if (true == isForceChange)
-					_animator.SetTrigger(AnimatorHashStore.onAnimEndKeyHash);
-				_animator.SetTrigger(AnimatorHashStore.skillKeyHash);
+					_animator.SetTrigger(AnimatorHashStore.ON_ANIMEND_KEY_HASH);
+				_animator.SetTrigger(AnimatorHashStore.SKILL_KEY_HASH);
 
 				break;
 			case AnimState.Ultimate:
 				if (true == isForceChange)
-					_animator.SetTrigger(AnimatorHashStore.onAnimEndKeyHash);
-				_animator.SetTrigger(AnimatorHashStore.ultKeyHash);
+					_animator.SetTrigger(AnimatorHashStore.ON_ANIMEND_KEY_HASH);
+				_animator.SetTrigger(AnimatorHashStore.ULT_KEY_HASH);
 
 				break;
 			case AnimState.Dead:
-				_animator.SetTrigger(AnimatorHashStore.deathKeyHash);
+				_animator.SetTrigger(AnimatorHashStore.DEATH_KEY_HASH);
 
 				break;
 		}
@@ -157,12 +157,12 @@ public class ChampionAnimation : MonoBehaviour
 	/// </summary>
 	public void ResetAnimation()
 	{
-		_animator.SetBool(AnimatorHashStore.isMoveKeyHash, false);
-		_animator.ResetTrigger(AnimatorHashStore.attackKeyHash);
-		_animator.ResetTrigger(AnimatorHashStore.skillKeyHash);
-		_animator.ResetTrigger(AnimatorHashStore.ultKeyHash);
-		_animator.ResetTrigger(AnimatorHashStore.deathKeyHash);
-		_animator.ResetTrigger(AnimatorHashStore.revivalKeyHash);
+		_animator.SetBool(AnimatorHashStore.IS_MOVE_KEY_HASH, false);
+		_animator.ResetTrigger(AnimatorHashStore.ATTACK_KEY_HASH);
+		_animator.ResetTrigger(AnimatorHashStore.SKILL_KEY_HASH);
+		_animator.ResetTrigger(AnimatorHashStore.ULT_KEY_HASH);
+		_animator.ResetTrigger(AnimatorHashStore.DEATH_KEY_HASH);
+		_animator.ResetTrigger(AnimatorHashStore.REVIVAL_KEY_HASH);
 
 		ChangeState(AnimState.Idle);
 	}
@@ -209,7 +209,7 @@ public class ChampionAnimation : MonoBehaviour
 	// 애니메이션 이벤트 : 애니메이션이 종료될 때 호출..
 	private void OnAnimationEnd()
 	{
-		_animator.SetTrigger(AnimatorHashStore.onAnimEndKeyHash);
+		_animator.SetTrigger(AnimatorHashStore.ON_ANIMEND_KEY_HASH);
 
 		StartCoroutine(_delayReceiveToChampionCoroutine);
 	}

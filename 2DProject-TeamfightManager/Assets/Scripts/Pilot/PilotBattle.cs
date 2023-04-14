@@ -31,6 +31,9 @@ public class PilotBattle : MonoBehaviour
 
 			_controlChampion.OnUseUltimate -= UpdateChampionUseUltimateState;
 			_controlChampion.OnUseUltimate += UpdateChampionUseUltimateState;
+
+			_controlChampion.OnChangedBarrierRatio -= UpdateBarrierRatio;
+			_controlChampion.OnChangedBarrierRatio += UpdateBarrierRatio;
 		}
     }
     private Champion _controlChampion;
@@ -45,6 +48,7 @@ public class PilotBattle : MonoBehaviour
     public event Action<int, float> OnChangedChampionHPRatio;
     public event Action<int, float> OnChangedChampionMPRatio;
 	public event Action<int> OnChampionUseUltimate;
+	public event Action<int, float> OnChangedChampionBarrierRatio;
 
 	private void Awake()
 	{
@@ -98,18 +102,23 @@ public class PilotBattle : MonoBehaviour
 		OnChangedBattleInfoData?.Invoke(battleTeamIndexKey, _battleInfoData);
 	}
 
-    private void UpdateChampionHPRatio(float hpRatio)
+    private void UpdateChampionHPRatio(float ratio)
     {
-        OnChangedChampionHPRatio?.Invoke(battleTeamIndexKey, hpRatio);
+        OnChangedChampionHPRatio?.Invoke(battleTeamIndexKey, ratio);
     }
 
-	private void UpdateChampionMPRatio(float hpRatio)
+	private void UpdateChampionMPRatio(float ratio)
 	{
-		OnChangedChampionMPRatio?.Invoke(battleTeamIndexKey, hpRatio);
+		OnChangedChampionMPRatio?.Invoke(battleTeamIndexKey, ratio);
 	}
 
     private void UpdateChampionUseUltimateState()
     {
         OnChampionUseUltimate?.Invoke(battleTeamIndexKey);
+	}
+
+    private void UpdateBarrierRatio(float ratio)
+    {
+        OnChangedChampionBarrierRatio?.Invoke(battleTeamIndexKey, ratio);
 	}
 }

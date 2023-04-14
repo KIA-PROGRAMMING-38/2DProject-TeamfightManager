@@ -31,22 +31,22 @@ public class ChampionBT : BehaviourTree
 			return;
 
 		// Bool 값들 기본 세팅..
-		blackboard.SetBoolValue(BlackboardKeyTable.isDeath, false);
-		blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, false);
-		blackboard.SetBoolValue(BlackboardKeyTable.spriteFlipX, false);
-		blackboard.SetBoolValue(BlackboardKeyTable.isCanActUltimate, false);
+		blackboard.SetBoolValue(BlackboardKeyTable.IS_DEATH, false);
+		blackboard.SetBoolValue(BlackboardKeyTable.IS_ACTION_LOCK, false);
+		blackboard.SetBoolValue(BlackboardKeyTable.SPRITE_FLIP_X, false);
+		blackboard.SetBoolValue(BlackboardKeyTable.IS_CAN_ACT_ULTIMATE, false);
 
 		// float 값들 기본 세팅..
-		blackboard.SetFloatValue(BlackboardKeyTable.targetDistance, float.MaxValue);
+		blackboard.SetFloatValue(BlackboardKeyTable.TARGET_DISTANCE, float.MaxValue);
 
 		// int 값들 기본 세팅..
 
 		// Vector 값들 기본 세팅..
-		blackboard.SetVectorValue(BlackboardKeyTable.moveDirection, Vector3.zero);
-		blackboard.SetVectorValue(BlackboardKeyTable.effectDirection, Vector3.zero);
+		blackboard.SetVectorValue(BlackboardKeyTable.MOVE_DIRECTION, Vector3.zero);
+		blackboard.SetVectorValue(BlackboardKeyTable.EFFECT_DRIECTION, Vector3.zero);
 
 		// Object 값들 기본 세팅..
-		blackboard.SetObjectValue(BlackboardKeyTable.target, null);
+		blackboard.SetObjectValue(BlackboardKeyTable.TARGET, null);
 	}
 
 	private void SetupNodeHierarchy()
@@ -74,7 +74,7 @@ public class ChampionBT : BehaviourTree
 		AddNode(deadStateBodyNode, parentNode);
 
 		// 죽었는지 체크하는 노드 생성 및 등록..
-		AddNode(new DN_CheckBoolValue(true, BlackboardKeyTable.isDeath), deadStateBodyNode);
+		AddNode(new DN_CheckBoolValue(true, BlackboardKeyTable.IS_DEATH), deadStateBodyNode);
 
 		// 죽었을 때 해줘야할 행동 노드 생성 및 등록..
 		//AddNode(new AN_OnDeath(), deadStateBodyNode);
@@ -101,7 +101,7 @@ public class ChampionBT : BehaviourTree
 		AddNode(targetInfoUpdateParentNode, battleBodyNode);
 
 		// 적을 찾았는지 체크하는 노드 생성 및 등록..
-		AddNode(new DN_ValidObjectValue(BlackboardKeyTable.target), targetInfoUpdateParentNode);
+		AddNode(new DN_ValidObjectValue(BlackboardKeyTable.TARGET), targetInfoUpdateParentNode);
 
 		// 적의 정보를 갱신하는 노드 생성 및 등록..
 		AddNode(new AN_UpdateTargetinfomation(), targetInfoUpdateParentNode);
@@ -119,13 +119,13 @@ public class ChampionBT : BehaviourTree
 		AddNode(ultimateBodyNode, battleActionBodyNode);
 
 		// 궁극기를 사용하기 위한 조건 관련 노드 생성 및 등록..
-		AddNode(new DN_CheckIsCanAttack(BlackboardKeyTable.isCanActUltimate), ultimateBodyNode);
+		AddNode(new DN_CheckIsCanAttack(BlackboardKeyTable.IS_CAN_ACT_ULTIMATE), ultimateBodyNode);
 
 		// 애니메이션 상태를 궁극기 상태로 변경하는 노드 생성 및 등록..
 		AddNode(new AN_ChangeAnimState(ChampionAnimation.AnimState.Ultimate, true), ultimateBodyNode);
 
 		// 궁극기 사용 노드 생성 및 등록..
-		AddNode(new AN_Attack(ActionKeyTable.ultimate), ultimateBodyNode);
+		AddNode(new AN_Attack(ActionKeyTable.ULTIMATE), ultimateBodyNode);
 		// =============================================================================
 
 		// =============================================================================
@@ -135,13 +135,13 @@ public class ChampionBT : BehaviourTree
 		AddNode(skillBodyNode, battleActionBodyNode);
 
 		// 스킬을 사용하기 위한 조건 관련 노드 생성 및 등록..
-		AddNode(new DN_CheckIsCanAttack(BlackboardKeyTable.isCanActSkill), skillBodyNode);
+		AddNode(new DN_CheckIsCanAttack(BlackboardKeyTable.IS_CAN_ACT_SKILL), skillBodyNode);
 
 		// 애니메이션 상태를 스킬 상태로 변경하는 노드 생성 및 등록..
 		AddNode(new AN_ChangeAnimState(ChampionAnimation.AnimState.Skill, true), skillBodyNode);
 
 		// 스킬 사용 노드 생성 및 등록..
-		AddNode(new AN_Attack(ActionKeyTable.skill), skillBodyNode);
+		AddNode(new AN_Attack(ActionKeyTable.SKILL), skillBodyNode);
 		// =============================================================================
 
 		// =============================================================================
@@ -151,13 +151,13 @@ public class ChampionBT : BehaviourTree
 		AddNode(attackBodyNode, battleActionBodyNode);
 
 		// 적을 공격하기 위한 조건 관련 노드 생성 및 등록..
-		AddNode(new DN_CheckIsCanAttack(BlackboardKeyTable.isCanActAttack), attackBodyNode);
+		AddNode(new DN_CheckIsCanAttack(BlackboardKeyTable.IS_CAN_ACT_ATTACK), attackBodyNode);
 
 		// 애니메이션 상태를 공격 상태로 변경하는 노드 생성 및 등록..
 		AddNode(new AN_ChangeAnimState(ChampionAnimation.AnimState.Attack, true), attackBodyNode);
 
 		// 적을 공격하는 노드 생성 및 등록..
-		AddNode(new AN_Attack(ActionKeyTable.attack), attackBodyNode);
+		AddNode(new AN_Attack(ActionKeyTable.ATTACK), attackBodyNode);
 		// =============================================================================
 
 

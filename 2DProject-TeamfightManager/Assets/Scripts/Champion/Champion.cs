@@ -49,7 +49,7 @@ public class Champion : MonoBehaviour, IAttackable
 	public bool isDead { get => _curHp == 0; }
 	public float speed { get => status.moveSpeed; private set => status.moveSpeed = value; }
 
-	public Champion targetChampion { get => blackboard?.GetObjectValue(BlackboardKeyTable.target) as Champion; }
+	public Champion targetChampion { get => blackboard?.GetObjectValue(BlackboardKeyTable.TARGET) as Champion; }
 	public Champion lastHitChampion { get; private set; }
 
 	private AttackAction _attackAction;
@@ -64,6 +64,7 @@ public class Champion : MonoBehaviour, IAttackable
 	public event Action<float> OnChangedHPRatio;
 	public event Action<float> OnChangedMPRatio;
 	public event Action OnUseUltimate;
+	public event Action<float> OnChangedBarrierRatio;
 
 	// 강제 지정 타겟(이 필드의 값이 유효하다면 무조건 타겟은 얘다)..
 	private Champion _forcedTarget;
@@ -92,12 +93,12 @@ public class Champion : MonoBehaviour, IAttackable
 			{
 				_atkActTime = Time.time;
 				StartCoroutine(_updateAtkCooltimeCoroutine);
-				blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, false);
+				blackboard.SetBoolValue(BlackboardKeyTable.IS_CAN_ACT_ATTACK, false);
 			}
 			else
 			{
 				StopCoroutine(_updateAtkCooltimeCoroutine);
-				blackboard.SetBoolValue(BlackboardKeyTable.isCanActAttack, true);
+				blackboard.SetBoolValue(BlackboardKeyTable.IS_CAN_ACT_ATTACK, true);
 			}
 		}
 	}
@@ -112,13 +113,13 @@ public class Champion : MonoBehaviour, IAttackable
 			{
 				_skillActTime = Time.time;
 				StartCoroutine(_updateSkillCooltimeCoroutine);
-				blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, false);
+				blackboard.SetBoolValue(BlackboardKeyTable.IS_CAN_ACT_SKILL, false);
 			}
 			else
 			{
 				OnChangedMPRatio?.Invoke(1f);
 				StopCoroutine(_updateSkillCooltimeCoroutine);
-				blackboard.SetBoolValue(BlackboardKeyTable.isCanActSkill, true);
+				blackboard.SetBoolValue(BlackboardKeyTable.IS_CAN_ACT_SKILL, true);
 			}
 		}
 	}
@@ -171,6 +172,9 @@ public class Champion : MonoBehaviour, IAttackable
 		_modifyStatusSystem.OnChangedStatus -= UpdateStatus; 
 		_modifyStatusSystem.OnChangedStatus += UpdateStatus;
 
+		_modifyStatusSystem.OnChangedBarrierAmount -= ModifyBarrierAmount;
+		_modifyStatusSystem.OnChangedBarrierAmount += ModifyBarrierAmount;
+
 		// 코루틴 함수 미리 필드 객체에 저장..
 		_onActiveUpdateCoroutine = OnActionUpdate();
 		_updateAtkCooltimeCoroutine = UpdateAtkCooltime();
@@ -183,18 +187,18 @@ public class Champion : MonoBehaviour, IAttackable
 		Revival();
 
 		isSkillCooltime = true;
-		StartCoroutine(TestUltOn());
+		//StartCoroutine(TestUltOn());
 
 		_modifyStatusSystem.effectManager = s_effectManager;
 	}
 
 	IEnumerator TestUltOn()
 	{
-		blackboard.SetBoolValue(BlackboardKeyTable.isCanActUltimate, false);
+		blackboard.SetBoolValue(BlackboardKeyTable.IS_CAN_ACT_ULTIMATE, false);
 
 		yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 1f));
 
-		blackboard.SetBoolValue(BlackboardKeyTable.isCanActUltimate, true);
+		blackboard.SetBoolValue(BlackboardKeyTable.IS_CAN_ACT_ULTIMATE, true);
 		Debug.Log("궁극기 On");
 	}
 
@@ -263,6 +267,11 @@ public class Champion : MonoBehaviour, IAttackable
 		status.skillCooltime = 0f;
 	}
 
+	private void ModifyBarrierAmount(int amount)
+	{
+		OnChangedBarrierRatio?.Invoke(amount / (float)curHp);
+	}
+
 	IEnumerator UpdateModifyStatusSystem()
 	{
 		while(true)
@@ -312,8 +321,8 @@ public class Champion : MonoBehaviour, IAttackable
 
 	private void SetupBlackboard()
 	{
-		blackboard.SetFloatValue(BlackboardKeyTable.attackRange, status.range);
-		blackboard.SetFloatValue(BlackboardKeyTable.moveSpeed, status.moveSpeed);
+		blackboard.SetFloatValue(BlackboardKeyTable.ATTACK_RANGE, status.range);
+		blackboard.SetFloatValue(BlackboardKeyTable.MOVE_SPEED, status.moveSpeed);
 	}
 
 	public void Revival()
@@ -345,7 +354,7 @@ public class Champion : MonoBehaviour, IAttackable
 			case "Ultimate":
 				_curAttackAction = _ultimateAction;
 				_curAttackAction?.OnStart();
-				blackboard.SetBoolValue(BlackboardKeyTable.isCanActUltimate, false);
+				blackboard.SetBoolValue(BlackboardKeyTable.IS_CAN_ACT_ULTIMATE, false);
 
 				OnUseUltimate?.Invoke();
 				break;
@@ -355,7 +364,7 @@ public class Champion : MonoBehaviour, IAttackable
 				return;
 		}
 
-		blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, true);
+		blackboard.SetBoolValue(BlackboardKeyTable.IS_ACTION_LOCK, true);
 		StartCoroutine(_onActiveUpdateCoroutine);
 	}
 
@@ -372,7 +381,7 @@ public class Champion : MonoBehaviour, IAttackable
 				{
 					_curAttackAction = null;
 
-					blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, false);
+					blackboard.SetBoolValue(BlackboardKeyTable.IS_ACTION_LOCK, false);
 
 					StopCoroutine(_onActiveUpdateCoroutine);
 				}
@@ -381,7 +390,7 @@ public class Champion : MonoBehaviour, IAttackable
 			}
 			else
 			{
-				blackboard.SetBoolValue(BlackboardKeyTable.isActionLock, false);
+				blackboard.SetBoolValue(BlackboardKeyTable.IS_ACTION_LOCK, false);
 
 				StopCoroutine(_onActiveUpdateCoroutine);
 
@@ -426,25 +435,27 @@ public class Champion : MonoBehaviour, IAttackable
 	// 적에게 데미지를 입었을 때 호출되는 함수..
 	public void TakeDamage(Champion hitChampion, int damage)
 	{
-		damage = Math.Min(CalcDefenceApplyDamage(damage), curHp);
-		curHp -= damage;
+		// 먼저 방어막이 있다면 방어막부터 깐다..
+		damage = _modifyStatusSystem.TakeDamage(damage);
+
+		if (damage > 0)
+		{
+			damage = Math.Min(CalcDefenceApplyDamage(damage), curHp);
+			curHp -= damage;
+
+			OnHit?.Invoke(hitChampion, damage);
+
+			if (false == isDead)
+			{
+				_animComponent.OnHit();
+			}
+		}
+
+		hitChampion.OnAttack?.Invoke(this, damage);
 
 		if (null != hitChampion)
 		{
 			lastHitChampion = hitChampion;
-		}
-
-		OnHit?.Invoke(hitChampion, damage);
-		hitChampion.OnAttack?.Invoke(this, damage);
-
-		if (false == isDead)
-		{
-			_animComponent.OnHit();
-
-			if (null != hitChampion)
-			{
-				lastHitChampion = hitChampion;
-			}
 		}
 	}
 

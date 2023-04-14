@@ -54,11 +54,11 @@ public class TestCreateDataSaveFile : MonoBehaviour
 
 		if (Input.GetKeyDown(allCreateKey))
 		{
-			CreateAll();
+			CreateAll(true);
 		}
 	}
 
-	public void CreateAll()
+	public void CreateAll(bool isShowLog = false)
 	{
 		TestAttackActionScriptableObject[] allAtkActionPrefab = container.allAtkActionPrefab;
 		TestChampionDataScriptableObject[] allChampionDataPrefab = container.allChampionDataPrefab;
@@ -66,43 +66,47 @@ public class TestCreateDataSaveFile : MonoBehaviour
 
 		for (int i = 0; i < allAtkActionPrefab.Length; ++i)
 		{
-			CreateAtkActionFile(allAtkActionPrefab[i]);
+			CreateAtkActionFile(allAtkActionPrefab[i], isShowLog);
 		}
 
 		for (int i = 0; i < allChampionDataPrefab.Length; ++i)
 		{
-			CreateChampionFile(allChampionDataPrefab[i]);
+			CreateChampionFile(allChampionDataPrefab[i], isShowLog);
 		}
 
 		for (int i = 0; i < allEffectDataPrefab.Length; ++i)
 		{
-			CreateEffectFile(allEffectDataPrefab[i]);
+			CreateEffectFile(allEffectDataPrefab[i], isShowLog);
 		}
 
-		Debug.Log($"모든 파일 생성 완료");
+		if (isShowLog)
+			Debug.Log($"모든 파일 생성 완료");
 	}
 
-	private void CreateAtkActionFile(TestAttackActionScriptableObject obj)
+	private void CreateAtkActionFile(TestAttackActionScriptableObject obj, bool isShowLog = true)
 	{
 		SaveLoadLogic.SaveAttackActionFile(obj.actionData, obj.impactData,
 				obj.performanceData, obj.effectData,
 				obj.baseFilePath, obj.name, obj.extension);
 
-		Debug.Log($"{obj.name} 파일 생성 완료");
+		if (isShowLog)
+			Debug.Log($"{obj.name} 파일 생성 완료");
 	}
 
-	private void CreateChampionFile(TestChampionDataScriptableObject obj)
+	private void CreateChampionFile(TestChampionDataScriptableObject obj, bool isShowLog = true)
 	{
 		SaveLoadLogic.SaveChampionFile(obj.championStatus, obj.championData, obj.championResourceData,
 				obj.baseFilePath, obj.championData.name, obj.extension);
 
-		Debug.Log($"{obj.name} 파일 생성 완료");
+		if (isShowLog)
+			Debug.Log($"{obj.name} 파일 생성 완료");
 	}
 
-	private void CreateEffectFile(TestEffectDataScriptableObject obj)
+	private void CreateEffectFile(TestEffectDataScriptableObject obj, bool isShowLog = true)
 	{
 		SaveLoadLogic.SaveEffectFile(obj.effectData, obj.baseFilePath, obj.extension);
 
-		Debug.Log($"{obj.name} 파일 생성 완료");
+		if (isShowLog)
+			Debug.Log($"{obj.name} 파일 생성 완료");
 	}
 }

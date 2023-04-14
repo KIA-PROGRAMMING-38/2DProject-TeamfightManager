@@ -104,6 +104,9 @@ public class BattleStageManager : MonoBehaviour
 		redTeam.OnChampionUseUltimate -= OnChampionUseUltimate;
 		redTeam.OnChampionUseUltimate += OnChampionUseUltimate;
 
+		redTeam.OnChangedChampionBarrierRatio -= OnChangedChampionBarrierRatio;
+		redTeam.OnChangedChampionBarrierRatio += OnChangedChampionBarrierRatio;
+
 
 		blueTeam.OnChangedChampionBattleInfoData -= OnChangedChampionBattleData;
 		blueTeam.OnChangedChampionBattleInfoData += OnChangedChampionBattleData;
@@ -116,6 +119,9 @@ public class BattleStageManager : MonoBehaviour
 
 		blueTeam.OnChampionUseUltimate -= OnChampionUseUltimate;
 		blueTeam.OnChampionUseUltimate += OnChampionUseUltimate;
+
+		blueTeam.OnChangedChampionBarrierRatio -= OnChangedChampionBarrierRatio;
+		blueTeam.OnChangedChampionBarrierRatio += OnChangedChampionBarrierRatio;
 	}
 
 	// 배틀 스테이지의 각 팀들의 파일럿 생성해주는 함수..
@@ -207,6 +213,11 @@ public class BattleStageManager : MonoBehaviour
 	private void OnChampionUseUltimate(BattleTeamKind teamKind, int index)
 	{
 		_battleStageDataTable?.ModifyChampionUseUltimateState(teamKind, index);
+	}
+
+	private void OnChangedChampionBarrierRatio(BattleTeamKind teamKind, int index, float ratio)
+	{
+		_battleStageDataTable?.ModifyChampionBarrierRatio(teamKind, index, ratio);
 	}
 
 	public void OnChampionDeadState(BattleTeamKind teamKind, int index)

@@ -4,9 +4,9 @@ using UnityEngine.UI;
 /// <summary>
 /// 챔피언 HP 상태를 화면에 보여주는 UI..
 /// </summary>
-public class HPBarUI : UIBase
+public class GaugeBarUI : UIBase
 {
-    [SerializeField] private Image _hpRatioGaugeImage;
+    private Image _hpRatioGaugeImage;
     public Color gaugeBarColor
     {
         set
@@ -15,8 +15,13 @@ public class HPBarUI : UIBase
         }
     }
 
-    public void SetHPRatio(float hpRatio)
+	private void Awake()
+	{
+		_hpRatioGaugeImage = GetComponent<Image>();
+	}
+
+	public void SetFillAmount(float fillAmount)
     {
-        _hpRatioGaugeImage.fillAmount = hpRatio;
+        _hpRatioGaugeImage.fillAmount = fillAmount;
 	}
 }

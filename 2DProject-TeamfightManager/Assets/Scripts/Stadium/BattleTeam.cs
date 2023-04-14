@@ -34,6 +34,7 @@ public class BattleTeam : MonoBehaviour
 	public event Action<BattleTeamKind, int, float> OnChangedChampionHPRatio;
 	public event Action<BattleTeamKind, int, float> OnChangedChampionMPRatio;
 	public event Action<BattleTeamKind, int> OnChampionUseUltimate;
+	public event Action<BattleTeamKind, int, float> OnChangedChampionBarrierRatio;
 
 	// 부활 관련 필드들..
 	private float _revivalWaitTime = 1f;
@@ -67,6 +68,8 @@ public class BattleTeam : MonoBehaviour
 
 #if UNITY_EDITOR
 		Debug.Assert(null != pilotBattleComponent);
+
+		champion.gameObject.name = champName;
 #endif
 
 		// 초기화..
@@ -92,6 +95,9 @@ public class BattleTeam : MonoBehaviour
 
 		pilotBattleComponent.OnChampionUseUltimate -= UpdateChampionUseUltimateState;
 		pilotBattleComponent.OnChampionUseUltimate += UpdateChampionUseUltimateState;
+
+		pilotBattleComponent.OnChangedChampionBarrierRatio -= UpdateChampionBarrierRatio;
+		pilotBattleComponent.OnChangedChampionBarrierRatio += UpdateChampionBarrierRatio;
 
 		// 코루틴 등록..
 		_revivalCoroutines.Add(WaitRevival(_pilots.Count - 1));
@@ -242,5 +248,10 @@ public class BattleTeam : MonoBehaviour
 	private void UpdateChampionUseUltimateState(int index)
 	{
 		OnChampionUseUltimate?.Invoke(battleTeamKind, index);
+	}
+
+	private void UpdateChampionBarrierRatio(int index, float ratio)
+	{
+		OnChangedChampionBarrierRatio?.Invoke(battleTeamKind, index, ratio);
 	}
 }
