@@ -20,8 +20,8 @@ public class AN_Move : ActionNode
 
 	protected override void OnStart()
 	{
-		_speed = blackboard.GetFloatValue(BlackboardKeyTable.moveSpeed);
-		blackboard.GetVectorValue(BlackboardKeyTable.moveDirection, out _moveDirection);
+		_speed = blackboard.GetFloatValue(BlackboardKeyTable.MOVE_SPEED);
+		blackboard.GetVectorValue(BlackboardKeyTable.MOVE_DIRECTION, out _moveDirection);
 		_moveDirection.Normalize();
 	}
 

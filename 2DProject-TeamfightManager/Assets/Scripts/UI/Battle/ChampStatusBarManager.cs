@@ -32,6 +32,9 @@ public class ChampStatusBarManager : UIBase
 		s_dataTableManager.battleStageDataTable.OnChampionUseUltimate -= OnChampionUseUltimate;
 		s_dataTableManager.battleStageDataTable.OnChampionUseUltimate += OnChampionUseUltimate;
 
+		s_dataTableManager.battleStageDataTable.OnChangedChampionBarrierRatio -= OnChangedChampionBarrierRatio;
+		s_dataTableManager.battleStageDataTable.OnChangedChampionBarrierRatio += OnChangedChampionBarrierRatio;
+
 		s_dataTableManager.battleStageDataTable.OnChampionDeadEvent -= OnChampionDead;
 		s_dataTableManager.battleStageDataTable.OnChampionDeadEvent += OnChampionDead;
 
@@ -44,6 +47,7 @@ public class ChampStatusBarManager : UIBase
 		s_dataTableManager.battleStageDataTable.OnChangedChampionHPRatio -= OnChangedChampionHPRatio;
 		s_dataTableManager.battleStageDataTable.OnChangedChampionMPRatio -= OnChangedChampionMPRatio;
 		s_dataTableManager.battleStageDataTable.OnChampionUseUltimate -= OnChampionUseUltimate;
+		s_dataTableManager.battleStageDataTable.OnChangedChampionBarrierRatio -= OnChangedChampionBarrierRatio;
 		s_dataTableManager.battleStageDataTable.OnChampionDeadEvent -= OnChampionDead;
 		s_dataTableManager.battleStageDataTable.OnChampionRevivalEvent -= OnChampionRevival;
 	}
@@ -101,6 +105,16 @@ public class ChampStatusBarManager : UIBase
 		int teamIndex = (int)teamKind;
 
 		_champStatusBarContainer[(int)teamKind][index].SetUltimateActive(false);
+	}
+
+	public void OnChangedChampionBarrierRatio(BattleTeamKind teamKind, int index, float ratio)
+	{
+		if (_halfChampCount <= index)
+			return;
+
+		int teamIndex = (int)teamKind;
+
+		_champStatusBarContainer[(int)teamKind][index].SetBarrierRatio(ratio);
 	}
 
 	public void OnChampionDead(BattleTeamKind teamKind, int index)

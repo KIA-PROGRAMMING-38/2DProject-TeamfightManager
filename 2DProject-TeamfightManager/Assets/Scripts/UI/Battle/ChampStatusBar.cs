@@ -13,8 +13,9 @@ public class ChampStatusBar : UIBase
 	private Camera _mainCamera;
 	private RectTransform _transform;
 
-	private HPBarUI _hpBarUI;
-	private MPBarUI _mpBarUI;
+	[SerializeField] private GaugeBarUI _hpBarUI;
+	[SerializeField] private GaugeBarUI _barrierBarUI;
+	[SerializeField] private GaugeBarUI _mpBarUI;
 	private UltimateIconUI _ultimateIconUI;
 
 	private readonly Color redTeamHPBarColor = Color.red;
@@ -25,8 +26,6 @@ public class ChampStatusBar : UIBase
 		_mainCamera = Camera.main;
 		_transform = GetComponent<RectTransform>();
 
-		_hpBarUI = GetComponentInChildren<HPBarUI>();
-		_mpBarUI = GetComponentInChildren<MPBarUI>();
 		_ultimateIconUI = GetComponentInChildren<UltimateIconUI>();
 	}
 
@@ -45,12 +44,17 @@ public class ChampStatusBar : UIBase
 
 	public void SetHPRatio(float ratio)
 	{
-		_hpBarUI.SetHPRatio(ratio);
+		_hpBarUI.SetFillAmount(ratio);
 	}
 
 	public void SetMPRatio(float ratio)
 	{
-		_mpBarUI.SetMPRatio(ratio);
+		_mpBarUI.SetFillAmount(ratio);
+	}
+
+	public void SetBarrierRatio(float ratio)
+	{
+		_barrierBarUI.SetFillAmount(ratio);
 	}
 
 	public void SetUltimateActive(bool active)

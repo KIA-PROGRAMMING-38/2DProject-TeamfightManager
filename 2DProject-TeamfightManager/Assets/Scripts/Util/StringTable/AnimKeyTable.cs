@@ -1,12 +1,12 @@
 ﻿public static class AnimKeyTable
 {
-	public const string isMove = "isMove";
-	public const string onAttack = "OnAttack";
-	public const string onSkill = "OnSkill";
-	public const string onUltimate = "OnUltimate";
-	public const string onDeath = "OnDeath";
-	public const string onRevival = "OnRevival";
-	public const string onAnimEnd = "OnAnimEnd";
+	public const string ISMOVE = "isMove";
+	public const string ON_ATTACK = "OnAttack";
+	public const string ON_SKILL = "OnSkill";
+	public const string ON_ULTIMATE = "OnUltimate";
+	public const string ON_DEATH = "OnDeath";
+	public const string ON_REVIVAL = "OnRevival";
+	public const string ON_ANIMEND = "OnAnimEnd";
 
-	public const string effect = "Effect";
+	public const string EFFECT = "Effect";
 }

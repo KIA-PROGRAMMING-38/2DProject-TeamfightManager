@@ -20,7 +20,7 @@ public class DN_CheckIsCanAttack : DecoratorNode
 
 	protected override void OnStart()
 	{
-		_attackRange = blackboard.GetFloatValue(BlackboardKeyTable.attackRange);
+		_attackRange = blackboard.GetFloatValue(BlackboardKeyTable.ATTACK_RANGE);
 	}
 
 	protected override void OnStop()
@@ -30,14 +30,14 @@ public class DN_CheckIsCanAttack : DecoratorNode
 
 	protected override State OnUpdate()
 	{
-		if (null == blackboard.GetObjectValue(BlackboardKeyTable.target))
+		if (null == blackboard.GetObjectValue(BlackboardKeyTable.TARGET))
 			return State.Failure;
 
-		if (true == blackboard.GetBoolValue(BlackboardKeyTable.isActionLock))
+		if (true == blackboard.GetBoolValue(BlackboardKeyTable.IS_ACTION_LOCK))
 			return State.Failure;
 
 		// 타겟과의 거리가 나의 공격 범위보다 작다면..
-		float dist = blackboard.GetFloatValue(BlackboardKeyTable.targetDistance);
+		float dist = blackboard.GetFloatValue(BlackboardKeyTable.TARGET_DISTANCE);
 		if (_attackRange < dist)
 			return State.Failure;
 

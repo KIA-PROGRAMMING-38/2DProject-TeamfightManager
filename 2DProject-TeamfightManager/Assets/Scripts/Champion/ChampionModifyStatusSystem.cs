@@ -4,6 +4,7 @@ using UnityEngine;
 public class ChampionModifyStatusSystem
 {
 	public event Action<ChampionStatus> OnChangedStatus;
+	public event Action<int> OnChangedBarrierAmount;
 
 	private ChampionStatus _status;
 
@@ -37,6 +38,9 @@ public class ChampionModifyStatusSystem
 
 		_buffSystem.OnChangedStatus -= UpdateStatus;
 		_buffSystem.OnChangedStatus += UpdateStatus;
+
+		_buffSystem.OnChangedBarrierAmount -= UpdateBarrierAmount;
+		_buffSystem.OnChangedBarrierAmount += UpdateBarrierAmount;
 
 		_debuffSystem.OnChangedStatus -= UpdateStatus;
 		_debuffSystem.OnChangedStatus += UpdateStatus;
@@ -96,5 +100,18 @@ public class ChampionModifyStatusSystem
 	public void AddDebuff(DebuffImpactType type, Champion didChampion, float amount, float impactTime)
 	{
 		_debuffSystem?.AddDebuff(type, didChampion, amount, impactTime);
+	}
+
+	public int TakeDamage(int damage)
+	{
+		if (null == _buffSystem)
+			return damage;
+
+		return _buffSystem.TakeDamage(damage);
+	}
+
+	private void UpdateBarrierAmount(int amount)
+	{
+		OnChangedBarrierAmount?.Invoke(amount);
 	}
 }

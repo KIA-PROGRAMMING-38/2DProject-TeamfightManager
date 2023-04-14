@@ -28,7 +28,7 @@ public class ContPerf_Move : ActionContinuousPerformance
 
 			Vector3 dir = (targetPosition - ownerChampion.transform.position).normalized;
 
-			ownerChampion.blackboard.SetVectorValue(BlackboardKeyTable.effectDirection, dir);
+			ownerChampion.blackboard.SetVectorValue(BlackboardKeyTable.EFFECT_DRIECTION, dir);
 		}
 	}
 

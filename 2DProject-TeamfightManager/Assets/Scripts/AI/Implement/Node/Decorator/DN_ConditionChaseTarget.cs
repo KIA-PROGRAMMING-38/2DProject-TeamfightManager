@@ -17,13 +17,13 @@ public class DN_ConditionChaseTarget : DecoratorNode
 
 	protected override State OnUpdate()
 	{
-		if (null == blackboard.GetObjectValue(BlackboardKeyTable.target))
+		if (null == blackboard.GetObjectValue(BlackboardKeyTable.TARGET))
 			return State.Failure;
 
-		if (true == blackboard.GetBoolValue(BlackboardKeyTable.isActionLock))
+		if (true == blackboard.GetBoolValue(BlackboardKeyTable.IS_ACTION_LOCK))
 			return State.Failure;
 
-		if (blackboard.GetFloatValue(BlackboardKeyTable.targetDistance) <= blackboard.GetFloatValue(BlackboardKeyTable.attackRange))
+		if (blackboard.GetFloatValue(BlackboardKeyTable.TARGET_DISTANCE) <= blackboard.GetFloatValue(BlackboardKeyTable.ATTACK_RANGE))
 			return State.Failure;
 
 		return State.Success;
