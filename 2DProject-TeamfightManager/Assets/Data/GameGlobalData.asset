@@ -20,7 +20,7 @@ MonoBehaviour:
   attackActionDirectoryName: AttackAction
   effectDirectoryName: Effect
   testRedChampionCreateOrder:
-  - Knight
+  - Ghost
   testRedPilotCreateOrder:
   - Faker
   testBlueChampionCreateOrder:

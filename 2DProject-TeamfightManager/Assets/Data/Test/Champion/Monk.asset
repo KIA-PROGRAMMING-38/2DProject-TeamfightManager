@@ -16,15 +16,15 @@ MonoBehaviour:
     name: Monk
     type: 4
     atkActionUniqueKey: 6
-    skillActionUniqueKey: 7
-    ultimateActionUniqueKey: 8
+    skillActionUniqueKey: 6
+    ultimateActionUniqueKey: 6
     champDescription: "\uBABD\uD06C\uC785\uB2C8\uB2E4."
   championStatus:
     atkStat: 20
     atkSpeed: 0.71
     range: 0.35
     defence: 40
-    hp: 210
+    hp: 50
     moveSpeed: 2.5
     skillCooltime: 5.4
   championResourceData:
