@@ -55,6 +55,8 @@ public class BanpickChampUIManager : UIBase
 
 	private void OnUpdateBackpickStage(string champName, BanpickStageKind stageKind, BattleTeamKind teamKind, int index)
 	{
+		Debug.Assert( true == _activeChampUIContainer.ContainsKey( champName ) );
 
-	}
+		_activeChampUIContainer[champName].ChangeBanpickState( stageKind );
+    }
 }

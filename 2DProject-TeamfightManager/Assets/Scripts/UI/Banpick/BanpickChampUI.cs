@@ -1,9 +1,12 @@
 ﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class BanpickChampUI : UIBase
 {
 	public event Action<string> OnButtonClicked;
+
+	private BanpickChampButtonUI _buttonUI;
 
 	private string _championName;
 	public string championName
@@ -13,20 +16,41 @@ public class BanpickChampUI : UIBase
 		{
 			_championName = value;
 
-			GetComponentInChildren<BanpickChampButtonUI>().SetChampionName(_championName);
+			_buttonUI.SetChampionName( _championName );
 		}
 	}
 
-	private void Awake()
+	public BanpickStageKind kind
 	{
-		BanpickChampButtonUI button = GetComponentInChildren<BanpickChampButtonUI>();
+		set
+		{
+            switch ( value )
+            {
+                case BanpickStageKind.Ban:
 
-		button.OnButtonClicked -= OnChampButtonClicked;
-		button.OnButtonClicked += OnChampButtonClicked;
+					break;
+                case BanpickStageKind.Pick:
+
+					break;
+            }
+        }
+    }
+
+    private void Awake()
+	{
+		_buttonUI = GetComponentInChildren<BanpickChampButtonUI>();
+
+		_buttonUI.OnButtonClicked -= OnChampButtonClicked;
+		_buttonUI.OnButtonClicked += OnChampButtonClicked;
 	}
 
 	private void OnChampButtonClicked()
 	{
 		OnButtonClicked?.Invoke(championName);
+	}
+
+	public void ChangeBanpickState(BanpickStageKind state )
+	{
+		_buttonUI.ChangeBanpickState( state );
 	}
 }

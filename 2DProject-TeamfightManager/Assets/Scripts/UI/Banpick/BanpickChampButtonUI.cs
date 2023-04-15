@@ -2,10 +2,13 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class BanpickChampButtonUI : UIBase, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
 	public event Action OnButtonClicked;
+
+	private Button _buttonComponent;
 
 	private Animator _animator;
 	private AnimatorOverrideController _overrideController;
@@ -13,10 +16,13 @@ public class BanpickChampButtonUI : UIBase, IPointerClickHandler, IPointerEnterH
 
 	private void Awake()
 	{
-		// Animator override Controller 생성 후 애니메이터에 재생중인 컨트롤러 교체..
-		_overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
-		_animator.runtimeAnimatorController = _overrideController;
-	}
+        // Animator override Controller 생성 후 애니메이터에 재생중인 컨트롤러 교체..
+        //_animator = GetComponent<Animator>();
+        //_overrideController = new AnimatorOverrideController(_animator.runtimeAnimatorController);
+        //_animator.runtimeAnimatorController = _overrideController;
+
+        _buttonComponent = GetComponent<Button>();
+    }
 
 	public void SetChampionName(string championName)
 	{
@@ -31,20 +37,31 @@ public class BanpickChampButtonUI : UIBase, IPointerClickHandler, IPointerEnterH
 		_clickAnimPlayTime = animData.atkAnim.length;
 	}
 
-	public void OnPointerClick(PointerEventData eventData)
+	public void SetButtonActive(bool isActive)
 	{
-		OnButtonClicked?.Invoke();
+		_buttonComponent.enabled = isActive;
 	}
+
+	public void ChangeBanpickState(BanpickStageKind state)
+	{
+        
+    }
+
+
+    public void OnPointerClick(PointerEventData eventData)
+	{
+        //OnButtonClicked?.Invoke();
+    }
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
-		_animator.SetBool(AnimatorHashStore.ON_HOVER_BUTTON, true);
+		//_animator.SetBool(AnimatorHashStore.ON_HOVER_BUTTON, true);
 	}
 
 	public void OnPointerExit(PointerEventData eventData)
 	{
-		_animator.SetBool(AnimatorHashStore.ON_HOVER_BUTTON, false);
-	}
+        //_animator.SetBool(AnimatorHashStore.ON_HOVER_BUTTON, false);
+    }
 
 	public void SetState(BanpickStageKind kind)
 	{
