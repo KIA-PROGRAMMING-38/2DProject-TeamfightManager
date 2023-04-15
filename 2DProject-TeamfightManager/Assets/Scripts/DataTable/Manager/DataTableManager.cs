@@ -13,6 +13,9 @@ public class DataTableManager : MonoBehaviour
 
 	private void Awake()
 	{
+		Champion.s_dataTableManager = this;
+		UIBase.s_dataTableManager = this;
+
 		championDataTable = new ChampionDataTable();
 		pilotDataTable = new PilotDataTable();
 		effectDataTable = new EffectDataTable();
@@ -20,7 +23,10 @@ public class DataTableManager : MonoBehaviour
 		battleStageDataTable = new BattleStageDataTable();
 
 		battleStageDataTable.championDataTable = championDataTable;
+	}
 
-		Champion.s_dataTableManager = this;
+	private void OnEnable()
+	{
+		
 	}
 }

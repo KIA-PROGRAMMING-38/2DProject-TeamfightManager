@@ -1,13 +1,19 @@
 ﻿public static class AnimKeyTable
 {
-	public const string ISMOVE = "isMove";
-	public const string ON_ATTACK = "OnAttack";
-	public const string ON_SKILL = "OnSkill";
-	public const string ON_ULTIMATE = "OnUltimate";
-	public const string ON_DEATH = "OnDeath";
-	public const string ON_REVIVAL = "OnRevival";
-	public const string ON_ANIMEND = "OnAnimEnd";
-	public const string ANIMATION_SPEED = "AnimationSpeed";
+	// Champion Animator에서 사용할 파라미터..
+	public static readonly string ISMOVE = "isMove";
+	public static readonly string ON_ATTACK = "OnAttack";
+	public static readonly string ON_SKILL = "OnSkill";
+	public static readonly string ON_ULTIMATE = "OnUltimate";
+	public static readonly string ON_DEATH = "OnDeath";
+	public static readonly string ON_REVIVAL = "OnRevival";
+	public static readonly string ON_ANIMEND = "OnAnimEnd";
+	public static readonly string ANIMATION_SPEED = "AnimationSpeed";
 
-	public const string EFFECT = "Effect";
+	// Effect Animator에서 사용할 파라미터..
+	public static readonly string EFFECT = "Effect";
+
+	// Champ Banpick Button Animator에서 사용할 파라미터..
+	public static readonly string ON_HOVER_BUTTON = "OnHoverButton";
+	public static readonly string ON_SELECT_BUTTON = "OnSelectButton";
 }

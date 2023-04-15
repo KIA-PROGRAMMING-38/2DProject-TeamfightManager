@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
 	public DataTableManager dataTableManager { get; private set; }
 	public PilotManager pilotManager { get; private set; }
 	public EffectManager effectManager { get; private set; }
-	public UIManager uiManager { get; private set; }
 
 	public BattleStageManager battleStageManager { get; private set; }
 	public BanpickRunner banpickRunner { get; private set; }
@@ -58,7 +57,6 @@ public class GameManager : MonoBehaviour
 		GameObject newGameObject = new GameObject("Banpick Runner");
 		banpickRunner = newGameObject.AddComponent<BanpickRunner>();
 
-		banpickRunner.uiManager = this.uiManager;
 		banpickRunner.battleStageManager = this.battleStageManager;
 		banpickRunner.battleStageDataTable = this.dataTableManager.battleStageDataTable;
 	}
@@ -105,17 +103,10 @@ public class GameManager : MonoBehaviour
 		newGameObject.transform.parent = transform;
 		teamManager = newGameObject.AddComponent<TeamManager>();
 
-		// UI Manager 생성..
-		newGameObject = new GameObject("UI Manager");
-		DontDestroyOnLoad(newGameObject);
-		newGameObject.transform.parent = transform;
-		uiManager = newGameObject.AddComponent<UIManager>();
-
 		// 생성했으니 참조 넘겨주기..
 		championManager.gameManager = this;
 		teamManager.gameManager = this;
 		pilotManager.gameManager = this;
 		effectManager.gameManager = this;
-		uiManager.gameManager = this;
 	}
 }
