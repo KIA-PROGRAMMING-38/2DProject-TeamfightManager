@@ -13,4 +13,7 @@ public static class AnimatorHashStore
 	public static readonly int ANIMATION_SPEED = Animator.StringToHash(AnimKeyTable.ANIMATION_SPEED);
 
 	public static readonly int EFFECT_KEY_HASH = Animator.StringToHash(AnimKeyTable.EFFECT);
+
+	public static readonly int ON_HOVER_BUTTON = Animator.StringToHash(AnimKeyTable.ON_HOVER_BUTTON);
+	public static readonly int ON_SELECT_BUTTON = Animator.StringToHash(AnimKeyTable.ON_SELECT_BUTTON);
 }

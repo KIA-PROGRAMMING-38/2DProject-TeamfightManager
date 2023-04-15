@@ -10,9 +10,10 @@ public class BattleStageDataTable
 	public event Action<float> OnUpdateBattleRemainTime;
 	private float _battleRemainTime = 0f;   // 배틀 총 남은 시간..
 
-	// 챔피언을 밴했을 때 호출되는 이벤트 함수..
-	public event Action<BattleTeamKind, int, string> OnBannedChampion;
+	// 밴픽 관련 이벤트 함수..
+	public event Action<string> OnClickedSelectChampionButton;
 	public event Action OnBanpickEnd;
+	public event Action<string, BanpickStageKind, BattleTeamKind, int> OnBanpickUpdate;
 
 	// 챔피언 데이터가 변할 때 호출될 이벤트 함수..
 	public event Action<BattleTeamKind, int, BattleInfoData> OnChangedChampionBattleData;
@@ -23,6 +24,8 @@ public class BattleStageDataTable
 	public event Action<BattleTeamKind, int> OnChampionDeadEvent;
 	public event Action<BattleTeamKind, int> OnChampionRevivalEvent;
 	public event Action<BattleTeamKind, int, float> OnChangedChampionBarrierRatio;
+
+	private Dictionary<string, BanpickStageKind> banpickChampContainer = new Dictionary<string, BanpickStageKind>();
 
 	public int battleChampionTotalCount { get; set; }
 
@@ -48,19 +51,29 @@ public class BattleStageDataTable
 	public void Reset()
 	{
 		OnUpdateBattleRemainTime = null;
+
+		banpickChampContainer.Clear();
 	}
 
+	// ============================================================================================================
+	// --- 밴픽 관련 함수들..
+	// ============================================================================================================
 	public void EndBanpick()
 	{
 		OnBanpickEnd?.Invoke();
 	}
 
-	// ============================================================================================================
-	// --- 챔피언이 밴될 때 호출되는 콜백 함수들..
-	// ============================================================================================================
-	public void UpdateChampionBanData(BattleTeamKind teamKind, int index, string champName)
+	public void OnClickedSelectChampButton(string championName)
 	{
-		OnBannedChampion?.Invoke(teamKind, index, champName);
+		if (banpickChampContainer.ContainsKey(championName))
+			return;
+
+		OnClickedSelectChampionButton?.Invoke(championName);
+	}
+
+	public void UpdateBanpickData(string championName, BanpickStageKind stageKind, BattleTeamKind teamKind, int index)
+	{
+		OnBanpickUpdate?.Invoke(championName, stageKind, teamKind, index);
 	}
 
 	// ============================================================================================================

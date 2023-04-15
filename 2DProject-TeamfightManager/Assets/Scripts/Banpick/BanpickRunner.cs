@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class BanpickRunner : MonoBehaviour
 {
-	public UIManager uiManager { private get; set; }
 	public BattleStageManager battleStageManager { private get; set; }
 	public BattleStageDataTable battleStageDataTable { private get; set; }
 
@@ -32,10 +31,11 @@ public class BanpickRunner : MonoBehaviour
 		switch (curStageKind)
 		{
 			case BanpickStageKind.Ban:
-				battleStageDataTable.UpdateChampionBanData(curSelectTeamKind, _curBanStage / BATTLE_TEAM_COUNT, championName);
+				battleStageDataTable.UpdateBanpickData(championName, curStageKind, curSelectTeamKind, _curBanStage / BATTLE_TEAM_COUNT);
 				++_curBanStage;
 				break;
 			case BanpickStageKind.Pick:
+				battleStageDataTable.UpdateBanpickData(championName, curStageKind, curSelectTeamKind, _curBanStage / BATTLE_TEAM_COUNT);
 				battleStageManager.PickChampion(curSelectTeamKind, _curPickStage / BATTLE_TEAM_COUNT, championName);
 				++_curPickStage;
 				break;
