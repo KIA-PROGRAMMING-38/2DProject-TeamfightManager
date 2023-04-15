@@ -25,7 +25,7 @@ MonoBehaviour:
     range: 0.4
     defence: 0
     hp: 160
-    moveSpeed: 4
+    moveSpeed: 0.5
     skillCooltime: 3.7
   championResourceData:
     champIconImagePath: Sprites/UI/Champion/Icon/character_icons_22
