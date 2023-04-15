@@ -43,23 +43,31 @@ public class BattleStageManager : MonoBehaviour
 
 	private void Awake()
 	{
-		
+		int pilotCount = gameManager.gameGlobalData.PilotCount;
+		_battleStageDataTable.battleChampionTotalCount = Math.Min(pilotCount, 4) * 2;
+
+		SetupBattleTeam();
 	}
 
 	private void Start()
 	{
-		SetupBattleTeam();
 		SetupPilot();
 
 		_battleStageDataTable.OnUpdateBattleRemainTime -= OnUpdateBattleRemainTime;
 		_battleStageDataTable.OnUpdateBattleRemainTime += OnUpdateBattleRemainTime;
-
-		_battleStageDataTable.Initialize(gameManager.gameGlobalData.battleFightTime);
 	}
 
 	private void Update()
 	{
 		_battleStageDataTable.updateTime = Time.deltaTime;
+	}
+
+	public void StartBattle()
+	{
+		_battleStageDataTable.Initialize(gameManager.gameGlobalData.battleFightTime);
+
+		redTeam.StartBattle();
+		blueTeam.StartBattle();
 	}
 
 	private void SetupBattleTeam()
@@ -124,11 +132,43 @@ public class BattleStageManager : MonoBehaviour
 		blueTeam.OnChangedChampionBarrierRatio += OnChangedChampionBarrierRatio;
 	}
 
+	public void AddPilot(int index, string pilotName)
+	{
+		int pilotCount = gameManager.gameGlobalData.PilotCount;
+
+		BattleTeamKind teamKind = (BattleTeamKind)(index / pilotCount);
+		index %= pilotCount;
+
+		switch (teamKind)
+		{
+			case BattleTeamKind.RedTeam:
+				redTeam.AddPilot(index, pilotName);
+				break;
+			case BattleTeamKind.BlueTeam:
+				blueTeam.AddPilot(index, pilotName);
+				break;
+		}
+	}
+
+	public void PickChampion(BattleTeamKind teamKind, int index, string champName)
+	{
+		int pilotCount = gameManager.gameGlobalData.PilotCount;
+
+		switch (teamKind)
+		{
+			case BattleTeamKind.RedTeam:
+				redTeam.AddChampion(index, champName);
+				break;
+			case BattleTeamKind.BlueTeam:
+				blueTeam.AddChampion(index, champName);
+				break;
+		}
+	}
+
 	// 배틀 스테이지의 각 팀들의 파일럿 생성해주는 함수..
 	private void SetupPilot()
 	{
 		int pilotCount = gameManager.gameGlobalData.PilotCount;
-		_battleStageDataTable.battleChampionTotalCount = Math.Min(pilotCount, 4) * 2;
 
 		List<string> blueTeamPilotCreateOrder = gameManager.gameGlobalData.testBluePilotCreateOrder;
 		List<string> blueTeamChampCreateOrder = gameManager.gameGlobalData.testBlueChampionCreateOrder;
@@ -137,8 +177,14 @@ public class BattleStageManager : MonoBehaviour
 
 		for (int i = 0; i < pilotCount; ++i)
 		{
-			redTeam.AddPilot(redTeamPilotCreateOrder[i % redTeamPilotCreateOrder.Count], redTeamChampCreateOrder[i % redTeamChampCreateOrder.Count]);
-			blueTeam.AddPilot(blueTeamPilotCreateOrder[i % blueTeamPilotCreateOrder.Count], blueTeamChampCreateOrder[i % blueTeamChampCreateOrder.Count]);
+			//redTeam.AddPilot(redTeamPilotCreateOrder[i % redTeamPilotCreateOrder.Count], redTeamChampCreateOrder[i % redTeamChampCreateOrder.Count]);
+			//blueTeam.AddPilot(blueTeamPilotCreateOrder[i % blueTeamPilotCreateOrder.Count], blueTeamChampCreateOrder[i % blueTeamChampCreateOrder.Count]);
+
+			redTeam.AddPilot(i, redTeamPilotCreateOrder[i % redTeamPilotCreateOrder.Count]);
+			blueTeam.AddPilot(i, blueTeamPilotCreateOrder[i % blueTeamPilotCreateOrder.Count]);
+
+			redTeam.AddChampion(i, redTeamChampCreateOrder[i % redTeamChampCreateOrder.Count]);
+			blueTeam.AddChampion(i, blueTeamChampCreateOrder[i % blueTeamChampCreateOrder.Count]);
 		}
 	}
 

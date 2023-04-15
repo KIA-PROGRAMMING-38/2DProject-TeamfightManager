@@ -6,11 +6,11 @@ namespace Util.Pool
 {
 	public class ObjectPooler<T> : IDisposable, IObjectPool<T> where T : class
 	{
-		private Queue<T> _objectContainer;		// 실제 객체를 저장할 컨테이너..
-		private Func<T> _createFunction;        // 객체를 생성할 때 실행할 콜백..
-		private Action<T> _actionOnGet;         // Get() 메소드가 호출될 때 실행할 콜백..
-		private Action<T> _actionOnRelease;     // Release() 메소드가 호출될 때 실행할 콜백..
-		private Action<T> _actionOnDestroy;		// 객체가 삭제될 때 메소드가 호출될 때 실행할 콜백..
+		private Queue<T> _objectContainer = null;		// 실제 객체를 저장할 컨테이너..
+		private Func<T> _createFunction = null;        // 객체를 생성할 때 실행할 콜백..
+		private Action<T> _actionOnGet = null;         // Get() 메소드가 호출될 때 실행할 콜백..
+		private Action<T> _actionOnRelease = null;     // Release() 메소드가 호출될 때 실행할 콜백..
+		private Action<T> _actionOnDestroy = null;		// 객체가 삭제될 때 메소드가 호출될 때 실행할 콜백..
 
 		private int _maxSize = 0;
 

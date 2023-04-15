@@ -10,6 +10,11 @@ public class BattleStageDataTable
 	public event Action<float> OnUpdateBattleRemainTime;
 	private float _battleRemainTime = 0f;   // 배틀 총 남은 시간..
 
+	// 챔피언을 밴했을 때 호출되는 이벤트 함수..
+	public event Action<BattleTeamKind, int, string> OnBannedChampion;
+	public event Action OnBanpickEnd;
+
+	// 챔피언 데이터가 변할 때 호출될 이벤트 함수..
 	public event Action<BattleTeamKind, int, BattleInfoData> OnChangedChampionBattleData;
 
 	public event Action<BattleTeamKind, int, float> OnChangedChampionHPRatio;
@@ -43,6 +48,19 @@ public class BattleStageDataTable
 	public void Reset()
 	{
 		OnUpdateBattleRemainTime = null;
+	}
+
+	public void EndBanpick()
+	{
+		OnBanpickEnd?.Invoke();
+	}
+
+	// ============================================================================================================
+	// --- 챔피언이 밴될 때 호출되는 콜백 함수들..
+	// ============================================================================================================
+	public void UpdateChampionBanData(BattleTeamKind teamKind, int index, string champName)
+	{
+		OnBannedChampion?.Invoke(teamKind, index, champName);
 	}
 
 	// ============================================================================================================
@@ -96,11 +114,6 @@ public class BattleStageDataTable
 	public Transform GetChampionTransform(BattleTeamKind teamKind, int index)
 	{
 		return battleStageManager.GetChampion(teamKind, index).transform;
-	}
-
-	public Champion GetChampion(BattleTeamKind teamKind, int index)
-	{
-		return battleStageManager.GetChampion(teamKind, index);
 	}
 
 	public Pilot GetPilot(BattleTeamKind teamKind, int index)

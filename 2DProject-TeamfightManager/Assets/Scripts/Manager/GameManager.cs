@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 모든 게임에 관련된 것들을 관리하기 위한 클래스..
@@ -12,12 +13,16 @@ public class GameManager : MonoBehaviour
 	public EffectManager effectManager { get; private set; }
 	public UIManager uiManager { get; private set; }
 
-	public BattleStageManager battleStageManager;
+	public BattleStageManager battleStageManager { get; private set; }
+	public BanpickRunner banpickRunner { get; private set; }
+
 	[SerializeField] private GameGlobalData _gameGlobalData;
 	public GameGlobalData gameGlobalData { get => _gameGlobalData; }
 
 	private void Awake()
 	{
+		DontDestroyOnLoad(gameObject);
+
 		SetupManager();
 
 		GameSaveLoader.SaveGameFile(0, this);
@@ -28,6 +33,7 @@ public class GameManager : MonoBehaviour
 	private void Start()
 	{
 		CreateBattleStageManager();
+		CreateBanpickRunner();
 	}
 
 	// 저장된 파일을 불러오는 메소드..
@@ -47,6 +53,16 @@ public class GameManager : MonoBehaviour
 		battleStageManager.gameManager = this;
 	}
 
+	private void CreateBanpickRunner()
+	{
+		GameObject newGameObject = new GameObject("Banpick Runner");
+		banpickRunner = newGameObject.AddComponent<BanpickRunner>();
+
+		banpickRunner.uiManager = this.uiManager;
+		banpickRunner.battleStageManager = this.battleStageManager;
+		banpickRunner.battleStageDataTable = this.dataTableManager.battleStageDataTable;
+	}
+
 	/// <summary>
 	/// 매니저 및 GameSaveLoader 생성 및 참조 연결..
 	/// </summary>
@@ -61,31 +77,37 @@ public class GameManager : MonoBehaviour
 		// ==========================================================================================
 		// DataTable Manager 생성..
 		newGameObject = new GameObject("DataTable Manager");
+		DontDestroyOnLoad(newGameObject);
 		newGameObject.transform.parent = transform;
 		dataTableManager = newGameObject.AddComponent<DataTableManager>();
 
 		// Effect Manager 생성..
 		newGameObject = new GameObject("Effect Manager");
+		DontDestroyOnLoad(newGameObject);
 		newGameObject.transform.parent = transform;
 		effectManager = newGameObject.AddComponent<EffectManager>();
 
 		// Champion Manager 생성..
 		newGameObject = new GameObject("Champion Manager");
+		DontDestroyOnLoad(newGameObject);
 		newGameObject.transform.parent = transform;
 		championManager = newGameObject.AddComponent<ChampionManager>();
 
 		// Pilot Manager 생성..
 		newGameObject = new GameObject("pilot Manager");
+		DontDestroyOnLoad(newGameObject);
 		newGameObject.transform.parent = transform;
 		pilotManager = newGameObject.AddComponent<PilotManager>();
 
 		// Team Manager 생성..
 		newGameObject = new GameObject("Team Manager");
+		DontDestroyOnLoad(newGameObject);
 		newGameObject.transform.parent = transform;
 		teamManager = newGameObject.AddComponent<TeamManager>();
 
 		// UI Manager 생성..
 		newGameObject = new GameObject("UI Manager");
+		DontDestroyOnLoad(newGameObject);
 		newGameObject.transform.parent = transform;
 		uiManager = newGameObject.AddComponent<UIManager>();
 

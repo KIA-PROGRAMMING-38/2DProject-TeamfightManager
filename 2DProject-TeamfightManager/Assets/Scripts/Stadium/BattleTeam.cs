@@ -25,9 +25,9 @@ public class BattleTeam : MonoBehaviour
 
 	public BattleTeamKind battleTeamKind { private get; set; }
 
-	private List<PilotBattle> _pilots = new List<PilotBattle>();
-	private List<Champion> _activeChampions = new List<Champion>();
-	private List<Champion> _allChampions = new List<Champion>();
+	private List<PilotBattle> _pilots;
+	private List<Champion> _activeChampions;
+	private List<Champion> _allChampions;
 
 	// 챔피언 정보가 갱신될 때마다 외부의 구독자들에게 알려줄 이벤트들..
 	public event Action<BattleTeamKind, int, BattleInfoData> OnChangedChampionBattleInfoData;
@@ -42,6 +42,21 @@ public class BattleTeam : MonoBehaviour
 
 	private List<IEnumerator> _revivalCoroutines = new List<IEnumerator>();
 
+	private void Awake()
+	{
+		int battleChampCount = battleStageDataTable.battleChampionTotalCount;
+
+		_pilots = new List<PilotBattle>(battleChampCount);
+		_activeChampions = new List<Champion>(battleChampCount);
+		_allChampions = new List<Champion>(battleChampCount);
+
+		for( int i = 0; i < battleChampCount; ++i)
+		{
+			_pilots.Add(null);
+			_allChampions.Add(null);
+		}
+	}
+
 	private void Start()
 	{
 		_revivalWaitSecInst = YieldInstructionStore.GetWaitForSec(_revivalWaitTime);
@@ -53,35 +68,27 @@ public class BattleTeam : MonoBehaviour
 	/// </summary>
 	/// <param name="pilotName"></param>
 	/// <param name="champName"></param>
-	public void AddPilot(string pilotName, string champName)
+	public void AddPilot(int index, string pilotName)
     {
-		// 각각의 매니저에게서 인스턴스를 받아온다..
+		// 매니저에게서 인스턴스를 받아온다..
 		Pilot pilot = pilotManager.GetPilotInstance(pilotName);
-		Champion champion = championManager.GetChampionInstance(champName);
 
 #if UNITY_EDITOR
 		Debug.Assert(null != pilot);
-		Debug.Assert(null != champion);
 #endif
 
 		PilotBattle pilotBattleComponent = pilot.battleComponent;
 
 #if UNITY_EDITOR
 		Debug.Assert(null != pilotBattleComponent);
-
-		champion.gameObject.name = champName;
 #endif
 
 		// 초기화..
-		pilotBattleComponent.controlChampion = champion;
 		pilotBattleComponent.myTeam = this;
 		pilotBattleComponent.battleTeamIndexKey = _pilots.Count;
-		champion.transform.position = randomSpawnPoint;
 
 		// Pilot Battle Component 를 나의 팀으로 넣기..
-		_pilots.Add(pilotBattleComponent);
-		_allChampions.Add(champion);
-		_activeChampions.Add(champion);
+		_pilots[index] = pilotBattleComponent;
 
 		// 파일럿 이벤트 연결..
 		pilotBattleComponent.OnChangedBattleInfoData -= OnChangedChampionBattleData;
@@ -101,6 +108,38 @@ public class BattleTeam : MonoBehaviour
 
 		// 코루틴 등록..
 		_revivalCoroutines.Add(WaitRevival(_pilots.Count - 1));
+	}
+
+	public void AddChampion(int index, string championName)
+	{
+		// 매니저에게서 인스턴스를 받아온다..
+		Champion champion = championManager.GetChampionInstance(championName);
+		PilotBattle pilotBattleComponent = _pilots[index];
+
+#if UNITY_EDITOR
+		Debug.Assert(null != champion);
+		Debug.Assert(null != pilotBattleComponent);
+
+		champion.gameObject.name = championName;
+#endif
+
+		// 초기화..
+		pilotBattleComponent.controlChampion = champion;
+		champion.transform.position = randomSpawnPoint;
+		champion.gameObject.SetActive(false);
+
+		// 챔피언 목록 및 활성화 챔피언 목록에 추가..
+		_allChampions.Add(champion);
+	}
+
+	public void StartBattle()
+	{
+		int loopCount = _allChampions.Count;
+		for( int i = 0; i < loopCount; ++i)
+		{
+			_allChampions[i].gameObject.SetActive(true);
+			_activeChampions.Add(_allChampions[i]);
+		}
 	}
 
 	public Champion GetChampion(int index)
