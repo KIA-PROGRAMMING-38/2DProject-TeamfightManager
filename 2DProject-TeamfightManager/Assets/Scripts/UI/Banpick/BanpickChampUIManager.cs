@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Data;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BanpickChampUIManager : UIBase
 {
-	private BanpickChampUI[] _allChampUI;
+	public event Action<string> OnSelectChampionButton;
+
+	public BanpickMainUI banpickMainUI { private get; set; }
+
+	[SerializeField] private BanpickChampUI _banpickChampUIPrefab;
 	private Dictionary<string, BanpickChampUI> _activeChampUIContainer = new Dictionary<string, BanpickChampUI>();
 	private BattleStageDataTable _dataTable;
 
@@ -21,16 +25,6 @@ public class BanpickChampUIManager : UIBase
 
 	private void SetupChampUI()
 	{
-		// 모든 밴픽 챔피언 UI를 일단 끈다..
-		{
-			_allChampUI = GetComponentsInChildren<BanpickChampUI>();
-			int loopCount = _allChampUI.Length;
-			for( int i = 0; i < loopCount; ++i)
-			{
-				_allChampUI[i].gameObject.SetActive(false);
-			}
-		}
-
 		// 챔피언 개수만큼 UI를 생성하며 챔피언 이름도 같이 넘겨준다..
 		{
 			ChampionDataTable champDataTable = s_dataTableManager.championDataTable;
@@ -40,9 +34,17 @@ public class BanpickChampUIManager : UIBase
 			{
 				string champName = champDataTable.GetChampionName(i);
 
-				BanpickChampUI ui = _allChampUI[i];
+				BanpickChampUI ui = Instantiate(_banpickChampUIPrefab, transform.GetChild(i / 10));
 				ui.gameObject.SetActive(true);
 				ui.championName = champName;
+
+				// 현재 UI의 이벤트 함수 구독..
+				ui.OnButtonClicked -= OnSelectChampionButtonClicked;
+				ui.OnButtonClicked += OnSelectChampionButtonClicked;
+
+				ui.OnButtonHover -= ChangeShowChampionData;
+				ui.OnButtonHover += ChangeShowChampionData;
+
 				_activeChampUIContainer.Add(champName, ui);
 			}
 		}
@@ -50,7 +52,7 @@ public class BanpickChampUIManager : UIBase
 
 	public void OnSelectChampionButtonClicked(string championName)
 	{
-		_dataTable.OnClickedSelectChampButton(championName);
+		OnSelectChampionButton?.Invoke(championName);
 	}
 
 	private void OnUpdateBackpickStage(string champName, BanpickStageKind stageKind, BattleTeamKind teamKind, int index)
@@ -59,4 +61,9 @@ public class BanpickChampUIManager : UIBase
 
 		_activeChampUIContainer[champName].ChangeBanpickState( stageKind );
     }
+
+	public void ChangeShowChampionData(string championName)
+	{
+		banpickMainUI?.ChangeShowChampionData(championName);
+	}
 }

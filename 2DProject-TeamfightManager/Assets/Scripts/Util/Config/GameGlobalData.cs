@@ -19,4 +19,6 @@ public class GameGlobalData : ScriptableObject
 
 	public List<string> testBlueChampionCreateOrder;
 	public List<string> testBluePilotCreateOrder;
+
+	public BanpickStageGlobalData banpickStageGlobalData;
 }

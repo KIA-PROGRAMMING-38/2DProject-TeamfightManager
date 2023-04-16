@@ -43,6 +43,9 @@ public class ChampionDataTable
 		animData = _champAnimContainer[championName];
 	}
 
+	public ChampionData GetChampionData(string championName) => _champDataContainer[championName];
+	public ChampionStatus GetChampionStatus(string championName) => _champStatusContainer[championName];
+
 	// UI에서 사용되는 리소스들 getter..
 	public Sprite GetChampionImage(string champName) => _champImageContainer[champName];
 	public Sprite GetSkillIconImage(string champName) => _skillIconContainer[champName];
@@ -56,8 +59,5 @@ public class ChampionDataTable
 		_champAnimContainer.Add(championName, championAnimData);
 	}
 
-	public ChampionAnimData GetChampionAnimData(string championName)
-	{
-		return _champAnimContainer[championName];
-	}
+	public ChampionAnimData GetChampionAnimData(string championName) => _champAnimContainer[championName];
 }

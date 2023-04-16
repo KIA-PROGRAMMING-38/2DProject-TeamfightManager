@@ -5,6 +5,8 @@ using UnityEngine;
 /// </summary>
 public class ChampFightInfoUI : UIBase
 {
+	private ChampionDataTable _champDataTable;
+
     private ChampBattleDataUI _champBattleDataUI;
     private PilotDataUI _pilotDataUI;
 
@@ -12,6 +14,8 @@ public class ChampFightInfoUI : UIBase
 	{
 		_champBattleDataUI = GetComponentInChildren<ChampBattleDataUI>();
 		_pilotDataUI = GetComponentInChildren<PilotDataUI>();
+
+		_champDataTable = s_dataTableManager.championDataTable;
 	}
 
 	// 챔피언의 전투 정보가 갱신될 때 호출되는 콜백 함수..
@@ -36,5 +40,12 @@ public class ChampFightInfoUI : UIBase
 	public void SetPilot(Pilot pilot)
 	{
 		_pilotDataUI.pilot = pilot;
+	}
+
+	public void ChangePilotImageToChampImage(string champName)
+	{
+		Sprite champIconSprite = _champDataTable.GetChampionImage(champName);
+
+		_pilotDataUI.ChangePilotIconImage(champIconSprite);
 	}
 }

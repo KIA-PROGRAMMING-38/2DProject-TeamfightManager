@@ -26,11 +26,15 @@ public class ChampFightInfoUIManager : UIBase
         // 데이터 테이블 이벤트 구독..
 		s_dataTableManager.battleStageDataTable.OnChangedChampionBattleData -= OnChangedChampionBattleData;
 		s_dataTableManager.battleStageDataTable.OnChangedChampionBattleData += OnChangedChampionBattleData;
+
+		s_dataTableManager.battleStageDataTable.OnBanpickUpdate -= UpdateBanpickData;
+		s_dataTableManager.battleStageDataTable.OnBanpickUpdate += UpdateBanpickData;
 	}
 
 	private void OnDisable()
 	{
         s_dataTableManager.battleStageDataTable.OnChangedChampionBattleData -= OnChangedChampionBattleData;
+		s_dataTableManager.battleStageDataTable.OnBanpickUpdate -= UpdateBanpickData;
 	}
 
     // Champion Fight Info UI 생성 및 초기화..
@@ -69,5 +73,13 @@ public class ChampFightInfoUIManager : UIBase
             return;
 
         fightInfoUIContainer[(int)teamKind][index].UpdateData(data);
+    }
+
+    private void UpdateBanpickData(string champName, BanpickStageKind banpickKind, BattleTeamKind teamKind, int index)
+    {
+        if (BanpickStageKind.Pick != banpickKind)
+            return;
+
+        fightInfoUIContainer[(int)teamKind][index].ChangePilotImageToChampImage(champName);
     }
 }

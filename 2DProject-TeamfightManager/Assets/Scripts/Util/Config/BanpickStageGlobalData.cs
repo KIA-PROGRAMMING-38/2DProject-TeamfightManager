@@ -14,6 +14,7 @@ public class BanpickStageData
 	public List<BattleTeamKind> orders;
 }
 
+[CreateAssetMenu(fileName = "BanpickGlobalData", menuName = "Config/BanpickGlobalData")]
 public class BanpickStageGlobalData : ScriptableObject
 {
 	public BanpickStageData[] stagesDataContainer;

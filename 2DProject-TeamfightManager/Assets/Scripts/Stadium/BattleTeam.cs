@@ -8,11 +8,27 @@ using UnityEngine;
 /// </summary>
 public class BattleTeam : MonoBehaviour
 {
-    public ChampionManager championManager { private get; set; }
-    public PilotManager pilotManager { private get; set; }
-	public BattleStageManager battleStageManager { private get; set; }
+	public GameManager gameManager
+	{
+		set
+		{
+			_championManager = value.championManager;
+			_pilotManager = value.pilotManager;
+			_battleStageManager = value.battleStageManager;
+			_battleStageDataTable = value.dataTableManager.battleStageDataTable;
+			_effectManager = value.effectManager;
+
+			SetupContainer();
+		}
+	}
+
+	private ChampionManager _championManager;
+	private PilotManager _pilotManager;
+	private BattleStageManager _battleStageManager;
+	private BattleStageDataTable _battleStageDataTable;
+	private EffectManager _effectManager;
+
 	public BattleTeam enemyTeam { private get; set; }
-	public BattleStageDataTable battleStageDataTable { private get; set; }
 
 	public Vector2[] spawnArea;
 	private Vector3 randomSpawnPoint
@@ -37,29 +53,34 @@ public class BattleTeam : MonoBehaviour
 	public event Action<BattleTeamKind, int, float> OnChangedChampionBarrierRatio;
 
 	// 부활 관련 필드들..
-	private float _revivalWaitTime = 1f;
+	private float _revivalWaitTime = 3f;
 	private WaitForSeconds _revivalWaitSecInst;
 
 	private List<IEnumerator> _revivalCoroutines = new List<IEnumerator>();
 
 	private void Awake()
 	{
-		int battleChampCount = battleStageDataTable.battleChampionTotalCount;
-
-		_pilots = new List<PilotBattle>(battleChampCount);
-		_activeChampions = new List<Champion>(battleChampCount);
-		_allChampions = new List<Champion>(battleChampCount);
-
-		for( int i = 0; i < battleChampCount; ++i)
-		{
-			_pilots.Add(null);
-			_allChampions.Add(null);
-		}
+		
 	}
 
 	private void Start()
 	{
 		_revivalWaitSecInst = YieldInstructionStore.GetWaitForSec(_revivalWaitTime);
+	}
+
+	private void SetupContainer()
+	{
+		int battleChampCount = _battleStageDataTable.battleChampionTotalCount / 2;
+
+		_pilots = new List<PilotBattle>(battleChampCount);
+		_activeChampions = new List<Champion>(battleChampCount);
+		_allChampions = new List<Champion>(battleChampCount);
+
+		for (int i = 0; i < battleChampCount; ++i)
+		{
+			_pilots.Add(null);
+			_allChampions.Add(null);
+		}
 	}
 
 	/// <summary>
@@ -71,7 +92,7 @@ public class BattleTeam : MonoBehaviour
 	public void AddPilot(int index, string pilotName)
     {
 		// 매니저에게서 인스턴스를 받아온다..
-		Pilot pilot = pilotManager.GetPilotInstance(pilotName);
+		Pilot pilot = _pilotManager.GetPilotInstance(pilotName);
 
 #if UNITY_EDITOR
 		Debug.Assert(null != pilot);
@@ -85,7 +106,7 @@ public class BattleTeam : MonoBehaviour
 
 		// 초기화..
 		pilotBattleComponent.myTeam = this;
-		pilotBattleComponent.battleTeamIndexKey = _pilots.Count;
+		pilotBattleComponent.battleTeamIndexKey = index;
 
 		// Pilot Battle Component 를 나의 팀으로 넣기..
 		_pilots[index] = pilotBattleComponent;
@@ -113,7 +134,7 @@ public class BattleTeam : MonoBehaviour
 	public void AddChampion(int index, string championName)
 	{
 		// 매니저에게서 인스턴스를 받아온다..
-		Champion champion = championManager.GetChampionInstance(championName);
+		Champion champion = _championManager.GetChampionInstance(championName);
 		PilotBattle pilotBattleComponent = _pilots[index];
 
 #if UNITY_EDITOR
@@ -129,7 +150,7 @@ public class BattleTeam : MonoBehaviour
 		champion.gameObject.SetActive(false);
 
 		// 챔피언 목록 및 활성화 챔피언 목록에 추가..
-		_allChampions.Add(champion);
+		_allChampions[index] = champion;
 	}
 
 	public void StartBattle()
@@ -154,8 +175,6 @@ public class BattleTeam : MonoBehaviour
 
 	public void OnChampionDead(int pilotIndex)
 	{
-		_allChampions[pilotIndex].gameObject.SetActive(false);
-
 		// 활성화 목록에서 지운다..
 		int activeChampCount = _activeChampions.Count;
 		for( int i = 0; i < activeChampCount; ++i)
@@ -163,13 +182,14 @@ public class BattleTeam : MonoBehaviour
 			if (_activeChampions[i] == _allChampions[pilotIndex])
 			{
 				_activeChampions.RemoveAt(i);
+
+				_battleStageManager.OnChampionDeadState(battleTeamKind, pilotIndex);
+
+				StartCoroutine(_revivalCoroutines[pilotIndex]);
+
 				break;
 			}
 		}
-
-		battleStageManager.OnChampionDeadState(battleTeamKind, pilotIndex);
-
-		StartCoroutine(_revivalCoroutines[pilotIndex]);
 	}
 
 	IEnumerator WaitRevival(int pilotIndex)
@@ -178,7 +198,7 @@ public class BattleTeam : MonoBehaviour
 		{
 			yield return _revivalWaitSecInst;
 
-			battleStageManager.OnChampionRevivalState(battleTeamKind, pilotIndex);
+			_battleStageManager.OnChampionRevivalState(battleTeamKind, pilotIndex);
 
 			OnSuccessRevival(_allChampions[pilotIndex]);
 
@@ -194,6 +214,11 @@ public class BattleTeam : MonoBehaviour
 
 		champion.transform.position = randomSpawnPoint;
 		champion.gameObject.SetActive(true);
+
+		// 부활 이펙트 On..
+		Effect effect = _effectManager.GetEffect("Effect_Revival", champion.transform.position);
+		effect.SetupAdditionalData(Vector3.zero, champion.transform);
+		effect.gameObject.SetActive(true);
 
 		_activeChampions.Add(champion);
 	}

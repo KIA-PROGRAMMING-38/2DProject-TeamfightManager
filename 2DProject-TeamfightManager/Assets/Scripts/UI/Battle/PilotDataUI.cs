@@ -24,11 +24,11 @@ public class PilotDataUI : UIBase
 		set
 		{
 			_pilotNameText.text = value.data.name;
-			_pilotAtkStatText.text = value.data.atkStat.ToString();
-			_pilotDefenceStatText.text = value.data.defStat.ToString();
+			_pilotAtkStatText.text = StringTable.GetString(value.data.atkStat);
+			_pilotDefenceStatText.text = StringTable.GetString(value.data.defStat);
 
-			Sprite champSprite = s_dataTableManager.championDataTable.GetChampionImage(value.battleComponent.controlChampion.data.name);
-			SetupChampionIconSprite(champSprite);
+			//Sprite champSprite = s_dataTableManager.championDataTable.GetChampionImage(value.battleComponent.controlChampion.data.name);
+			//SetupChampionIconSprite(champSprite);
 
 			_champSkillLevelUIManager.SetChampSkillLevelInfo(value.data.champSkillLevelContainer);
 		}
@@ -53,18 +53,12 @@ public class PilotDataUI : UIBase
 	}
 
 	// Champion Icon Image를 외부에서 받아와 화면에 보여준다..
-	private void SetupChampionIconSprite(Sprite champSprite)
+	public void ChangePilotIconImage(Sprite sprite)
 	{
 		// Champion Icon Image 바꿔주기..
-		_champIconImage.sprite = champSprite;
+		_champIconImage.sprite = sprite;
 
 		// Champion Icon Image 가 가운데 올 수 있도록 위치 조정..
-		float imageWidth = _champIconImage.rectTransform.sizeDelta.x;
-		Vector2 localPos = _champIconImage.rectTransform.localPosition;
-
-		float ratio = champSprite.pivot.x / champSprite.texture.width - 0.5f;
-		localPos.x = localPos.x - ratio * imageWidth;
-
-		_champIconImage.rectTransform.localPosition = localPos;
+		UIUtility.CalcSpriteCenterPos(_champIconImage.rectTransform, sprite, _champIconImage.rectTransform.localPosition);
 	}
 }

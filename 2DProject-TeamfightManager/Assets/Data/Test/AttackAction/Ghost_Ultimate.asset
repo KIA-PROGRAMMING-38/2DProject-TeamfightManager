@@ -26,6 +26,7 @@ MonoBehaviour:
       impactTimeKind: 1
       alwaysImpactDatas: []
       isPlayUltAnim: 1
+    description: "\uC720\uB839 \uAD81\uADF9\uAE30"
   impactData:
   - mainData:
       kind: 0

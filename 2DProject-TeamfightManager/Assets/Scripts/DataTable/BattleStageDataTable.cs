@@ -4,6 +4,23 @@ using UnityEngine;
 
 public class BattleStageDataTable
 {
+	public class BanpickStageInfo
+	{
+		public string champName;
+		public BanpickStageKind stageKind;
+		public BattleTeamKind teamKind;
+		public int level;
+
+		public void Set(string champName, BanpickStageKind stageKind, BattleTeamKind teamKind, int level)
+		{
+			this.champName = champName;
+			this.stageKind = stageKind;
+			this.teamKind = teamKind;
+			this.level = level;
+		}
+	}
+		
+
 	public ChampionDataTable championDataTable { private get; set; }
 	public BattleStageManager battleStageManager { private get; set; }
 
@@ -11,9 +28,11 @@ public class BattleStageDataTable
 	private float _battleRemainTime = 0f;   // 배틀 총 남은 시간..
 
 	// 밴픽 관련 이벤트 함수..
+	public event Action OnStartBattle;
 	public event Action<string> OnClickedSelectChampionButton;
 	public event Action OnBanpickEnd;
 	public event Action<string, BanpickStageKind, BattleTeamKind, int> OnBanpickUpdate;
+	public event Action<BanpickStageKind> OnBanpickOneStageStart;
 
 	// 챔피언 데이터가 변할 때 호출될 이벤트 함수..
 	public event Action<BattleTeamKind, int, BattleInfoData> OnChangedChampionBattleData;
@@ -39,6 +58,13 @@ public class BattleStageDataTable
 			_battleRemainTime = MathF.Max(0f, _battleRemainTime);
 			OnUpdateBattleRemainTime?.Invoke(_battleRemainTime);
 		}
+	}
+
+	public BanpickStageInfo curBanpickStageInfo { get; private set; }
+
+	public BattleStageDataTable()
+	{
+		curBanpickStageInfo = new BanpickStageInfo();
 	}
 
 	// 배틀 시작 시 총 배틀해야하는 시간 받아서 초기화하는 부분..
@@ -73,7 +99,23 @@ public class BattleStageDataTable
 
 	public void UpdateBanpickData(string championName, BanpickStageKind stageKind, BattleTeamKind teamKind, int index)
 	{
+		curBanpickStageInfo.Set(championName, stageKind, teamKind, index);
 		OnBanpickUpdate?.Invoke(championName, stageKind, teamKind, index);
+	}
+
+	public void StartBattle()
+	{
+		OnStartBattle?.Invoke();
+	}
+	
+	public void StartBanpick(BanpickStageKind stageKind, BattleTeamKind teamKind)
+	{
+		curBanpickStageInfo.Set("", stageKind, teamKind, 0);
+	}
+
+	public void StartBanpickOneStage(BanpickStageKind curStageKind)
+	{
+		OnBanpickOneStageStart?.Invoke(curStageKind);
 	}
 
 	// ============================================================================================================

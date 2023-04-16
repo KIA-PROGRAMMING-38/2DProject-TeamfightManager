@@ -31,14 +31,40 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		CreateBattleStageManager();
-		CreateBanpickRunner();
+		InitializeScene();
 	}
 
 	// 저장된 파일을 불러오는 메소드..
 	private void LoadFile(int loadFileNumber)
 	{
 		GameSaveLoader.LoadGameFile(loadFileNumber, this);
+	}
+
+	private void InitializeScene()
+	{
+		string sceneName = SceneManager.GetActiveScene().name;
+
+		switch (sceneName)
+		{
+			case SceneNameTable.STADIUM:
+				CreateBattleStageManager();
+				CreateBanpickRunner();
+				SceneManager.LoadSceneAsync(SceneNameTable.BANPICK_UI, LoadSceneMode.Additive);
+				SceneManager.LoadSceneAsync(SceneNameTable.BATTLETEAM_INFO_UI, LoadSceneMode.Additive);
+				//SceneManager.LoadScene(SceneNameTable.CHAMP_STATUSBAR_UI, LoadSceneMode.Additive);
+
+				dataTableManager.battleStageDataTable.OnStartBattle -= OnStartBattle;
+				dataTableManager.battleStageDataTable.OnStartBattle += OnStartBattle;
+				break;
+		}
+	}
+
+	private void OnStartBattle()
+	{
+		SceneManager.LoadSceneAsync(SceneNameTable.BATTLESTAGE, LoadSceneMode.Additive);
+		SceneManager.LoadSceneAsync(SceneNameTable.CHAMP_STATUSBAR_UI, LoadSceneMode.Additive);
+		SceneManager.UnloadSceneAsync(SceneNameTable.BANPICK_UI);
+		battleStageManager.StartBattle();
 	}
 
 	// 배틀 스테이지를 생성하는 함수..
@@ -57,8 +83,7 @@ public class GameManager : MonoBehaviour
 		GameObject newGameObject = new GameObject("Banpick Runner");
 		banpickRunner = newGameObject.AddComponent<BanpickRunner>();
 
-		banpickRunner.battleStageManager = this.battleStageManager;
-		banpickRunner.battleStageDataTable = this.dataTableManager.battleStageDataTable;
+		banpickRunner.gameManager = this;
 	}
 
 	/// <summary>

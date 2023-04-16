@@ -35,12 +35,7 @@ public class Champion : MonoBehaviour, IAttackable
 
 			if (0 == _curHp)
 			{
-				pilotBattleComponent.OnChampionDead();
-
-				foreach (Effect effect in _activeEffectList)
-					effect.Release();
-
-				_activeEffectList.Clear();
+				Death();
 			}
 
 			OnChangedHPRatio?.Invoke(curHp / (float)status.hp);
@@ -185,9 +180,11 @@ public class Champion : MonoBehaviour, IAttackable
 
 	private void Start()
 	{
-		Revival();
+		curHp = status.hp;
 
+		isAtkCooltime = false;
 		isSkillCooltime = true;
+
 		//StartCoroutine(TestUltOn());
 
 		_modifyStatusSystem.effectManager = s_effectManager;
@@ -201,18 +198,6 @@ public class Champion : MonoBehaviour, IAttackable
 
 		blackboard.SetBoolValue(BlackboardKeyTable.IS_CAN_ACT_ULTIMATE, true);
 		Debug.Log("궁극기 On");
-	}
-
-	private void OnDisable()
-	{
-		_curAttackAction?.OnAnimationEndEvent();
-		_curAttackAction?.OnEnd();
-		_curAttackAction = null;
-
-		lastHitChampion = null;
-
-		isRunningModifyStatusSystemLogic = false;
-		_modifyStatusSystem?.Reset();
 	}
 
 	public void AddActiveEffect(Effect effect)
@@ -273,7 +258,7 @@ public class Champion : MonoBehaviour, IAttackable
 
 	private void ModifyBarrierAmount(int amount)
 	{
-		OnChangedBarrierRatio?.Invoke(amount / (float)curHp);
+		OnChangedBarrierRatio?.Invoke(amount / (float)status.hp);
 	}
 
 	IEnumerator UpdateModifyStatusSystem()
@@ -323,6 +308,27 @@ public class Champion : MonoBehaviour, IAttackable
 		SetupBlackboard();
 	}
 
+	private void Death()
+	{
+		_animComponent.ChangeState(ChampionAnimation.AnimState.Dead, true);
+
+		pilotBattleComponent.OnChampionDead();
+
+		foreach (Effect effect in _activeEffectList)
+			effect.Release();
+
+		_activeEffectList.Clear();
+
+		_curAttackAction?.OnAnimationEndEvent();
+		_curAttackAction?.OnEnd();
+		_curAttackAction = null;
+
+		lastHitChampion = null;
+
+		isRunningModifyStatusSystemLogic = false;
+		_modifyStatusSystem?.Reset();
+	}
+
 	private void SetupBlackboard()
 	{
 		blackboard.SetFloatValue(BlackboardKeyTable.ATTACK_RANGE, status.range);
@@ -333,10 +339,11 @@ public class Champion : MonoBehaviour, IAttackable
 	{
 		curHp = status.hp;
 
-		_animComponent.ResetAnimation();
-
 		isAtkCooltime = false;
 		isSkillCooltime = false;
+
+		_animComponent.ResetAnimation();
+		_animComponent.ChangeState(ChampionAnimation.AnimState.Revival);
 	}
 
 	public void Attack(string atkKind)
@@ -439,6 +446,9 @@ public class Champion : MonoBehaviour, IAttackable
 	// 적에게 데미지를 입었을 때 호출되는 함수..
 	public void TakeDamage(Champion hitChampion, int damage)
 	{
+		if (true == isDead)
+			return;
+
 		// 먼저 방어막이 있다면 방어막부터 깐다..
 		damage = _modifyStatusSystem.TakeDamage(damage);
 
@@ -515,6 +525,10 @@ public class Champion : MonoBehaviour, IAttackable
 
 			case "OnAnimEnd":
 				_curAttackAction?.OnAnimationEndEvent();
+				break;
+
+			case "OnDeathAnimEnd":
+				gameObject.SetActive(false);
 				break;
 		}
 	}

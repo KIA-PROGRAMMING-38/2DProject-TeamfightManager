@@ -133,6 +133,8 @@ public static class GameSaveLoader
 		TestCreateDataSaveFile test = newGameObject.AddComponent<TestCreateDataSaveFile>();
 
 		test.CreateAll();
+
+		GameObject.Destroy(newGameObject);
 	}
 
 	/// <summary>

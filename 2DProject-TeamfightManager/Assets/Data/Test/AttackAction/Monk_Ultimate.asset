@@ -22,6 +22,11 @@ MonoBehaviour:
       targetTeamKind: 1
       impactRange: 3.3
       actionStartPointKind: 1
+    passiveData:
+      impactTimeKind: 0
+      alwaysImpactDatas: []
+      isPlayUltAnim: 0
+    description: "\uBABD\uD06C \uAD81\uADF9\uAE30"
   impactData:
   - mainData:
       kind: 0
