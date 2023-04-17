@@ -25,7 +25,7 @@ MonoBehaviour:
     atkSpeed: 1
     range: 0.4
     defence: 0
-    hp: 160
+    hp: 16
     moveSpeed: 0.5
     skillCooltime: 3.7
   championResourceData:

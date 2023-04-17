@@ -53,10 +53,12 @@ public class BattleTeam : MonoBehaviour
 	public event Action<BattleTeamKind, int, float> OnChangedChampionBarrierRatio;
 
 	// 부활 관련 필드들..
-	private float _revivalWaitTime = 3f;
-	private WaitForSeconds _revivalWaitSecInst;
+	private float _revivalWaitTime = 3.5f;
+	private float _revivalDelayTime = 0.5f;
+    private WaitForSeconds _revivalWaitSecInst;
+	private WaitForSeconds _revivalDelaySecInst;
 
-	private List<IEnumerator> _revivalCoroutines = new List<IEnumerator>();
+    private List<IEnumerator> _revivalCoroutines = new List<IEnumerator>();
 
 	private void Awake()
 	{
@@ -66,7 +68,8 @@ public class BattleTeam : MonoBehaviour
 	private void Start()
 	{
 		_revivalWaitSecInst = YieldInstructionStore.GetWaitForSec(_revivalWaitTime);
-	}
+		_revivalDelaySecInst = YieldInstructionStore.GetWaitForSec( _revivalDelayTime );
+    }
 
 	private void SetupContainer()
 	{
@@ -198,9 +201,16 @@ public class BattleTeam : MonoBehaviour
 		{
 			yield return _revivalWaitSecInst;
 
-			_battleStageManager.OnChampionRevivalState(battleTeamKind, pilotIndex);
+			// 부활 이펙트 On..
+			Vector3 spawnPosition = randomSpawnPoint;
+            Effect effect = _effectManager.GetEffect("Effect_Revival", spawnPosition);
+            effect.gameObject.SetActive( true );
 
-			OnSuccessRevival(_allChampions[pilotIndex]);
+            yield return _revivalDelaySecInst;
+
+            _battleStageManager.OnChampionRevivalState(battleTeamKind, pilotIndex);
+
+			OnSuccessRevival(_allChampions[pilotIndex], spawnPosition);
 
 			StopCoroutine(_revivalCoroutines[pilotIndex]);
 
@@ -208,20 +218,15 @@ public class BattleTeam : MonoBehaviour
 		}
 	}
 
-	public void OnSuccessRevival(Champion champion)
+	public void OnSuccessRevival(Champion champion, in Vector3 spawnPosition)
 	{
 		champion.Revival();
 
-		champion.transform.position = randomSpawnPoint;
+		champion.transform.position = spawnPosition;
 		champion.gameObject.SetActive(true);
 
-		// 부활 이펙트 On..
-		Effect effect = _effectManager.GetEffect("Effect_Revival", champion.transform.position);
-		effect.SetupAdditionalData(Vector3.zero, champion.transform);
-		effect.gameObject.SetActive(true);
-
-		_activeChampions.Add(champion);
-	}
+        _activeChampions.Add( champion );
+    }
 
 	public void OnBattleEnd()
 	{

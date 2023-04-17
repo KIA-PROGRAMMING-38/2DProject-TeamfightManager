@@ -20,6 +20,6 @@ MonoBehaviour:
     isUseLifeTime: 0
     lifeTime: 0
     rotationType: 0
-    isBecomeTargetChild: 1
+    isBecomeTargetChild: 0
   baseFilePath: Assets/Data
   extension: .data
