@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +20,12 @@ public class BattleStageManager : MonoBehaviour
 
 			_battleStageDataTable = _dataTableManager.battleStageDataTable;
 			_battleStageDataTable.battleStageManager = this;
+
+			int pilotCount = gameManager.gameGlobalData.PilotCount;
+			_battleStageDataTable.battleChampionTotalCount = Math.Min(pilotCount, 4) * 2;
+
+			redTeam.gameManager = value;
+			blueTeam.gameManager = value;
 		}
 	}
 
@@ -41,12 +48,13 @@ public class BattleStageManager : MonoBehaviour
 		new Vector2(-5f, -2.5f), new Vector2(-3f, 1.5f)
 	};
 
+	private IEnumerator _updateTimerCoroutine;
+
 	private void Awake()
 	{
-		int pilotCount = gameManager.gameGlobalData.PilotCount;
-		_battleStageDataTable.battleChampionTotalCount = Math.Min(pilotCount, 4) * 2;
-
 		SetupBattleTeam();
+
+		_updateTimerCoroutine = UpdateBattleTimer();
 	}
 
 	private void Start()
@@ -57,17 +65,23 @@ public class BattleStageManager : MonoBehaviour
 		_battleStageDataTable.OnUpdateBattleRemainTime += OnUpdateBattleRemainTime;
 	}
 
-	private void Update()
-	{
-		_battleStageDataTable.updateTime = Time.deltaTime;
-	}
-
 	public void StartBattle()
 	{
 		_battleStageDataTable.Initialize(gameManager.gameGlobalData.battleFightTime);
 
 		redTeam.StartBattle();
 		blueTeam.StartBattle();
+
+		StartCoroutine(_updateTimerCoroutine);
+	}
+
+	private IEnumerator UpdateBattleTimer()
+	{
+		while(true)
+		{
+			yield return null;
+			_battleStageDataTable.updateTime = Time.deltaTime;
+		}
 	}
 
 	private void SetupBattleTeam()
@@ -87,16 +101,10 @@ public class BattleStageManager : MonoBehaviour
 		// 각 팀 컴포넌트에서 필요한 참조들 넘겨주기..
 		redTeam.battleTeamKind = BattleTeamKind.RedTeam;
 		redTeam.enemyTeam = blueTeam;
-		redTeam.championManager = _championManager;
-		redTeam.pilotManager = _pilotManager;
-		redTeam.battleStageManager = this;
 		redTeam.spawnArea = _redTeamSpawnArea;
 
 		blueTeam.battleTeamKind = BattleTeamKind.BlueTeam;
 		blueTeam.enemyTeam = redTeam;
-		blueTeam.championManager = _championManager;
-		blueTeam.pilotManager = _pilotManager;
-		blueTeam.battleStageManager = this;
 		blueTeam.spawnArea = _blueTeamSpawnArea;
 
 		// 각 팀 컴포넌트의 이벤트 구독..
@@ -152,8 +160,6 @@ public class BattleStageManager : MonoBehaviour
 
 	public void PickChampion(BattleTeamKind teamKind, int index, string champName)
 	{
-		int pilotCount = gameManager.gameGlobalData.PilotCount;
-
 		switch (teamKind)
 		{
 			case BattleTeamKind.RedTeam:
@@ -183,8 +189,8 @@ public class BattleStageManager : MonoBehaviour
 			redTeam.AddPilot(i, redTeamPilotCreateOrder[i % redTeamPilotCreateOrder.Count]);
 			blueTeam.AddPilot(i, blueTeamPilotCreateOrder[i % blueTeamPilotCreateOrder.Count]);
 
-			redTeam.AddChampion(i, redTeamChampCreateOrder[i % redTeamChampCreateOrder.Count]);
-			blueTeam.AddChampion(i, blueTeamChampCreateOrder[i % blueTeamChampCreateOrder.Count]);
+			//redTeam.AddChampion(i, redTeamChampCreateOrder[i % redTeamChampCreateOrder.Count]);
+			//blueTeam.AddChampion(i, blueTeamChampCreateOrder[i % blueTeamChampCreateOrder.Count]);
 		}
 	}
 

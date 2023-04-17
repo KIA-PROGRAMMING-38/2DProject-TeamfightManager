@@ -1,5 +1,3 @@
-using Mono.Cecil.Cil;
-using System.Collections;
 using UnityEngine;
 
 public class TestLogic : MonoBehaviour

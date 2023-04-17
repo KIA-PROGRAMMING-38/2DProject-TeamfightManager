@@ -38,10 +38,11 @@ public static class SaveLoadLogic
 		getChampData = new ChampionData();
 
 		getChampData.name = championDatas[0];
-		getChampData.type = (ChampionClassType)int.Parse(championDatas[1]);
-		getChampData.atkActionUniqueKey = int.Parse(championDatas[2]);
-		getChampData.skillActionUniqueKey = int.Parse(championDatas[3]);
-		getChampData.ultimateActionUniqueKey = int.Parse(championDatas[4]);
+		getChampData.nameKR = championDatas[1];
+		getChampData.type = (ChampionClassType)int.Parse(championDatas[2]);
+		getChampData.atkActionUniqueKey = int.Parse(championDatas[3]);
+		getChampData.skillActionUniqueKey = int.Parse(championDatas[4]);
+		getChampData.ultimateActionUniqueKey = int.Parse(championDatas[5]);
 
 		getChampData.champDescription = loadData[2];
 
@@ -78,6 +79,7 @@ public static class SaveLoadLogic
 			// 챔피언 Data 저장..
 			new string(
 					championData.name + "," +
+					championData.nameKR + "," +
 					(int)championData.type + "," +
 					championData.atkActionUniqueKey + "," +
 					championData.skillActionUniqueKey + "," +
@@ -292,6 +294,8 @@ public static class SaveLoadLogic
 
 				getActionData.passiveData = newPassiveData;
 			}
+
+			getActionData.description = attackActionData[atkActionDataStrIndex++];
 		}
 
 		// Attack Impact Data 저장..
@@ -450,6 +454,8 @@ public static class SaveLoadLogic
 				}
 			}
 		}
+
+		saveDatas[0] += "," + attackActionData.description;
 
 		// Attack Impact Data 저장..
 		int impactDataCount = attackImpactDatas.Count;

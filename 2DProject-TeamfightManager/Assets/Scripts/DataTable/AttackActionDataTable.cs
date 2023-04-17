@@ -40,6 +40,11 @@ public class AttackActionDataTable
 		_effectDataContainer[actionData.uniqueKey] = effectData;
 	}
 
+	public AttackActionData GetActionData(int uniqueKey) => _actionDataContainer[uniqueKey];
+	public List<AttackImpactData> GetImpactData(int uniqueKey) => _impactDataContainer[uniqueKey];
+	public AttackPerformanceData GetPerformanceData(int uniqueKey) => _performanceDataContinaer[uniqueKey];
+	public AttackActionEffectData GetEffectData(int uniqueKey) => _effectDataContainer[uniqueKey];
+
 	// 인자로 받은 인덱스 값을 컨테이너에서 가져와 AttackAction을 만들고 초기화한 뒤 반환한다..
 	public AttackAction GetAttackAction(int uniqueKey)
 	{

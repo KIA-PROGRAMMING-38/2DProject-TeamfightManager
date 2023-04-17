@@ -451,6 +451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitMaterial: {fileID: 0}
+  _animationSpeed: 0
 --- !u!95 &486021075
 Animator:
   serializedVersion: 5
@@ -680,7 +681,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3614019475917098931, guid: a7ab1dfa761491445bc299f55a7f02a2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3614019475917098942, guid: a7ab1dfa761491445bc299f55a7f02a2, type: 3}
       propertyPath: m_RootOrder

@@ -26,6 +26,7 @@ MonoBehaviour:
       impactTimeKind: 0
       alwaysImpactDatas: []
       isPlayUltAnim: 0
+    description: "\uC720\uB839 \uC2A4\uD0AC"
   impactData: []
   performanceData:
     isUsePerf: 1

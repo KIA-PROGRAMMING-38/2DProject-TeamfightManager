@@ -17,7 +17,7 @@ public class ChampSkillLevelUI : UIBase
 	// 파일럿의 챔피언 숙련도를 받아와 UI를 갱신해주는 함수..
 	public void SetChampionSkillLevel(ChampionSkillLevelInfo championSkillLevelInfo)
 	{
-		_levelText.text = championSkillLevelInfo.level.ToString();
+		_levelText.text = StringTable.GetString(championSkillLevelInfo.level);
 		_champIconImage.sprite = s_dataTableManager.championDataTable.GetChampionImage(championSkillLevelInfo.champName);
 	}
 }

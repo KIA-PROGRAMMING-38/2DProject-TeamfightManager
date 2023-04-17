@@ -16,6 +16,7 @@ public class ChampionAnimation : MonoBehaviour
 		Skill,
 		Ultimate,
 		Dead,
+		Revival
 	}
 
 	private Champion _champion;
@@ -130,8 +131,7 @@ public class ChampionAnimation : MonoBehaviour
 		switch (newState)
 		{
 			case AnimState.Idle:
-				if (_state == AnimState.Dead)
-					_animator.SetTrigger(AnimatorHashStore.REVIVAL_KEY_HASH);
+				_animator.SetBool(AnimatorHashStore.IS_MOVE_KEY_HASH, false);
 
 				break;
 			case AnimState.Move:
@@ -160,6 +160,12 @@ public class ChampionAnimation : MonoBehaviour
 				_animator.SetTrigger(AnimatorHashStore.DEATH_KEY_HASH);
 
 				break;
+
+			case AnimState.Revival:
+				_animator.SetTrigger(AnimatorHashStore.REVIVAL_KEY_HASH);
+				ChangeState(AnimState.Idle);
+
+				return;
 		}
 
 		_state = newState;

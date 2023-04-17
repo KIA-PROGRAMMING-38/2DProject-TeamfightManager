@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
 	public DataTableManager dataTableManager { get; private set; }
 	public PilotManager pilotManager { get; private set; }
 	public EffectManager effectManager { get; private set; }
-	public UIManager uiManager { get; private set; }
 
 	public BattleStageManager battleStageManager { get; private set; }
 	public BanpickRunner banpickRunner { get; private set; }
@@ -32,14 +31,40 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		CreateBattleStageManager();
-		CreateBanpickRunner();
+		InitializeScene();
 	}
 
 	// 저장된 파일을 불러오는 메소드..
 	private void LoadFile(int loadFileNumber)
 	{
 		GameSaveLoader.LoadGameFile(loadFileNumber, this);
+	}
+
+	private void InitializeScene()
+	{
+		string sceneName = SceneManager.GetActiveScene().name;
+
+		switch (sceneName)
+		{
+			case SceneNameTable.STADIUM:
+				CreateBattleStageManager();
+				CreateBanpickRunner();
+				SceneManager.LoadSceneAsync(SceneNameTable.BANPICK_UI, LoadSceneMode.Additive);
+				SceneManager.LoadSceneAsync(SceneNameTable.BATTLETEAM_INFO_UI, LoadSceneMode.Additive);
+				//SceneManager.LoadScene(SceneNameTable.CHAMP_STATUSBAR_UI, LoadSceneMode.Additive);
+
+				dataTableManager.battleStageDataTable.OnStartBattle -= OnStartBattle;
+				dataTableManager.battleStageDataTable.OnStartBattle += OnStartBattle;
+				break;
+		}
+	}
+
+	private void OnStartBattle()
+	{
+		SceneManager.LoadSceneAsync(SceneNameTable.BATTLESTAGE, LoadSceneMode.Additive);
+		SceneManager.LoadSceneAsync(SceneNameTable.CHAMP_STATUSBAR_UI, LoadSceneMode.Additive);
+		SceneManager.UnloadSceneAsync(SceneNameTable.BANPICK_UI);
+		battleStageManager.StartBattle();
 	}
 
 	// 배틀 스테이지를 생성하는 함수..
@@ -58,9 +83,7 @@ public class GameManager : MonoBehaviour
 		GameObject newGameObject = new GameObject("Banpick Runner");
 		banpickRunner = newGameObject.AddComponent<BanpickRunner>();
 
-		banpickRunner.uiManager = this.uiManager;
-		banpickRunner.battleStageManager = this.battleStageManager;
-		banpickRunner.battleStageDataTable = this.dataTableManager.battleStageDataTable;
+		banpickRunner.gameManager = this;
 	}
 
 	/// <summary>
@@ -105,17 +128,10 @@ public class GameManager : MonoBehaviour
 		newGameObject.transform.parent = transform;
 		teamManager = newGameObject.AddComponent<TeamManager>();
 
-		// UI Manager 생성..
-		newGameObject = new GameObject("UI Manager");
-		DontDestroyOnLoad(newGameObject);
-		newGameObject.transform.parent = transform;
-		uiManager = newGameObject.AddComponent<UIManager>();
-
 		// 생성했으니 참조 넘겨주기..
 		championManager.gameManager = this;
 		teamManager.gameManager = this;
 		pilotManager.gameManager = this;
 		effectManager.gameManager = this;
-		uiManager.gameManager = this;
 	}
 }

@@ -3,9 +3,26 @@ using UnityEngine;
 
 public class BanpickRunner : MonoBehaviour
 {
-	public UIManager uiManager { private get; set; }
-	public BattleStageManager battleStageManager { private get; set; }
-	public BattleStageDataTable battleStageDataTable { private get; set; }
+	public GameManager gameManager
+	{
+		set
+		{
+			_battleStageManager = value.battleStageManager;
+			_battleStageDataTable = value.dataTableManager.battleStageDataTable;
+
+			_battleStageDataTable.OnClickedSelectChampionButton -= OnSelectChampion;
+			_battleStageDataTable.OnClickedSelectChampionButton += OnSelectChampion;
+
+			_globalData = value.gameGlobalData.banpickStageGlobalData;
+			_levelMaxCount = _globalData.stagesDataContainer.Length;
+			_detailLevelMaxCount = _globalData.stagesDataContainer[_curLevel].orders.Count;
+
+			_battleStageDataTable.StartBanpick(_globalData.stagesDataContainer[0].kind, _globalData.stagesDataContainer[0].orders[0]);
+		}
+	}
+
+	private BattleStageManager _battleStageManager;
+	private BattleStageDataTable _battleStageDataTable;
 
 	private int _curLevel = 0;
 	private int _curDetailLevel = 0;
@@ -18,12 +35,6 @@ public class BanpickRunner : MonoBehaviour
 	private int _curPickStage = 0;
 	private readonly int BATTLE_TEAM_COUNT = (int)BattleTeamKind.End;
 
-	private void Awake()
-	{
-		_levelMaxCount = _globalData.stagesDataContainer.Length;
-		_detailLevelMaxCount = _globalData.stagesDataContainer[_curLevel].orders.Count;
-	}
-
 	public void OnSelectChampion(string championName)
 	{
 		BanpickStageKind curStageKind = _globalData.stagesDataContainer[_curLevel].kind;
@@ -32,11 +43,12 @@ public class BanpickRunner : MonoBehaviour
 		switch (curStageKind)
 		{
 			case BanpickStageKind.Ban:
-				battleStageDataTable.UpdateChampionBanData(curSelectTeamKind, _curBanStage / BATTLE_TEAM_COUNT, championName);
+				_battleStageDataTable.UpdateBanpickData(championName, curStageKind, curSelectTeamKind, _curBanStage / BATTLE_TEAM_COUNT);
 				++_curBanStage;
 				break;
 			case BanpickStageKind.Pick:
-				battleStageManager.PickChampion(curSelectTeamKind, _curPickStage / BATTLE_TEAM_COUNT, championName);
+				_battleStageDataTable.UpdateBanpickData(championName, curStageKind, curSelectTeamKind, _curPickStage / BATTLE_TEAM_COUNT);
+				_battleStageManager.PickChampion(curSelectTeamKind, _curPickStage / BATTLE_TEAM_COUNT, championName);
 				++_curPickStage;
 				break;
 		}
@@ -47,12 +59,23 @@ public class BanpickRunner : MonoBehaviour
 			++_curLevel;
 			if (_levelMaxCount <= _curLevel)
 			{
-				battleStageDataTable.EndBanpick();
+				_battleStageDataTable.EndBanpick();
+
+				return;
 			}
 			else
 			{
 				_detailLevelMaxCount = _globalData.stagesDataContainer[_curLevel].orders.Count;
+				_curDetailLevel = 0;
+
+				_battleStageDataTable.StartBanpickOneStage(_globalData.stagesDataContainer[_curLevel].kind);
 			}
 		}
+
+		int level = (_globalData.stagesDataContainer[_curLevel].kind == BanpickStageKind.Pick)
+			? _curPickStage / BATTLE_TEAM_COUNT : _curBanStage / BATTLE_TEAM_COUNT;
+
+		_battleStageDataTable.curBanpickStageInfo.Set(_globalData.stagesDataContainer[_curLevel].kind,
+			_globalData.stagesDataContainer[_curLevel].orders[_curDetailLevel], level);
 	}
 }

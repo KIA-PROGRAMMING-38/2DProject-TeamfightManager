@@ -22,12 +22,12 @@ public class ChampBattleDataUI : MonoBehaviour
 	// 챔피언 전투 정보가 갱신되면 호출되는 콜백 함수..
 	public void UpdateData(BattleInfoData data)
     {
-        _killCountText.text = data.killCount.ToString();
-		_deathCountText.text = data.deathCount.ToString();
-		_assistCountText.text = data.assistCount.ToString();
-		_totalAtkDamageText.text = data.totalDamage.ToString();
-		_totalHitText.text = data.totalHit.ToString();
-		_totalHillText.text = data.totalHill.ToString();
+		_killCountText.text = StringTable.GetString(data.killCount);
+		_deathCountText.text = StringTable.GetString(data.deathCount);
+		_assistCountText.text = StringTable.GetString(data.assistCount);
+		_totalAtkDamageText.text = StringTable.GetString(data.totalDamage);
+		_totalHitText.text = StringTable.GetString(data.totalHit);
+		_totalHillText.text = StringTable.GetString(data.totalHill);
 	}
 
 	// UI가 출력할 챔피언의 팀에 따라 배경색을 바꿔주기 위한 함수..

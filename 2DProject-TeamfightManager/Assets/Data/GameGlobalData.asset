@@ -27,3 +27,4 @@ MonoBehaviour:
   - Monk
   testBluePilotCreateOrder:
   - Faker
+  banpickStageGlobalData: {fileID: 11400000, guid: c913512666f128b4a8585530ae168924, type: 2}

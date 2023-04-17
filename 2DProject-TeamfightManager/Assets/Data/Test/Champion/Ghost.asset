@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   championData:
     name: Ghost
+    nameKR: "\uC720\uB839"
     type: 5
     atkActionUniqueKey: 9
     skillActionUniqueKey: 10
