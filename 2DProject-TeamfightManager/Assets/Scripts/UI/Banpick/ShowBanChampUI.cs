@@ -5,8 +5,9 @@ using UnityEngine.UI;
 public class ShowBanChampUI : UIBase
 {
 	[SerializeField] private GameObject _onBanActiveObjectParent;
-    [SerializeField] private Image _champIconImage;
-    [SerializeField] private TMP_Text _champNameText;
+	[SerializeField] private Image _champIconImage;
+	[SerializeField] private Image _banIconImage;
+	[SerializeField] private TMP_Text _champNameText;
 
 	private ChampionDataTable _champDataTable;
 	private BattleStageDataTable _battleStageDataTable;
@@ -35,9 +36,14 @@ public class ShowBanChampUI : UIBase
 	public void SetOutlineUIActive(bool active)
 	{
 		_outlineUI.gameObject.SetActive(active);
-		if(true == active)
+		if (true == active)
 		{
+			_banIconImage.gameObject.SetActive(false);
 			_outlineUI.SetTeamKind(_battleStageDataTable.curBanpickStageInfo.teamKind);
+		}
+		else
+		{
+			_banIconImage.gameObject.SetActive(true);
 		}
 	}
 }

@@ -342,6 +342,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _onBanActiveObjectParent: {fileID: 4314771227393481479}
   _champIconImage: {fileID: 1261176878925396892}
+  _banIconImage: {fileID: 2018748039928620769}
   _champNameText: {fileID: 1261176877582912437}
 --- !u!1 &1261176878925396894
 GameObject:

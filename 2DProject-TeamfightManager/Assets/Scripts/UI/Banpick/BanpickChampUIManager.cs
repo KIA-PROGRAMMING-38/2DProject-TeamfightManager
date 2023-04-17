@@ -53,13 +53,15 @@ public class BanpickChampUIManager : UIBase
 	public void OnSelectChampionButtonClicked(string championName)
 	{
 		OnSelectChampionButton?.Invoke(championName);
+
+		_activeChampUIContainer[championName].isLockSelect = true;
 	}
 
 	private void OnUpdateBackpickStage(string champName, BanpickStageKind stageKind, BattleTeamKind teamKind, int index)
 	{
 		Debug.Assert( true == _activeChampUIContainer.ContainsKey( champName ) );
 
-		_activeChampUIContainer[champName].ChangeBanpickState( stageKind );
+		_activeChampUIContainer[champName].ChangeBanpickState( stageKind, teamKind, index );
     }
 
 	public void ChangeShowChampionData(string championName)

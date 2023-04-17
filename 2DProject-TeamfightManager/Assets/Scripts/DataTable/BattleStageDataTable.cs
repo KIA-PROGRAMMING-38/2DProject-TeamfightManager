@@ -11,9 +11,8 @@ public class BattleStageDataTable
 		public BattleTeamKind teamKind;
 		public int level;
 
-		public void Set(string champName, BanpickStageKind stageKind, BattleTeamKind teamKind, int level)
+		public void Set(BanpickStageKind stageKind, BattleTeamKind teamKind, int level)
 		{
-			this.champName = champName;
 			this.stageKind = stageKind;
 			this.teamKind = teamKind;
 			this.level = level;
@@ -60,7 +59,7 @@ public class BattleStageDataTable
 		}
 	}
 
-	public BanpickStageInfo curBanpickStageInfo { get; private set; }
+	public BanpickStageInfo curBanpickStageInfo { get; set; }
 
 	public BattleStageDataTable()
 	{
@@ -99,8 +98,10 @@ public class BattleStageDataTable
 
 	public void UpdateBanpickData(string championName, BanpickStageKind stageKind, BattleTeamKind teamKind, int index)
 	{
-		curBanpickStageInfo.Set(championName, stageKind, teamKind, index);
+		curBanpickStageInfo.champName = championName;
 		OnBanpickUpdate?.Invoke(championName, stageKind, teamKind, index);
+
+		banpickChampContainer.Add(championName, stageKind);
 	}
 
 	public void StartBattle()
@@ -110,7 +111,7 @@ public class BattleStageDataTable
 	
 	public void StartBanpick(BanpickStageKind stageKind, BattleTeamKind teamKind)
 	{
-		curBanpickStageInfo.Set("", stageKind, teamKind, 0);
+		curBanpickStageInfo.Set(stageKind, teamKind, 0);
 	}
 
 	public void StartBanpickOneStage(BanpickStageKind curStageKind)

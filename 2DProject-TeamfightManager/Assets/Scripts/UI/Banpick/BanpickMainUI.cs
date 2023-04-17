@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BanpickMainUI : UIBase
 {
@@ -9,6 +11,7 @@ public class BanpickMainUI : UIBase
 
 	private BattleStageDataTable _battleStageDataTable;
 	[SerializeField] private BanpickBlockingProcess _blockingProcess;
+	[SerializeField] private BanpickEndUI _banpickEndUI;
 
 	private void Awake()
 	{
@@ -56,8 +59,7 @@ public class BanpickMainUI : UIBase
 
 	private void OnBanpickEnd()
 	{
-		//transform.root.GetComponent<GraphicRaycaster>().enabled = false;
-		_movementComponent.StartMove(true);
+		StartCoroutine(WaitBanpickEndDelayTime());
 	}
 
 	private void OnMoveEnd()
@@ -74,5 +76,18 @@ public class BanpickMainUI : UIBase
 	{
 		_blockingProcess.SetShowBanpickStageKind(curStageKind);
 		_blockingProcess.gameObject.SetActive(true);
+	}
+
+	private IEnumerator WaitBanpickEndDelayTime()
+	{
+		GraphicRaycaster rayCaster = transform.root.GetComponent<GraphicRaycaster>();
+
+		rayCaster.enabled = false;
+
+		yield return YieldInstructionStore.GetWaitForSec(2f);
+
+		rayCaster.enabled = true;
+		_movementComponent.StartMove(true);
+		_banpickEndUI.OnEndBanpick();
 	}
 }

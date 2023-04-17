@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BanpickGlobalData
   m_EditorClassIdentifier: 
   stagesDataContainer:
-  - kind: 0
-    orders: 0100000000000000
   - kind: 1
+    orders: 0100000000000000
+  - kind: 2
     orders: 0100000000000000

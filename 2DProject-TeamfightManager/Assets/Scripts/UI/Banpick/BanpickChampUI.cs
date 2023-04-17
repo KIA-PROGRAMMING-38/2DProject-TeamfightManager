@@ -1,5 +1,6 @@
 ﻿using System;
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,10 @@ public class BanpickChampUI : UIBase
 	private ShowChampAnimUI _champAnimUI;
 	private BanpickOutlineUI _outlineUI;
 	[SerializeField] private TMP_Text _champNameText;
+	private ShowBanEffectUI _banEffectUI;
+	private ShowPickEffectUI _pickEffectUI;
+
+	public bool isLockSelect { private get; set; }
 
 	private string _championName;
 	public string championName
@@ -29,22 +34,6 @@ public class BanpickChampUI : UIBase
 		}
 	}
 
-	public BanpickStageKind kind
-	{
-		set
-		{
-			switch (value)
-			{
-				case BanpickStageKind.Ban:
-
-					break;
-				case BanpickStageKind.Pick:
-
-					break;
-			}
-		}
-	}
-
 	private void Awake()
 	{
 		_champDataTable = s_dataTableManager.championDataTable;
@@ -53,7 +42,11 @@ public class BanpickChampUI : UIBase
 		_buttonUI = GetComponentInChildren<BanpickChampButtonUI>();
 		_champAnimUI = GetComponentInChildren<ShowChampAnimUI>();
 		_outlineUI = GetComponentInChildren<BanpickOutlineUI>();
+		_banEffectUI = GetComponentInChildren<ShowBanEffectUI>();
+		_pickEffectUI = GetComponentInChildren<ShowPickEffectUI>();
 
+		_banEffectUI.gameObject.SetActive(false);
+		_pickEffectUI.gameObject.SetActive(false);
 		_outlineUI.gameObject.SetActive(false);
 
 		_buttonUI.OnButtonClicked -= OnChampionButtonClick;
@@ -68,13 +61,19 @@ public class BanpickChampUI : UIBase
 
 	private void OnChampionButtonClick()
 	{
+		_buttonUI.OnButtonClicked -= OnChampionButtonClick;
+		_buttonUI.OnButtonSelect();
 		OnButtonClicked?.Invoke(championName);
 	}
 
 	private void OnStartButtonHover()
 	{
 		OnButtonHover?.Invoke(championName);
-		_champAnimUI.ChangeRotateState(true);
+
+		if(false == isLockSelect)
+		{
+			_champAnimUI.SetHoverState(true);
+		}
 
 		_outlineUI.SetTeamKind(_battlestageDataTable.curBanpickStageInfo.teamKind);
 		_outlineUI.gameObject.SetActive(true);
@@ -82,15 +81,26 @@ public class BanpickChampUI : UIBase
 
 	private void OnEndButtonHover()
 	{
-		_champAnimUI.ChangeRotateState(false);
+		if(false == isLockSelect)
+		{
+			_champAnimUI.SetHoverState(false);
+		}
+
 		_outlineUI.gameObject.SetActive(false);
 	}
 
-	public void ChangeBanpickState(BanpickStageKind state)
+	public void ChangeBanpickState(BanpickStageKind state, BattleTeamKind teamKind, int index)
 	{
-		if (BanpickStageKind.Pick == state)
-		{
+		_champAnimUI.ChangeBanPickData(state, teamKind);
 
+		if(state == BanpickStageKind.Ban)
+		{
+			_banEffectUI.gameObject.SetActive(true);
+		}
+		else if( state == BanpickStageKind.Pick)
+		{
+			_pickEffectUI.SetPickData(teamKind, index);
+			_pickEffectUI.gameObject.SetActive(true);
 		}
 	}
 }

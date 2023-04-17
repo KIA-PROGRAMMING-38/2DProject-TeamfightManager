@@ -3,6 +3,7 @@ using UnityEngine;
 
 public enum BanpickStageKind
 {
+	None,
 	Ban,
 	Pick
 }

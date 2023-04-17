@@ -13,6 +13,7 @@ public class BanpickChampButtonUI : UIBase, IPointerClickHandler, IPointerEnterH
 
 	private Button _buttonComponent;
 	private ShowChampAnimUI _champAnimUI;
+	[SerializeField] private ShowChampAnimUI _sharedMaterialOwner;
 
 	private void Awake()
 	{
@@ -20,9 +21,9 @@ public class BanpickChampButtonUI : UIBase, IPointerClickHandler, IPointerEnterH
 		_champAnimUI = GetComponentInChildren<ShowChampAnimUI>();
 	}
 
-	public void SetButtonActive(bool isActive)
+	public void OnButtonSelect()
 	{
-		_buttonComponent.enabled = isActive;
+		GetComponent<Image>().material = _sharedMaterialOwner.material;
 	}
 
     public void OnPointerClick(PointerEventData eventData)

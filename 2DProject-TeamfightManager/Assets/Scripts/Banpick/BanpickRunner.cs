@@ -60,6 +60,8 @@ public class BanpickRunner : MonoBehaviour
 			if (_levelMaxCount <= _curLevel)
 			{
 				_battleStageDataTable.EndBanpick();
+
+				return;
 			}
 			else
 			{
@@ -69,5 +71,11 @@ public class BanpickRunner : MonoBehaviour
 				_battleStageDataTable.StartBanpickOneStage(_globalData.stagesDataContainer[_curLevel].kind);
 			}
 		}
+
+		int level = (_globalData.stagesDataContainer[_curLevel].kind == BanpickStageKind.Pick)
+			? _curPickStage / BATTLE_TEAM_COUNT : _curBanStage / BATTLE_TEAM_COUNT;
+
+		_battleStageDataTable.curBanpickStageInfo.Set(_globalData.stagesDataContainer[_curLevel].kind,
+			_globalData.stagesDataContainer[_curLevel].orders[_curDetailLevel], level);
 	}
 }

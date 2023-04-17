@@ -4555,6 +4555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _blockingProcess: {fileID: 1377075418}
+  _banpickEndUI: {fileID: 1266396082}
 --- !u!1 &1465767589
 GameObject:
   m_ObjectHideFlags: 0

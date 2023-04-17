@@ -11,12 +11,9 @@ public class BanpickEndUI : UIBase
     {
 		_child = transform.GetChild(0).gameObject;
         _child.SetActive(false);
-
-		s_dataTableManager.battleStageDataTable.OnBanpickEnd -= OnEndBanpick;
-        s_dataTableManager.battleStageDataTable.OnBanpickEnd += OnEndBanpick;
 	}
 
-    private void OnEndBanpick()
+    public void OnEndBanpick()
     {
 		_child.SetActive(true);
 	}
