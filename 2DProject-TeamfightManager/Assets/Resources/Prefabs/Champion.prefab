@@ -45,7 +45,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ed5f20c24a60fd489e5803265583775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <status>k__BackingField:
+    atkStat: 0
+    atkSpeed: 0
+    range: 0
+    defence: 0
+    hp: 0
+    moveSpeed: 0
+    skillCooltime: 0
   _curHp: 0
+  debugStatue:
+    atkStat: 0
+    atkSpeed: 0
+    range: 0
+    defence: 0
+    hp: 0
+    moveSpeed: 0
+    skillCooltime: 0
 --- !u!1 &8397446295137871858
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,3 +182,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitMaterial: {fileID: 2100000, guid: 127d6823708dc964ba6b93af9b30d1b6, type: 2}
+  _animationSpeed: 0

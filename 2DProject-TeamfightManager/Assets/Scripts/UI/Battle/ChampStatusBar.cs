@@ -6,7 +6,17 @@ using UnityEngine;
 /// </summary>
 public class ChampStatusBar : UIBase
 {
-    public Transform target { private get; set; }
+	private Transform _target;
+    public Transform target
+	{
+		private get => _target;
+		set
+		{
+			_target = value;
+
+			_buffUI.ownerChampion = _target.GetComponent<Champion>();
+		}
+	}
 	public BattleTeamKind teamKind { private get; set; }
 	public Vector3 offsetPosition;
 
@@ -17,6 +27,7 @@ public class ChampStatusBar : UIBase
 	[SerializeField] private GaugeBarUI _barrierBarUI;
 	[SerializeField] private GaugeBarUI _mpBarUI;
 	private UltimateIconUI _ultimateIconUI;
+	private ChampBuffUI _buffUI;
 
 	private readonly Color redTeamHPBarColor = Color.red;
 	private readonly Color blueTeamHPBarColor = Color.green;
@@ -27,7 +38,8 @@ public class ChampStatusBar : UIBase
 		_transform = GetComponent<RectTransform>();
 
 		_ultimateIconUI = GetComponentInChildren<UltimateIconUI>();
-	}
+		_buffUI = GetComponentInChildren<ChampBuffUI>();
+    }
 
 	private void Start()
 	{

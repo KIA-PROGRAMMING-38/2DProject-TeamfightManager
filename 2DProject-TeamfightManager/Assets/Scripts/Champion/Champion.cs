@@ -61,6 +61,7 @@ public class Champion : MonoBehaviour, IAttackable
 	public event Action OnUseUltimate;
 	public event Action<float> OnChangedBarrierRatio;
 	public event Action<Champion> OnKill;
+	public event Action<ChampionStatus> OnChangeBuffStatus;
 
 	// 강제 지정 타겟(이 필드의 값이 유효하다면 무조건 타겟은 얘다)..
 	private Champion _forcedTarget;
@@ -216,22 +217,10 @@ public class Champion : MonoBehaviour, IAttackable
 		_activeEffectList.Remove(effect);
 	}
 
-	public ChampionStatus debugStatue;
 	private void UpdateStatus(ChampionStatus status)
 	{
 		if (null == _baseStatus)
 			return;
-
-		debugStatue = new ChampionStatus
-		{
-			atkStat = status.atkStat,
-			atkSpeed = status.atkSpeed,
-			range = status.range,
-			defence = status.defence,
-			hp = status.hp,
-			moveSpeed = status.moveSpeed,
-			skillCooltime = status.skillCooltime,
-		};
 
 		this.status.atkStat = _baseStatus.atkStat + status.atkStat;
 		this.status.atkSpeed = _baseStatus.atkSpeed + status.atkSpeed;
@@ -243,6 +232,8 @@ public class Champion : MonoBehaviour, IAttackable
 
 		float animSpeed = 1f + (this.status.atkSpeed - _baseStatus.atkSpeed / _baseStatus.atkSpeed) / 100f;
 		_animComponent.animationSpeed = animSpeed;
+
+		OnChangeBuffStatus?.Invoke( status );
 	}
 
 	private void ResetStatus()
