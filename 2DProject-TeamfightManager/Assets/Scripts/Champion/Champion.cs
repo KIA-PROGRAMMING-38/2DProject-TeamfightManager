@@ -217,6 +217,7 @@ public class Champion : MonoBehaviour, IAttackable
 		_activeEffectList.Remove(effect);
 	}
 
+	public ChampionStatus debugStatus;
 	private void UpdateStatus(ChampionStatus status)
 	{
 		if (null == _baseStatus)
@@ -234,7 +235,9 @@ public class Champion : MonoBehaviour, IAttackable
 		_animComponent.animationSpeed = animSpeed;
 
 		OnChangeBuffStatus?.Invoke( status );
-	}
+
+		debugStatus = status;
+    }
 
 	private void ResetStatus()
 	{

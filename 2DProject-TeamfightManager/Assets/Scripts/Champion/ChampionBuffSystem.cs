@@ -294,6 +294,8 @@ public class ChampionBuffSystem
 
 			resultMulCal *= curBuffInfo.amount;
 		}
+
+		resultMulCal -= 1f;
 	}
 
 	private void ComputeAddAndMulStatFigure(BuffImpactType addCalcType, BuffImpactType mulCalcType, out int resultAddCalc, out float resultMulCal)
