@@ -10,6 +10,8 @@ public class DataTableManager : MonoBehaviour
 	public EffectDataTable effectDataTable { get; private set; }
 	public AttackActionDataTable attackActionDataTable { get; private set; }
 	public BattleStageDataTable battleStageDataTable { get; private set; }
+	public TeamDataTable teamDataTable { get; private set; }
+	public BattleStatisticsDataTable statisticsDataTable { get; private set; }
 
 	private void Awake()
 	{
@@ -21,12 +23,13 @@ public class DataTableManager : MonoBehaviour
 		effectDataTable = new EffectDataTable();
 		attackActionDataTable = new AttackActionDataTable();
 		battleStageDataTable = new BattleStageDataTable();
+		teamDataTable = new TeamDataTable();
+		statisticsDataTable = new BattleStatisticsDataTable();
 
 		battleStageDataTable.championDataTable = championDataTable;
-	}
 
-	private void OnEnable()
-	{
-		
+		statisticsDataTable.championDataTable = championDataTable;
+		statisticsDataTable.teamDataTable = teamDataTable;
+		statisticsDataTable.pilotDataTable = pilotDataTable;
 	}
 }

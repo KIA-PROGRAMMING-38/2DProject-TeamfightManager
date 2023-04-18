@@ -7,11 +7,6 @@ using UnityEngine;
 /// </summary>
 public class PilotManager : MonoBehaviour
 {
-	public class MakePilotData
-	{
-		public PilotData pilotData;
-	}
-
 	private GameManager _gameManager;
 	private DataTableManager _dataTableManager;
 	private PilotDataTable _pilotDataTable;
@@ -30,25 +25,12 @@ public class PilotManager : MonoBehaviour
 		}
 	}
 
-	private Dictionary<string, MakePilotData> _pilots = new Dictionary<string, MakePilotData>();
-
-	private void Start()
-	{
-		foreach (KeyValuePair<string, PilotData> elementPair in _pilotDataTable.pilotDataContainer)
-		{
-			MakePilotData newPilotMakeData =
-				new MakePilotData { pilotData = elementPair.Value };
-
-			_pilots[elementPair.Key] = newPilotMakeData;
-		}
-	}
-
 	// 외부에서 파일럿의 인스턴스를 받아오고 싶을 때 호출되는 함수..
 	public Pilot GetPilotInstance(string pilotName)
 	{
 		Pilot newPilot = Instantiate<Pilot>(_pilotDataTable.DefaultPilotPrefab);
 
-		newPilot.Initialize(_pilots[pilotName].pilotData);
+		newPilot.Initialize(_pilotDataTable.GetPilotData(pilotName));
 
 		return newPilot;
 	}

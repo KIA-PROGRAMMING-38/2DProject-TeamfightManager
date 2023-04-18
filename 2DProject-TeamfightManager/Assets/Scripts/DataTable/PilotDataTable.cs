@@ -6,23 +6,26 @@ using UnityEngine;
 /// </summary>
 public class PilotDataTable
 {
-	private List<Sprite> _conditionSpriteContainer = new List<Sprite>();
-
 	private Dictionary<string, PilotData> _pilotDataContainer = new Dictionary<string, PilotData>();
-
-	public Dictionary<string, PilotData> pilotDataContainer { get => _pilotDataContainer; }
+	private List<Sprite> _conditionSpriteContainer = new List<Sprite>();
+	private List<string> _pilotNameContainer = new List<string>();
 
 	public Pilot DefaultPilotPrefab { get; private set; }
 
+	public int GetTotalPilotCount() => _pilotNameContainer.Count;
+	public string GetPilotName(int index) => _pilotNameContainer[index];
+
 	// Champion Status Getter Setter..
-	public void AddPilotData(string championName, PilotData championStatus)
+	public void AddPilotData(string pilotName, PilotData pilotData)
 	{
-		pilotDataContainer.Add(championName, championStatus);
+		_pilotDataContainer.Add(pilotName, pilotData);
+
+		_pilotNameContainer.Add(pilotName);
 	}
 
-	public PilotData GetPilotData(string championName)
+	public PilotData GetPilotData(string pilotName)
 	{
-		return pilotDataContainer[championName];
+		return _pilotDataContainer[pilotName];
 	}
 
 	public void AddConditionSprite(Sprite sprite)
