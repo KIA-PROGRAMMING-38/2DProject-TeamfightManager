@@ -55,7 +55,7 @@ public class BattleStageManager : MonoBehaviour
 
 	private void Start()
 	{
-		SetupPilot();
+		//SetupPilot();
 
 		_battleStageDataTable.OnUpdateBattleRemainTime -= OnUpdateBattleRemainTime;
 		_battleStageDataTable.OnUpdateBattleRemainTime += OnUpdateBattleRemainTime;
@@ -63,8 +63,6 @@ public class BattleStageManager : MonoBehaviour
 
 	public void StartBattle()
 	{
-		_battleStageDataTable.Initialize(gameManager.gameGlobalData.battleFightTime);
-
 		redTeam.StartBattle();
 		blueTeam.StartBattle();
 
@@ -132,6 +130,13 @@ public class BattleStageManager : MonoBehaviour
 
 		blueTeam.OnChangedChampionBarrierRatio -= OnChangedChampionBarrierRatio;
 		blueTeam.OnChangedChampionBarrierRatio += OnChangedChampionBarrierRatio;
+
+		// 데이터 테이블에 넘길 정보 생성 및 넘겨주기..
+		List<BattlePilotFightData> redTeamBattlePilotFightDatas = redTeam.battlePilotFightData;
+		List<BattlePilotFightData> blueTeamBattlePilotFightDatas = blueTeam.battlePilotFightData;
+
+		_battleStageDataTable.Initialize(gameManager.gameGlobalData.battleFightTime, redTeam.teamName, redTeamBattlePilotFightDatas,
+			blueTeam.teamName, blueTeamBattlePilotFightDatas);
 	}
 
 	public void PickChampion(BattleTeamKind teamKind, int index, string champName)

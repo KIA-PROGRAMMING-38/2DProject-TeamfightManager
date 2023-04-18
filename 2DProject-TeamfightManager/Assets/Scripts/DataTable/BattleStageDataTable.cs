@@ -27,6 +27,7 @@ public class BattleStageDataTable
 	private float _battleRemainTime = 0f;   // 배틀 총 남은 시간..
 
 	// 밴픽 관련 이벤트 함수..
+	public event Action OnInitializeBattleFightData;
 	public event Action OnStartBattle;
 	public event Action<string> OnClickedSelectChampionButton;
 	public event Action OnBanpickEnd;
@@ -61,15 +62,29 @@ public class BattleStageDataTable
 
 	public BanpickStageInfo curBanpickStageInfo { get; set; }
 
+	public BattleTeamFightData redTeamBattleFightData { get; private set; }
+	public BattleTeamFightData blueTeamBattleFightData { get; private set; }
+
 	public BattleStageDataTable()
 	{
 		curBanpickStageInfo = new BanpickStageInfo();
+		redTeamBattleFightData = new BattleTeamFightData();
+		blueTeamBattleFightData = new BattleTeamFightData();
 	}
 
 	// 배틀 시작 시 총 배틀해야하는 시간 받아서 초기화하는 부분..
-	public void Initialize(float gameBattleTime)
+	public void Initialize(float gameBattleTime, string redTeamName, List<BattlePilotFightData> redTeamBattlePilotFightDatas
+		, string blueTeamName, List<BattlePilotFightData> blueTeamBattlePilotFightDatas)
 	{
 		_battleRemainTime = gameBattleTime;
+
+		redTeamBattleFightData.teamName = redTeamName;
+		blueTeamBattleFightData.teamName = blueTeamName;
+
+		redTeamBattleFightData.pilotFightDataContainer = redTeamBattlePilotFightDatas;
+		blueTeamBattleFightData.pilotFightDataContainer = blueTeamBattlePilotFightDatas;
+
+		OnInitializeBattleFightData?.Invoke();
 	}
 
 	// 배틀 끝났을 때 관련 데이터 처리하는 부분..
@@ -102,6 +117,18 @@ public class BattleStageDataTable
 		OnBanpickUpdate?.Invoke(championName, stageKind, teamKind, index);
 
 		banpickChampContainer.Add(championName, stageKind);
+
+		if (stageKind == BanpickStageKind.Ban)
+		{
+			if (BattleTeamKind.RedTeam == teamKind)
+			{
+				redTeamBattleFightData.banChampionContainer.Add(championName);
+			}
+			else if (BattleTeamKind.BlueTeam == teamKind)
+			{
+				blueTeamBattleFightData.banChampionContainer.Add(championName);
+			}
+		}
 	}
 
 	public void StartBattle()
@@ -149,6 +176,15 @@ public class BattleStageDataTable
 
 	public void OnChampionDeath(BattleTeamKind teamKind, int index)
 	{
+		if (BattleTeamKind.RedTeam == teamKind)
+		{
+			++blueTeamBattleFightData.teamTotalKill;
+		}
+		else if (BattleTeamKind.BlueTeam == teamKind)
+		{
+			++redTeamBattleFightData.teamTotalKill;
+		}
+
 		OnChampionDeadEvent?.Invoke(teamKind, index);
 	}
 

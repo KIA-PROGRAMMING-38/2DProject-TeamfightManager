@@ -59,9 +59,23 @@ public class BattleTeam : MonoBehaviour
 		}
 	}
 
+	private Team _teamComponent;
+	public string teamName { get => _teamComponent.data.name; }
+
 	public BattleTeamKind battleTeamKind { private get; set; }
 
 	private List<PilotBattle> _pilots;
+	public List<BattlePilotFightData> battlePilotFightData
+	{
+		get
+		{
+			List<BattlePilotFightData> result = new List<BattlePilotFightData>();
+			for (int i = 0; i < _pilots.Count; ++i)
+				result.Add(_pilots[i].battlePilotFightData);
+
+			return result;
+		}
+	}
 	private List<Champion> _activeChampions;
 	private List<Champion> _allChampions;
 
@@ -82,7 +96,7 @@ public class BattleTeam : MonoBehaviour
 
 	private void Awake()
 	{
-		
+		_teamComponent = GetComponent<Team>();
 	}
 
 	private void Start()

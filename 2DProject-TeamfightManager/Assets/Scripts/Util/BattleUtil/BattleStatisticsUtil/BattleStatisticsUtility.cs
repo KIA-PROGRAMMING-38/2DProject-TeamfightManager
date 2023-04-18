@@ -28,8 +28,14 @@ public class PilotBattleStatistics
 public class BattleTeamFightData
 {
 	public string teamName;
+	public int teamTotalKill;
 	public List<BattlePilotFightData> pilotFightDataContainer;
 	public List<string> banChampionContainer;
+
+	public BattleTeamFightData()
+	{
+		banChampionContainer = new List<string>();
+	}
 }
 
 public class BattlePilotFightData
