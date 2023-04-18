@@ -23,9 +23,6 @@ public class BattleStageManager : MonoBehaviour
 
 			int pilotCount = gameManager.gameGlobalData.PilotCount;
 			_battleStageDataTable.battleChampionTotalCount = Math.Min(pilotCount, 4) * 2;
-
-			redTeam.gameManager = value;
-			blueTeam.gameManager = value;
 		}
 	}
 
@@ -34,6 +31,7 @@ public class BattleStageManager : MonoBehaviour
 	private PilotManager _pilotManager;
 	private DataTableManager _dataTableManager;
 	private BattleStageDataTable _battleStageDataTable;
+	private TeamManager _teamManager;
 
 	public BattleTeam redTeam { get; private set; }
 	public BattleTeam blueTeam { get; private set; }
@@ -52,8 +50,6 @@ public class BattleStageManager : MonoBehaviour
 
 	private void Awake()
 	{
-		SetupBattleTeam();
-
 		_updateTimerCoroutine = UpdateBattleTimer();
 	}
 
@@ -84,19 +80,17 @@ public class BattleStageManager : MonoBehaviour
 		}
 	}
 
-	private void SetupBattleTeam()
+	private void SetupBattleTeam(string redTeamName, string blueTeamName)
 	{
-		GameObject newGameobject = null;
+		Team team = null;
 
 		// Red Team 객체 생성..
-		newGameobject = new GameObject("Red Team");
-		newGameobject.transform.parent = transform;
-		redTeam = newGameobject.AddComponent<BattleTeam>();
+		team = _teamManager.GetTeamInstance(redTeamName);
+		redTeam = team.GetComponent<BattleTeam>();
 
 		// Blue Team 객체 생성..
-		newGameobject = new GameObject("Blue Team");
-		newGameobject.transform.parent = transform;
-		blueTeam = newGameobject.AddComponent<BattleTeam>();
+		team = _teamManager.GetTeamInstance(blueTeamName);
+		blueTeam = team.GetComponent<BattleTeam>();
 
 		// 각 팀 컴포넌트에서 필요한 참조들 넘겨주기..
 		redTeam.battleTeamKind = BattleTeamKind.RedTeam;
@@ -140,24 +134,6 @@ public class BattleStageManager : MonoBehaviour
 		blueTeam.OnChangedChampionBarrierRatio += OnChangedChampionBarrierRatio;
 	}
 
-	public void AddPilot(int index, string pilotName)
-	{
-		int pilotCount = gameManager.gameGlobalData.PilotCount;
-
-		BattleTeamKind teamKind = (BattleTeamKind)(index / pilotCount);
-		index %= pilotCount;
-
-		switch (teamKind)
-		{
-			case BattleTeamKind.RedTeam:
-				redTeam.AddPilot(index, pilotName);
-				break;
-			case BattleTeamKind.BlueTeam:
-				blueTeam.AddPilot(index, pilotName);
-				break;
-		}
-	}
-
 	public void PickChampion(BattleTeamKind teamKind, int index, string champName)
 	{
 		switch (teamKind)
@@ -183,12 +159,6 @@ public class BattleStageManager : MonoBehaviour
 
 		for (int i = 0; i < pilotCount; ++i)
 		{
-			//redTeam.AddPilot(redTeamPilotCreateOrder[i % redTeamPilotCreateOrder.Count], redTeamChampCreateOrder[i % redTeamChampCreateOrder.Count]);
-			//blueTeam.AddPilot(blueTeamPilotCreateOrder[i % blueTeamPilotCreateOrder.Count], blueTeamChampCreateOrder[i % blueTeamChampCreateOrder.Count]);
-
-			redTeam.AddPilot(i, redTeamPilotCreateOrder[i % redTeamPilotCreateOrder.Count]);
-			blueTeam.AddPilot(i, blueTeamPilotCreateOrder[i % blueTeamPilotCreateOrder.Count]);
-
 			//redTeam.AddChampion(i, redTeamChampCreateOrder[i % redTeamChampCreateOrder.Count]);
 			//blueTeam.AddChampion(i, blueTeamChampCreateOrder[i % blueTeamChampCreateOrder.Count]);
 		}

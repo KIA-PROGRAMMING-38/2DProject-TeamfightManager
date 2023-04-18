@@ -1,11 +1,13 @@
-﻿using Codice.Client.BaseCommands.Merge;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
 public static class SaveLoadLogic
 {
+	#region Champion Save Load Logic
+	// ============================================================================================== //
+	// ==================================== Champion Save Load.. ==================================== //
+	// ============================================================================================== //
 	public static bool LoadChampionFile(string fileName, out ChampionStatus getChampionStatus, out ChampionData getChampData, out ChampionResourceData getResourceData)
 	{
 		// 파일이 있는지 검사..
@@ -96,7 +98,12 @@ public static class SaveLoadLogic
 
 		File.WriteAllLines(filePath, saveDatas);
 	}
+	#endregion
 
+	#region Pilot Save Load Logic
+	// ============================================================================================== //
+	// ==================================== Pilot Save Load.. ======================================= //
+	// ============================================================================================== //
 	public static bool LoadPilotFile(string fileName, out PilotData getPilotData)
 	{
 		// 파일이 있는지 검사..
@@ -162,7 +169,12 @@ public static class SaveLoadLogic
 
 		File.WriteAllText(filePath, saveDatas);
 	}
+	#endregion
 
+	#region Effect Save Load Logic
+	// ============================================================================================== //
+	// ==================================== Effect Save Load.. ====================================== //
+	// ============================================================================================== //
 	public static bool LoadEffectFile(string fileName, out EffectData getEffectData)
 	{
 		// 파일이 있는지 여부 판단..
@@ -212,8 +224,12 @@ public static class SaveLoadLogic
 
 		File.WriteAllText(filePath, saveDatas);
 	}
+	#endregion
 
-	// ==================================== AttackAction Save Load.. ==================================== //
+	#region AttackAction Save Load Logic
+	// ============================================================================================== //
+	// ================================ AttackAction Save Load.. ==================================== //
+	// ============================================================================================== //
 	public static bool LoadAttackActionFile(string fileName, out AttackActionData getActionData, out List<AttackImpactData> getImpactDatas, 
 		out AttackPerformanceData getPerformaceData, out AttackActionEffectData getEffectData)
 	{
@@ -533,4 +549,62 @@ public static class SaveLoadLogic
 
 		File.WriteAllLines(filePath, saveDatas);
 	}
+	#endregion
+
+	#region Team Save Load Logic
+	// ============================================================================================== //
+	// ================================ Team Save Load.. ==================================== //
+	// ============================================================================================== //
+	public static bool LoadTeamFile(string fileName, out TeamData getData, out TeamBelongPilotData getBelongPilotData, out TeamResourceData getResourceData)
+	{
+		if (false == File.Exists(fileName))
+		{
+			getData = null;
+			getBelongPilotData = null;
+			getResourceData = null;
+			return false;
+		}
+
+		int curIndex = 0;
+		string[] loadData = File.ReadAllText(fileName).Split(',');
+
+		getData = new TeamData();
+		getData.name = loadData[curIndex++];
+
+		getBelongPilotData = new TeamBelongPilotData();
+		getBelongPilotData.pilotCount = int.Parse(loadData[curIndex++]);
+		getBelongPilotData.pilotNameContainer = new List<string>(getBelongPilotData.pilotCount);
+		for ( int i = 0; i < getBelongPilotData.pilotCount; ++i)
+		{
+			getBelongPilotData.pilotNameContainer[i] = loadData[curIndex++];
+		}
+
+		getResourceData = new TeamResourceData
+		{
+			logoImagePath = loadData[curIndex++],
+		};
+
+		return true;
+	}
+
+	public static void SaveTeamFile(TeamData data, TeamBelongPilotData belongPilotData, TeamResourceData resourceData, string baseGameSaveFilePath, string fileExtension)
+	{
+		string filePath = Path.Combine(baseGameSaveFilePath, "Team", data.name + fileExtension);
+		string saveData = "";
+
+		saveData += new string(
+			data.name
+			);
+
+		saveData += "," + belongPilotData.pilotCount;
+		for ( int i = 0; i < belongPilotData.pilotCount; ++i)
+			saveData += "," + belongPilotData.pilotNameContainer[i];
+
+		saveData += new string(
+			"," + resourceData.logoImagePath
+			);
+
+		File.WriteAllText(filePath, saveData);
+	}
+	#endregion
 }

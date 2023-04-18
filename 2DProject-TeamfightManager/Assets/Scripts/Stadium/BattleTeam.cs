@@ -17,8 +17,28 @@ public class BattleTeam : MonoBehaviour
 			_battleStageManager = value.battleStageManager;
 			_battleStageDataTable = value.dataTableManager.battleStageDataTable;
 			_effectManager = value.effectManager;
+		}
+	}
 
-			SetupContainer();
+	public List<Pilot> belongPilot
+	{
+		set
+		{
+			int pilotCount = value.Count;
+
+			_pilots = new List<PilotBattle>(pilotCount);
+			_activeChampions = new List<Champion>(pilotCount);
+			_allChampions = new List<Champion>(pilotCount);
+
+			for( int i = 0; i < pilotCount; ++i)
+			{
+				PilotBattle pilotBattle = value[i].GetComponent<PilotBattle>();
+
+				_pilots.Add(pilotBattle);
+				_allChampions.Add(null);
+
+				SetupPilot(pilotBattle, i);
+			}
 		}
 	}
 
@@ -71,64 +91,39 @@ public class BattleTeam : MonoBehaviour
 		_revivalDelaySecInst = YieldInstructionStore.GetWaitForSec( _revivalDelayTime );
     }
 
-	private void SetupContainer()
-	{
-		int battleChampCount = _battleStageDataTable.battleChampionTotalCount / 2;
-
-		_pilots = new List<PilotBattle>(battleChampCount);
-		_activeChampions = new List<Champion>(battleChampCount);
-		_allChampions = new List<Champion>(battleChampCount);
-
-		for (int i = 0; i < battleChampCount; ++i)
-		{
-			_pilots.Add(null);
-			_allChampions.Add(null);
-		}
-	}
-
 	/// <summary>
 	/// 소속될 파일럿을 추가해주는 함수..
 	/// 배틀 스테이지에서 사용될 파일럿과 챔피언을 받아와 저장한다..
 	/// </summary>
 	/// <param name="pilotName"></param>
 	/// <param name="champName"></param>
-	public void AddPilot(int index, string pilotName)
+	private void SetupPilot(PilotBattle pilotBattle, int index)
     {
-		// 매니저에게서 인스턴스를 받아온다..
-		Pilot pilot = _pilotManager.GetPilotInstance(pilotName);
-
 #if UNITY_EDITOR
-		Debug.Assert(null != pilot);
+		Debug.Assert(null != pilotBattle);
 #endif
-
-		PilotBattle pilotBattleComponent = pilot.battleComponent;
-
-#if UNITY_EDITOR
-		Debug.Assert(null != pilotBattleComponent);
-#endif
-
 		// 초기화..
-		pilotBattleComponent.myTeam = this;
-		pilotBattleComponent.battleTeamIndexKey = index;
+		pilotBattle.myTeam = this;
+		pilotBattle.battleTeamIndexKey = index;
 
 		// Pilot Battle Component 를 나의 팀으로 넣기..
-		_pilots[index] = pilotBattleComponent;
+		_pilots[index] = pilotBattle;
 
 		// 파일럿 이벤트 연결..
-		pilotBattleComponent.OnChangedBattleInfoData -= OnChangedChampionBattleData;
-		pilotBattleComponent.OnChangedBattleInfoData += OnChangedChampionBattleData;
+		pilotBattle.OnChangedBattleInfoData -= OnChangedChampionBattleData;
+		pilotBattle.OnChangedBattleInfoData += OnChangedChampionBattleData;
 
-		pilotBattleComponent.OnChangedChampionHPRatio -= UpdateChampionHPRatio;
-		pilotBattleComponent.OnChangedChampionHPRatio += UpdateChampionHPRatio;
+		pilotBattle.OnChangedChampionHPRatio -= UpdateChampionHPRatio;
+		pilotBattle.OnChangedChampionHPRatio += UpdateChampionHPRatio;
 
-		pilotBattleComponent.OnChangedChampionMPRatio -= UpdateChampionMPRatio;
-		pilotBattleComponent.OnChangedChampionMPRatio += UpdateChampionMPRatio;
+		pilotBattle.OnChangedChampionMPRatio -= UpdateChampionMPRatio;
+		pilotBattle.OnChangedChampionMPRatio += UpdateChampionMPRatio;
 
-		pilotBattleComponent.OnChampionUseUltimate -= UpdateChampionUseUltimateState;
-		pilotBattleComponent.OnChampionUseUltimate += UpdateChampionUseUltimateState;
+		pilotBattle.OnChampionUseUltimate -= UpdateChampionUseUltimateState;
+		pilotBattle.OnChampionUseUltimate += UpdateChampionUseUltimateState;
 
-		pilotBattleComponent.OnChangedChampionBarrierRatio -= UpdateChampionBarrierRatio;
-		pilotBattleComponent.OnChangedChampionBarrierRatio += UpdateChampionBarrierRatio;
+		pilotBattle.OnChangedChampionBarrierRatio -= UpdateChampionBarrierRatio;
+		pilotBattle.OnChangedChampionBarrierRatio += UpdateChampionBarrierRatio;
 
 		// 코루틴 등록..
 		_revivalCoroutines.Add(WaitRevival(_pilots.Count - 1));
