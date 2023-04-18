@@ -14,11 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PilotCount: 1
   battleFightTime: 60
+  DefaultRedTeamName: PlayerTeam
+  DefaultBlueTeamName: EnemyTeam
   pilotGlobalFilePath: PilotGlobal.data
   pilotDirectoryName: Pilot
   championDirectoryName: Champion
   attackActionDirectoryName: AttackAction
   effectDirectoryName: Effect
+  teamDirectoryName: Team
   testRedChampionCreateOrder:
   - Ghost
   testRedPilotCreateOrder:

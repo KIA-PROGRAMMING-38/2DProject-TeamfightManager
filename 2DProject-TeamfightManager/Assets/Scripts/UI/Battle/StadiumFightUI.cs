@@ -12,26 +12,43 @@ public class StadiumFightUI : UIBase
 	[SerializeField] private TMP_Text _blueTeamNameText;
 	[SerializeField] private TMP_Text _blueTeamTotalKillText;
 
-	private BattleStageDataTable _battleStageDataTable;
+	[SerializeField] private TMP_Text _remainTimeText;
+	[SerializeField] private TMP_Text _symbolText;
+
+    private BattleStageDataTable _battleStageDataTable;
 
 	private void Awake()
 	{
 		_battleStageDataTable = s_dataTableManager.battleStageDataTable;
 
-		_battleStageDataTable.OnInitializeBattleFightData -= OnInitializeBattleFightData;
-		_battleStageDataTable.OnInitializeBattleFightData += OnInitializeBattleFightData;
-
 		_battleStageDataTable.OnChampionDeadEvent -= OnChampionDeadEvent;
 		_battleStageDataTable.OnChampionDeadEvent += OnChampionDeadEvent;
-	}
 
-	private void OnDisable()
+		_battleStageDataTable.OnStartBattle -= OnStartBattle;
+		_battleStageDataTable.OnStartBattle += OnStartBattle;
+
+		_battleStageDataTable.OnUpdateBattleRemainTime -= OnUpdateBattleRemainTime;
+		_battleStageDataTable.OnUpdateBattleRemainTime += OnUpdateBattleRemainTime;
+    }
+
+    private void Start()
+    {
+		InitializeBattleFightData();
+
+        _redTeamTotalKillText.gameObject.SetActive( false );
+        _blueTeamTotalKillText.gameObject.SetActive( false );
+		_remainTimeText.gameObject.SetActive( false );
+		_symbolText.gameObject.SetActive( false );
+    }
+
+    private void OnDisable()
 	{
-		_battleStageDataTable.OnInitializeBattleFightData -= OnInitializeBattleFightData;
 		_battleStageDataTable.OnChampionDeadEvent -= OnChampionDeadEvent;
-	}
+        _battleStageDataTable.OnStartBattle -= OnStartBattle;
+        _battleStageDataTable.OnUpdateBattleRemainTime -= OnUpdateBattleRemainTime;
+    }
 
-	private void OnInitializeBattleFightData()
+	private void InitializeBattleFightData()
 	{
 		TeamDataTable teamDataTable = s_dataTableManager.teamDataTable;
 
@@ -55,4 +72,18 @@ public class StadiumFightUI : UIBase
 			_redTeamTotalKillText.text = StringTable.GetString(_battleStageDataTable.redTeamBattleFightData.teamTotalKill);
 		}
 	}
+
+	private void OnStartBattle()
+	{
+        _redTeamTotalKillText.gameObject.SetActive( true );
+        _blueTeamTotalKillText.gameObject.SetActive( true );
+
+		_remainTimeText.gameObject.SetActive( true );
+		_symbolText.gameObject.SetActive( true );
+    }
+
+	private void OnUpdateBattleRemainTime(float time)
+	{
+		_remainTimeText.text = StringTable.GetString( (int)time );
+    }
 }

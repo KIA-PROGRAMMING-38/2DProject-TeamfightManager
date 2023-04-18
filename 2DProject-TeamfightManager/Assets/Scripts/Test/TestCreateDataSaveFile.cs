@@ -63,8 +63,10 @@ public class TestCreateDataSaveFile : MonoBehaviour
 		TestAttackActionScriptableObject[] allAtkActionPrefab = container.allAtkActionPrefab;
 		TestChampionDataScriptableObject[] allChampionDataPrefab = container.allChampionDataPrefab;
 		TestEffectDataScriptableObject[] allEffectDataPrefab = container.allEffectDataPrefab;
+		TestPilotScriptableObject[] allPilotDataPrefab = container.allPilotDataPrefab;
+        TestTeamDataScriptableObject[] allTeamDataPrefab = container.allTeamDataPrefab;
 
-		for (int i = 0; i < allAtkActionPrefab.Length; ++i)
+        for (int i = 0; i < allAtkActionPrefab.Length; ++i)
 		{
 			CreateAtkActionFile(allAtkActionPrefab[i], isShowLog);
 		}
@@ -79,7 +81,17 @@ public class TestCreateDataSaveFile : MonoBehaviour
 			CreateEffectFile(allEffectDataPrefab[i], isShowLog);
 		}
 
-		if (isShowLog)
+        for ( int i = 0; i < allPilotDataPrefab.Length; ++i )
+        {
+            CreatePilotFile( allPilotDataPrefab[i], isShowLog );
+        }
+
+        for ( int i = 0; i < allTeamDataPrefab.Length; ++i )
+        {
+            CreateTeamFile( allTeamDataPrefab[i], isShowLog );
+        }
+
+        if (isShowLog)
 			Debug.Log($"모든 파일 생성 완료");
 	}
 
@@ -109,4 +121,20 @@ public class TestCreateDataSaveFile : MonoBehaviour
 		if (isShowLog)
 			Debug.Log($"{obj.name} 파일 생성 완료");
 	}
+
+    private void CreatePilotFile( TestPilotScriptableObject obj, bool isShowLog = true )
+    {
+        SaveLoadLogic.SavePilotFile( obj.pilotData, obj.baseFilePath, obj.pilotData.name, obj.extension );
+
+        if ( isShowLog )
+            Debug.Log( $"{obj.name} 파일 생성 완료" );
+    }
+
+    private void CreateTeamFile( TestTeamDataScriptableObject obj, bool isShowLog = true )
+    {
+        SaveLoadLogic.SaveTeamFile( obj.teamData, obj.belongPilotData, obj.resourceData, obj.baseFilePath, obj.extension );
+
+        if ( isShowLog )
+            Debug.Log( $"{obj.name} 파일 생성 완료" );
+    }
 }

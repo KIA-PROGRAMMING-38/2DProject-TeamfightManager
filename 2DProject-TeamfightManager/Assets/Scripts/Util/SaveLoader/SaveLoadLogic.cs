@@ -576,7 +576,7 @@ public static class SaveLoadLogic
 		getBelongPilotData.pilotNameContainer = new List<string>(getBelongPilotData.pilotCount);
 		for ( int i = 0; i < getBelongPilotData.pilotCount; ++i)
 		{
-			getBelongPilotData.pilotNameContainer[i] = loadData[curIndex++];
+			getBelongPilotData.pilotNameContainer.Add( loadData[curIndex++] );
 		}
 
 		getResourceData = new TeamResourceData
@@ -596,8 +596,8 @@ public static class SaveLoadLogic
 			data.name
 			);
 
-		saveData += "," + belongPilotData.pilotCount;
-		for ( int i = 0; i < belongPilotData.pilotCount; ++i)
+		saveData += "," + belongPilotData.pilotNameContainer.Count;
+		for ( int i = 0; i < belongPilotData.pilotNameContainer.Count; ++i)
 			saveData += "," + belongPilotData.pilotNameContainer[i];
 
 		saveData += new string(

@@ -125,7 +125,30 @@ public static class GameSaveLoader
 				}
 			}
 		}
-	}
+
+        {
+            // Team의 파일들 불러온다..
+            string teamDataDefaultPath = Path.Combine(filePath, gameManager.gameGlobalData.teamDirectoryName);
+            string[] teamsFilePath = Directory.GetFiles(teamDataDefaultPath);
+
+            int loopCount = teamsFilePath.Length;
+            for ( int i = 0; i < loopCount; ++i )
+            {
+                if ( teamsFilePath[i].Contains( ".meta" ) )
+                    continue;
+
+                // 각각의 파일럿에게 필요한 데이터 파일을 불러와 데이터 테이블에 저장..
+                TeamData teamData;
+                TeamBelongPilotData belongData;
+				TeamResourceData resourceData;
+
+                if ( true == SaveLoadLogic.LoadTeamFile( teamsFilePath[i], out teamData, out belongData, out resourceData ) )
+                {
+                    dataTableManager.teamDataTable.AddTeamInfo( teamData, belongData, resourceData );
+                }
+            }
+        }
+    }
 
 	public static void SaveGameFile(int loadFileNumber, GameManager gameManager)
 	{

@@ -17,12 +17,15 @@ public class BattleStageManager : MonoBehaviour
 			_dataTableManager = gameManager.dataTableManager;
 			_championManager = gameManager.championManager;
 			_pilotManager = gameManager.pilotManager;
+			_teamManager = gameManager.teamManager;
 
-			_battleStageDataTable = _dataTableManager.battleStageDataTable;
+            _battleStageDataTable = _dataTableManager.battleStageDataTable;
 			_battleStageDataTable.battleStageManager = this;
 
 			int pilotCount = gameManager.gameGlobalData.PilotCount;
 			_battleStageDataTable.battleChampionTotalCount = Math.Min(pilotCount, 4) * 2;
+
+			SetupBattleTeam( _gameManager.gameGlobalData.DefaultRedTeamName, _gameManager.gameGlobalData.DefaultBlueTeamName );
 		}
 	}
 
@@ -91,11 +94,13 @@ public class BattleStageManager : MonoBehaviour
 		blueTeam = team.GetComponent<BattleTeam>();
 
 		// 각 팀 컴포넌트에서 필요한 참조들 넘겨주기..
-		redTeam.battleTeamKind = BattleTeamKind.RedTeam;
+		redTeam.gameManager = gameManager;
+        redTeam.battleTeamKind = BattleTeamKind.RedTeam;
 		redTeam.enemyTeam = blueTeam;
 		redTeam.spawnArea = _redTeamSpawnArea;
 
-		blueTeam.battleTeamKind = BattleTeamKind.BlueTeam;
+        blueTeam.gameManager = gameManager;
+        blueTeam.battleTeamKind = BattleTeamKind.BlueTeam;
 		blueTeam.enemyTeam = redTeam;
 		blueTeam.spawnArea = _blueTeamSpawnArea;
 
@@ -145,9 +150,13 @@ public class BattleStageManager : MonoBehaviour
 		{
 			case BattleTeamKind.RedTeam:
 				redTeam.AddChampion(index, champName);
-				break;
+				_battleStageDataTable.redTeamBattleFightData.pilotFightDataContainer[index].championName = champName;
+
+                break;
 			case BattleTeamKind.BlueTeam:
 				blueTeam.AddChampion(index, champName);
+				_battleStageDataTable.blueTeamBattleFightData.pilotFightDataContainer[index].championName = champName;
+
 				break;
 		}
 	}
@@ -194,12 +203,6 @@ public class BattleStageManager : MonoBehaviour
 	// 배틀 남은 시간 갱신되면 호출되는 콜백 함수..
 	private void OnUpdateBattleRemainTime(float remainTime)
 	{
-		// 이 부분은 테스트용 코드다(UI 작업 시 UI 스크립트에서 처리하도록 바꿔야 한다)
-		UnityEngine.UI.Text _remainTimeText = GameObject.Find("remainingTimeText").GetComponent<UnityEngine.UI.Text>();
-
-		// 소수점 자리 올린 뒤 텍스트 표현..
-		_remainTimeText.text = ((int)(remainTime + 0.99f)).ToString();
-
 		if (remainTime <= 0f)
 		{
 			OnBattleEnd();

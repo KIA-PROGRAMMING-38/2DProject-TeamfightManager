@@ -53,7 +53,7 @@ public class PilotBattle : MonoBehaviour
             return new BattlePilotFightData
             {
                 pilotName = pilot.data.name,
-                championName = controlChampion.data.name,
+                championName = "",
                 battleData = _battleInfoData
             };
         }

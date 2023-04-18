@@ -27,7 +27,6 @@ public class BattleStageDataTable
 	private float _battleRemainTime = 0f;   // 배틀 총 남은 시간..
 
 	// 밴픽 관련 이벤트 함수..
-	public event Action OnInitializeBattleFightData;
 	public event Action OnStartBattle;
 	public event Action<string> OnClickedSelectChampionButton;
 	public event Action OnBanpickEnd;
@@ -83,8 +82,6 @@ public class BattleStageDataTable
 
 		redTeamBattleFightData.pilotFightDataContainer = redTeamBattlePilotFightDatas;
 		blueTeamBattleFightData.pilotFightDataContainer = blueTeamBattlePilotFightDatas;
-
-		OnInitializeBattleFightData?.Invoke();
 	}
 
 	// 배틀 끝났을 때 관련 데이터 처리하는 부분..

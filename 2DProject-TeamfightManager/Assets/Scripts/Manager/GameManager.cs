@@ -22,11 +22,9 @@ public class GameManager : MonoBehaviour
 	{
 		DontDestroyOnLoad(gameObject);
 
-		SetupManager();
-
-		GameSaveLoader.SaveGameFile(0, this);
-
-		LoadFile(0);
+        GameSaveLoader.SaveGameFile( 0, this );
+        LoadFile( 0 );
+        SetupManager();
 	}
 
 	private void Start()
@@ -37,7 +35,13 @@ public class GameManager : MonoBehaviour
 	// 저장된 파일을 불러오는 메소드..
 	private void LoadFile(int loadFileNumber)
 	{
-		GameSaveLoader.LoadGameFile(loadFileNumber, this);
+        // DataTable Manager 생성..
+        GameObject newGameObject = new GameObject( "DataTable Manager" );
+        DontDestroyOnLoad( newGameObject );
+        newGameObject.transform.parent = transform;
+        dataTableManager = newGameObject.AddComponent<DataTableManager>();
+
+        GameSaveLoader.LoadGameFile(loadFileNumber, this);
 	}
 
 	private void InitializeScene()
@@ -97,13 +101,8 @@ public class GameManager : MonoBehaviour
 		// ==========================================================================================
 		// --- 이벤트 함수 호출 생각하면서 생성 순서 정하기..
 		// 1순위 : 데이터테이블, 나머진 상관없을 것 같은 느낌??
+		// 데이터 테이블만 따로 생성한 뒤 파일을 로드하고 나머지 매니저를 생성해야 하므로 여기서는 데이터 테이블 생성 안함..
 		// ==========================================================================================
-		// DataTable Manager 생성..
-		newGameObject = new GameObject("DataTable Manager");
-		DontDestroyOnLoad(newGameObject);
-		newGameObject.transform.parent = transform;
-		dataTableManager = newGameObject.AddComponent<DataTableManager>();
-
 		// Effect Manager 생성..
 		newGameObject = new GameObject("Effect Manager");
 		DontDestroyOnLoad(newGameObject);
@@ -130,8 +129,8 @@ public class GameManager : MonoBehaviour
 
 		// 생성했으니 참조 넘겨주기..
 		championManager.gameManager = this;
-		teamManager.gameManager = this;
 		pilotManager.gameManager = this;
-		effectManager.gameManager = this;
+        teamManager.gameManager = this;
+        effectManager.gameManager = this;
 	}
 }
