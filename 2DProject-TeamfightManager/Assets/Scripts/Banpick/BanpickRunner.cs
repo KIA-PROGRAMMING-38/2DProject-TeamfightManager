@@ -18,7 +18,12 @@ public class BanpickRunner : MonoBehaviour
 			_detailLevelMaxCount = _globalData.stagesDataContainer[_curLevel].orders.Count;
 
 			_battleStageDataTable.StartBanpick(_globalData.stagesDataContainer[0].kind, _globalData.stagesDataContainer[0].orders[0]);
-		}
+
+			int banpickLevelMaxCount = 0;
+			for( int i = 0; i < _levelMaxCount; ++i)
+				banpickLevelMaxCount += _globalData.stagesDataContainer[i].orders.Count;
+			_battleStageDataTable.maxBanpickLevel = banpickLevelMaxCount;
+        }
 	}
 
 	private BattleStageManager _battleStageManager;

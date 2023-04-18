@@ -60,15 +60,18 @@ public class BattleStageDataTable
 	}
 
 	public BanpickStageInfo curBanpickStageInfo { get; set; }
-
 	public BattleTeamFightData redTeamBattleFightData { get; private set; }
 	public BattleTeamFightData blueTeamBattleFightData { get; private set; }
+	public int maxBanpickLevel { get; set; }
+	public int curBanpickLevel { get; private set; }
 
 	public BattleStageDataTable()
 	{
 		curBanpickStageInfo = new BanpickStageInfo();
 		redTeamBattleFightData = new BattleTeamFightData();
 		blueTeamBattleFightData = new BattleTeamFightData();
+
+		curBanpickLevel = 1;
 	}
 
 	// 배틀 시작 시 총 배틀해야하는 시간 받아서 초기화하는 부분..
@@ -90,7 +93,10 @@ public class BattleStageDataTable
 		OnUpdateBattleRemainTime = null;
 
 		banpickChampContainer.Clear();
-	}
+
+		curBanpickLevel = 1;
+		maxBanpickLevel = 0;
+    }
 
 	// ============================================================================================================
 	// --- 밴픽 관련 함수들..
@@ -126,7 +132,9 @@ public class BattleStageDataTable
 				blueTeamBattleFightData.banChampionContainer.Add(championName);
 			}
 		}
-	}
+
+		++curBanpickLevel;
+    }
 
 	public void StartBattle()
 	{
