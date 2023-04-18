@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using UnityEngine;
 
 /// <summary>
@@ -37,12 +38,28 @@ public class AttackAction
 			if (true == _isEndAction)
 			{
 				int findTargetCount = _decideTargetLogicContainer[_baseDecideTargetLogicIndex].FindTarget(_actionData.findTargetData, baseFindTargetsCache);
-				for (int i = 0; i < findTargetCount; ++i)
+
+				int impactDataCount = _impactData.Count;
+				for( int impactIndex = 0; impactIndex < impactDataCount; ++impactIndex)
 				{
-					int jLoopCount = _impactData.Count;
-					for (int j = 0; j < jLoopCount; ++j)
+					AttackImpactData curImpactData = _impactData[impactIndex];
+
+					int targetCount = findTargetCount;
+					Champion[] targetArray = baseFindTargetsCache;
+
+					// 만약 기본 타겟 찾는 로직을 사용하지 않는다면(다른 방법으로 타겟을 찾고 싶은 애들)..
+					if (true == curImpactData.isSeparateTargetFindLogic)
 					{
-						_actionImpactLogics[(int)_impactData[j].mainData.kind].Impact(baseFindTargetsCache[i], _impactData[j]);
+						int targetFindLogicIndex = (int)curImpactData.findTargetData.targetDecideKind;
+						AtkActionDecideTargetBase curTargetFindLogic = _decideTargetLogicContainer[targetFindLogicIndex];
+						targetCount = curTargetFindLogic.FindTarget(curImpactData.findTargetData, _allLogicsFindTargetsCache[targetFindLogicIndex]);
+						targetArray = _allLogicsFindTargetsCache[targetFindLogicIndex];
+					}
+
+					// 찾은 타겟 개수만큼 효과 부여..
+					for (int targetIndex = 0; targetIndex < findTargetCount; ++targetIndex)
+					{
+						_actionImpactLogics[(int)curImpactData.mainData.kind].Impact(targetArray[targetIndex], curImpactData);
 					}
 				}
 			}

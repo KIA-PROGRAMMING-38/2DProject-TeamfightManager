@@ -17,8 +17,8 @@ MonoBehaviour:
     nameKR: "\uBABD\uD06C"
     type: 4
     atkActionUniqueKey: 6
-    skillActionUniqueKey: 6
-    ultimateActionUniqueKey: 6
+    skillActionUniqueKey: 7
+    ultimateActionUniqueKey: 8
     champDescription: "\uBABD\uD06C\uC785\uB2C8\uB2E4."
   championStatus:
     atkStat: 20

@@ -234,39 +234,39 @@ MonoBehaviour:
     isHighlightEmissive: 0
     isPingPong: 0
   _redTeamPickColorHighlight:
-    color: {r: 1, g: 0.19215687, b: 0.043137256, a: 1}
-    startIntensity: 1
-    endIntensity: 1
+    color: {r: 0.28235295, g: 0.1254902, b: 0.078431375, a: 1}
+    startIntensity: 3
+    endIntensity: 3
     intensityHighlightSpeed: 0
     isHighlightIntensity: 0
-    emissiveColor: {r: 1, g: 0, b: 0, a: 0}
+    emissiveColor: {r: 0.7176471, g: 0.16862746, b: 0.023529412, a: 1}
     startEmissiveIntensity: 0.4
     endEmissiveIntensity: 0.4
     emissiveHighlightSpeed: 0
     isHighlightEmissive: 0
     isPingPong: 0
   _blueTeamPickColorHighlight:
-    color: {r: 0, g: 0, b: 1, a: 1}
-    startIntensity: 1
-    endIntensity: 1
+    color: {r: 0.043137256, g: 0.2784314, b: 0.43529412, a: 1}
+    startIntensity: 2
+    endIntensity: 2
     intensityHighlightSpeed: 0
     isHighlightIntensity: 0
-    emissiveColor: {r: 0.16862746, g: 0.22745098, b: 0.8156863, a: 1}
-    startEmissiveIntensity: 0.4
-    endEmissiveIntensity: 0.4
+    emissiveColor: {r: 0.043137256, g: 0.2784314, b: 1, a: 1}
+    startEmissiveIntensity: 0.35
+    endEmissiveIntensity: 0.35
     emissiveHighlightSpeed: 0
     isHighlightEmissive: 0
     isPingPong: 0
   _hoverColorHighlight:
     color: {r: 1, g: 1, b: 1, a: 1}
-    startIntensity: 1
+    startIntensity: 0.5
     endIntensity: 1
-    intensityHighlightSpeed: 0
-    isHighlightIntensity: 0
+    intensityHighlightSpeed: 2.222222
+    isHighlightIntensity: 1
     emissiveColor: {r: 1, g: 1, b: 1, a: 1}
     startEmissiveIntensity: 0
     endEmissiveIntensity: 0.6
-    emissiveHighlightSpeed: 1
+    emissiveHighlightSpeed: 2.222222
     isHighlightEmissive: 1
     isPingPong: 1
 --- !u!1 &721096431840152318
@@ -895,10 +895,10 @@ MonoBehaviour:
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 2
+  m_FillMethod: 3
   m_FillAmount: 0
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 3
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4241775331972374098
@@ -1433,9 +1433,9 @@ MonoBehaviour:
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 2
+  m_FillMethod: 3
   m_FillAmount: 0
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 3
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1

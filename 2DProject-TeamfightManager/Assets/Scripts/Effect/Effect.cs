@@ -77,6 +77,8 @@ public class Effect : MonoBehaviour
 
 				StartCoroutine(_updateRotateAroundCoroutine);
             }
+
+			_spriteRenderer.sortingOrder = data.sortingOrder;
 		}
 
 		_animator.Play(AnimatorHashStore.EFFECT_KEY_HASH);

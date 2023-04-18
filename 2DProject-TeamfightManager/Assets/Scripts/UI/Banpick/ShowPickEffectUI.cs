@@ -15,7 +15,6 @@ public class ShowPickEffectUI : MonoBehaviour
 	private void OnEnable()
 	{
         _highlightImage.gameObject.SetActive(false);
-        _numberTextBackgroundImage.gameObject.SetActive(false);
         _pickNumberText.gameObject.SetActive(false);
 
         StartCoroutine(UpdateHighlight());
@@ -46,21 +45,19 @@ public class ShowPickEffectUI : MonoBehaviour
             yield return null;
 		}
 
-        Color color = _numberTextBackgroundImage.color;
-		_numberTextBackgroundImage.gameObject.SetActive(true);
+        Color color = _pickNumberText.color;
+		_pickNumberText.gameObject.SetActive(true);
 
 		while (true)
         {
 			color.a = Mathf.Min(1f, color.a + Time.deltaTime * 2.3f);
 
-			_numberTextBackgroundImage.color = color;
+			_pickNumberText.color = color;
 
 			if (color.a >= 1f)
 				break;
 
 			yield return null;
 		}
-
-        _pickNumberText.gameObject.SetActive(true);
 	}
 }

@@ -9,12 +9,20 @@ public class ChampBuffUI : UIBase
     private const int BUFFINDEX_DEFENCE = 2;
     private const int BUFFINDEX_MOVESPEED = 3;
 
+    private Champion _ownerChampion;
     public Champion ownerChampion
     {
         set
         {
-            value.OnChangeBuffStatus -= ChangeChampionStatus;
-            value.OnChangeBuffStatus += ChangeChampionStatus;
+            if(null != _ownerChampion)
+            {
+                _ownerChampion.OnChangeBuffStatus -= ChangeChampionStatus;
+			}
+
+            _ownerChampion = value;
+
+			_ownerChampion.OnChangeBuffStatus -= ChangeChampionStatus;
+			_ownerChampion.OnChangeBuffStatus += ChangeChampionStatus;
         }
     }
     private static Dictionary<string, Sprite> s_spriteContainer = null;

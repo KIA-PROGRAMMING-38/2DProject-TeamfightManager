@@ -51,12 +51,12 @@ MonoBehaviour:
       amount: 1.1
       duration: 2
       tickTime: 0
-    isSeparateTargetFindLogic: 0
+    isSeparateTargetFindLogic: 1
     findTargetData:
       targetDecideKind: 0
-      targetTeamKind: 0
+      targetTeamKind: 1
       impactRange: 0
-      actionStartPointKind: 0
+      actionStartPointKind: 1
     isShowEffect: 0
     effectData:
       isShowEffect: 0

@@ -156,8 +156,8 @@ public class ShowChampAnimUI : UIBase
 		material.SetColor(ShaderParamtable.UIAdditive.COLOR, _curColorHighlight.color);
 		material.SetColor(ShaderParamtable.UIAdditive.EMISSIVECOLOR, _curColorHighlight.emissiveColor);
 
-		_curHighlightInfo.intensityAcc = _curColorHighlight.intensityHighlightSpeed;
-		_curHighlightInfo.emissiveAcc = _curColorHighlight.emissiveHighlightSpeed;
+		_curHighlightInfo.intensityAcc = _curColorHighlight.intensityHighlightSpeed * Mathf.Abs(_curColorHighlight.endIntensity - _curColorHighlight.startIntensity);
+		_curHighlightInfo.emissiveAcc = _curColorHighlight.emissiveHighlightSpeed * Mathf.Abs(_curColorHighlight.endEmissiveIntensity - _curColorHighlight.startEmissiveIntensity);
 
 		_curHighlightInfo.curIntensity = _curColorHighlight.startIntensity;
 		_curHighlightInfo.curEmissive = _curColorHighlight.startEmissiveIntensity;

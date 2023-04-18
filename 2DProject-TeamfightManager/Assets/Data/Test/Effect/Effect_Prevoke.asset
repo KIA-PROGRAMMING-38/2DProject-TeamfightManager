@@ -21,5 +21,6 @@ MonoBehaviour:
     lifeTime: 0
     rotationType: 0
     isBecomeTargetChild: 1
+    sortingOrder: 5
   baseFilePath: Assets/Data
   extension: .data

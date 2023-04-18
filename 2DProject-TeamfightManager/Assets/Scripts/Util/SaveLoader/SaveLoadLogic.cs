@@ -186,6 +186,7 @@ public static class SaveLoadLogic
 		getEffectData.lifeTime = float.Parse(effectDatas[7]);
 		getEffectData.rotationType = (EffectRotationType)int.Parse(effectDatas[8]);
 		getEffectData.isBecomeTargetChild = bool.Parse(effectDatas[9]);
+		getEffectData.sortingOrder = int.Parse(effectDatas[10]);
 
 		return true;
 	}
@@ -206,6 +207,7 @@ public static class SaveLoadLogic
 			+ "," + effectData.lifeTime
 			+ "," + (int)effectData.rotationType
 			+ "," +  effectData.isBecomeTargetChild
+			+ "," +  effectData.sortingOrder
 			);
 
 		File.WriteAllText(filePath, saveDatas);
