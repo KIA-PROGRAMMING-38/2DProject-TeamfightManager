@@ -80,13 +80,13 @@ public class PilotBattle : MonoBehaviour
 
     private void OnChampionTakeDamaged(Champion hitChampion, int damage)
     {
-        _battleInfoData.totalHit += damage;
+        _battleInfoData.totalTakeDamage += damage;
 		OnChangedBattleInfoData?.Invoke(battleTeamIndexKey, _battleInfoData);
 	}
 
     private void OnChampionAttack(Champion takeDamagedChampion, int damage)
     {
-        _battleInfoData.totalDamage += damage;
+        _battleInfoData.totalAtkDamage += damage;
 
 		OnChangedBattleInfoData?.Invoke(battleTeamIndexKey, _battleInfoData);
 	}

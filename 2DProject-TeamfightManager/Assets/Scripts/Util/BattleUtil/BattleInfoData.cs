@@ -3,7 +3,7 @@
 	public int killCount;
 	public int deathCount;
 	public int assistCount;
-	public int totalDamage;
-	public int totalHit;
+	public int totalAtkDamage;
+	public int totalTakeDamage;
 	public int totalHill;
 }

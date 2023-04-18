@@ -25,8 +25,8 @@ public class ChampBattleDataUI : MonoBehaviour
 		_killCountText.text = StringTable.GetString(data.killCount);
 		_deathCountText.text = StringTable.GetString(data.deathCount);
 		_assistCountText.text = StringTable.GetString(data.assistCount);
-		_totalAtkDamageText.text = StringTable.GetString(data.totalDamage);
-		_totalHitText.text = StringTable.GetString(data.totalHit);
+		_totalAtkDamageText.text = StringTable.GetString(data.totalAtkDamage);
+		_totalHitText.text = StringTable.GetString(data.totalTakeDamage);
 		_totalHillText.text = StringTable.GetString(data.totalHill);
 	}
 
