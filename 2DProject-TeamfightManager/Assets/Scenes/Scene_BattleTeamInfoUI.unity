@@ -529,12 +529,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63ae3a3fdce6bca4c9054c7f93e2fe97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _redTeamLogoImage: {fileID: 516456014}
-  _redTeamNameText: {fileID: 1585267973}
-  _redTeamTotalKillText: {fileID: 2128255602}
-  _blueTeamLogoImage: {fileID: 991919447}
-  _blueTeamNameText: {fileID: 142141651}
-  _blueTeamTotalKillText: {fileID: 744064354}
+  _redTeamLogoImage: {fileID: 991919447}
+  _redTeamNameText: {fileID: 142141651}
+  _redTeamTotalKillText: {fileID: 744064354}
+  _blueTeamLogoImage: {fileID: 516456014}
+  _blueTeamNameText: {fileID: 1585267973}
+  _blueTeamTotalKillText: {fileID: 2128255602}
   _remainTimeText: {fileID: 990534940}
   _symbolText: {fileID: 1097562789}
 --- !u!1 &619184286
@@ -603,7 +603,7 @@ GameObject:
   - component: {fileID: 744064355}
   - component: {fileID: 744064354}
   m_Layer: 5
-  m_Name: BlueTeamTotalKillText
+  m_Name: TeamTotalKillText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1460,7 +1460,7 @@ GameObject:
   - component: {fileID: 2128255603}
   - component: {fileID: 2128255602}
   m_Layer: 5
-  m_Name: BlueTeamTotalKillText
+  m_Name: TeamTotalKillText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

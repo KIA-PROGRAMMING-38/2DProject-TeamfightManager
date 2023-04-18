@@ -8,6 +8,8 @@ using UnityEngine;
 /// </summary>
 public class BattleStageManager : MonoBehaviour
 {
+	public event Action<BattleTeamKind> OnEndBattle;
+
 	public GameManager gameManager
 	{
 		private get => _gameManager;
@@ -205,9 +207,19 @@ public class BattleStageManager : MonoBehaviour
 	{
 		if (remainTime <= 0f)
 		{
-			OnBattleEnd();
+            if ( _battleStageDataTable.redTeamBattleFightData.teamTotalKill == _battleStageDataTable.blueTeamBattleFightData.teamTotalKill )
+            {
 
-			_battleStageDataTable.Reset();
+            }
+            else
+            {
+                OnBattleEnd();
+                _battleStageDataTable.Reset();
+
+                BattleTeamKind winTeam = (_battleStageDataTable.redTeamBattleFightData.teamTotalKill > _battleStageDataTable.blueTeamBattleFightData.teamTotalKill)
+                ? BattleTeamKind.RedTeam : BattleTeamKind.BlueTeam;
+                OnEndBattle?.Invoke( winTeam );
+            }
 		}
 	}
 
@@ -222,7 +234,7 @@ public class BattleStageManager : MonoBehaviour
 
 		redTeam.OnBattleEnd();
 		blueTeam.OnBattleEnd();
-	}
+    }
 
 	// 배틀 스테이지의 챔피언들의 배틀 정보가 바뀔 때마다 호출된다..
 	private void OnChangedChampionBattleData(BattleTeamKind teamKind, int index, BattleInfoData data)

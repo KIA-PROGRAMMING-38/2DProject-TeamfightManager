@@ -25,7 +25,7 @@ public class ShowPickEffectUI : MonoBehaviour
         _highlightImage.material = _sharedMaterialOwner.material;
 		_numberTextBackgroundImage.material = _sharedMaterialOwner.material;
 
-        _pickNumberText.text = StringTable.GetString(index);
+        _pickNumberText.text = StringTable.GetString(index + 1);
     }
 
     IEnumerator UpdateHighlight()

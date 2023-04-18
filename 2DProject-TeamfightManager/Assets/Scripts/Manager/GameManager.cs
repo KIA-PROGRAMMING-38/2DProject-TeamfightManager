@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private GameGlobalData _gameGlobalData;
 	public GameGlobalData gameGlobalData { get => _gameGlobalData; }
 
+	private string _curSceneName;
+
 	private void Awake()
 	{
 		DontDestroyOnLoad(gameObject);
@@ -46,9 +48,9 @@ public class GameManager : MonoBehaviour
 
 	private void InitializeScene()
 	{
-		string sceneName = SceneManager.GetActiveScene().name;
+        _curSceneName = SceneManager.GetActiveScene().name;
 
-		switch (sceneName)
+		switch ( _curSceneName )
 		{
 			case SceneNameTable.STADIUM:
 				CreateBattleStageManager();
@@ -65,11 +67,29 @@ public class GameManager : MonoBehaviour
 
 	private void OnStartBattle()
 	{
+		if( _curSceneName == SceneNameTable.STADIUM)
+		{
+            SceneManager.LoadSceneAsync( SceneNameTable.CHAMP_STATUSBAR_UI, LoadSceneMode.Additive );
+            SceneManager.UnloadSceneAsync( SceneNameTable.BANPICK_UI );
+        }
+
 		SceneManager.LoadSceneAsync(SceneNameTable.BATTLESTAGE, LoadSceneMode.Additive);
-		SceneManager.LoadSceneAsync(SceneNameTable.CHAMP_STATUSBAR_UI, LoadSceneMode.Additive);
-		SceneManager.UnloadSceneAsync(SceneNameTable.BANPICK_UI);
 		battleStageManager.StartBattle();
-	}
+
+		battleStageManager.OnEndBattle -= OnEndBattle;
+		battleStageManager.OnEndBattle += OnEndBattle;
+    }
+
+	private void OnEndBattle(BattleTeamKind winTeam)
+	{
+        battleStageManager.OnEndBattle -= OnEndBattle;
+
+		if ( _curSceneName == SceneNameTable.STADIUM )
+		{
+			dataTableManager.statisticsDataTable.AddBattleTeamFightData( dataTableManager.battleStageDataTable.redTeamBattleFightData,
+				dataTableManager.battleStageDataTable.blueTeamBattleFightData, winTeam );
+		}
+    }
 
 	// 배틀 스테이지를 생성하는 함수..
 	private void CreateBattleStageManager()
