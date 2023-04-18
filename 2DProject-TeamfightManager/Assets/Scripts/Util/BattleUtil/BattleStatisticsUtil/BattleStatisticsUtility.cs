@@ -16,6 +16,12 @@ public class TeamBattleStatistics
 	public Dictionary<string, int> champBanCountContainer;
 	public int totalKillCount;
 	public int totalDeathCount;
+
+	public TeamBattleStatistics()
+	{
+		champPickCountContainer = new Dictionary<string, int>();
+		champBanCountContainer = new Dictionary<string, int>();
+	}
 }
 
 public class PilotBattleStatistics
@@ -23,13 +29,24 @@ public class PilotBattleStatistics
 	public Dictionary<string, PilotStageFightData> allStageFightDatas;
 	public int totalKillCount;
 	public int totalAssistCount;
+
+	public PilotBattleStatistics()
+	{
+		allStageFightDatas = new Dictionary<string, PilotStageFightData>();
+	}
 }
 
 public class BattleTeamFightData
 {
 	public string teamName;
+	public int teamTotalKill;
 	public List<BattlePilotFightData> pilotFightDataContainer;
 	public List<string> banChampionContainer;
+
+	public BattleTeamFightData()
+	{
+		banChampionContainer = new List<string>();
+	}
 }
 
 public class BattlePilotFightData

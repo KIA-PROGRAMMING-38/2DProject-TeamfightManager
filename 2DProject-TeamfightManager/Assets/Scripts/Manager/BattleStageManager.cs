@@ -8,6 +8,8 @@ using UnityEngine;
 /// </summary>
 public class BattleStageManager : MonoBehaviour
 {
+	public event Action<BattleTeamKind> OnEndBattle;
+
 	public GameManager gameManager
 	{
 		private get => _gameManager;
@@ -17,12 +19,15 @@ public class BattleStageManager : MonoBehaviour
 			_dataTableManager = gameManager.dataTableManager;
 			_championManager = gameManager.championManager;
 			_pilotManager = gameManager.pilotManager;
+			_teamManager = gameManager.teamManager;
 
-			_battleStageDataTable = _dataTableManager.battleStageDataTable;
+            _battleStageDataTable = _dataTableManager.battleStageDataTable;
 			_battleStageDataTable.battleStageManager = this;
 
 			int pilotCount = gameManager.gameGlobalData.PilotCount;
 			_battleStageDataTable.battleChampionTotalCount = Math.Min(pilotCount, 4) * 2;
+
+			SetupBattleTeam( _gameManager.gameGlobalData.DefaultRedTeamName, _gameManager.gameGlobalData.DefaultBlueTeamName );
 		}
 	}
 
@@ -55,7 +60,7 @@ public class BattleStageManager : MonoBehaviour
 
 	private void Start()
 	{
-		SetupPilot();
+		//SetupPilot();
 
 		_battleStageDataTable.OnUpdateBattleRemainTime -= OnUpdateBattleRemainTime;
 		_battleStageDataTable.OnUpdateBattleRemainTime += OnUpdateBattleRemainTime;
@@ -63,8 +68,6 @@ public class BattleStageManager : MonoBehaviour
 
 	public void StartBattle()
 	{
-		_battleStageDataTable.Initialize(gameManager.gameGlobalData.battleFightTime);
-
 		redTeam.StartBattle();
 		blueTeam.StartBattle();
 
@@ -93,11 +96,13 @@ public class BattleStageManager : MonoBehaviour
 		blueTeam = team.GetComponent<BattleTeam>();
 
 		// 각 팀 컴포넌트에서 필요한 참조들 넘겨주기..
-		redTeam.battleTeamKind = BattleTeamKind.RedTeam;
+		redTeam.gameManager = gameManager;
+        redTeam.battleTeamKind = BattleTeamKind.RedTeam;
 		redTeam.enemyTeam = blueTeam;
 		redTeam.spawnArea = _redTeamSpawnArea;
 
-		blueTeam.battleTeamKind = BattleTeamKind.BlueTeam;
+        blueTeam.gameManager = gameManager;
+        blueTeam.battleTeamKind = BattleTeamKind.BlueTeam;
 		blueTeam.enemyTeam = redTeam;
 		blueTeam.spawnArea = _blueTeamSpawnArea;
 
@@ -132,6 +137,13 @@ public class BattleStageManager : MonoBehaviour
 
 		blueTeam.OnChangedChampionBarrierRatio -= OnChangedChampionBarrierRatio;
 		blueTeam.OnChangedChampionBarrierRatio += OnChangedChampionBarrierRatio;
+
+		// 데이터 테이블에 넘길 정보 생성 및 넘겨주기..
+		List<BattlePilotFightData> redTeamBattlePilotFightDatas = redTeam.battlePilotFightData;
+		List<BattlePilotFightData> blueTeamBattlePilotFightDatas = blueTeam.battlePilotFightData;
+
+		_battleStageDataTable.Initialize(gameManager.gameGlobalData.battleFightTime, redTeam.teamName, redTeamBattlePilotFightDatas,
+			blueTeam.teamName, blueTeamBattlePilotFightDatas);
 	}
 
 	public void PickChampion(BattleTeamKind teamKind, int index, string champName)
@@ -140,9 +152,13 @@ public class BattleStageManager : MonoBehaviour
 		{
 			case BattleTeamKind.RedTeam:
 				redTeam.AddChampion(index, champName);
-				break;
+				_battleStageDataTable.redTeamBattleFightData.pilotFightDataContainer[index].championName = champName;
+
+                break;
 			case BattleTeamKind.BlueTeam:
 				blueTeam.AddChampion(index, champName);
+				_battleStageDataTable.blueTeamBattleFightData.pilotFightDataContainer[index].championName = champName;
+
 				break;
 		}
 	}
@@ -189,17 +205,21 @@ public class BattleStageManager : MonoBehaviour
 	// 배틀 남은 시간 갱신되면 호출되는 콜백 함수..
 	private void OnUpdateBattleRemainTime(float remainTime)
 	{
-		// 이 부분은 테스트용 코드다(UI 작업 시 UI 스크립트에서 처리하도록 바꿔야 한다)
-		UnityEngine.UI.Text _remainTimeText = GameObject.Find("remainingTimeText").GetComponent<UnityEngine.UI.Text>();
-
-		// 소수점 자리 올린 뒤 텍스트 표현..
-		_remainTimeText.text = ((int)(remainTime + 0.99f)).ToString();
-
 		if (remainTime <= 0f)
 		{
-			OnBattleEnd();
+            if ( _battleStageDataTable.redTeamBattleFightData.teamTotalKill == _battleStageDataTable.blueTeamBattleFightData.teamTotalKill )
+            {
 
-			_battleStageDataTable.Reset();
+            }
+            else
+            {
+                OnBattleEnd();
+                _battleStageDataTable.Reset();
+
+                BattleTeamKind winTeam = (_battleStageDataTable.redTeamBattleFightData.teamTotalKill > _battleStageDataTable.blueTeamBattleFightData.teamTotalKill)
+                ? BattleTeamKind.RedTeam : BattleTeamKind.BlueTeam;
+                OnEndBattle?.Invoke( winTeam );
+            }
 		}
 	}
 
@@ -214,7 +234,7 @@ public class BattleStageManager : MonoBehaviour
 
 		redTeam.OnBattleEnd();
 		blueTeam.OnBattleEnd();
-	}
+    }
 
 	// 배틀 스테이지의 챔피언들의 배틀 정보가 바뀔 때마다 호출된다..
 	private void OnChangedChampionBattleData(BattleTeamKind teamKind, int index, BattleInfoData data)

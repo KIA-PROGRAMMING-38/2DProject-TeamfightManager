@@ -57,7 +57,10 @@ public class BattleStatisticsDataTable
 
 	private void UpdateStatisticsData(BattleTeamFightData fightData, bool isWinTeam)
 	{
-		TeamBattleStatistics curTeamStatisticsData = _teamBattleStatisticsContainer[fightData.teamName];
+		if ( false == _teamBattleStatisticsContainer.ContainsKey( fightData.teamName ) )
+			_teamBattleStatisticsContainer.Add( fightData.teamName, new TeamBattleStatistics() );
+
+        TeamBattleStatistics curTeamStatisticsData = _teamBattleStatisticsContainer[fightData.teamName];
 
 		int pilotCount = fightData.pilotFightDataContainer.Count;
 		for( int i = 0; i < pilotCount; ++i)
@@ -68,7 +71,10 @@ public class BattleStatisticsDataTable
 			BattleInfoData curBattleData = fightData.pilotFightDataContainer[i].battleData;
 
 			// 파일럿 통계 정보 갱신..
-			PilotBattleStatistics curPilotStatisticsData = _pilotBattleStatisticsContainer[pilotName];
+			if ( false == _pilotBattleStatisticsContainer.ContainsKey( pilotName ) )
+				_pilotBattleStatisticsContainer.Add( pilotName, new PilotBattleStatistics() );
+
+            PilotBattleStatistics curPilotStatisticsData = _pilotBattleStatisticsContainer[pilotName];
 
 			if (false == curPilotStatisticsData.allStageFightDatas.ContainsKey(championName))
 				curPilotStatisticsData.allStageFightDatas.Add(championName, new PilotStageFightData());
@@ -84,8 +90,11 @@ public class BattleStatisticsDataTable
 			curPilotStatisticsData.totalKillCount += curBattleData.killCount;
 			curPilotStatisticsData.totalAssistCount += curBattleData.assistCount;
 
-			// 챔피언 통계 정보 갱신..
-			ChampionBattleStatistics curChampStatisticsData = _champBattleStatisticsContainer[championName];
+            // 챔피언 통계 정보 갱신..
+            if ( false == _champBattleStatisticsContainer.ContainsKey( championName ) )
+                _champBattleStatisticsContainer.Add( championName, new ChampionBattleStatistics() );
+
+            ChampionBattleStatistics curChampStatisticsData = _champBattleStatisticsContainer[championName];
 
 			++curChampStatisticsData.totalPickCount;
 			if (isWinTeam)
@@ -110,8 +119,11 @@ public class BattleStatisticsDataTable
 		{
 			string championName = fightData.banChampionContainer[i];
 
-			// 챔피언 통계 정보 갱신..
-			ChampionBattleStatistics curChampStatisticsData = _champBattleStatisticsContainer[championName];
+            // 챔피언 통계 정보 갱신..
+            if ( false == _champBattleStatisticsContainer.ContainsKey( championName ) )
+                _champBattleStatisticsContainer.Add( championName, new ChampionBattleStatistics() );
+
+            ChampionBattleStatistics curChampStatisticsData = _champBattleStatisticsContainer[championName];
 
 			++curChampStatisticsData.totalBanCount;
 

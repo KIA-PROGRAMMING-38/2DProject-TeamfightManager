@@ -1,10 +1,13 @@
 using System.Collections.Generic;
+
+[System.Serializable]
 public class ChampionSkillLevelInfo
 {
     public string champName;
     public int level;
 }
 
+[System.Serializable]
 public class PilotData
 {
     public string name;

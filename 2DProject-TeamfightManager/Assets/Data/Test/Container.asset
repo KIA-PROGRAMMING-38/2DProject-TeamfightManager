@@ -42,3 +42,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 67890c3ce06cb5843a3bb985c7794a88, type: 2}
   - {fileID: 11400000, guid: dc4e910fe0adc8e49b51034424d97448, type: 2}
   - {fileID: 11400000, guid: 624e42a28e99ad947b8ef3a78ee1fc6b, type: 2}
+  allPilotDataPrefab:
+  - {fileID: 11400000, guid: 795d834ccdce83949ba9e80b57ead364, type: 2}
+  - {fileID: 11400000, guid: 060739c9c01c97345841a0ed6786d90f, type: 2}
+  allTeamDataPrefab:
+  - {fileID: 11400000, guid: 4ca0c68e6fbe9f14e970df192307e6e1, type: 2}
+  - {fileID: 11400000, guid: bd53cbfebd379944b92bc2d5069b9aab, type: 2}

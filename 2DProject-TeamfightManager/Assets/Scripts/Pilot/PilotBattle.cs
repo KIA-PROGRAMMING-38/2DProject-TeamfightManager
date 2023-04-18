@@ -46,8 +46,21 @@ public class PilotBattle : MonoBehaviour
 
     private BattleInfoData _battleInfoData;
 
-    // 외부의 구독자들을 위한 이벤트들..
-    public event Action<int, BattleInfoData> OnChangedBattleInfoData;
+    public BattlePilotFightData battlePilotFightData
+    {
+        get
+        {
+            return new BattlePilotFightData
+            {
+                pilotName = pilot.data.name,
+                championName = "",
+                battleData = _battleInfoData
+            };
+        }
+    }
+
+	// 외부의 구독자들을 위한 이벤트들..
+	public event Action<int, BattleInfoData> OnChangedBattleInfoData;
     public event Action<int, float> OnChangedChampionHPRatio;
     public event Action<int, float> OnChangedChampionMPRatio;
 	public event Action<int> OnChampionUseUltimate;
