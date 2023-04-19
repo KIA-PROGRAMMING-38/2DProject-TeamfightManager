@@ -9,6 +9,13 @@ using UnityEngine;
 public class AttackAction
 {
 	public EffectManager effectManager { private get; set; }
+	public ProjectileManager projectileManager
+	{
+		set
+		{
+			_summonSystem.projectileManager = value;
+		}
+	}
 
 	public Champion targetChampion { get; private set; }
 
@@ -19,6 +26,7 @@ public class AttackAction
 
 	private ActionContinuousPerformance _contPerf;
 	private AtkActionPassiveSystem _passiveSystem;
+	private SummonSystem _summonSystem;
 
 	private AtkActionDecideTargetBase[] _decideTargetLogicContainer;
 	private int _baseDecideTargetLogicIndex;
@@ -37,31 +45,7 @@ public class AttackAction
 
 			if (true == _isEndAction)
 			{
-				int findTargetCount = _decideTargetLogicContainer[_baseDecideTargetLogicIndex].FindTarget(_actionData.findTargetData, baseFindTargetsCache);
-
-				int impactDataCount = _impactData.Count;
-				for( int impactIndex = 0; impactIndex < impactDataCount; ++impactIndex)
-				{
-					AttackImpactData curImpactData = _impactData[impactIndex];
-
-					int targetCount = findTargetCount;
-					Champion[] targetArray = baseFindTargetsCache;
-
-					// 만약 기본 타겟 찾는 로직을 사용하지 않는다면(다른 방법으로 타겟을 찾고 싶은 애들)..
-					if (true == curImpactData.isSeparateTargetFindLogic)
-					{
-						int targetFindLogicIndex = (int)curImpactData.findTargetData.targetDecideKind;
-						AtkActionDecideTargetBase curTargetFindLogic = _decideTargetLogicContainer[targetFindLogicIndex];
-						targetCount = curTargetFindLogic.FindTarget(curImpactData.findTargetData, _allLogicsFindTargetsCache[targetFindLogicIndex]);
-						targetArray = _allLogicsFindTargetsCache[targetFindLogicIndex];
-					}
-
-					// 찾은 타겟 개수만큼 효과 부여..
-					for (int targetIndex = 0; targetIndex < findTargetCount; ++targetIndex)
-					{
-						_actionImpactLogics[(int)curImpactData.mainData.kind].Impact(targetArray[targetIndex], curImpactData);
-					}
-				}
+				ExecuteImpactLogic();
 			}
 		}
 	}
@@ -129,7 +113,7 @@ public class AttackAction
 		}
 
 		// 패시브 행동인 경우 관련 로직 스크립트 생성..
-		if(attackActionData.isPassive)
+		if (true == attackActionData.isPassive)
 		{
 			_passiveSystem = new AtkActionPassiveSystem(this, attackActionData.passiveData);
 		}
@@ -141,6 +125,14 @@ public class AttackAction
 		_actionImpactLogics[(int)AttackImpactEffectKind.Attack] = new Impact_AttackDamage();
 
 		_effectData = effectData;
+
+		if (true == attackActionData.isSummon)
+		{
+			_summonSystem = new SummonSystem(attackActionData.summonData, () =>
+			{
+				return _decideTargetLogicContainer[_baseDecideTargetLogicIndex].FindTarget(_actionData.findTargetData, baseFindTargetsCache);
+			});
+		}
 	}
 
 	public void AddImpactData(AttackImpactData impactData)
@@ -148,7 +140,7 @@ public class AttackAction
 		_impactData.Add(impactData);
 
 		// Base 타겟 정하는 로직을 따르지 않고 개별적으로 찾기를 원한다면..
-		if(impactData.isSeparateTargetFindLogic)
+		if (impactData.isSeparateTargetFindLogic)
 		{
 			int index = (int)impactData.findTargetData.targetDecideKind;
 
@@ -158,6 +150,11 @@ public class AttackAction
 			{
 				CreateDecideTargetLogic(impactData.findTargetData.targetDecideKind);
 			}
+		}
+
+		if (true == _actionData.isSummon && false == impactData.isSeparateTargetFindLogic)
+		{
+			_summonSystem.AddImpactData(impactData);
 		}
 	}
 
@@ -189,7 +186,7 @@ public class AttackAction
 
 	public void OnUpdate()
 	{
-		if(null == targetChampion)
+		if (null == targetChampion)
 		{
 			isEndAction = true;
 			return;
@@ -198,11 +195,16 @@ public class AttackAction
 		if (null != _contPerf)
 		{
 			_contPerf.OnUpdate();
-			if(true == _contPerf.isEndPerformance)
+			if (true == _contPerf.isEndPerformance)
 			{
 				isEndAction = true;
 				_isEndAnimation = true;
 			}
+		}
+
+		if(null != _summonSystem)
+		{
+			_summonSystem.Update();
 		}
 	}
 
@@ -290,5 +292,47 @@ public class AttackAction
 		effect.gameObject.SetActive(true);
 
 		effectPointChampion.AddActiveEffect(effect);
+	}
+
+	public void ImpactTarget(AttackImpactData impactData, int targetCount, Champion[] targetArray)
+	{
+		// 찾은 타겟 개수만큼 효과 부여..
+		for (int targetIndex = 0; targetIndex < targetCount; ++targetIndex)
+		{
+			_actionImpactLogics[(int)impactData.mainData.kind].Impact(targetArray[targetIndex], impactData);
+		}
+	}
+
+	private void ExecuteImpactLogic()
+	{
+		if (_actionData.isSummon)
+		{
+			_summonSystem.OnStart(baseFindTargetsCache);
+		}
+		else
+		{
+			int findTargetCount = _decideTargetLogicContainer[_baseDecideTargetLogicIndex].FindTarget(_actionData.findTargetData, baseFindTargetsCache);
+
+			int impactDataCount = _impactData.Count;
+			for (int impactIndex = 0; impactIndex < impactDataCount; ++impactIndex)
+			{
+				AttackImpactData curImpactData = _impactData[impactIndex];
+
+				int targetCount = findTargetCount;
+				Champion[] targetArray = baseFindTargetsCache;
+
+				// 만약 기본 타겟 찾는 로직을 사용하지 않는다면(다른 방법으로 타겟을 찾고 싶은 애들)..
+				if (true == curImpactData.isSeparateTargetFindLogic)
+				{
+					int targetFindLogicIndex = (int)curImpactData.findTargetData.targetDecideKind;
+					AtkActionDecideTargetBase curTargetFindLogic = _decideTargetLogicContainer[targetFindLogicIndex];
+					targetCount = curTargetFindLogic.FindTarget(curImpactData.findTargetData, _allLogicsFindTargetsCache[targetFindLogicIndex]);
+					targetArray = _allLogicsFindTargetsCache[targetFindLogicIndex];
+				}
+
+				// 찾은 타겟 개수만큼 효과 부여..
+				ImpactTarget(curImpactData, targetCount, targetArray);
+			}
+		}
 	}
 }

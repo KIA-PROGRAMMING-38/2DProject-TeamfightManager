@@ -314,6 +314,16 @@ public static class SaveLoadLogic
 			}
 
 			getActionData.description = attackActionData[atkActionDataStrIndex++];
+
+			getActionData.isSummon = bool.Parse(attackActionData[atkActionDataStrIndex++]);
+			if(getActionData.isSummon)
+			{
+				getActionData.summonData = new AtkActionSummonData
+				{
+					summonObjectType = (SummonObjectType)int.Parse(attackActionData[atkActionDataStrIndex++]),
+					summonObjectName = attackActionData[atkActionDataStrIndex++],
+				};
+			}
 		}
 
 		// Attack Impact Data 저장..
@@ -474,6 +484,15 @@ public static class SaveLoadLogic
 		}
 
 		saveDatas[0] += "," + attackActionData.description;
+
+		saveDatas[0] += "," + attackActionData.isSummon;
+		if (attackActionData.isSummon)
+		{
+			saveDatas[0] += new string(
+				"," + (int)attackActionData.summonData.summonObjectType
+				+ "," + attackActionData.summonData.summonObjectName
+				);
+		}
 
 		// Attack Impact Data 저장..
 		int impactDataCount = attackImpactDatas.Count;
