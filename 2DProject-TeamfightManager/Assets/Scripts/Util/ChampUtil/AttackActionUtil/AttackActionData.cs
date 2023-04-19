@@ -6,5 +6,8 @@ public class AttackActionData
 	public FindTargetData findTargetData;       // 타겟 찾는 것 관련 데이터..
 	public AtkActionPassiveData passiveData;    // 패시브 공격행동인 경우 필요한 데이터..
 
-	public string description;					// 스킬 설명..
+	public string description;                  // 스킬 설명..
+
+	public bool isSummon;
+	public AtkActionSummonData summonData;
 }

@@ -25,4 +25,5 @@ public class GameGlobalData : ScriptableObject
 	public List<string> testBluePilotCreateOrder;
 
 	public BanpickStageGlobalData banpickStageGlobalData;
+	public SpawnObjectGlobalData spawnObjectGolbalData;
 }
