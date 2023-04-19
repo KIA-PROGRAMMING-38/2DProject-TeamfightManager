@@ -14,10 +14,34 @@ public class ProjectileManager : MonoBehaviour
 
 	private GameManager _gameManager;
 
-	private List<ObjectPooler<Projectile>> _projectilePoolerContainer;
+	private Dictionary<string, ObjectPooler<Projectile>> _projectilePoolerContainer;
 
 	private void Awake()
 	{
-		_projectilePoolerContainer = new List<ObjectPooler<Projectile>>();
+		int loopCount = _gameManager.gameGlobalData.spawnObjectGolbalData.projectilePrefabContainer.Length;
+		_projectilePoolerContainer = new Dictionary<string, ObjectPooler<Projectile>>(loopCount);
+
+		for ( int i = 0; i < loopCount; ++i)
+		{
+			Projectile prefab = _gameManager.gameGlobalData.spawnObjectGolbalData.projectilePrefabContainer[i].GetComponent<Projectile>();
+
+			ObjectPooler<Projectile> pooler = new ObjectPooler<Projectile>(
+				() => CreateProjectile(prefab),
+				null, ReleaseProjectile, null, 5, 2, 100);
+
+			_projectilePoolerContainer.Add(prefab.projectileName, pooler);
+		}
+	}
+
+	private Projectile CreateProjectile(Projectile prefab)
+	{
+		Projectile newProjectile = Instantiate<Projectile>(prefab);
+
+		return newProjectile;
+	}
+
+	private void ReleaseProjectile(Projectile projectile)
+	{
+		projectile.gameObject.SetActive(false);
 	}
 }

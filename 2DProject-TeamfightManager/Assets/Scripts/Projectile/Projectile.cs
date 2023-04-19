@@ -9,9 +9,11 @@ public class Projectile : MonoBehaviour
 	public enum ProjectileExecuteImpactType
 	{
 		OnCollision,
-		OnArriveDestination
+		OnArriveDestination,
+		OnArriveTargetPosition,
 	}
 
+	public string projectileName { get => _projectileName; }
 	[SerializeField] private string _projectileName;
 	[SerializeField] private ProjectileExecuteImpactType _executeImpactType;
 	[SerializeField] private bool _isRotateToMoveDir;
@@ -36,7 +38,7 @@ public class Projectile : MonoBehaviour
 		_targetArray = null;
 	}
 
-	public void SetAdditionalData(int layerMask, Champion[] targetArray)
+	public void SetAdditionalData(int layerMask, Champion target, Champion[] targetArray)
 	{
 		gameObject.layer = layerMask;
 		_targetArray = targetArray;
