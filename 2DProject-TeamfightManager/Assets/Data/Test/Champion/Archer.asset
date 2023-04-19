@@ -17,8 +17,8 @@ MonoBehaviour:
     nameKR: "\uAD81\uC218"
     type: 2
     atkActionUniqueKey: 12
-    skillActionUniqueKey: 12
-    ultimateActionUniqueKey: 12
+    skillActionUniqueKey: 13
+    ultimateActionUniqueKey: 14
     champDescription: "\uAD81\uC218\uB294 \uC0C1\uB300\uC640 \uAC70\uB9AC\uB97C \uBC8C\uB9AC\uBA70
       \uC9C0\uC18D\uC801\uC73C\uB85C \uACF5\uACA9\uD558\uB294\uB370 \uD2B9\uD654\uB41C
       \uC6D0\uAC70\uB9AC \uB51C\uB7EC\uC785\uB2C8\uB2E4. \uC0C1\uB300\uC801\uC73C\uB85C
@@ -31,7 +31,7 @@ MonoBehaviour:
   championStatus:
     atkStat: 42
     atkSpeed: 0.67
-    range: 1.2
+    range: 6
     defence: 5
     hp: 100
     moveSpeed: 1.5

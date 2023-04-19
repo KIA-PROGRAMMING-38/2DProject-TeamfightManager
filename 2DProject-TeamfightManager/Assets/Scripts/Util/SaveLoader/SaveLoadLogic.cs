@@ -320,8 +320,13 @@ public static class SaveLoadLogic
 			{
 				getActionData.summonData = new AtkActionSummonData
 				{
-					summonObjectType = (SummonObjectType)int.Parse(attackActionData[atkActionDataStrIndex++]),
+					summonObjectType = (SummonObjectType)int.Parse( attackActionData[atkActionDataStrIndex++] ),
 					summonObjectName = attackActionData[atkActionDataStrIndex++],
+
+					isSummonOnce = bool.Parse( attackActionData[atkActionDataStrIndex++] ),
+					tickTime = float.Parse( attackActionData[atkActionDataStrIndex++] ),
+					offsetPosition = new Vector3( float.Parse( attackActionData[atkActionDataStrIndex++] ), float.Parse( attackActionData[atkActionDataStrIndex++] ),
+												  float.Parse( attackActionData[atkActionDataStrIndex++] ) )
 				};
 			}
 
@@ -494,7 +499,10 @@ public static class SaveLoadLogic
 			saveDatas[0] += new string(
 				"," + (int)attackActionData.summonData.summonObjectType
 				+ "," + attackActionData.summonData.summonObjectName
-				);
+				+ "," + attackActionData.summonData.isSummonOnce
+                + "," + attackActionData.summonData.tickTime
+                + "," + attackActionData.summonData.offsetPosition.x + "," + attackActionData.summonData.offsetPosition.y + "," + attackActionData.summonData.offsetPosition.z
+                );
 		}
 
 		saveDatas[0] += new string(

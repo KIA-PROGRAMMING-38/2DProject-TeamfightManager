@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-	public event Action<int> OnExecuteImpact;
+	public event Action<Projectile, Champion[], int> OnExecuteImpact;
 
 	public enum ProjectileExecuteImpactType
 	{
@@ -38,7 +38,9 @@ public class Projectile : MonoBehaviour
 
 		_updateVelToLookTargetCoroutine = UpdateVelocityToLookTargetDirection();
 		_checkIsArriveDestPointCoroutine = CheckIsArriveDestinationPoint();
-	}
+
+		_targetArray = new Champion[10];
+    }
 
 	private void OnEnable()
 	{
@@ -47,13 +49,12 @@ public class Projectile : MonoBehaviour
 
 	private void OnDisable()
 	{
-		_targetArray = null;
+		Array.Clear(_targetArray, 0, _targetArray.Length);
 	}
 
-	public void SetAdditionalData(int layerMask, Champion target, Champion[] targetArray, Func<Vector3, int> targetFindFunc)
+	public void SetAdditionalData(int layerMask, Champion target, Func<Vector3, int> targetFindFunc)
 	{
 		gameObject.layer = layerMask;
-		_targetArray = targetArray;
 		_targetFindFunc = targetFindFunc;
 
 		switch (_executeImpactType)
@@ -86,7 +87,7 @@ public class Projectile : MonoBehaviour
 			{
 				int findTargetCount = _targetFindFunc.Invoke(_destination);
 
-				OnExecuteImpact?.Invoke(findTargetCount);
+				OnExecuteImpact?.Invoke(this, _targetArray, findTargetCount);
 
 				yield return null;
 			}
@@ -105,14 +106,21 @@ public class Projectile : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		Champion target = collision.GetComponent<Champion>();
-		if (null != target)
-		{
-			_targetArray[0] = target;
-			OnExecuteImpact?.Invoke(1);
+		Debug.Log("OnTriggerEnter2d");
 
-			projectileManager.ReleaseProjectile(this);
-		}
+		if(collision.CompareTag(TagTable.CHAMPION))
+		{
+            Debug.Log("OnTriggerEnter2d_2");
+
+            Champion target = collision.GetComponent<Champion>();
+            if (null != target)
+            {
+                _targetArray[0] = target;
+                OnExecuteImpact?.Invoke(this, _targetArray, 1);
+
+                projectileManager.ReleaseProjectile(this);
+            }
+        }
 	}
 
 	private void UpdateVelocity(Vector3 lookPosition)

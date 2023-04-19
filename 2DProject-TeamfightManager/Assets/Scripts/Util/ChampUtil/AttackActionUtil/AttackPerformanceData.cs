@@ -6,6 +6,7 @@ public enum MovePerformanceType
 	TeleportToPosition,
 	MoveToTarget,
 	TeleportToTarget,
+	Jump
 }
 
 public enum AttackPerformanceType

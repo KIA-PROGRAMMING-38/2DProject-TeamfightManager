@@ -11,7 +11,10 @@ public static class LayerTable
 		public static readonly int BLUETEAM_CHAMPION = LayerMask.NameToLayer(Name.BLUETEAM_CHAMPION);
 		public static readonly int BLUETEAM_ATKSUMMON = LayerMask.NameToLayer(Name.BLUETEAM_ATKSUMMON);
 		public static readonly int BLUETEAM_BUFFSUMMON = LayerMask.NameToLayer(Name.BLUETEAM_BUFFSUMMON);
-	}
+
+		public static readonly int STAGE_AREALIMITLINE = LayerMask.NameToLayer(Name.STAGE_AREALIMITLINE);
+		public static readonly int STAGE_OUTOFAREA = LayerMask.NameToLayer(Name.STAGE_AREALIMITLINE);
+    }
 
 	public static class Name
 	{
@@ -22,5 +25,8 @@ public static class LayerTable
 		public const string BLUETEAM_CHAMPION = "BlueTeamChampion";
 		public const string BLUETEAM_ATKSUMMON = "BlueTeamAtkSummon";
 		public const string BLUETEAM_BUFFSUMMON = "BlueTeamBuffSummon";
-	}
+
+		public const string STAGE_AREALIMITLINE = "StageAreaLimitLine";
+		public const string STAGE_OUTOFAREA = "StageOutside";
+    }
 }

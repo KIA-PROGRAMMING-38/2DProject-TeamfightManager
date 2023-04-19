@@ -337,7 +337,37 @@ public class BattleTeam : MonoBehaviour
 		return targetCount;
 	}
 
-	private void OnChangedChampionBattleData(int index, BattleInfoData data)
+	public Champion ComputeRandomEnemyInRange(in Vector3 originPoint, float range, TargetTeamKind teamKind)
+	{
+		int randomNumber = 0;
+		int maxCount = 0;
+
+		switch (teamKind)
+		{
+			case TargetTeamKind.Enemy:
+				maxCount = enemyTeam._activeChampions.Count;
+				randomNumber = UnityEngine.Random.Range(0, maxCount);
+
+				return enemyTeam._activeChampions[randomNumber];
+			case TargetTeamKind.Team:
+				maxCount = _activeChampions.Count;
+				randomNumber = UnityEngine.Random.Range(0, maxCount);
+
+				return _activeChampions[randomNumber];
+			case TargetTeamKind.Both:
+				maxCount = _activeChampions.Count + enemyTeam._activeChampions.Count;
+				randomNumber = UnityEngine.Random.Range(0, maxCount);
+				if (_activeChampions.Count <= randomNumber)
+					return enemyTeam._activeChampions[randomNumber - _activeChampions.Count];
+				else
+					return _activeChampions[randomNumber];
+		}
+
+		return null;
+    }
+
+
+    private void OnChangedChampionBattleData(int index, BattleInfoData data)
 	{
 		OnChangedChampionBattleInfoData?.Invoke(battleTeamKind, index, data);
 	}

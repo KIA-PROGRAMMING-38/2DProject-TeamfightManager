@@ -28,12 +28,12 @@ MonoBehaviour:
       \uC788\uAC8C \uB3C4\uC640\uC904 \uC218 \uC788\uB294 \uCC54\uD53C\uC5B8\uC744
       \uAC19\uC774 \uAE30\uC6A9\uD558\uB294 \uD3B8\uC774 \uC88B\uC2B5\uB2C8\uB2E4."
   championStatus:
-    atkStat: 20
+    atkStat: 200
     atkSpeed: 1
     range: 0.4
     defence: 0
-    hp: 16
-    moveSpeed: 0.5
+    hp: 1000
+    moveSpeed: 2
     skillCooltime: 3.7
   championResourceData:
     champIconImagePath: Sprites/UI/Champion/Icon/character_icons_22

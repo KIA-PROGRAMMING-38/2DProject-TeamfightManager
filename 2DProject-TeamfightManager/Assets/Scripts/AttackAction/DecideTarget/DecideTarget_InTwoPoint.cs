@@ -18,11 +18,7 @@ public class DecideTarget_InTwoPoint : AtkActionDecideTargetBase
 
 	public override void OnStart()
 	{
-		if (null == battleTeam)
-		{
-			battleTeam = ownerChampion.pilotBattleComponent.myTeam;
-		}
-
+		battleTeam = ownerChampion.pilotBattleComponent.myTeam;
 		_beginPosition = ownerChampion.transform.position;
 	}
 

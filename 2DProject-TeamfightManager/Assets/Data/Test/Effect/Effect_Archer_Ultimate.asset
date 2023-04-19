@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d6704a1faa8d9a42ac73d5e056aed46, type: 3}
-  m_Name: Effect_Knight_Skill
+  m_Name: Effect_Archer_Ultimate
   m_EditorClassIdentifier: 
   effectData:
-    name: Effect_Knight_Skill
-    animClipPath: Animations/Effect/Champion/Effect_Knight_Skill
-    offsetPos: {x: -0.025, y: 0.2, z: 0}
+    name: Effect_Archer_Ultimate
+    animClipPath: Animations/Effect/Champion/Effect_Archer_Ultimate
+    offsetPos: {x: 0.5, y: 0.07, z: 0}
     isAutoDestroy: 1
     isUseLifeTime: 0
     lifeTime: 0
     rotationType: 0
-    isBecomeTargetChild: 0
+    isBecomeTargetChild: 1
     sortingOrder: 5
   baseFilePath: Assets/Data
   extension: .data

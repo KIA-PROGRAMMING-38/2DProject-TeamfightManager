@@ -50,7 +50,7 @@ MonoBehaviour:
   _projectileName: Arrow
   _executeImpactType: 0
   _isRotateToMoveDir: 1
-  _moveSpeed: 5
+  _moveSpeed: 16
 --- !u!50 &1697613246462609946
 Rigidbody2D:
   serializedVersion: 4

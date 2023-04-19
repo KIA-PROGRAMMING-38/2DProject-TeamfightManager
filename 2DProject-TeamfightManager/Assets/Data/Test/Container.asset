@@ -26,6 +26,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7185f0fd255d6664db556a003005b99c, type: 2}
   - {fileID: 11400000, guid: 7025e3472770f104a899b167a0e43a00, type: 2}
   - {fileID: 11400000, guid: c55dbe8e83498df408d110306fccebb3, type: 2}
+  - {fileID: 11400000, guid: ad5b1618cdda1a54797fdc692d2cf089, type: 2}
+  - {fileID: 11400000, guid: f06332cfa9186be4db0dfcb1d753b30e, type: 2}
   allChampionDataPrefab:
   - {fileID: 11400000, guid: 18259cb30d1d6bf4fae37f6fdf55b3c7, type: 2}
   - {fileID: 11400000, guid: 8ec995d14db848146b64f69826d70c69, type: 2}
@@ -44,6 +46,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 67890c3ce06cb5843a3bb985c7794a88, type: 2}
   - {fileID: 11400000, guid: dc4e910fe0adc8e49b51034424d97448, type: 2}
   - {fileID: 11400000, guid: 624e42a28e99ad947b8ef3a78ee1fc6b, type: 2}
+  - {fileID: 11400000, guid: 9eb6ac0304992754c8a85966176da7ad, type: 2}
   allPilotDataPrefab:
   - {fileID: 11400000, guid: 795d834ccdce83949ba9e80b57ead364, type: 2}
   - {fileID: 11400000, guid: 060739c9c01c97345841a0ed6786d90f, type: 2}

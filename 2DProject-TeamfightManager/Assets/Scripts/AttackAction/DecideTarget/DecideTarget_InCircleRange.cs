@@ -14,10 +14,7 @@ public class DecideTarget_InCircleRange : AtkActionDecideTargetBase
 
 	public override void OnStart()
 	{
-		if (null == battleTeam)
-		{
-			battleTeam = ownerChampion.pilotBattleComponent.myTeam;
-		}
+		battleTeam = ownerChampion.pilotBattleComponent.myTeam;
 	}
 
 	public override int FindTarget(FindTargetData findTargetData, Champion[] getTargetArray)

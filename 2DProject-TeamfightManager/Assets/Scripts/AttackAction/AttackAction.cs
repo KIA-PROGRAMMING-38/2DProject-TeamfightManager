@@ -43,16 +43,12 @@ public class AttackAction
 		private set
 		{
 			_isEndAction = value;
-
-			if (true == _isEndAction)
-			{
-				ExecuteImpactLogic();
-			}
 		}
 	}
-	private bool _isEndAnimation;
 
-	public bool isEnded { get => _isEndAnimation && _isEndAction; }
+	public bool isEndAnimation { get; private set; }
+
+	public bool isEnded { get => isEndAnimation && _isEndAction; }
 
 	private Champion _ownerChampion;
 	public Champion ownerChampion
@@ -147,7 +143,12 @@ public class AttackAction
 
 		if (true == attackActionData.isSummon)
 		{
-			_summonSystem = new SummonSystem(attackActionData.summonData, (Vector3 startPoint) =>
+            if (null == _decideTargetLogicContainer[(int)TargetDecideKind.OnlyTarget])
+            {
+                CreateDecideTargetLogic(TargetDecideKind.OnlyTarget);
+            }
+
+            _summonSystem = new SummonSystem(this, attackActionData.summonData, (Vector3 startPoint) =>
 			{
 				return _decideTargetLogicContainer[_baseDecideTargetLogicIndex].FindTarget(_actionData.findTargetData, baseFindTargetsCache, startPoint);
 			}, 
@@ -192,7 +193,7 @@ public class AttackAction
 	public void OnStart()
 	{
 		isEndAction = false;
-		_isEndAnimation = false;
+		isEndAnimation = false;
 
 		for (int i = 0; i < _decideTargetLogicContainerCount; ++i)
 		{
@@ -203,11 +204,6 @@ public class AttackAction
 		_contPerf?.OnStart();
 
 		targetChampion = ownerChampion.targetChampion;
-
-		if (true == _effectData.isShowEffect)
-		{
-			ShowEffect(_effectData, _ownerChampion, targetChampion);
-		}
 	}
 
 	public void OnUpdate()
@@ -224,7 +220,7 @@ public class AttackAction
 			if (true == _contPerf.isEndPerformance)
 			{
 				isEndAction = true;
-				_isEndAnimation = true;
+				isEndAnimation = true;
 			}
 		}
 
@@ -234,26 +230,39 @@ public class AttackAction
 		}
 	}
 
-	public void OnAction()
-	{
-		if (null == targetChampion)
-		{
-			isEndAction = true;
-			return;
-		}
+    public void OnEffectAction()
+    {
+        if (true == _effectData.isShowEffect)
+        {
+            ShowEffect(_effectData, _ownerChampion, targetChampion);
+        }
+    }
 
-		if (null == _contPerf)
-		{
-			isEndAction = true;
-		}
-		else
+	public void OnPerformanceAction()
+	{
+		if (null != _contPerf)
 		{
 			_contPerf.OnAction();
 			isEndAction = _contPerf.isEndPerformance;
 		}
-	}
+    }
 
-	public void OnEnd()
+	public void OnImpactAction()
+	{
+        if (null == _contPerf)
+        {
+            isEndAction = true;
+        }
+        if (null == targetChampion)
+        {
+            isEndAction = true;
+            return;
+        }
+
+        ExecuteImpactLogic();
+    }
+
+    public void OnEnd()
 	{
 		for (int i = 0; i < _decideTargetLogicContainerCount; ++i)
 		{
@@ -268,7 +277,7 @@ public class AttackAction
 
 	public void OnAnimationEndEvent()
 	{
-		_isEndAnimation = true;
+		isEndAnimation = true;
 	}
 
 	private void CreateDecideTargetLogic(TargetDecideKind targetDecideKind)
@@ -286,7 +295,9 @@ public class AttackAction
 			case TargetDecideKind.Range_InTwoPointBox:
 				_decideTargetLogicContainer[index] = new DecideTarget_InTwoPoint(this, _actionData);
 				break;
-
+			case TargetDecideKind.Random:
+				_decideTargetLogicContainer[index] = new DecideTarget_Random(this, _actionData);
+				break;
 			default:
 				return;
 		}
