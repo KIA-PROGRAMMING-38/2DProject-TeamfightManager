@@ -22,7 +22,7 @@ public class TestAnimPlay : MonoBehaviour
 			anim.SetTrigger("On");
 			NewGameObject.SetActive(true);
 			NewGameObject.GetComponent<Animator>().SetTrigger("On");
-			StartCoroutine(ss());
+			//StartCoroutine(ss());
 		}
 	}
 

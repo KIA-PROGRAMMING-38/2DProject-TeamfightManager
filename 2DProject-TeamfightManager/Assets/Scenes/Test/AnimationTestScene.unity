@@ -235,7 +235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NewGameObject: {fileID: 1701306326}
   anim: {fileID: 486021075}
-  waitTime: 0.5
+  waitTime: 0
 --- !u!4 &319366040
 Transform:
   m_ObjectHideFlags: 0
@@ -681,7 +681,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3614019475917098931, guid: a7ab1dfa761491445bc299f55a7f02a2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3614019475917098942, guid: a7ab1dfa761491445bc299f55a7f02a2, type: 3}
       propertyPath: m_RootOrder
@@ -689,11 +689,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3614019475917098942, guid: a7ab1dfa761491445bc299f55a7f02a2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3614019475917098942, guid: a7ab1dfa761491445bc299f55a7f02a2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.07
       objectReference: {fileID: 0}
     - target: {fileID: 3614019475917098942, guid: a7ab1dfa761491445bc299f55a7f02a2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -727,5 +727,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2706841613503690176, guid: a7ab1dfa761491445bc299f55a7f02a2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a7ab1dfa761491445bc299f55a7f02a2, type: 3}
