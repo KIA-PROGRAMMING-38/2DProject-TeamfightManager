@@ -36,3 +36,25 @@ public enum DebuffImpactType
 
 	End
 }
+
+public enum TargetDecideKind
+{
+    OnlyTarget,
+    Range_Circle,
+    Range_InTwoPointBox,
+	Random,
+    End
+}
+
+public enum ActionStartPointKind
+{
+    TargetPosition,
+    MyPosition
+}
+
+public enum TargetTeamKind
+{
+    Enemy,
+    Team,
+	Both
+}

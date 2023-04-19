@@ -19,14 +19,21 @@ MonoBehaviour:
     atkActionUniqueKey: 9
     skillActionUniqueKey: 10
     ultimateActionUniqueKey: 11
-    champDescription: "\uC720\uB839\uC785\uB2C8\uB2E4."
+    champDescription: "\uC720\uB839\uC740 \uC801\uC744 \uC8FD\uC77C \uB54C\uB9C8\uB2E4
+      \uAC15\uD574\uC9C0\uB294 \uC554\uC0B4\uC790\uC785\uB2C8\uB2E4. \uADF8\uB7EC\uB098
+      \uC544\uAD70\uC758 \uC774\uB85C\uC6B4 \uD6A8\uACFC\uB97C \uC804\uD600 \uBC1B\uC744
+      \uC218 \uC5C6\uACE0 \uCD08\uBC18 \uB2A5\uB825\uCE58\uAC00 \uB0AE\uB2E4\uB294
+      \uB2E8\uC810\uC744 \uAC16\uACE0 \uC788\uC2B5\uB2C8\uB2E4. \uB530\uB77C\uC11C
+      \uC720\uB839\uC774 \uC548\uC815\uC801\uC73C\uB85C \uC124\uC7A5\uD560 \uC218
+      \uC788\uAC8C \uB3C4\uC640\uC904 \uC218 \uC788\uB294 \uCC54\uD53C\uC5B8\uC744
+      \uAC19\uC774 \uAE30\uC6A9\uD558\uB294 \uD3B8\uC774 \uC88B\uC2B5\uB2C8\uB2E4."
   championStatus:
-    atkStat: 20
+    atkStat: 200
     atkSpeed: 1
     range: 0.4
     defence: 0
-    hp: 16
-    moveSpeed: 0.5
+    hp: 1000
+    moveSpeed: 2
     skillCooltime: 3.7
   championResourceData:
     champIconImagePath: Sprites/UI/Champion/Icon/character_icons_22

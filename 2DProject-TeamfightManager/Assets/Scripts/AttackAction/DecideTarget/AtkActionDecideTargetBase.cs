@@ -17,5 +17,6 @@ public abstract class AtkActionDecideTargetBase
 
 	public abstract void OnStart();
 	public abstract int FindTarget(FindTargetData findTargetData, Champion[] getTargetArray);
+	public abstract int FindTarget(FindTargetData findTargetData, Champion[] getTargetArray, Vector3 startPoint);
 	public abstract void OnEnd();
 }

@@ -1,4 +1,4 @@
-20,1,0.4,0,16,0.5,3.7
+200,1,0.4,0,1000,2,3.7
 Ghost,유령,5,9,10,11
-유령입니다.
+유령은 적을 죽일 때마다 강해지는 암살자입니다. 그러나 아군의 이로운 효과를 전혀 받을 수 없고 초반 능력치가 낮다는 단점을 갖고 있습니다. 따라서 유령이 안정적으로 설장할 수 있게 도와줄 수 있는 챔피언을 같이 기용하는 편이 좋습니다.
 Sprites/UI/Champion/Icon/character_icons_22,Sprites/UI/Champion/Skill/ghost_skill,Sprites/UI/Champion/Skill/ghost_ult

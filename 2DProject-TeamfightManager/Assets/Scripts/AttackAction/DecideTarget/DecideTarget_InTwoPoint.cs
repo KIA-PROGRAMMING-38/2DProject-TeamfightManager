@@ -18,11 +18,7 @@ public class DecideTarget_InTwoPoint : AtkActionDecideTargetBase
 
 	public override void OnStart()
 	{
-		if (null == battleTeam)
-		{
-			battleTeam = ownerChampion.pilotBattleComponent.myTeam;
-		}
-
+		battleTeam = ownerChampion.pilotBattleComponent.myTeam;
 		_beginPosition = ownerChampion.transform.position;
 	}
 
@@ -49,6 +45,11 @@ public class DecideTarget_InTwoPoint : AtkActionDecideTargetBase
 
 		// 범위 안에 들어오는 적을 찾는 로직..
 		return battleTeam.ComputeEnemyTarget(TargetFindLogic, getTargetArray, findTargetData.targetTeamKind);
+	}
+
+	public override int FindTarget(FindTargetData findTargetData, Champion[] getTargetArray, Vector3 startPoint)
+	{
+		return FindTarget(findTargetData, getTargetArray);
 	}
 
 	public override void OnEnd()

@@ -1,4 +1,6 @@
-﻿public enum SummonObjectType
+﻿using UnityEngine;
+
+public enum SummonObjectType
 {
 	Champion,
 	Projectile,
@@ -12,4 +14,5 @@ public class AtkActionSummonData
 	public string summonObjectName;
 	public bool isSummonOnce;
 	public float tickTime;
+	public Vector3 offsetPosition;
 }

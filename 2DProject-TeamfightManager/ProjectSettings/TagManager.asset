@@ -3,22 +3,24 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Champion
+  - MapLimitArea
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Champion
+  - 
   - Water
   - UI
+  - StageAreaLimitLine
+  - RedTeamChampion
+  - BlueTeamChampion
+  - RedTeamAtkSummon
+  - BlueTeamAtkSummon
+  - RedTeamBuffSummon
+  - BlueTeamBuffSummon
   - StageOutside
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
   - 
   - 
   - 

@@ -12,10 +12,12 @@ public class Champion : MonoBehaviour, IAttackable
 {
 	public static EffectManager s_effectManager { private get; set; }
 	public static DataTableManager s_dataTableManager { private get; set; }
+	public static ProjectileManager s_projectileManager { private get; set; }
 
 	private ChampionAnimation _animComponent;
 	public PilotBattle pilotBattleComponent { get; set; }
 	public Blackboard blackboard { get; private set; }
+	private AIController _aiController;
 
 	[field: SerializeField] public ChampionStatus status { get; private set; }
 	private ChampionStatus _baseStatus;
@@ -154,10 +156,14 @@ public class Champion : MonoBehaviour, IAttackable
 
 	private LinkedList<Effect> _activeEffectList = new LinkedList<Effect>();
 
+	public int championLayer { get => pilotBattleComponent.championLayer; }
+	public int atkSummonLayer { get => pilotBattleComponent.atkSummonLayer; }
+	public int buffSummonLayer { get => pilotBattleComponent.buffSummonLayer; }
+
 	private void Awake()
 	{
-		AIController aiController = gameObject.AddComponent<ChampionController>();
-		blackboard = GetComponent<AIController>().blackboard;
+        _aiController = gameObject.AddComponent<ChampionController>();
+		blackboard = _aiController.blackboard;
 
 		if (null == _animComponent)
 			_animComponent = GetComponentInChildren<ChampionAnimation>();
@@ -186,10 +192,13 @@ public class Champion : MonoBehaviour, IAttackable
 		isAtkCooltime = false;
 		isSkillCooltime = true;
 
-		//StartCoroutine(TestUltOn());
-
 		_modifyStatusSystem.effectManager = s_effectManager;
-	}
+
+        if (false == s_dataTableManager.attackActionDataTable.GetActionData(this.data.ultimateActionUniqueKey).isPassive)
+        {
+            StartCoroutine(TestUltOn());
+        }
+    }
 
 	IEnumerator TestUltOn()
 	{
@@ -299,6 +308,10 @@ public class Champion : MonoBehaviour, IAttackable
 		_skillAction.effectManager = s_effectManager;
 		_ultimateAction.effectManager = s_effectManager;
 
+		_attackAction.projectileManager = s_projectileManager;
+		_skillAction.projectileManager = s_projectileManager;
+		_ultimateAction.projectileManager = s_projectileManager;
+
 		SetupBlackboard();
 	}
 
@@ -321,6 +334,8 @@ public class Champion : MonoBehaviour, IAttackable
 
 		isRunningModifyStatusSystemLogic = false;
 		_modifyStatusSystem?.Reset();
+
+		_aiController.enabled = false;
 	}
 
 	private void SetupBlackboard()
@@ -338,6 +353,8 @@ public class Champion : MonoBehaviour, IAttackable
 
 		_animComponent.ResetAnimation();
 		_animComponent.ChangeState(ChampionAnimation.AnimState.Revival);
+
+		_aiController.enabled = true;
 	}
 
 	public void Attack(string atkKind)
@@ -513,11 +530,19 @@ public class Champion : MonoBehaviour, IAttackable
 	{
 		switch (eventName)
 		{
-			case "OnAttackAction":
-				_curAttackAction?.OnAction();
-				break;
+            case "OnAttackEffectAction":
+                _curAttackAction?.OnEffectAction();
+                break;
 
-			case "OnAnimEnd":
+            case "OnAttackPerformanceAction":
+                _curAttackAction?.OnPerformanceAction();
+                break;
+
+            case "OnAttackImpactAction":
+                _curAttackAction?.OnImpactAction();
+                break;
+
+            case "OnAnimEnd":
 				_curAttackAction?.OnAnimationEndEvent();
 				break;
 

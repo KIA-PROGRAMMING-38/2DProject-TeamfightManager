@@ -1,24 +1,4 @@
-﻿public enum TargetDecideKind
-{
-	OnlyTarget,
-	Range_Circle,
-	Range_InTwoPointBox,
-	End
-}
-
-public enum ActionStartPointKind
-{
-	TargetPosition,
-	MyPosition
-}
-
-public enum TargetTeamKind
-{
-	Enemy,
-	Team,
-}
-
-[System.Serializable]
+﻿[System.Serializable]
 public class FindTargetData
 {
 	public TargetDecideKind targetDecideKind;               // 타겟 결정 방식(타겟 하나만 공격할 지 주변 범위의 적 모두를 공격할지 등등)..

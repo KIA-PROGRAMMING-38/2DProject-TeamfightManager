@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 /// <summary>
 /// 퍼포먼스 행동이 움직임 관련인 경우 관련 로직을 제공하는 클래스..
@@ -14,8 +16,13 @@ public class ContPerf_Move : ActionContinuousPerformance
 	private Vector3 _targetPosition;
 
 	private float _moveSpeed = 0f;
+	private float _lerpT = 0f;
+	private float _moveDistance;
+	private Vector2 _bezierPoint1 = new Vector2();
+	private Vector2 _bezierPoint2 = new Vector2();
+	private Vector2 _bezierPoint3 = new Vector2();
 
-	public ContPerf_Move(AttackAction attackAction, AttackPerformanceData performanceData) : base(attackAction, performanceData)
+    public ContPerf_Move(AttackAction attackAction, AttackPerformanceData performanceData) : base(attackAction, performanceData)
 	{
 		_movePerformanceType = (MovePerformanceType)performanceData.detailType;
 
@@ -24,6 +31,12 @@ public class ContPerf_Move : ActionContinuousPerformance
 			_isUseUpdate = true;
 			_moveSpeed = performanceData.floatData[0];
 		}
+		else if (_movePerformanceType == MovePerformanceType.Jump)
+		{
+            _isUseUpdate = true;
+            _moveSpeed = performanceData.floatData[0];
+			_moveDistance = performanceData.floatData[1];
+        }
 	}
 
 	public override void OnStart()
@@ -38,11 +51,42 @@ public class ContPerf_Move : ActionContinuousPerformance
 			ownerChampion.blackboard.SetVectorValue(BlackboardKeyTable.EFFECT_DRIECTION, dir);
 		}
 
-		_isOnAction = false;
-		isEndPerformance = false;
-	}
+		if(MovePerformanceType.Jump == _movePerformanceType)
+		{
+			_lerpT = 0f;
+			_bezierPoint1 = ownerChampion.transform.position;
 
-	public override void OnUpdate()
+            Vector2 dir = (ownerChampion.transform.position - _targetPosition).normalized;
+			float distance = _moveDistance;
+
+            RaycastHit2D hit = Physics2D.Raycast(_bezierPoint1, dir, distance, 1 << LayerTable.Number.STAGE_AREALIMITLINE);
+            if (null != hit.collider)
+            {
+                distance = hit.distance;
+            }
+
+            _bezierPoint3 = _bezierPoint1 + dir * distance;
+
+            // 두 점으로 정삼각형 만드는 공식(https://tibyte.kr/10 참고)을 좀 변형..
+            _bezierPoint2.x = ((_bezierPoint1.x + _bezierPoint3.x) * 0.5f) + ((_bezierPoint3.y - _bezierPoint1.y) * Mathf.Sqrt(3f) * 0.2f);
+			_bezierPoint2.y = ((_bezierPoint1.y + _bezierPoint3.y) * 0.5f) - ((_bezierPoint3.x - _bezierPoint1.x) * Mathf.Sqrt(3f) * 0.2f);
+
+			dir = (_bezierPoint2 - _bezierPoint1);
+			distance = dir.magnitude;
+			dir /= distance;
+
+            hit = Physics2D.Raycast(_bezierPoint1, dir, distance, 1 << LayerTable.Number.STAGE_AREALIMITLINE);
+            if (null != hit.collider)
+            {
+				_bezierPoint2 = _bezierPoint1 + dir * hit.distance;
+            }
+        }
+
+        _isOnAction = false;
+		isEndPerformance = false;
+    }
+
+    public override void OnUpdate()
 	{
 		if (false == _isUseUpdate)
 			return;
@@ -75,8 +119,25 @@ public class ContPerf_Move : ActionContinuousPerformance
 					}
 				}
 				break;
-		}
 
+            case MovePerformanceType.Jump:
+                {
+					_lerpT = Mathf.Min(1f, _lerpT + Time.deltaTime * _moveSpeed);
+
+					Vector2 curPos = MathUtility.Bezier.QuadraticBezierCurve(_bezierPoint1, _bezierPoint2, _bezierPoint3, _lerpT);
+
+                    if (_lerpT >= 1f)
+                    {
+						if (attackAction.isEndAnimation)
+							isEndPerformance = true;
+                    }
+                    else
+                    {
+						ownerChampion.transform.position = curPos;
+                    }
+                }
+                break;
+        }
 	}
 
 	public override void OnAction()
@@ -95,11 +156,10 @@ public class ContPerf_Move : ActionContinuousPerformance
 						Vector3 dir = (_targetPosition - ownerChampion.transform.position).normalized;
 						float distance = performanceData.vectorData[0].z;
 
-						RaycastHit2D hit = Physics2D.Raycast(ownerChampion.transform.position, dir, distance, 1 << LayerMask.NameToLayer("StageOutside"));
+						RaycastHit2D hit = Physics2D.Raycast(ownerChampion.transform.position, dir, distance, 1 << LayerTable.Number.STAGE_AREALIMITLINE);
 						if (null != hit.collider)
 						{
 							distance = hit.distance;
-							Debug.Log("맞음");
 						}
 
 						Vector3 destinationPos = ownerChampion.transform.position + dir * distance;

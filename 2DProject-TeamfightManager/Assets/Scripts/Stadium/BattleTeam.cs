@@ -62,7 +62,31 @@ public class BattleTeam : MonoBehaviour
 	private Team _teamComponent;
 	public string teamName { get => _teamComponent.data.name; }
 
-	public BattleTeamKind battleTeamKind { private get; set; }
+	private BattleTeamKind _battleTeamKind;
+	public BattleTeamKind battleTeamKind
+	{
+		private get => _battleTeamKind;
+		set
+		{
+			_battleTeamKind = value;
+
+			switch (_battleTeamKind)
+			{
+				case BattleTeamKind.RedTeam:
+					championLayer = LayerTable.Number.REDTEAM_CHAMPION;
+					atkSummonLayer = LayerTable.Number.REDTEAM_ATKSUMMON;
+					buffSummonLayer = LayerTable.Number.REDTEAM_BUFFSUMMON;
+
+					break;
+				case BattleTeamKind.BlueTeam:
+					championLayer = LayerTable.Number.BLUETEAM_CHAMPION;
+					atkSummonLayer = LayerTable.Number.BLUETEAM_ATKSUMMON;
+					buffSummonLayer = LayerTable.Number.BLUETEAM_BUFFSUMMON;
+
+					break;
+			}
+		}
+	}
 
 	private List<PilotBattle> _pilots;
 	public List<BattlePilotFightData> battlePilotFightData
@@ -93,6 +117,10 @@ public class BattleTeam : MonoBehaviour
 	private WaitForSeconds _revivalDelaySecInst;
 
     private List<IEnumerator> _revivalCoroutines = new List<IEnumerator>();
+
+	public int championLayer { get; private set; }
+	public int atkSummonLayer { get; private set; }
+	public int buffSummonLayer { get; private set; }
 
 	private void Awake()
 	{
@@ -159,6 +187,7 @@ public class BattleTeam : MonoBehaviour
 		// 초기화..
 		pilotBattleComponent.controlChampion = champion;
 		champion.transform.position = randomSpawnPoint;
+		champion.gameObject.layer = championLayer;
 		champion.gameObject.SetActive(false);
 
 		// 챔피언 목록 및 활성화 챔피언 목록에 추가..
@@ -308,7 +337,37 @@ public class BattleTeam : MonoBehaviour
 		return targetCount;
 	}
 
-	private void OnChangedChampionBattleData(int index, BattleInfoData data)
+	public Champion ComputeRandomEnemyInRange(in Vector3 originPoint, float range, TargetTeamKind teamKind)
+	{
+		int randomNumber = 0;
+		int maxCount = 0;
+
+		switch (teamKind)
+		{
+			case TargetTeamKind.Enemy:
+				maxCount = enemyTeam._activeChampions.Count;
+				randomNumber = UnityEngine.Random.Range(0, maxCount);
+
+				return enemyTeam._activeChampions[randomNumber];
+			case TargetTeamKind.Team:
+				maxCount = _activeChampions.Count;
+				randomNumber = UnityEngine.Random.Range(0, maxCount);
+
+				return _activeChampions[randomNumber];
+			case TargetTeamKind.Both:
+				maxCount = _activeChampions.Count + enemyTeam._activeChampions.Count;
+				randomNumber = UnityEngine.Random.Range(0, maxCount);
+				if (_activeChampions.Count <= randomNumber)
+					return enemyTeam._activeChampions[randomNumber - _activeChampions.Count];
+				else
+					return _activeChampions[randomNumber];
+		}
+
+		return null;
+    }
+
+
+    private void OnChangedChampionBattleData(int index, BattleInfoData data)
 	{
 		OnChangedChampionBattleInfoData?.Invoke(battleTeamKind, index, data);
 	}

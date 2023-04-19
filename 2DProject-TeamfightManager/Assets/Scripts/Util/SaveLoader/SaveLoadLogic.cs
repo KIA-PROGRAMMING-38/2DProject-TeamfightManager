@@ -320,10 +320,18 @@ public static class SaveLoadLogic
 			{
 				getActionData.summonData = new AtkActionSummonData
 				{
-					summonObjectType = (SummonObjectType)int.Parse(attackActionData[atkActionDataStrIndex++]),
+					summonObjectType = (SummonObjectType)int.Parse( attackActionData[atkActionDataStrIndex++] ),
 					summonObjectName = attackActionData[atkActionDataStrIndex++],
+
+					isSummonOnce = bool.Parse( attackActionData[atkActionDataStrIndex++] ),
+					tickTime = float.Parse( attackActionData[atkActionDataStrIndex++] ),
+					offsetPosition = new Vector3( float.Parse( attackActionData[atkActionDataStrIndex++] ), float.Parse( attackActionData[atkActionDataStrIndex++] ),
+												  float.Parse( attackActionData[atkActionDataStrIndex++] ) )
 				};
 			}
+
+			getActionData.rangeType = (AtkRangeType)int.Parse(attackActionData[atkActionDataStrIndex++]);
+			getActionData.atkRange = float.Parse(attackActionData[atkActionDataStrIndex++]);
 		}
 
 		// Attack Impact Data 저장..
@@ -491,8 +499,16 @@ public static class SaveLoadLogic
 			saveDatas[0] += new string(
 				"," + (int)attackActionData.summonData.summonObjectType
 				+ "," + attackActionData.summonData.summonObjectName
-				);
+				+ "," + attackActionData.summonData.isSummonOnce
+                + "," + attackActionData.summonData.tickTime
+                + "," + attackActionData.summonData.offsetPosition.x + "," + attackActionData.summonData.offsetPosition.y + "," + attackActionData.summonData.offsetPosition.z
+                );
 		}
+
+		saveDatas[0] += new string(
+			"," + (int)attackActionData.rangeType
+			+ "," + attackActionData.atkRange
+			);
 
 		// Attack Impact Data 저장..
 		int impactDataCount = attackImpactDatas.Count;

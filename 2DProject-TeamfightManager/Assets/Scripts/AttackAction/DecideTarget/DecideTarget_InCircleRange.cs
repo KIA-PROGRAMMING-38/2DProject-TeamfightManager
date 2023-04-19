@@ -14,10 +14,7 @@ public class DecideTarget_InCircleRange : AtkActionDecideTargetBase
 
 	public override void OnStart()
 	{
-		if (null == battleTeam)
-		{
-			battleTeam = ownerChampion.pilotBattleComponent.myTeam;
-		}
+		battleTeam = ownerChampion.pilotBattleComponent.myTeam;
 	}
 
 	public override int FindTarget(FindTargetData findTargetData, Champion[] getTargetArray)
@@ -42,6 +39,14 @@ public class DecideTarget_InCircleRange : AtkActionDecideTargetBase
 
 				break;
 		}
+
+		return FindTarget(findTargetData, getTargetArray, startPoint);
+	}
+
+	public override int FindTarget(FindTargetData findTargetData, Champion[] getTargetArray, Vector3 startPoint)
+	{
+		if (null == ownerChampion)
+			return 0;
 
 		// 범위 안에 들어오는 적을 찾는 로직..
 		bool TargetFindLogic(Vector3 enemyPosition)

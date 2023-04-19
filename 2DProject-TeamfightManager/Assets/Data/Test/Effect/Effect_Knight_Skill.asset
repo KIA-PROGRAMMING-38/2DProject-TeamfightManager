@@ -15,7 +15,7 @@ MonoBehaviour:
   effectData:
     name: Effect_Knight_Skill
     animClipPath: Animations/Effect/Champion/Effect_Knight_Skill
-    offsetPos: {x: 0, y: 0.1, z: 0}
+    offsetPos: {x: -0.025, y: 0.2, z: 0}
     isAutoDestroy: 1
     isUseLifeTime: 0
     lifeTime: 0

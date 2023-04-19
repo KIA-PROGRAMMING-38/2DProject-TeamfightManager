@@ -26,7 +26,14 @@ MonoBehaviour:
       impactTimeKind: 0
       alwaysImpactDatas: []
       isPlayUltAnim: 0
-    description: "\uAE30\uC0AC \uAD81\uADF9\uAE30"
+    description: "\uC77C\uC815 \uC2DC\uAC04\uB3D9\uC548 \uC544\uAD70 \uBAA8\uB450\uC758
+      \uBC29\uC5B4\uB825\uC744 \uD06C\uAC8C \uC0C1\uC2B9\uC2DC\uD0B5\uB2C8\uB2E4."
+    isSummon: 0
+    summonData:
+      summonObjectType: 0
+      summonObjectName: 
+      isSummonOnce: 0
+      tickTime: 0
   impactData:
   - mainData:
       kind: 0
