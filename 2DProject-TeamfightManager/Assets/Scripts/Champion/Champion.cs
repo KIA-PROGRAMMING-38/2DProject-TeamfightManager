@@ -12,6 +12,7 @@ public class Champion : MonoBehaviour, IAttackable
 {
 	public static EffectManager s_effectManager { private get; set; }
 	public static DataTableManager s_dataTableManager { private get; set; }
+	public static ProjectileManager s_projectileManager { private get; set; }
 
 	private ChampionAnimation _animComponent;
 	public PilotBattle pilotBattleComponent { get; set; }
@@ -153,6 +154,10 @@ public class Champion : MonoBehaviour, IAttackable
 	}
 
 	private LinkedList<Effect> _activeEffectList = new LinkedList<Effect>();
+
+	public int championLayer { get => pilotBattleComponent.championLayer; }
+	public int atkSummonLayer { get => pilotBattleComponent.atkSummonLayer; }
+	public int buffSummonLayer { get => pilotBattleComponent.buffSummonLayer; }
 
 	private void Awake()
 	{
@@ -298,6 +303,10 @@ public class Champion : MonoBehaviour, IAttackable
 		_attackAction.effectManager = s_effectManager;
 		_skillAction.effectManager = s_effectManager;
 		_ultimateAction.effectManager = s_effectManager;
+
+		_attackAction.projectileManager = s_projectileManager;
+		_skillAction.projectileManager = s_projectileManager;
+		_ultimateAction.projectileManager = s_projectileManager;
 
 		SetupBlackboard();
 	}

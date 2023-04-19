@@ -12,12 +12,12 @@ TagManager:
   - Water
   - UI
   - StageOutside
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - RedTeamChampion
+  - BlueTeamChampion
+  - RedTeamAtkSummon
+  - BlueTeamAtkSummon
+  - RedTeamBuffSummon
+  - BlueTeamBuffSummon
   - 
   - 
   - 

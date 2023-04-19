@@ -10,4 +10,13 @@ public class AttackActionData
 
 	public bool isSummon;
 	public AtkActionSummonData summonData;
+	public AtkRangeType rangeType;
+	public float atkRange;
+}
+
+public enum AtkRangeType
+{
+	FollowDefaultRange,
+	AllMapRange,
+	CustomRange,
 }

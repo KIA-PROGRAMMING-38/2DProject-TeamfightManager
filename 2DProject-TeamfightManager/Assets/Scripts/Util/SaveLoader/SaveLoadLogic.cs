@@ -324,6 +324,9 @@ public static class SaveLoadLogic
 					summonObjectName = attackActionData[atkActionDataStrIndex++],
 				};
 			}
+
+			getActionData.rangeType = (AtkRangeType)int.Parse(attackActionData[atkActionDataStrIndex++]);
+			getActionData.atkRange = float.Parse(attackActionData[atkActionDataStrIndex++]);
 		}
 
 		// Attack Impact Data 저장..
@@ -493,6 +496,11 @@ public static class SaveLoadLogic
 				+ "," + attackActionData.summonData.summonObjectName
 				);
 		}
+
+		saveDatas[0] += new string(
+			"," + (int)attackActionData.rangeType
+			+ "," + attackActionData.atkRange
+			);
 
 		// Attack Impact Data 저장..
 		int impactDataCount = attackImpactDatas.Count;

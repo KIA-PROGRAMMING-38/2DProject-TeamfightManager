@@ -26,7 +26,16 @@ MonoBehaviour:
       impactTimeKind: 1
       alwaysImpactDatas: []
       isPlayUltAnim: 1
-    description: "\uC720\uB839 \uAD81\uADF9\uAE30"
+    description: "\uC544\uAD70\uC5D0\uAC8C\uC11C \uC774\uB85C\uC6B4 \uD6A8\uACFC\uB97C
+      \uBC1B\uC9C0 \uBABB\uD569\uB2C8\uB2E4. \uB300\uC2E0 \uC801 \uCC98\uCE58 \uAD00\uC5EC\uC2DC
+      \uC774\uBC88 \uC138\uD2B8\uB3D9\uC548 \uACF5\uACA9\uB825\uACFC \uACF5\uACA9
+      \uC18D\uB3C4\uAC00 \uC0C1\uC2B9\uD558\uBA70 \uCCB4\uB825\uC744 \uD68C\uBCF5\uD569\uB2C8\uB2E4."
+    isSummon: 0
+    summonData:
+      summonObjectType: 0
+      summonObjectName: 
+      isSummonOnce: 0
+      tickTime: 0
   impactData:
   - mainData:
       kind: 0

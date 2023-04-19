@@ -51,6 +51,11 @@ public class DecideTarget_InTwoPoint : AtkActionDecideTargetBase
 		return battleTeam.ComputeEnemyTarget(TargetFindLogic, getTargetArray, findTargetData.targetTeamKind);
 	}
 
+	public override int FindTarget(FindTargetData findTargetData, Champion[] getTargetArray, Vector3 startPoint)
+	{
+		return FindTarget(findTargetData, getTargetArray);
+	}
+
 	public override void OnEnd()
 	{
 

@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdd9b24dc17bcbe43bef08f4b05f6034, type: 3}
   m_Name: SpawnObjectContainer
   m_EditorClassIdentifier: 
-  projectileContainer: []
+  projectilePrefabContainer:
+  - {fileID: 3812614455841238010, guid: 1d34ba282469a9f4c926fc53609a9cbb, type: 3}
+  - {fileID: 3566700197003718950, guid: 9c2140527519d88438db21cc2cdd6021, type: 3}
+  - {fileID: 5048750477073143597, guid: 6fc2a5959226d0a438f7ac4519196122, type: 3}

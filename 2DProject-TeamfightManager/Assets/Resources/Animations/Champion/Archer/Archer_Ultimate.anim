@@ -161,8 +161,8 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 2.5
-    functionName: OnAnimationEvent
-    data: OnAnimEnd
+    functionName: OnAnimationEnd
+    data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

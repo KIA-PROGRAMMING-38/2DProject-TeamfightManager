@@ -10,35 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c2fbf974c0032740b3cc6a0cf8b0141, type: 3}
-  m_Name: Swordman_Ultimate
+  m_Name: Archer_Attack
   m_EditorClassIdentifier: 
   extension: .data
   baseFilePath: Assets/Data
   actionData:
-    uniqueKey: 2
+    uniqueKey: 12
     isPassive: 0
     findTargetData:
-      targetDecideKind: 2
+      targetDecideKind: 0
       targetTeamKind: 0
-      impactRange: 0.05
-      actionStartPointKind: 1
+      impactRange: 0
+      actionStartPointKind: 0
     passiveData:
       impactTimeKind: 0
       alwaysImpactDatas: []
       isPlayUltAnim: 0
-    description: "\uC77C\uC9C1\uC120\uC73C\uB85C \uBE60\uB974\uAC8C \uC774\uB3D9\uD558\uBA70
-      \uACBD\uB85C\uC0C1\uC5D0 \uC788\uB294 \uBAA8\uB4E0 \uC801\uC744 \uBCA0\uC5B4\uBC84\uB9BD\uB2C8\uB2E4."
-    isSummon: 0
+    description: 
+    isSummon: 1
     summonData:
-      summonObjectType: 0
-      summonObjectName: 
-      isSummonOnce: 0
+      summonObjectType: 1
+      summonObjectName: Arrow
+      isSummonOnce: 1
       tickTime: 0
+      offsetPosition: {x: 0.438, y: 0.076, z: 0}
+    rangeType: 0
+    atkRange: 0
   impactData:
   - mainData:
       kind: 2
       detailKind: 0
-      amount: 100
+      amount: 1
       duration: 0
       tickTime: 0
     isSeparateTargetFindLogic: 0
@@ -53,15 +55,14 @@ MonoBehaviour:
       showEffectName: 
       effectPointKind: 0
   performanceData:
-    isUsePerf: 1
+    isUsePerf: 0
     perfType: 0
-    detailType: 1
-    vectorData:
-    - {x: 0, y: 0, z: 2.9}
+    detailType: 0
+    vectorData: []
     floatData: []
   effectData:
-    isShowEffect: 1
-    showEffectName: Effect_Swordman_Ultimate
+    isShowEffect: 0
+    showEffectName: 
     effectPointKind: 1
   kindEnum: 0
   atkImpactEnum: 0

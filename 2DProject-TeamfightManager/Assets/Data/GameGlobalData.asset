@@ -31,3 +31,4 @@ MonoBehaviour:
   testBluePilotCreateOrder:
   - Faker
   banpickStageGlobalData: {fileID: 11400000, guid: c913512666f128b4a8585530ae168924, type: 2}
+  spawnObjectGolbalData: {fileID: 11400000, guid: 86c2ca5ccf2caf04d9bfd1fdf0a03f14, type: 2}

@@ -1,4 +1,5 @@
-﻿/// <summary>
+﻿using UnityEngine;
+/// <summary>
 /// 현재 챔피언이 설정한 타겟을 적용 대상으로 처리한다..
 /// </summary>
 public class DecideTarget_OnlyTarget : AtkActionDecideTargetBase
@@ -39,6 +40,11 @@ public class DecideTarget_OnlyTarget : AtkActionDecideTargetBase
 		}
 
 		return 1;
+	}
+
+	public override int FindTarget(FindTargetData findTargetData, Champion[] getTargetArray, Vector3 startPoint)
+	{
+		return FindTarget(findTargetData, getTargetArray);
 	}
 
 	public override void OnEnd()

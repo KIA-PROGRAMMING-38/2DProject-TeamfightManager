@@ -13,7 +13,8 @@ public class AttackAction
 	{
 		set
 		{
-			_summonSystem.projectileManager = value;
+			if (null != _summonSystem)
+				_summonSystem.projectileManager = value;
 		}
 	}
 
@@ -82,8 +83,26 @@ public class AttackAction
 				_actionImpactLogics[i].ownerChampion = value;
 				_actionImpactLogics[i].attackAction = this;
 			}
+
+			switch (_actionData.rangeType)
+			{
+				case AtkRangeType.FollowDefaultRange:
+					attackRange = ownerChampion.status.range;
+					break;
+				case AtkRangeType.AllMapRange:
+					attackRange = float.MaxValue;
+					break;
+				case AtkRangeType.CustomRange:
+					attackRange = _actionData.atkRange;
+					break;
+			}
+
+			if (null != _summonSystem)
+				_summonSystem.ownerChampion = _ownerChampion;
 		}
 	}
+
+	public float attackRange { get; private set; }
 
 	public AttackAction(AttackActionData attackActionData, AttackPerformanceData performanceData, AttackActionEffectData effectData)
 	{
@@ -128,10 +147,17 @@ public class AttackAction
 
 		if (true == attackActionData.isSummon)
 		{
-			_summonSystem = new SummonSystem(attackActionData.summonData, () =>
+			_summonSystem = new SummonSystem(attackActionData.summonData, (Vector3 startPoint) =>
 			{
-				return _decideTargetLogicContainer[_baseDecideTargetLogicIndex].FindTarget(_actionData.findTargetData, baseFindTargetsCache);
+				return _decideTargetLogicContainer[_baseDecideTargetLogicIndex].FindTarget(_actionData.findTargetData, baseFindTargetsCache, startPoint);
+			}, 
+			() =>
+			{
+				_decideTargetLogicContainer[(int)TargetDecideKind.OnlyTarget].FindTarget(_actionData.findTargetData, baseFindTargetsCache);
+				return baseFindTargetsCache[0];
 			});
+
+			_summonSystem.atkImpactTeamKind = _actionData.findTargetData.targetTeamKind;
 		}
 	}
 

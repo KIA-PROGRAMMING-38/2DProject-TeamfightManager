@@ -9,6 +9,20 @@ public class ProjectileManager : MonoBehaviour
 		set 
 		{
 			_gameManager = value;
+
+			int loopCount = _gameManager.gameGlobalData.spawnObjectGolbalData.projectilePrefabContainer.Length;
+			_projectilePoolerContainer = new Dictionary<string, ObjectPooler<Projectile>>(loopCount);
+
+			for (int i = 0; i < loopCount; ++i)
+			{
+				Projectile prefab = _gameManager.gameGlobalData.spawnObjectGolbalData.projectilePrefabContainer[i].GetComponent<Projectile>();
+
+				ObjectPooler<Projectile> pooler = new ObjectPooler<Projectile>(
+					() => CreateProjectile(prefab),
+					null, OnReleaseProjectile, null, 5, 2, 100);
+
+				_projectilePoolerContainer.Add(prefab.projectileName, pooler);
+			}
 		}
 	}
 
@@ -18,29 +32,28 @@ public class ProjectileManager : MonoBehaviour
 
 	private void Awake()
 	{
-		int loopCount = _gameManager.gameGlobalData.spawnObjectGolbalData.projectilePrefabContainer.Length;
-		_projectilePoolerContainer = new Dictionary<string, ObjectPooler<Projectile>>(loopCount);
+		Champion.s_projectileManager = this;
+	}
 
-		for ( int i = 0; i < loopCount; ++i)
-		{
-			Projectile prefab = _gameManager.gameGlobalData.spawnObjectGolbalData.projectilePrefabContainer[i].GetComponent<Projectile>();
+	public Projectile GetProjectile(string projectileName)
+	{
+		return _projectilePoolerContainer[projectileName].Get();
+	}
 
-			ObjectPooler<Projectile> pooler = new ObjectPooler<Projectile>(
-				() => CreateProjectile(prefab),
-				null, ReleaseProjectile, null, 5, 2, 100);
-
-			_projectilePoolerContainer.Add(prefab.projectileName, pooler);
-		}
+	public void ReleaseProjectile(Projectile projectile)
+	{
+		_projectilePoolerContainer[projectile.projectileName].Release(projectile);
 	}
 
 	private Projectile CreateProjectile(Projectile prefab)
 	{
 		Projectile newProjectile = Instantiate<Projectile>(prefab);
+		newProjectile.projectileManager = this;
 
 		return newProjectile;
 	}
 
-	private void ReleaseProjectile(Projectile projectile)
+	private void OnReleaseProjectile(Projectile projectile)
 	{
 		projectile.gameObject.SetActive(false);
 	}

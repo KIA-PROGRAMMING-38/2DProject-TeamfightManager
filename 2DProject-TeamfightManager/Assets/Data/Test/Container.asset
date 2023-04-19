@@ -25,11 +25,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dbad3944aac9a624d956d48a04b78c9c, type: 2}
   - {fileID: 11400000, guid: 7185f0fd255d6664db556a003005b99c, type: 2}
   - {fileID: 11400000, guid: 7025e3472770f104a899b167a0e43a00, type: 2}
+  - {fileID: 11400000, guid: c55dbe8e83498df408d110306fccebb3, type: 2}
   allChampionDataPrefab:
   - {fileID: 11400000, guid: 18259cb30d1d6bf4fae37f6fdf55b3c7, type: 2}
   - {fileID: 11400000, guid: 8ec995d14db848146b64f69826d70c69, type: 2}
   - {fileID: 11400000, guid: 96574cfa15a6d524b98f4e1bfe619f7f, type: 2}
   - {fileID: 11400000, guid: 2f2c8295acd462148978f4998dd8a417, type: 2}
+  - {fileID: 11400000, guid: 14612d47e1cb89942ab67259a267a02e, type: 2}
   allEffectDataPrefab:
   - {fileID: 11400000, guid: 94f544706b6334d4ebede48876a884d0, type: 2}
   - {fileID: 11400000, guid: 13df9b1de016dbe459c5bbfcf9598076, type: 2}

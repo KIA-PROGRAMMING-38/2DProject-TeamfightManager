@@ -46,7 +46,11 @@ public class PilotBattle : MonoBehaviour
 
     private BattleInfoData _battleInfoData;
 
-    public BattlePilotFightData battlePilotFightData
+	public int championLayer { get => myTeam.championLayer; }
+	public int atkSummonLayer { get => myTeam.atkSummonLayer; }
+	public int buffSummonLayer { get => myTeam.buffSummonLayer; }
+
+	public BattlePilotFightData battlePilotFightData
     {
         get
         {
