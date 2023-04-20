@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Codice.CM.WorkspaceServer.DataStore;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Experimental.AI;
 
 public static class SaveLoadLogic
 {
@@ -8,95 +10,39 @@ public static class SaveLoadLogic
 	// ============================================================================================== //
 	// ==================================== Champion Save Load.. ==================================== //
 	// ============================================================================================== //
-	public static bool LoadChampionFile(string fileName, out ChampionStatus getChampionStatus, out ChampionData getChampData, out ChampionResourceData getResourceData)
+	public static bool LoadChampionFile(string fileData, out ChampionStatus getChampionStatus, out ChampionData getChampData, out ChampionResourceData getResourceData)
 	{
-		// 파일이 있는지 검사..
-		if (false == File.Exists(fileName))
-		{
-			getChampionStatus = null;
-			getChampData = null;
-			getResourceData = null;
-			return false;
-		}
-
-		string[] loadData = File.ReadAllLines(fileName);
-
-		// Champion Status 데이터 설정..
-		string[] championStatusDatas = loadData[0].Split(',');
+		string[] loadData = fileData.Split(',');
+		int index = 1;
 
 		getChampionStatus = new ChampionStatus();
-
-		getChampionStatus.atkStat = int.Parse(championStatusDatas[0]);
-		getChampionStatus.atkSpeed = float.Parse(championStatusDatas[1]);
-		getChampionStatus.range = float.Parse(championStatusDatas[2]);
-		getChampionStatus.defence = int.Parse(championStatusDatas[3]);
-		getChampionStatus.hp = int.Parse(championStatusDatas[4]);
-		getChampionStatus.moveSpeed = float.Parse(championStatusDatas[5]);
-		getChampionStatus.skillCooltime = float.Parse(championStatusDatas[6]);
-
-		// Champion Data 데이터 설정..
-		string[] championDatas = loadData[1].Split(',');
-
 		getChampData = new ChampionData();
-
-		getChampData.name = championDatas[0];
-		getChampData.nameKR = championDatas[1];
-		getChampData.type = (ChampionClassType)int.Parse(championDatas[2]);
-		getChampData.atkActionUniqueKey = int.Parse(championDatas[3]);
-		getChampData.skillActionUniqueKey = int.Parse(championDatas[4]);
-		getChampData.ultimateActionUniqueKey = int.Parse(championDatas[5]);
-
-		getChampData.champDescription = loadData[2];
-
-		// Champion Resource 데이터 설정..
-		string[] champResourceData = loadData[3].Split(',');
-
 		getResourceData = new ChampionResourceData();
 
-		getResourceData.champIconImagePath = champResourceData[0];
-		getResourceData.skillIconImagePath = champResourceData[1];
-		getResourceData.ultimateIconImagePath = champResourceData[2];
+		// Champion Status 데이터 설정..
+		getChampionStatus.atkStat = int.Parse(loadData[index++]);
+		getChampionStatus.atkSpeed = float.Parse(loadData[index++]);
+		getChampionStatus.range = float.Parse(loadData[index++]);
+		getChampionStatus.defence = int.Parse(loadData[index++]);
+		getChampionStatus.hp = int.Parse(loadData[index++]);
+		getChampionStatus.moveSpeed = float.Parse(loadData[index++]);
+		getChampionStatus.skillCooltime = float.Parse(loadData[index++]);
+
+		// Champion Data 설정..
+		getChampData.name = loadData[index++];
+		getChampData.nameKR = loadData[0];
+		getChampData.type = (ChampionClassType)int.Parse(loadData[index++]);
+		getChampData.atkActionUniqueKey = int.Parse(loadData[index++]);
+		getChampData.skillActionUniqueKey = int.Parse(loadData[index++]);
+		getChampData.ultimateActionUniqueKey = int.Parse(loadData[index++]);
+		getChampData.champDescription = loadData[index++];
+
+		// Champion Resource 데이터 설정..
+		getResourceData.champIconImagePath = loadData[index++];
+		getResourceData.skillIconImagePath = loadData[index++];
+		getResourceData.ultimateIconImagePath = loadData[index++];
 
 		return true;
-	}
-
-	public static void SaveChampionFile(ChampionStatus championStatus, ChampionData championData, ChampionResourceData champResourceData
-		, string baseGameSaveFilePath, string championName, string fileExtension)
-	{
-		string filePath = Path.Combine(baseGameSaveFilePath, "Champion", championName + fileExtension);
-
-		string[] saveDatas =
-		{
-			// 챔피언 status 저장..
-			new string(
-				championStatus.atkStat + "," +
-				championStatus.atkSpeed + "," +
-				championStatus.range + "," +
-				championStatus.defence + "," +
-				championStatus.hp + "," +
-				championStatus.moveSpeed + "," +
-				championStatus.skillCooltime
-				),
-
-			// 챔피언 Data 저장..
-			new string(
-					championData.name + "," +
-					championData.nameKR + "," +
-					(int)championData.type + "," +
-					championData.atkActionUniqueKey + "," +
-					championData.skillActionUniqueKey + "," +
-					championData.ultimateActionUniqueKey
-					),
-
-			championData.champDescription,
-
-			// 챔피언 Resource Data 저장..
-			champResourceData.champIconImagePath + "," +
-			champResourceData.skillIconImagePath + "," +
-			champResourceData.ultimateIconImagePath,
-		};
-
-		File.WriteAllLines(filePath, saveDatas);
 	}
 	#endregion
 
@@ -104,70 +50,36 @@ public static class SaveLoadLogic
 	// ============================================================================================== //
 	// ==================================== Pilot Save Load.. ======================================= //
 	// ============================================================================================== //
-	public static bool LoadPilotFile(string fileName, out PilotData getPilotData)
+	public static bool LoadPilotFile(string fileData, out PilotData getPilotData)
 	{
-		// 파일이 있는지 검사..
-		if (false == File.Exists(fileName))
-		{
-			getPilotData = null;
-			return false;
-		}
-
 		getPilotData = new PilotData();
 
 		// 파일럿 데이터 초기화..
-		string[] loadData = File.ReadAllLines(fileName);
-		string[] pilotDatas = loadData[0].Split(',');
+		string[] loadData = fileData.Split(',');
 
-		getPilotData.name = pilotDatas[0];
-		getPilotData.atkStat = int.Parse(pilotDatas[1]);
-		getPilotData.defStat = int.Parse(pilotDatas[2]);
+		int index = 0;
+
+		getPilotData.name = loadData[index++];
+		getPilotData.atkStat = int.Parse(loadData[index++]);
+		getPilotData.defStat = int.Parse(loadData[index++]);
 
 		// 파일럿의 챔피언 숙련도 데이터 초기화..
-		string[] pilotChampSkillLevelDatas = loadData[1].Split(',');
-		int champSkillLevelDataCount = int.Parse(pilotChampSkillLevelDatas[0]);
+		int champSkillLevelDataCount = int.Parse(loadData[index++]);
 
-		getPilotData.champSkillLevelContainer = new List<ChampionSkillLevelInfo>();
-		getPilotData.champSkillLevelContainer.Capacity = champSkillLevelDataCount;
+		getPilotData.champSkillLevelContainer = new List<ChampionSkillLevelInfo>(champSkillLevelDataCount);
 
 		for (int i = 0; i < champSkillLevelDataCount; ++i)
 		{
 			getPilotData.champSkillLevelContainer.Add(new ChampionSkillLevelInfo
 			{
-				champName = pilotChampSkillLevelDatas[i * 2 + 1],
-				level = int.Parse(pilotChampSkillLevelDatas[i * 2 + 2])
+				champName = loadData[index++],
+				level = int.Parse(loadData[index++])
 			});
 		}
 
+		index = 12;
+
 		return true;
-	}
-
-	public static void SavePilotFile(PilotData pilotData, string baseGameSaveFilePath, string pilotName, string fileExtension)
-	{
-		string filePath = Path.Combine(baseGameSaveFilePath, "Pilot", pilotName + fileExtension);
-
-		// 파일럿 data 저장..
-		string saveDatas =
-			pilotData.name + "," +
-			pilotData.atkStat + "," +
-			pilotData.defStat + "\n";
-
-		// 파일럿 숙련도 저장..
-		if (null != pilotData.champSkillLevelContainer)
-		{
-			saveDatas += pilotData.champSkillLevelContainer.Count;
-
-			foreach (var champSkillLevel in pilotData.champSkillLevelContainer)
-			{
-				saveDatas += "," + champSkillLevel.champName + "," + champSkillLevel.level;
-			}
-		}
-		else
-		{
-			saveDatas += "0";
-		}
-
-		File.WriteAllText(filePath, saveDatas);
 	}
 	#endregion
 
@@ -175,54 +87,24 @@ public static class SaveLoadLogic
 	// ============================================================================================== //
 	// ==================================== Effect Save Load.. ====================================== //
 	// ============================================================================================== //
-	public static bool LoadEffectFile(string fileName, out EffectData getEffectData)
+	public static bool LoadEffectFile(string fileData, out EffectData getEffectData)
 	{
-		// 파일이 있는지 여부 판단..
-		if (false == File.Exists(fileName))
-		{
-			getEffectData = null;
-			return false;
-		}
-
-		string loadData = File.ReadAllText(fileName);
+		string[] loadData = fileData.Split(',');
+		int index = 0;
 
 		// 이펙트 Data 파일에서 불러와 저장..
-		string[] effectDatas = loadData.Split(',');
-
 		getEffectData = new EffectData();
-		getEffectData.name = effectDatas[0];
-		getEffectData.animClipPath = effectDatas[1];
-		getEffectData.offsetPos = new Vector3(float.Parse(effectDatas[2]), float.Parse(effectDatas[3]), float.Parse(effectDatas[4]));
-		getEffectData.isAutoDestroy = bool.Parse(effectDatas[5]);
-		getEffectData.isUseLifeTime = bool.Parse(effectDatas[6]);
-		getEffectData.lifeTime = float.Parse(effectDatas[7]);
-		getEffectData.rotationType = (EffectRotationType)int.Parse(effectDatas[8]);
-		getEffectData.isBecomeTargetChild = bool.Parse(effectDatas[9]);
-		getEffectData.sortingOrder = int.Parse(effectDatas[10]);
+		getEffectData.name = loadData[index++];
+		getEffectData.animClipPath = loadData[index++];
+		getEffectData.offsetPos = new Vector3(float.Parse(loadData[index++]), float.Parse(loadData[index++]), float.Parse(loadData[index++]));
+		getEffectData.isAutoDestroy = bool.Parse(loadData[index++]);
+		getEffectData.isUseLifeTime = bool.Parse(loadData[index++]);
+		getEffectData.lifeTime = float.Parse(loadData[index++]);
+		getEffectData.rotationType = (EffectRotationType)int.Parse(loadData[index++]);
+		getEffectData.isBecomeTargetChild = bool.Parse(loadData[index++]);
+		getEffectData.sortingOrder = int.Parse(loadData[index++]);
 
 		return true;
-	}
-
-	public static void SaveEffectFile(EffectData effectData, string baseGameSaveFilePath, string fileExtension)
-	{
-		string filePath = Path.Combine(baseGameSaveFilePath, "Effect", effectData.name + fileExtension);
-
-		// 이펙트 data 저장..
-		string saveDatas = new string(
-			effectData.name
-			+ "," + effectData.animClipPath
-			+ "," + effectData.offsetPos.x
-			+ "," + effectData.offsetPos.y
-			+ "," + effectData.offsetPos.z
-			+ "," + effectData.isAutoDestroy
-			+ "," + effectData.isUseLifeTime
-			+ "," + effectData.lifeTime
-			+ "," + (int)effectData.rotationType
-			+ "," +  effectData.isBecomeTargetChild
-			+ "," +  effectData.sortingOrder
-			);
-
-		File.WriteAllText(filePath, saveDatas);
 	}
 	#endregion
 
@@ -230,359 +112,178 @@ public static class SaveLoadLogic
 	// ============================================================================================== //
 	// ================================ AttackAction Save Load.. ==================================== //
 	// ============================================================================================== //
-	public static bool LoadAttackActionFile(string fileName, out AttackActionData getActionData, out List<AttackImpactData> getImpactDatas, 
+	public static bool LoadAttackActionFile(string[] fileData, out AttackActionData getActionData, out List<AttackImpactData> getImpactDatas,
 		out AttackPerformanceData getPerformaceData, out AttackActionEffectData getEffectData)
 	{
-		// 파일 있는지 유무 판단..
-		if (false == File.Exists(fileName))
+		string[] loadData = null;
+		int index = 0;
+
+		// Action Data 저장..
+		loadData = fileData[0].Split(',');
+		index = 1;
+
+		getActionData = new AttackActionData();
+		getActionData.uniqueKey = int.Parse(loadData[index++]);
+
+		getActionData.findTargetData = new FindTargetData();
+		getActionData.findTargetData.targetDecideKind = (TargetDecideKind)int.Parse(loadData[index++]);
+		getActionData.findTargetData.targetTeamKind = (TargetTeamKind)int.Parse(loadData[index++]);
+		getActionData.findTargetData.impactRange = float.Parse(loadData[index++]);
+		getActionData.findTargetData.actionStartPointKind = (ActionStartPointKind)int.Parse(loadData[index++]);
+		getActionData.description = loadData[index++];
+		getActionData.rangeType = (AtkRangeType)int.Parse(loadData[index++]);
+		getActionData.atkRange = float.Parse(loadData[index++]);
+
+		// Summon Data 저장..
+		getActionData.isSummon = bool.Parse(loadData[index++]);
+		if (true == getActionData.isSummon)
 		{
-			getActionData = null;
-			getImpactDatas = null;
-			getPerformaceData = null;
-			getEffectData = null;
-			return false;
+			getActionData.summonData = new AtkActionSummonData();
+
+			getActionData.summonData.summonObjectType = (SummonObjectType)int.Parse(loadData[index++]);
+			getActionData.summonData.summonObjectName = loadData[index++];
+			getActionData.summonData.isSummonOnce = bool.Parse(loadData[index++]);
+			getActionData.summonData.tickTime = float.Parse(loadData[index++]);
+			getActionData.summonData.offsetPosition = new Vector3(
+				float.Parse(loadData[index++]), float.Parse(loadData[index++]), float.Parse(loadData[index++]));
 		}
 
-		string[] loadData = File.ReadAllLines(fileName);
-
-		// 공격 행동 Data 저장..
+		// Default Shoow Effect 저장..
+		index = 17;
+		getEffectData = new AttackActionEffectData();
+		getEffectData.isShowEffect = bool.Parse(loadData[index++]);
+		if(true == getEffectData.isShowEffect)
 		{
-			int atkActionDataStrIndex = 0;
-			string[] attackActionData = loadData[0].Split(',');
+			getEffectData.showEffectName = loadData[index++];
+			getEffectData.effectPointKind = (ActionStartPointKind)int.Parse(loadData[index++]);
+		}
 
-			getActionData = new AttackActionData();
-			getActionData.uniqueKey = int.Parse(attackActionData[atkActionDataStrIndex++]);
-			getActionData.isPassive = bool.Parse(attackActionData[atkActionDataStrIndex++]);
-			getActionData.findTargetData = new FindTargetData
+		// Passive Data 저장..
+		index = 20;
+		getActionData.isPassive = bool.Parse(loadData[index++]);
+		if(true == getActionData.isPassive)
+		{
+			getActionData.passiveData = new AtkActionPassiveData();
+
+			getActionData.passiveData.impactTimeKind = (PassiveImpactTimeKind)int.Parse(loadData[index++]);
+			getActionData.passiveData.isPlayUltAnim = bool.Parse(loadData[index++]);
+
+			int ContainerSize = int.Parse(loadData[index++]);
+			getActionData.passiveData.alwaysImpactDatas = new List<AttackImpactData>(ContainerSize);
+			for( int i = 0; i < ContainerSize; ++i)
 			{
-				targetDecideKind = (TargetDecideKind)int.Parse(attackActionData[atkActionDataStrIndex++]),
-				targetTeamKind = (TargetTeamKind)int.Parse(attackActionData[atkActionDataStrIndex++]),
-				impactRange = float.Parse(attackActionData[atkActionDataStrIndex++]),
-				actionStartPointKind = (ActionStartPointKind)int.Parse(attackActionData[atkActionDataStrIndex++]),
-			};
+				index = 24 + 13 * i;
 
-			if (true == getActionData.isPassive)
-			{
-				AtkActionPassiveData newPassiveData = new AtkActionPassiveData();
+				AttackImpactData impactData = new AttackImpactData();
 
-				newPassiveData.impactTimeKind = (PassiveImpactTimeKind)int.Parse(attackActionData[atkActionDataStrIndex++]);
+				impactData.mainData = new AttackImpactMainData();
+				impactData.mainData.kind = (AttackImpactEffectKind)int.Parse(loadData[index++]);
+				impactData.mainData.detailKind = int.Parse(loadData[index++]);
+				impactData.mainData.amount = float.Parse(loadData[index++]);
+				impactData.mainData.duration = float.Parse(loadData[index++]);
+				impactData.mainData.tickTime = float.Parse(loadData[index++]);
 
-				int loopCount = int.Parse(attackActionData[atkActionDataStrIndex++]);
-				newPassiveData.alwaysImpactDatas = new List<AttackImpactData>(loopCount);
-				for (int i = 0; i < loopCount; ++i)
+				impactData.isSeparateTargetFindLogic = bool.Parse(loadData[index++]);
+				if(impactData.isSeparateTargetFindLogic)
 				{
-					AttackImpactData newImpactData = new AttackImpactData
-					{
-						mainData = new AttackImpactMainData
-						{
-							kind = (AttackImpactEffectKind)int.Parse(attackActionData[atkActionDataStrIndex++]),
-							detailKind = int.Parse(attackActionData[atkActionDataStrIndex++]),
-							amount = float.Parse(attackActionData[atkActionDataStrIndex++]),
-							duration = float.Parse(attackActionData[atkActionDataStrIndex++]),
-							tickTime = float.Parse(attackActionData[atkActionDataStrIndex++])
-						},
-
-						isSeparateTargetFindLogic = bool.Parse(attackActionData[atkActionDataStrIndex++]),
-						isShowEffect = bool.Parse(attackActionData[atkActionDataStrIndex++]),
-					};
-
-					if (newImpactData.isSeparateTargetFindLogic)
-					{
-						newImpactData.findTargetData = new FindTargetData
-						{
-							targetDecideKind = (TargetDecideKind)int.Parse(attackActionData[atkActionDataStrIndex++]),
-							targetTeamKind = (TargetTeamKind)int.Parse(attackActionData[atkActionDataStrIndex++]),
-							impactRange = float.Parse(attackActionData[atkActionDataStrIndex++]),
-							actionStartPointKind = (ActionStartPointKind)int.Parse(attackActionData[atkActionDataStrIndex++]),
-						};
-					}
-
-					if (newImpactData.isShowEffect)
-					{
-						newImpactData.effectData = new AttackActionEffectData
-						{
-							isShowEffect = bool.Parse(attackActionData[atkActionDataStrIndex++]),
-							showEffectName = attackActionData[atkActionDataStrIndex++],
-							effectPointKind = (ActionStartPointKind)int.Parse(attackActionData[atkActionDataStrIndex++]),
-						};
-					}
-
-					newPassiveData.alwaysImpactDatas.Add(newImpactData);
+					impactData.findTargetData = new FindTargetData();
+					impactData.findTargetData.targetDecideKind = (TargetDecideKind)int.Parse(loadData[index++]);
+					impactData.findTargetData.targetTeamKind = (TargetTeamKind)int.Parse(loadData[index++]);
+					impactData.findTargetData.impactRange = float.Parse(loadData[index++]);
+					impactData.findTargetData.actionStartPointKind = (ActionStartPointKind)int.Parse(loadData[index++]);
 				}
 
-				getActionData.passiveData = newPassiveData;
-			}
-
-			getActionData.description = attackActionData[atkActionDataStrIndex++];
-
-			getActionData.isSummon = bool.Parse(attackActionData[atkActionDataStrIndex++]);
-			if(getActionData.isSummon)
-			{
-				getActionData.summonData = new AtkActionSummonData
+				index = 34 + 13 * i;
+				impactData.isShowEffect = bool.Parse(loadData[index++]);
+				if(impactData.isShowEffect)
 				{
-					summonObjectType = (SummonObjectType)int.Parse( attackActionData[atkActionDataStrIndex++] ),
-					summonObjectName = attackActionData[atkActionDataStrIndex++],
+					impactData.effectData = new AttackActionEffectData();
+					impactData.effectData.isShowEffect = true;
+					impactData.effectData.showEffectName = loadData[index++];
+					impactData.effectData.effectPointKind = (ActionStartPointKind)int.Parse(loadData[index++]);
+				}
 
-					isSummonOnce = bool.Parse( attackActionData[atkActionDataStrIndex++] ),
-					tickTime = float.Parse( attackActionData[atkActionDataStrIndex++] ),
-					offsetPosition = new Vector3( float.Parse( attackActionData[atkActionDataStrIndex++] ), float.Parse( attackActionData[atkActionDataStrIndex++] ),
-												  float.Parse( attackActionData[atkActionDataStrIndex++] ) )
-				};
+				getActionData.passiveData.alwaysImpactDatas.Add(impactData);
 			}
-
-			getActionData.rangeType = (AtkRangeType)int.Parse(attackActionData[atkActionDataStrIndex++]);
-			getActionData.atkRange = float.Parse(attackActionData[atkActionDataStrIndex++]);
 		}
 
 		// Attack Impact Data 저장..
-		int impactDataCount = int.Parse(loadData[1]);
-		getImpactDatas = new List<AttackImpactData>(impactDataCount);
+		loadData = fileData[1].Split(',');
+		index = 1;
 
-		int index = 2;
-		for (int i = 0; i < impactDataCount; ++i)
+		int impactDataSize = int.Parse(loadData[index++]);
+		getImpactDatas = new List<AttackImpactData>(impactDataSize);
+		for( int i = 0; i < impactDataSize; ++i)
 		{
-			string[] impactData = loadData[index++].Split(',');
+			index = 2 + 13 * i;
 
-			int impactDataStrIndex = 0;
+			AttackImpactData impactData = new AttackImpactData();
 
-			AttackImpactData newImpactData = new AttackImpactData
+			impactData.mainData = new AttackImpactMainData();
+			impactData.mainData.kind = (AttackImpactEffectKind)int.Parse(loadData[index++]);
+			impactData.mainData.detailKind = int.Parse(loadData[index++]);
+			impactData.mainData.amount = float.Parse(loadData[index++]);
+			impactData.mainData.duration = float.Parse(loadData[index++]);
+			impactData.mainData.tickTime = float.Parse(loadData[index++]);
+
+			impactData.isSeparateTargetFindLogic = bool.Parse(loadData[index++]);
+			if (impactData.isSeparateTargetFindLogic)
 			{
-				mainData = new AttackImpactMainData
-				{
-					kind = (AttackImpactEffectKind)int.Parse(impactData[impactDataStrIndex++]),
-					detailKind = int.Parse(impactData[impactDataStrIndex++]),
-					amount = float.Parse(impactData[impactDataStrIndex++]),
-					duration = float.Parse(impactData[impactDataStrIndex++]),
-					tickTime = float.Parse(impactData[impactDataStrIndex++])
-				},
-
-				isSeparateTargetFindLogic = bool.Parse(impactData[impactDataStrIndex++]),
-				isShowEffect = bool.Parse(impactData[impactDataStrIndex++]),
-			};
-
-			if(newImpactData.isSeparateTargetFindLogic)
-			{
-				newImpactData.findTargetData = new FindTargetData
-				{
-					targetDecideKind = (TargetDecideKind)int.Parse(impactData[impactDataStrIndex++]),
-					targetTeamKind = (TargetTeamKind)int.Parse(impactData[impactDataStrIndex++]),
-					impactRange = float.Parse(impactData[impactDataStrIndex++]),
-					actionStartPointKind = (ActionStartPointKind)int.Parse(impactData[impactDataStrIndex++]),
-				};
+				impactData.findTargetData = new FindTargetData();
+				impactData.findTargetData.targetDecideKind = (TargetDecideKind)int.Parse(loadData[index++]);
+				impactData.findTargetData.targetTeamKind = (TargetTeamKind)int.Parse(loadData[index++]);
+				impactData.findTargetData.impactRange = float.Parse(loadData[index++]);
+				impactData.findTargetData.actionStartPointKind = (ActionStartPointKind)int.Parse(loadData[index++]);
 			}
 
-			if(newImpactData.isShowEffect)
+			index = 12 + 13 * i;
+			impactData.isShowEffect = bool.Parse(loadData[index++]);
+			if (impactData.isShowEffect)
 			{
-				newImpactData.effectData = new AttackActionEffectData
-				{
-					isShowEffect = bool.Parse(impactData[impactDataStrIndex++]),
-					showEffectName = impactData[impactDataStrIndex++],
-					effectPointKind = (ActionStartPointKind)int.Parse(impactData[impactDataStrIndex++]),
-				};
+				impactData.effectData = new AttackActionEffectData();
+				impactData.effectData.isShowEffect = true;
+				impactData.effectData.showEffectName = loadData[index++];
+				impactData.effectData.effectPointKind = (ActionStartPointKind)int.Parse(loadData[index++]);
 			}
 
-			getImpactDatas.Add(newImpactData);
+			getImpactDatas.Add(impactData);
 		}
+
 
 		// Attack Performance 저장..
-		string[] performaceDatas = loadData[index++].Split(',');
+		loadData = fileData[2].Split(',');
+		index = 1;
 
 		getPerformaceData = new AttackPerformanceData();
-
-		getPerformaceData.isUsePerf = bool.Parse(performaceDatas[0]);
-		getPerformaceData.perfType = (AttackPerformanceType)int.Parse(performaceDatas[1]);
-		getPerformaceData.detailType = int.Parse(performaceDatas[2]);
-
-		string[] performaceVectprDatas = loadData[index++].Split(',');
-		int vectorDataSize = int.Parse(performaceVectprDatas[0]);
-		if (0 < vectorDataSize)
+		getPerformaceData.isUsePerf = bool.Parse(loadData[index++]);
+		if(true == getPerformaceData.isUsePerf)
 		{
-			getPerformaceData.vectorData = new Vector3[vectorDataSize];
-			for (int i = 0; i < vectorDataSize; ++i)
+			getPerformaceData.perfType = (AttackPerformanceType)int.Parse(loadData[index++]);
+			getPerformaceData.detailType = int.Parse(loadData[index++]);
+
+			int vectorDataSize = int.Parse(loadData[index++]);
+			int floatDataSize = int.Parse(loadData[index++]);
+			if (vectorDataSize > 0)
 			{
-				Vector3 vectorData = new Vector3(float.Parse(performaceVectprDatas[i * 3 + 1]),
-					float.Parse(performaceVectprDatas[i * 3 + 2]), float.Parse(performaceVectprDatas[i * 3 + 3]));
-				getPerformaceData.vectorData[i] = vectorData;
+				getPerformaceData.vectorData = new Vector3[vectorDataSize];
+				for (int i = 0; i < vectorDataSize; ++i)
+				{
+					getPerformaceData.vectorData[i] = new Vector3(
+						float.Parse(loadData[index++]), float.Parse(loadData[index++]), float.Parse(loadData[index++]));
+				}
+			}
+
+			if (floatDataSize > 0)
+			{
+				getPerformaceData.floatData = new float[floatDataSize];
+				for (int i = 0; i < floatDataSize; ++i)
+				{
+					getPerformaceData.floatData[i] = float.Parse(loadData[index++]);
+				}
 			}
 		}
-
-		string[] performaceFloatDatas = loadData[index++].Split(',');
-		int floatDataSize = int.Parse(performaceFloatDatas[0]);
-		if (0 < floatDataSize)
-		{
-			getPerformaceData.floatData = new float[floatDataSize];
-			for (int i = 0; i < floatDataSize; ++i)
-			{
-				getPerformaceData.floatData[i] = float.Parse(performaceFloatDatas[i + 1]);
-			}
-		}
-
-		// Effect Data 저장..
-		string[] effectDatas = loadData[index++].Split(',');
-
-		getEffectData = new AttackActionEffectData();
-		getEffectData.isShowEffect = bool.Parse(effectDatas[0]);
-		getEffectData.showEffectName = effectDatas[1];
-		getEffectData.effectPointKind = (ActionStartPointKind)int.Parse(effectDatas[2]);
 
 		return true;
-	}
-
-	public static void SaveAttackActionFile(
-		AttackActionData attackActionData, List<AttackImpactData> attackImpactDatas, AttackPerformanceData performanceData, AttackActionEffectData effectData
-		, string baseGameSaveFilePath, string attackActionName, string fileExtension)
-	{
-		string filePath = Path.Combine(baseGameSaveFilePath, "AttackAction", attackActionName + fileExtension);
-
-		// 공격 Data 저장..
-		string[] saveDatas = new string[attackImpactDatas.Count + 2 + 4];
-
-		saveDatas[0] = new string(
-				attackActionData.uniqueKey + "," +
-				attackActionData.isPassive + "," +
-				(int)attackActionData.findTargetData.targetDecideKind + "," +
-				(int)attackActionData.findTargetData.targetTeamKind + "," +
-				attackActionData.findTargetData.impactRange + "," +
-				(int)attackActionData.findTargetData.actionStartPointKind
-				);
-
-		if(attackActionData.isPassive)
-		{
-			AtkActionPassiveData passiveData = attackActionData.passiveData;
-
-			saveDatas[0] += new string(
-				"," + (int)passiveData.impactTimeKind
-				+ "," + passiveData.alwaysImpactDatas.Count
-				);
-
-			int loopCount = passiveData.alwaysImpactDatas.Count;
-			for ( int i = 0; i < loopCount; ++i)
-			{
-				AttackImpactData impactData = passiveData.alwaysImpactDatas[i];
-
-				saveDatas[0] += new string(
-				"," + (int)impactData.mainData.kind
-				+ "," + impactData.mainData.detailKind
-				+ "," + impactData.mainData.amount
-				+ "," + impactData.mainData.duration
-				+ "," + impactData.mainData.tickTime
-				+ "," + impactData.isSeparateTargetFindLogic
-				+ "," + impactData.isShowEffect
-				);
-
-				if (true == impactData.isSeparateTargetFindLogic)
-				{
-					saveDatas[0] += new string(
-						"," + (int)impactData.findTargetData.targetDecideKind +
-						"," + (int)impactData.findTargetData.targetTeamKind +
-						"," + impactData.findTargetData.impactRange +
-						"," + (int)impactData.findTargetData.actionStartPointKind
-						);
-				}
-
-				if (true == impactData.isShowEffect)
-				{
-					saveDatas[0] += new string(
-						"," + impactData.effectData.isShowEffect +
-						"," + impactData.effectData.showEffectName +
-						"," + (int)impactData.effectData.effectPointKind
-						);
-				}
-			}
-		}
-
-		saveDatas[0] += "," + attackActionData.description;
-
-		saveDatas[0] += "," + attackActionData.isSummon;
-		if (attackActionData.isSummon)
-		{
-			saveDatas[0] += new string(
-				"," + (int)attackActionData.summonData.summonObjectType
-				+ "," + attackActionData.summonData.summonObjectName
-				+ "," + attackActionData.summonData.isSummonOnce
-                + "," + attackActionData.summonData.tickTime
-                + "," + attackActionData.summonData.offsetPosition.x + "," + attackActionData.summonData.offsetPosition.y + "," + attackActionData.summonData.offsetPosition.z
-                );
-		}
-
-		saveDatas[0] += new string(
-			"," + (int)attackActionData.rangeType
-			+ "," + attackActionData.atkRange
-			);
-
-		// Attack Impact Data 저장..
-		int impactDataCount = attackImpactDatas.Count;
-		saveDatas[1] = impactDataCount.ToString();
-
-		for( int i = 0; i < impactDataCount; ++i)
-		{
-			saveDatas[i + 2] = new string(
-				(int)attackImpactDatas[i].mainData.kind + "," +
-				attackImpactDatas[i].mainData.detailKind + "," +
-				attackImpactDatas[i].mainData.amount + "," +
-				attackImpactDatas[i].mainData.duration + "," +
-				attackImpactDatas[i].mainData.tickTime + "," +
-				attackImpactDatas[i].isSeparateTargetFindLogic + "," +
-				attackImpactDatas[i].isShowEffect
-			);
-
-			if (true == attackImpactDatas[i].isSeparateTargetFindLogic)
-			{
-				saveDatas[i + 2] += new string(
-					"," + (int)attackImpactDatas[i].findTargetData.targetDecideKind +
-					"," + (int)attackImpactDatas[i].findTargetData.targetTeamKind +
-					"," + attackImpactDatas[i].findTargetData.impactRange +
-					"," + (int)attackImpactDatas[i].findTargetData.actionStartPointKind
-					);
-			}
-
-			if(true == attackImpactDatas[i].isShowEffect)
-			{
-				saveDatas[i + 2] += new string(
-					"," + attackImpactDatas[i].effectData.isShowEffect +
-					"," + attackImpactDatas[i].effectData.showEffectName +
-					"," + (int)attackImpactDatas[i].effectData.effectPointKind
-					);
-			}
-		}
-
-		int index = impactDataCount + 2;
-
-		// Attack Performance Data 저장..
-		saveDatas[index++] = new string(
-			performanceData.isUsePerf + "," +
-			(int)performanceData.perfType + "," +
-			performanceData.detailType
-			);
-
-		int vectorDataSize = (null != performanceData.vectorData) ? performanceData.vectorData.Length : 0;
-		saveDatas[index] = vectorDataSize.ToString();
-
-		for (int i = 0; i < vectorDataSize; ++i)
-		{
-			saveDatas[index] += "," + performanceData.vectorData[i].x + "," + performanceData.vectorData[i].y + "," + performanceData.vectorData[i].z;
-		}
-
-		++index;
-
-		int floatDataSize = (null != performanceData.floatData) ? performanceData.floatData.Length : 0;
-		saveDatas[index] = floatDataSize.ToString();
-
-		for (int i = 0; i < floatDataSize; ++i)
-		{
-			saveDatas[index] += "," + performanceData.floatData[i];
-		}
-
-		++index;
-
-		// Effect Data 저장..
-		saveDatas[index] = new string(
-			effectData.isShowEffect + "," +
-			effectData.showEffectName + "," +
-			(int)effectData.effectPointKind
-			);
-
-		File.WriteAllLines(filePath, saveDatas);
 	}
 	#endregion
 
@@ -590,18 +291,10 @@ public static class SaveLoadLogic
 	// ============================================================================================== //
 	// ================================ Team Save Load.. ==================================== //
 	// ============================================================================================== //
-	public static bool LoadTeamFile(string fileName, out TeamData getData, out TeamBelongPilotData getBelongPilotData, out TeamResourceData getResourceData)
+	public static bool LoadTeamFile(string fileData, out TeamData getData, out TeamBelongPilotData getBelongPilotData, out TeamResourceData getResourceData)
 	{
-		if (false == File.Exists(fileName))
-		{
-			getData = null;
-			getBelongPilotData = null;
-			getResourceData = null;
-			return false;
-		}
-
 		int curIndex = 0;
-		string[] loadData = File.ReadAllText(fileName).Split(',');
+		string[] loadData = fileData.Split(',');
 
 		getData = new TeamData();
 		getData.name = loadData[curIndex++];
@@ -609,10 +302,12 @@ public static class SaveLoadLogic
 		getBelongPilotData = new TeamBelongPilotData();
 		getBelongPilotData.pilotCount = int.Parse(loadData[curIndex++]);
 		getBelongPilotData.pilotNameContainer = new List<string>(getBelongPilotData.pilotCount);
-		for ( int i = 0; i < getBelongPilotData.pilotCount; ++i)
+		for (int i = 0; i < getBelongPilotData.pilotCount; ++i)
 		{
-			getBelongPilotData.pilotNameContainer.Add( loadData[curIndex++] );
+			getBelongPilotData.pilotNameContainer.Add(loadData[curIndex++]);
 		}
+
+		curIndex = 6;
 
 		getResourceData = new TeamResourceData
 		{
@@ -620,26 +315,6 @@ public static class SaveLoadLogic
 		};
 
 		return true;
-	}
-
-	public static void SaveTeamFile(TeamData data, TeamBelongPilotData belongPilotData, TeamResourceData resourceData, string baseGameSaveFilePath, string fileExtension)
-	{
-		string filePath = Path.Combine(baseGameSaveFilePath, "Team", data.name + fileExtension);
-		string saveData = "";
-
-		saveData += new string(
-			data.name
-			);
-
-		saveData += "," + belongPilotData.pilotNameContainer.Count;
-		for ( int i = 0; i < belongPilotData.pilotNameContainer.Count; ++i)
-			saveData += "," + belongPilotData.pilotNameContainer[i];
-
-		saveData += new string(
-			"," + resourceData.logoImagePath
-			);
-
-		File.WriteAllText(filePath, saveData);
 	}
 	#endregion
 }

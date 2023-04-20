@@ -16,11 +16,11 @@ public static class GameSaveLoader
 	{
 		DataTableManager dataTableManager = gameManager.dataTableManager;
 
-		string filePath = "Assets/Data";
+		string filePath = "Assets/Data/Save1";
 
 		{
 			// Pilot 전역적으로 사용될 파일 불러온다..
-			string pilotGlobalFilePath = Path.Combine(filePath, gameManager.gameGlobalData.pilotGlobalFilePath);
+			string pilotGlobalFilePath = Path.Combine("Assets/Data", gameManager.gameGlobalData.pilotGlobalFilePath);
 			string[] loadData = File.ReadAllLines(pilotGlobalFilePath);
 
 			string[] conditionsFilePath = loadData[0].Split(',');
@@ -35,24 +35,35 @@ public static class GameSaveLoader
 		}
 
 		{
-			// Attack Action의 파일들 불러온다..
-			string attackDataActionDefaultPath = Path.Combine(filePath, gameManager.gameGlobalData.attackActionDirectoryName);
-			string[] attackActionsFilePath = Directory.GetFiles(attackDataActionDefaultPath);
+			// Attack Action Data 파일을 불러온다..
+			string atkActionDataFilePath = Path.Combine(filePath, gameManager.gameGlobalData.attackActionDataFileName);
+			string[] loadActionData = File.ReadAllLines(atkActionDataFilePath);
 
-			int loopCount = attackActionsFilePath.Length;
-			dataTableManager.attackActionDataTable.actionCount = loopCount / 2;
+			// Attack Impact Data 파일을 불러온다..
+			string atkImpactDataFilePath = Path.Combine(filePath, gameManager.gameGlobalData.attackActionImpactDataFileName);
+			string[] loadImpactData = File.ReadAllLines(atkImpactDataFilePath);
 
-			for (int i = 0; i < loopCount; ++i)
+			// Attack Performance Data 파일을 불러온다..
+			string atkPerformanceDataFilePath = Path.Combine(filePath, gameManager.gameGlobalData.attackActionPerfDataFileName);
+			string[] loadPerformanceData = File.ReadAllLines(atkPerformanceDataFilePath);
+
+			string[] loadDatas = new string[3];
+			
+			int loopCount = loadActionData.Length;
+			dataTableManager.attackActionDataTable.actionCount = loopCount - 1;
+			
+			for (int i = 1; i < loopCount; ++i)
 			{
-				if (attackActionsFilePath[i].Contains(".meta"))
-					continue;
+				loadDatas[0] = loadActionData[i];
+				loadDatas[1] = loadImpactData[i];
+				loadDatas[2] = loadPerformanceData[i];
 
 				// 각각의 공격 행동에게 필요한 데이터 파일을 불러와 데이터 테이블에 저장..
 				AttackActionData getActionData;
 				List<AttackImpactData> getImpactDatas;
 				AttackPerformanceData getPerformanceData;
 				AttackActionEffectData getEffectData;
-				if (true == SaveLoadLogic.LoadAttackActionFile(attackActionsFilePath[i], out getActionData, out getImpactDatas, out getPerformanceData
+				if (true == SaveLoadLogic.LoadAttackActionFile(loadDatas, out getActionData, out getImpactDatas, out getPerformanceData
 					, out getEffectData))
 				{
 					dataTableManager.attackActionDataTable.AddActionData(getActionData, getImpactDatas, getPerformanceData, getEffectData);
@@ -62,21 +73,18 @@ public static class GameSaveLoader
 
 		{
 			// Champion의 파일들 불러온다..
-			string championDataDefaultPath = Path.Combine(filePath, gameManager.gameGlobalData.championDirectoryName);
-			string[] championsFilePath = Directory.GetFiles(championDataDefaultPath);
-
-			int loopCount = championsFilePath.Length;
-			for (int i = 0; i < loopCount; ++i)
+			string championDataDefaultPath = Path.Combine(filePath, gameManager.gameGlobalData.championFileName);
+			string[] loadData = File.ReadAllLines(championDataDefaultPath);
+			
+			int loopCount = loadData.Length;
+			for (int i = 1; i < loopCount; ++i)
 			{
-				if (championsFilePath[i].Contains(".meta"))
-					continue;
-
 				// 각각의 챔피언에게 필요한 데이터 파일을 불러와 데이터 테이블에 저장..
 				ChampionStatus championStatus;
 				ChampionData championData;
 				ChampionResourceData resourceData;
-
-				if (true == SaveLoadLogic.LoadChampionFile(championsFilePath[i], out championStatus, out championData, out resourceData))
+			
+				if (true == SaveLoadLogic.LoadChampionFile(loadData[i], out championStatus, out championData, out resourceData))
 				{
 					dataTableManager.championDataTable.AddChampionData(championData.name, championData, championStatus, resourceData);
 					dataTableManager.championDataTable.AddChampionAnimData(championData.name, CreateChampAnimData(championData.name));
@@ -86,19 +94,16 @@ public static class GameSaveLoader
 
 		{
 			// Effect의 파일들 불러온다..
-			string effectDataDefaultPath = Path.Combine(filePath, gameManager.gameGlobalData.effectDirectoryName);
-			string[] effectsFilePath = Directory.GetFiles(effectDataDefaultPath);
-
-			int loopCount = effectsFilePath.Length;
-			for (int i = 0; i < loopCount; ++i)
+			string effectDataDefaultPath = Path.Combine(filePath, gameManager.gameGlobalData.effectFileName);
+			string[] loadData = File.ReadAllLines(effectDataDefaultPath);
+			
+			int loopCount = loadData.Length;
+			for (int i = 1; i < loopCount; ++i)
 			{
-				if (effectsFilePath[i].Contains(".meta"))
-					continue;
-
 				// 각각의 이펙트에게 필요한 데이터 파일을 불러와 데이터 테이블에 저장..
 				EffectData effectData;
-
-				if (true == SaveLoadLogic.LoadEffectFile(effectsFilePath[i], out effectData))
+			
+				if (true == SaveLoadLogic.LoadEffectFile(loadData[i], out effectData))
 				{
 					dataTableManager.effectDataTable.AddEffectInfo(effectData.name, effectData);
 				}
@@ -107,19 +112,16 @@ public static class GameSaveLoader
 
 		{
 			// Pilot의 파일들 불러온다..
-			string pilotDataDefaultPath = Path.Combine(filePath, gameManager.gameGlobalData.pilotDirectoryName);
-			string[] pilotsFilePath = Directory.GetFiles(pilotDataDefaultPath);
-
-			int loopCount = pilotsFilePath.Length;
-			for (int i = 0; i < loopCount; ++i)
-			{
-				if (pilotsFilePath[i].Contains(".meta"))
-					continue;
-
+			string pilotDataDefaultPath = Path.Combine(filePath, gameManager.gameGlobalData.pilotFileName);
+			string[] loadData = File.ReadAllLines(pilotDataDefaultPath);
+			
+			int loopCount = loadData.Length;
+			for (int i = 1; i < loopCount; ++i)
+			{			
 				// 각각의 파일럿에게 필요한 데이터 파일을 불러와 데이터 테이블에 저장..
 				PilotData pilotData;
-
-				if (true == SaveLoadLogic.LoadPilotFile(pilotsFilePath[i], out pilotData))
+			
+				if (true == SaveLoadLogic.LoadPilotFile(loadData[i], out pilotData))
 				{
 					dataTableManager.pilotDataTable.AddPilotData(pilotData.name, pilotData);
 				}
@@ -128,21 +130,18 @@ public static class GameSaveLoader
 
         {
             // Team의 파일들 불러온다..
-            string teamDataDefaultPath = Path.Combine(filePath, gameManager.gameGlobalData.teamDirectoryName);
-            string[] teamsFilePath = Directory.GetFiles(teamDataDefaultPath);
+            string teamDataFilePath = Path.Combine(filePath, gameManager.gameGlobalData.teamFileName);
+			string[] loadData = File.ReadAllLines(teamDataFilePath);
 
-            int loopCount = teamsFilePath.Length;
-            for ( int i = 0; i < loopCount; ++i )
+            int loopCount = loadData.Length;
+            for ( int i = 1; i < loopCount; ++i )
             {
-                if ( teamsFilePath[i].Contains( ".meta" ) )
-                    continue;
-
                 // 각각의 파일럿에게 필요한 데이터 파일을 불러와 데이터 테이블에 저장..
                 TeamData teamData;
                 TeamBelongPilotData belongData;
 				TeamResourceData resourceData;
 
-                if ( true == SaveLoadLogic.LoadTeamFile( teamsFilePath[i], out teamData, out belongData, out resourceData ) )
+                if ( true == SaveLoadLogic.LoadTeamFile(loadData[i], out teamData, out belongData, out resourceData ) )
                 {
                     dataTableManager.teamDataTable.AddTeamInfo( teamData, belongData, resourceData );
                 }
@@ -152,12 +151,7 @@ public static class GameSaveLoader
 
 	public static void SaveGameFile(int loadFileNumber, GameManager gameManager)
 	{
-		GameObject newGameObject = new GameObject();
-		TestCreateDataSaveFile test = newGameObject.AddComponent<TestCreateDataSaveFile>();
 
-		test.CreateAll();
-
-		GameObject.Destroy(newGameObject);
 	}
 
 	/// <summary>

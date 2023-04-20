@@ -1,0 +1,4 @@
+42,0.67,6,5,100,1.5,3
+Archer,궁수,2,12,13,14
+궁수는 상대와 거리를 벌리며 지속적으로 공격하는데 특화된 원거리 딜러입니다. 상대적으로 높은 체력, 거리를 벌리는데 특화된 기술을 갖고 있어 암살자에게 쉽게 당하지 않습니다. 궁수를 상대할 댄 공격을 무효화할 수 있는 강력한 탱커를 기용하는 것이 좋습니다.
+Sprites/UI/Champion/Icon/character_icons_0,Sprites/UI/Champion/Skill/archer_skill,Sprites/UI/Champion/Skill/archer_ult

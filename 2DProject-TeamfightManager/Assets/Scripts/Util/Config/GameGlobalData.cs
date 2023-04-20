@@ -12,11 +12,13 @@ public class GameGlobalData : ScriptableObject
 
     public string pilotGlobalFilePath;
 
-	public string pilotDirectoryName;
-	public string championDirectoryName;
-	public string attackActionDirectoryName;
-	public string effectDirectoryName;
-	public string teamDirectoryName;
+	public string pilotFileName;
+	public string championFileName;
+	public string attackActionDataFileName;
+	public string attackActionPerfDataFileName;
+	public string attackActionImpactDataFileName;
+	public string effectFileName;
+	public string teamFileName;
 
     public List<string> testRedChampionCreateOrder;
 	public List<string> testRedPilotCreateOrder;
