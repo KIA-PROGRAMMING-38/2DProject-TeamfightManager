@@ -17,11 +17,13 @@ MonoBehaviour:
   DefaultRedTeamName: PlayerTeam
   DefaultBlueTeamName: EnemyTeam
   pilotGlobalFilePath: PilotGlobal.data
-  pilotDirectoryName: Pilot
-  championDirectoryName: Champion
-  attackActionDirectoryName: AttackAction
-  effectDirectoryName: Effect
-  teamDirectoryName: Team
+  pilotFileName: PilotDataFile.csv
+  championFileName: ChampionDataFile.csv
+  attackActionDataFileName: AttackActionDataFile_ActionData.csv
+  attackActionPerfDataFileName: AttackActionDataFile_PerformanceData.csv
+  attackActionImpactDataFileName: AttackActionDataFile_ImpactData.csv
+  effectFileName: EffectDataFile.csv
+  teamFileName: TeamDataFile.csv
   testRedChampionCreateOrder:
   - Ghost
   testRedPilotCreateOrder:

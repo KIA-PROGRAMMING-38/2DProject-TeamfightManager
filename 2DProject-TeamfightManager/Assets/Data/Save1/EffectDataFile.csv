@@ -1,0 +1,13 @@
+이름,애니메이션 클립 경로,오프셋 좌표(x),오프셋 좌표(y),오프셋 좌표(z),자동 삭제 여부,LifeTime 사용 여부,LifeTime,회전 종류,Target의 자식이 될거냐,Sorting Order
+Effect_Swordman_Attack,Animations/Effect/Champion/Effect_Swordman_Attack,-0.1,0.18,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Swordman_Skill,Animations/Effect/Champion/Effect_Swordman_Skill,0.11,0.12,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Swordman_Ultimate,Animations/Effect/Champion/Effect_Swordman_Ultimate,1.45,0,0,TRUE,FALSE,0,1,FALSE,5
+Effect_Monk_Attack,Animations/Effect/Champion/Effect_Monk_Attack,0.235,0.162,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Monk_Skill,Animations/Effect/Champion/Effect_Monk_Skill,0,0.05,0,TRUE,FALSE,0,0,TRUE,5
+Effect_Monk_Ultimate,Animations/Effect/Champion/Effect_Monk_Ultimate,0,0,0,TRUE,FALSE,0,0,TRUE,5
+Effect_Knight_Skill,Animations/Effect/Champion/Effect_Knight_Skill,-0.025,0.2,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Knight_Ultimate,Animations/Effect/Champion/Effect_Knight_Ultimate,0,0,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Knight_UltimateHit,Animations/Effect/Champion/Effect_Knight_UltimateHit,0.25,0.3,250,FALSE,TRUE,5,2,FALSE,5
+Effect_Prevoke,Animations/Effect/Champion/Effect_Prevoke,0,0.6,0,FALSE,FALSE,0,0,TRUE,5
+Effect_Revival,Animations/Effect/Champion/Effect_Revival,0,0.05,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Archer_Ultimate,Animations/Effect/Champion/Effect_Archer_Ultimate,0.5,0.07,0,TRUE,FALSE,0,0,TRUE,5
