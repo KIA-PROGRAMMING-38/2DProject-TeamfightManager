@@ -34,3 +34,25 @@ MonoBehaviour:
   - Faker
   banpickStageGlobalData: {fileID: 11400000, guid: c913512666f128b4a8585530ae168924, type: 2}
   spawnObjectGolbalData: {fileID: 11400000, guid: 86c2ca5ccf2caf04d9bfd1fdf0a03f14, type: 2}
+  pilotTrunkSprite: {fileID: 21300000, guid: 907a154bac407634a8ce897f7ee42708, type: 3}
+  pilotHairSprite:
+  - {fileID: 21300000, guid: 4817ea809cdb0444aaf46552c5d2e0b9, type: 3}
+  - {fileID: 21300000, guid: 40ba9e8b0e535ff4eb6e7f744221d492, type: 3}
+  - {fileID: 21300000, guid: 6cea8797bafc83046a7e56059bbf2de8, type: 3}
+  - {fileID: 21300000, guid: 62dc0970be63a1044b32aca70e016a90, type: 3}
+  - {fileID: 21300000, guid: 58e4554d7182b8146ac98dcbf7cf5caf, type: 3}
+  - {fileID: 21300000, guid: 6e26bf3c87fb2f145b2efc614decc55c, type: 3}
+  - {fileID: 21300000, guid: 253d35a41d044544ebdd4da06b6711b7, type: 3}
+  - {fileID: 21300000, guid: 8e25f360b2f044e418e350a296fb818d, type: 3}
+  - {fileID: 21300000, guid: 2827c2aaf4979464c92784b3bf88813f, type: 3}
+  - {fileID: 21300000, guid: b93faa5517e5dc74591ac805ded43886, type: 3}
+  - {fileID: 21300000, guid: 26db014b61082234e8b1a92633cdf173, type: 3}
+  - {fileID: 21300000, guid: c199d315c08ed1a4f960a2021127f9f9, type: 3}
+  - {fileID: 21300000, guid: 7b3261deedb8aef4ea6a24d096dcfdc5, type: 3}
+  - {fileID: 21300000, guid: f248032749736d94ca26957ec109cc6d, type: 3}
+  - {fileID: 21300000, guid: 011df42c464cb0943a5b4b2148e3b1cc, type: 3}
+  - {fileID: 21300000, guid: 7f02c3258a3379f4d86d5b96523f9c79, type: 3}
+  - {fileID: 21300000, guid: 98f6141a4e1e69f48a7a3ae69e49a513, type: 3}
+  - {fileID: 21300000, guid: bccf359313d013f45b2e1c24c01d9ad3, type: 3}
+  - {fileID: 21300000, guid: e2b00c343be9b34448a68b74583ec948, type: 3}
+  - {fileID: 21300000, guid: 34c1101cbbc785c438e9702d0ef81ec7, type: 3}

@@ -15,6 +15,10 @@ public class PilotDataUI : UIBase
 	[SerializeField] private Text _pilotAtkStatText;
 	[SerializeField] private Text _pilotDefenceStatText;
 	[SerializeField] private Image _champIconImage;
+	private UIMove _champImageMove;
+
+	[SerializeField] private UIMove _pilotImageMove;
+	private Image _pilotHairImage;
 
 	private ChampSkillLevelUIManager _champSkillLevelUIManager;
 	
@@ -27,8 +31,8 @@ public class PilotDataUI : UIBase
 			_pilotAtkStatText.text = StringTable.GetString(value.data.atkStat);
 			_pilotDefenceStatText.text = StringTable.GetString(value.data.defStat);
 
-			//Sprite champSprite = s_dataTableManager.championDataTable.GetChampionImage(value.battleComponent.controlChampion.data.name);
-			//SetupChampionIconSprite(champSprite);
+			Sprite pilotHairSprite = s_dataTableManager.pilotDataTable.GetHairSprite(value.data.hairNumber);
+			_pilotHairImage.sprite = pilotHairSprite;
 
 			_champSkillLevelUIManager.SetChampSkillLevelInfo(value.data.champSkillLevelContainer);
 		}
@@ -37,7 +41,10 @@ public class PilotDataUI : UIBase
 	private void Awake()
 	{
 		_champSkillLevelUIManager = GetComponentInChildren<ChampSkillLevelUIManager>();
-	}
+
+		_champImageMove = _champIconImage.transform.parent.GetComponent<UIMove>();
+		_pilotHairImage = _pilotImageMove.transform.GetChild(0).GetComponent<Image>();
+    }
 
 	public void SetBackgroundImage(BattleTeamKind teamKind)
 	{
@@ -58,7 +65,10 @@ public class PilotDataUI : UIBase
 		// Champion Icon Image 바꿔주기..
 		_champIconImage.sprite = sprite;
 
-		// Champion Icon Image 가 가운데 올 수 있도록 위치 조정..
-		UIUtility.CalcSpriteCenterPos(_champIconImage.rectTransform, sprite, _champIconImage.rectTransform.localPosition);
-	}
+        // Champion Icon Image 가 가운데 올 수 있도록 위치 조정..
+        UIUtility.CalcSpriteCenterPos(_champIconImage.rectTransform, sprite, _champIconImage.rectTransform.localPosition);
+
+        _champImageMove.StartMove(false);
+		_pilotImageMove.StartMove(false);
+    }
 }

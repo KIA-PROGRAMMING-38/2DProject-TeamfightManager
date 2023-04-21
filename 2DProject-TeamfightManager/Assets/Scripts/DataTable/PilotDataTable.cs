@@ -9,8 +9,10 @@ public class PilotDataTable
 	private Dictionary<string, PilotData> _pilotDataContainer = new Dictionary<string, PilotData>();
 	private List<Sprite> _conditionSpriteContainer = new List<Sprite>();
 	private List<string> _pilotNameContainer = new List<string>();
+	private List<Sprite> _hairSpriteContainer = new List<Sprite>();
 
 	public Pilot DefaultPilotPrefab { get; private set; }
+	public Sprite trunkIconSprite { get; set; }
 
 	public int GetTotalPilotCount() => _pilotNameContainer.Count;
 	public string GetPilotName(int index) => _pilotNameContainer[index];
@@ -41,5 +43,16 @@ public class PilotDataTable
 	public void SetPilotDefaultPrefab(GameObject prefab)
 	{
 		DefaultPilotPrefab = prefab.GetComponent<Pilot>();
+	}
+
+	public void AddHairSprite(Sprite sprite)
+	{
+		_hairSpriteContainer.Add(sprite);
+
+    }
+	
+	public Sprite GetHairSprite(int index)
+	{
+		return _hairSpriteContainer[index];
 	}
 }

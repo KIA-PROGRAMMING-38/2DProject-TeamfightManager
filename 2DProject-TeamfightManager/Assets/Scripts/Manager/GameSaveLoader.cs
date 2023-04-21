@@ -32,6 +32,13 @@ public static class GameSaveLoader
 			}
 
 			dataTableManager.pilotDataTable.SetPilotDefaultPrefab(Resources.Load<GameObject>(loadData[1]));
+
+			loopCount = gameManager.gameGlobalData.pilotHairSprite.Length;
+			dataTableManager.pilotDataTable.trunkIconSprite = gameManager.gameGlobalData.pilotTrunkSprite;
+            for ( int i = 0; i < loopCount; ++i)
+			{
+				dataTableManager.pilotDataTable.AddHairSprite(gameManager.gameGlobalData.pilotHairSprite[i]);
+			}
 		}
 
 		{
