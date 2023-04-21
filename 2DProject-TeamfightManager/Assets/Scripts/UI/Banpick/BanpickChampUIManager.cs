@@ -23,6 +23,11 @@ public class BanpickChampUIManager : UIBase
 		SetupChampUI();
 	}
 
+	private void Start()
+	{
+
+	}
+
 	private void SetupChampUI()
 	{
 		// 챔피언 개수만큼 UI를 생성하며 챔피언 이름도 같이 넘겨준다..

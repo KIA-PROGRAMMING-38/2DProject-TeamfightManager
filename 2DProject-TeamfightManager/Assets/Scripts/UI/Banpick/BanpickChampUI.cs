@@ -19,6 +19,9 @@ public class BanpickChampUI : UIBase
 	private ShowBanEffectUI _banEffectUI;
 	private ShowPickEffectUI _pickEffectUI;
 
+	[SerializeField] private Image _pilotTrunkImage;
+	[SerializeField] private Image _pilotHairImage;
+
 	public bool isLockSelect { private get; set; }
 
 	private string _championName;

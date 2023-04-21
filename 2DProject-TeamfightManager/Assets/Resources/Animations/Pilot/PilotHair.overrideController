@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PilotHair
+  m_Controller: {fileID: 9100000, guid: ec52cdffdb5d2d74db73263ef4b2ba90, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 4499e6cde53d07540af5e63bb68404b7, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: c889acd036f7a3d45b459d00be3587d8, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 1cbf1e9b0d3e88e4d836c6d7c6e3a7df, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 86755e9d77750f848bffd9fc788f9de3, type: 2}
