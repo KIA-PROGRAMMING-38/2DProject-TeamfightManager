@@ -79,6 +79,8 @@ public class Champion : MonoBehaviour, IAttackable
 				_curAttackAction?.OnAnimationEndEvent();
 				_curAttackAction?.OnEnd();
 				_curAttackAction = null;
+
+				_animComponent.ResetAnimation();
 			}
 		}
 	}
@@ -541,6 +543,10 @@ public class Champion : MonoBehaviour, IAttackable
             case "OnAttackImpactAction":
                 _curAttackAction?.OnImpactAction();
                 break;
+
+			case "OnAttackEnd":
+				_curAttackAction?.OnEnd();
+				break;
 
             case "OnAnimEnd":
 				_curAttackAction?.OnAnimationEndEvent();

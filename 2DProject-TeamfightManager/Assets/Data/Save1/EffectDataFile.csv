@@ -12,3 +12,5 @@ Effect_Prevoke,Animations/Effect/Champion/Effect_Prevoke,0,0.6,0,FALSE,FALSE,0,0
 Effect_Revival,Animations/Effect/Champion/Effect_Revival,0,0.05,0,TRUE,FALSE,0,0,FALSE,5
 Effect_Archer_Ultimate,Animations/Effect/Champion/Effect_Archer_Ultimate,0.5,0.07,0,TRUE,FALSE,0,0,TRUE,5
 Effect_Soldier_Skill,Animations/Effect/Champion/Effect_Soldier_Skill,0,0.1,0,TRUE,FALSE,0,0,TRUE,5
+Effect_Soldier_Ultimate,Animations/Effect/Champion/Effect_Soldier_Ultimate,-0.77,0,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Soldier_UltimateHit,Animations/Effect/Champion/Effect_Soldier_UltimateHit,0,0,0,TRUE,FALSE,0,0,FALSE,5

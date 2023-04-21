@@ -23,7 +23,7 @@ public class Projectile : MonoBehaviour
 	[SerializeField] private float _moveSpeed;
 
 	private Champion[] _targetArray;
-	private Func<Vector3, int> _targetFindFunc;
+	private Func<Vector3, Champion[], int> _targetFindFunc;
 
 	private Rigidbody2D _rigidbody;
 
@@ -52,7 +52,7 @@ public class Projectile : MonoBehaviour
 		Array.Clear(_targetArray, 0, _targetArray.Length);
 	}
 
-	public void SetAdditionalData(int layerMask, Champion target, Func<Vector3, int> targetFindFunc)
+	public void SetAdditionalData(int layerMask, Champion target, Func<Vector3, Champion[], int> targetFindFunc)
 	{
 		gameObject.layer = layerMask;
 		_targetFindFunc = targetFindFunc;
@@ -75,19 +75,24 @@ public class Projectile : MonoBehaviour
 
 	private IEnumerator CheckIsArriveDestinationPoint()
 	{
+		yield return null;
+
 		Vector2 prevPos = Vector2.zero;
 
 		while (true)
 		{
 			prevPos = _rigidbody.position;
 
+			Debug.Log("??");
+
 			yield return null;
 
 			if (true == IsPassDestinationPoint(prevPos, _rigidbody.position, _destination))
 			{
-				int findTargetCount = _targetFindFunc.Invoke(_destination);
+				int findTargetCount = _targetFindFunc.Invoke(_destination, _targetArray);
 
 				OnExecuteImpact?.Invoke(this, _targetArray, findTargetCount);
+				projectileManager.ReleaseProjectile(this);
 
 				yield return null;
 			}
@@ -141,14 +146,9 @@ public class Projectile : MonoBehaviour
 		Vector2 prevPosLookDestPos = destinationPos - prevPos;
 		Vector2 curPosLookDestPos = destinationPos - curPos;
 
-		// 목표 지점을 지나쳤는지 판단하는 로직..
-		// 두 방향의 x,y 중 이전 방향 값은 0이 아닌데 현재 방향 값은 0이라면 지나쳤다고 판단..
-		if ((0f != prevPosLookDestPos.x && 0f == curPosLookDestPos.x) ||
-			(0f != prevPosLookDestPos.y && 0f == curPosLookDestPos.y))
-			return true;
-
-		// 목표 지점을 지나쳤다면 두 방향의 부호가 다르기 때문에 곱셈을 하면 음수가 나옴..
-		if ((prevPosLookDestPos.x * curPosLookDestPos.x < 0f) || (prevPosLookDestPos.y * curPosLookDestPos.y < 0f))
+		// [이전 방향 -> 도착지] 방향과 [현재 방향 -> 도착지] 방향이 다른 경우 목표 지점을 지나쳤다고 판단..
+		float cosTheta = Vector2.Dot(prevPosLookDestPos.normalized, curPosLookDestPos.normalized);
+		if (cosTheta < 0.999f)
 			return true;
 
 		return false;

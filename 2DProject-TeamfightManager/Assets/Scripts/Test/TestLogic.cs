@@ -9,9 +9,11 @@ public class TestLogic : MonoBehaviour
 
     public float moveSpeed;
 
+	private IEnumerator test;
+
     private void Start()
 	{
-
+		test = Logic();
 	}
 
 	public void Update()

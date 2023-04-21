@@ -29,11 +29,6 @@ public class ChampionAnimation : MonoBehaviour
 	private AnimState _state;
 	private AnimatorOverrideController _animatorOverrideController;
 
-	// 공격, 스킬, 궁극기의 애니메이션 시간을 저장할 변수..
-	private float _atkAnimRuntime = 0f;
-	private float _skillAnimRuntime = 0f;
-	private float _ultAnimRuntime = 0f;
-
 	// 적에게 피격 시 흰색으로 깜빡거리는 효과 관련 필드..
 	private readonly static float s_hitEffectTime = 0.1f;
 	private WaitForSeconds _hitEffectWaitForSecInstance;
@@ -213,11 +208,6 @@ public class ChampionAnimation : MonoBehaviour
 		_animatorOverrideController["Champion_Ultimate"] = animData.ultAnim;
 		_animatorOverrideController["Champion_Death"] = animData.deathAnim;
 		_animatorOverrideController["Champion_DeadLoop"] = animData.deadLoopAnim;
-
-		// 애니메이션 클립을 통해 공격, 스킬, 궁극기 애니메이션 실행 시간 계산..
-		_atkAnimRuntime = animData.atkAnim.length;
-		_skillAnimRuntime = animData.skillAnim.length;
-		_ultAnimRuntime = animData.ultAnim.length;
 	}
 
 	public void OnAnimationEvent(string eventName)

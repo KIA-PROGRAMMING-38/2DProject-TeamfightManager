@@ -12,7 +12,7 @@ public class SummonSystem
 	private AtkActionSummonData _summonData;
 	private List<AttackImpactData> _impactDatas = new List<AttackImpactData>();
 	private Champion[] _targetArray;
-	private Func<Vector3, int> _findImpactTargetFunc;
+	private Func<Vector3, Champion[], int> _findImpactTargetFunc;
 	private Func<Champion> _findTargetFunc;
 	private Action<AttackImpactData, int, Champion[]> _impactFunc;
 
@@ -20,7 +20,7 @@ public class SummonSystem
 
 	public TargetTeamKind atkImpactTeamKind { private get; set; }
 
-	public SummonSystem(AttackAction attackAction, AtkActionSummonData summonData, Func<Vector3, int> findImpactTargetFunc, Func<Champion> findTargetFunc)
+	public SummonSystem(AttackAction attackAction, AtkActionSummonData summonData, Func<Vector3, Champion[], int> findImpactTargetFunc, Func<Champion> findTargetFunc)
 	{
 		_attackAction = attackAction;
         _summonData = summonData;
