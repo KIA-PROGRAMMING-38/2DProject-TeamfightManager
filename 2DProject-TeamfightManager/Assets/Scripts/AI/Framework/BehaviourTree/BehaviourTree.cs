@@ -42,7 +42,7 @@ namespace MH_AIFramework
 				rootNode.Update();
 		}
 
-		protected Node AddNode( Node newNode, Node parent )
+		protected Node AddNode( Node newNode, Node parent, string name = "")
 		{
 			// 유효한 값인지 검사..
 			Debug.Assert( null != newNode );
@@ -50,6 +50,7 @@ namespace MH_AIFramework
 
 			newNode.blackboard = blackboard;
 			newNode.behaviourTree = this;
+			newNode.nodeName = name;
 
 			if ( null != parent )
 				parent.AddChild( newNode );

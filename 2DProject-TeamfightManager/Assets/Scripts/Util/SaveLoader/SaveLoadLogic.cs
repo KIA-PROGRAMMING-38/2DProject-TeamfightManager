@@ -131,6 +131,7 @@ public static class SaveLoadLogic
 		getActionData.findTargetData.impactRange = float.Parse(loadData[index++]);
 		getActionData.findTargetData.actionStartPointKind = (ActionStartPointKind)int.Parse(loadData[index++]);
 		getActionData.description = loadData[index++];
+		getActionData.isInvincible = bool.Parse(loadData[index++]);
 		getActionData.rangeType = (AtkRangeType)int.Parse(loadData[index++]);
 		getActionData.atkRange = float.Parse(loadData[index++]);
 
@@ -149,7 +150,7 @@ public static class SaveLoadLogic
 		}
 
 		// Default Shoow Effect 저장..
-		index = 17;
+		index = 18;
 		getEffectData = new AttackActionEffectData();
 		getEffectData.isShowEffect = bool.Parse(loadData[index++]);
 		if(true == getEffectData.isShowEffect)
@@ -159,7 +160,7 @@ public static class SaveLoadLogic
 		}
 
 		// Passive Data 저장..
-		index = 20;
+		index = 21;
 		getActionData.isPassive = bool.Parse(loadData[index++]);
 		if(true == getActionData.isPassive)
 		{
@@ -172,7 +173,7 @@ public static class SaveLoadLogic
 			getActionData.passiveData.alwaysImpactDatas = new List<AttackImpactData>(ContainerSize);
 			for( int i = 0; i < ContainerSize; ++i)
 			{
-				index = 24 + 13 * i;
+				index = 25 + 13 * i;
 
 				AttackImpactData impactData = new AttackImpactData();
 
@@ -193,7 +194,7 @@ public static class SaveLoadLogic
 					impactData.findTargetData.actionStartPointKind = (ActionStartPointKind)int.Parse(loadData[index++]);
 				}
 
-				index = 34 + 13 * i;
+				index = 35 + 13 * i;
 				impactData.isShowEffect = bool.Parse(loadData[index++]);
 				if(impactData.isShowEffect)
 				{

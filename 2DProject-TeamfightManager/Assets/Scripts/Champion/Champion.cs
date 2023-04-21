@@ -161,10 +161,40 @@ public class Champion : MonoBehaviour, IAttackable
 	public int championLayer { get => pilotBattleComponent.championLayer; }
 	public int atkSummonLayer { get => pilotBattleComponent.atkSummonLayer; }
 	public int buffSummonLayer { get => pilotBattleComponent.buffSummonLayer; }
+	
+	private Collider2D[] _colliders;
+	public bool isInvincible
+	{
+		set
+		{
+			if (true == value)
+			{
+				int loopCount = _colliders.Length;
+				for( int i = 0; i < loopCount; ++i)
+				{
+					_colliders[i].enabled = false;
+				}
+
+				pilotBattleComponent.RemoveActiveChampionList();
+			}
+			else
+			{
+				int loopCount = _colliders.Length;
+				for (int i = 0; i < loopCount; ++i)
+				{
+					_colliders[i].enabled = true;
+				}
+
+				pilotBattleComponent.AddActiveChampionList();
+			}
+		}
+	}
 
 	private void Awake()
 	{
-        _aiController = gameObject.AddComponent<ChampionController>();
+		_colliders = GetComponents<Collider2D>();
+
+		_aiController = gameObject.AddComponent<ChampionController>();
 		blackboard = _aiController.blackboard;
 
 		if (null == _animComponent)
@@ -344,6 +374,12 @@ public class Champion : MonoBehaviour, IAttackable
 	{
 		blackboard.SetFloatValue(BlackboardKeyTable.ATTACK_RANGE, status.range);
 		blackboard.SetFloatValue(BlackboardKeyTable.MOVE_SPEED, status.moveSpeed);
+
+		blackboard.SetFloatValue(BlackboardKeyTable.SKILL_RANGE, _skillAction.attackRange);
+		blackboard.SetFloatValue(BlackboardKeyTable.ULTIMATE_RANGE, _ultimateAction.attackRange);
+
+		Debug.Log($"스킬 사정거리 : {_skillAction.attackRange}");
+		Debug.Log($"궁극기 사정거리 : {_ultimateAction.attackRange}");
 	}
 
 	public void Revival()
@@ -403,6 +439,7 @@ public class Champion : MonoBehaviour, IAttackable
 
 				if (_curAttackAction.isEnded)
 				{
+					_curAttackAction?.OnEnd();
 					_curAttackAction = null;
 
 					blackboard.SetBoolValue(BlackboardKeyTable.IS_ACTION_LOCK, false);

@@ -4,6 +4,8 @@
 	public const string IS_DEATH = "isDeath";
 	public const string IS_ACTION_LOCK = "isActionLock";
 	public const string ATTACK_RANGE = "attackRange";
+	public const string SKILL_RANGE = "skillRange";
+	public const string ULTIMATE_RANGE = "ultimateRange";
 
 	// 움직임 관련..
 	public const string MOVE_DIRECTION = "moveDriection";
