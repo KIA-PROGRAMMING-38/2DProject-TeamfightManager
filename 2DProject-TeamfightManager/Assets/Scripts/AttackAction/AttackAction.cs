@@ -100,6 +100,8 @@ public class AttackAction
 
 	public float attackRange { get; private set; }
 
+	private bool _isCallOnEndFunc = false;
+
 	public AttackAction(AttackActionData attackActionData, AttackPerformanceData performanceData, AttackActionEffectData effectData)
 	{
 		_actionData = attackActionData;
@@ -204,6 +206,13 @@ public class AttackAction
 		_contPerf?.OnStart();
 
 		targetChampion = ownerChampion.targetChampion;
+
+		if (_actionData.isInvincible && null != ownerChampion)
+		{
+			ownerChampion.isInvincible = true;
+		}
+
+		_isCallOnEndFunc = false;
 	}
 
 	public void OnUpdate()
@@ -264,6 +273,9 @@ public class AttackAction
 
     public void OnEnd()
 	{
+		if (true == _isCallOnEndFunc)
+			return;
+
 		for (int i = 0; i < _decideTargetLogicContainerCount; ++i)
 		{
 			if (null != _decideTargetLogicContainer[i])
@@ -273,6 +285,13 @@ public class AttackAction
 		_contPerf?.OnEnd();
 
 		targetChampion = null;
+
+		if (_actionData.isInvincible && null != ownerChampion)
+		{
+			ownerChampion.isInvincible = false;
+		}
+
+		_isCallOnEndFunc = true;
 	}
 
 	public void OnAnimationEndEvent()

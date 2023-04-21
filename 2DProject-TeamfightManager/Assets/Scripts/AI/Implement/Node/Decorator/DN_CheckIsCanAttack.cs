@@ -7,10 +7,12 @@ public class DN_CheckIsCanAttack : DecoratorNode
 {
 	private float _attackRange = 0.0f;
 	private string _checkAtkBBKey;
+	private string _checkRangeBBKey;
 
-	public DN_CheckIsCanAttack(string checkAtkBBKey)
+	public DN_CheckIsCanAttack(string checkAtkBBKey, string checkRangeBBKey)
 	{
 		_checkAtkBBKey = checkAtkBBKey;
+		_checkRangeBBKey = checkRangeBBKey;
 	}
 
 	public override void OnCreate()
@@ -20,7 +22,7 @@ public class DN_CheckIsCanAttack : DecoratorNode
 
 	protected override void OnStart()
 	{
-		_attackRange = blackboard.GetFloatValue(BlackboardKeyTable.ATTACK_RANGE);
+		_attackRange = blackboard.GetFloatValue(_checkRangeBBKey);
 	}
 
 	protected override void OnStop()

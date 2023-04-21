@@ -41,6 +41,7 @@
 
 						break;
 					case State.Failure:
+						_state = State.Failure;
 						return _state;
 					default:
 						throw new System.ArgumentException();

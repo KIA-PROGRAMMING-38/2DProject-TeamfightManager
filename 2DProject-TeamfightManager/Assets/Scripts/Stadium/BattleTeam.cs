@@ -366,8 +366,17 @@ public class BattleTeam : MonoBehaviour
 		return null;
     }
 
+	public void RemoveActiveChampionList(Champion champion)
+	{
+		_activeChampions.Remove(champion);
+	}
 
-    private void OnChangedChampionBattleData(int index, BattleInfoData data)
+	public void AddActiveChampionList(Champion champion)
+	{
+		_activeChampions.Add(champion);
+	}
+
+	private void OnChangedChampionBattleData(int index, BattleInfoData data)
 	{
 		OnChangedChampionBattleInfoData?.Invoke(battleTeamKind, index, data);
 	}

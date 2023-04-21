@@ -143,4 +143,14 @@ public class PilotBattle : MonoBehaviour
     {
         OnChangedChampionBarrierRatio?.Invoke(battleTeamIndexKey, ratio);
 	}
+
+    public void RemoveActiveChampionList()
+    {
+        myTeam.RemoveActiveChampionList(controlChampion);
+	}
+
+	public void AddActiveChampionList()
+	{
+        myTeam.AddActiveChampionList(controlChampion);
+	}
 }

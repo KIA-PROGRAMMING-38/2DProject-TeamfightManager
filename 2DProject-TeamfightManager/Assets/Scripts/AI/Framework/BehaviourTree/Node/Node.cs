@@ -18,6 +18,7 @@
 
 		public Blackboard blackboard { get; set; }
 		public BehaviourTree behaviourTree { get; set; }
+		public string nodeName { get; set; }
 
 		public Node()
 		{
