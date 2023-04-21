@@ -558,6 +558,11 @@ public class Champion : MonoBehaviour, IAttackable
 		}
 	}
 
+	public void OnShowEffectAnimEvent(string effectName)
+	{
+		s_effectManager.ShowEffect(effectName, transform.position, flipX);
+	}
+
 	// 방어력에 따라 데미지 감소되는 로직..
 	private int CalcDefenceApplyDamage(int damage)
 	{

@@ -215,6 +215,11 @@ public class ChampionAnimation : MonoBehaviour
 		_champion?.OnAnimEvent(eventName);
 	}
 
+	public void OnShowEffectAnimEvent(string effectName)
+	{
+		_champion?.OnShowEffectAnimEvent(effectName);
+	}
+
 	// 애니메이션 이벤트 : 애니메이션이 종료될 때 호출..
 	public void OnAnimationEnd()
 	{

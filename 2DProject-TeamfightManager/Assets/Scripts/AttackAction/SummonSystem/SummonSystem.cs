@@ -6,7 +6,18 @@ public class SummonSystem
 {
 	public ProjectileManager projectileManager { private get; set; }
 
-	public Champion ownerChampion { private get; set; }
+	private Champion _ownerChampion;
+	public Champion ownerChampion
+	{
+		private get => _ownerChampion;
+		set
+		{
+			_ownerChampion = value;
+			_ownerAnimComponent = _ownerChampion.GetComponentInChildren<ChampionAnimation>();
+		}
+	}
+
+	private ChampionAnimation _ownerAnimComponent;
 
 	private AttackAction _attackAction;
 	private AtkActionSummonData _summonData;
@@ -39,7 +50,7 @@ public class SummonSystem
 	{
 		if (false == _summonData.isSummonOnce)
 		{
-			_elapsedTime += Time.deltaTime;
+			_elapsedTime += Time.deltaTime * _ownerAnimComponent.animationSpeed;
 			if (_elapsedTime >= _summonData.tickTime)
 			{
 				SummonObject();
