@@ -148,9 +148,9 @@ public class AttackAction
                 CreateDecideTargetLogic(TargetDecideKind.OnlyTarget);
             }
 
-            _summonSystem = new SummonSystem(this, attackActionData.summonData, (Vector3 startPoint) =>
+            _summonSystem = new SummonSystem(this, attackActionData.summonData, (Vector3 startPoint, Champion[] targetContainerCache) =>
 			{
-				return _decideTargetLogicContainer[_baseDecideTargetLogicIndex].FindTarget(_actionData.findTargetData, baseFindTargetsCache, startPoint);
+				return _decideTargetLogicContainer[_baseDecideTargetLogicIndex].FindTarget(_actionData.findTargetData, targetContainerCache, startPoint);
 			}, 
 			() =>
 			{
@@ -314,7 +314,7 @@ public class AttackAction
 
 		Champion effectPointChampion = (effectData.effectPointKind == ActionStartPointKind.MyPosition) ? owner : target;
 
-		if (effectPointChampion.isDead)
+		if (effectPointChampion == owner && owner.isDead)
 			return;
 
 		Vector3 effectStartPoint = effectPointChampion.transform.position;

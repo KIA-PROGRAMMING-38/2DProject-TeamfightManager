@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Util.Pool;
 
 public class TestLogic : MonoBehaviour
 {
@@ -8,9 +9,11 @@ public class TestLogic : MonoBehaviour
 
     public float moveSpeed;
 
+	private IEnumerator test;
+
     private void Start()
 	{
-		
+		test = Logic();
 	}
 
 	public void Update()

@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Effect_Knight_UltimateHit
+  m_Name: Grenade_Idle
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,9 +20,13 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: d03b7abe5e04f154cb7e9ce5de26c50f, type: 3}
+      value: {fileID: 21300000, guid: c4c3fb8e712ade94f9232504833b04bd, type: 3}
     - time: 0.083333336
-      value: {fileID: 21300000, guid: 23eb45eaf6b200f4dbd1ec59323701c1, type: 3}
+      value: {fileID: 21300000, guid: 384f85ec1a86b1644aa3a4e273ff4bc4, type: 3}
+    - time: 0.16666667
+      value: {fileID: 21300000, guid: b931ecd75a196f94dab15faac07da9d0, type: 3}
+    - time: 0.25
+      value: {fileID: 21300000, guid: e1b98473f0a32bf4287de1ce38b787b8, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -42,19 +46,21 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: d03b7abe5e04f154cb7e9ce5de26c50f, type: 3}
-    - {fileID: 21300000, guid: 23eb45eaf6b200f4dbd1ec59323701c1, type: 3}
+    - {fileID: 21300000, guid: c4c3fb8e712ade94f9232504833b04bd, type: 3}
+    - {fileID: 21300000, guid: 384f85ec1a86b1644aa3a4e273ff4bc4, type: 3}
+    - {fileID: 21300000, guid: b931ecd75a196f94dab15faac07da9d0, type: 3}
+    - {fileID: 21300000, guid: e1b98473f0a32bf4287de1ce38b787b8, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.16666667
+    m_StopTime: 0.33333334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
-    m_LoopTime: 0
+    m_LoopTime: 1
     m_LoopBlend: 0
     m_LoopBlendOrientation: 0
     m_LoopBlendPositionY: 0

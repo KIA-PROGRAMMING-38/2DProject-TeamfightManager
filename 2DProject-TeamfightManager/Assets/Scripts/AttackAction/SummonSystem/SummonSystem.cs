@@ -6,13 +6,24 @@ public class SummonSystem
 {
 	public ProjectileManager projectileManager { private get; set; }
 
-	public Champion ownerChampion { private get; set; }
+	private Champion _ownerChampion;
+	public Champion ownerChampion
+	{
+		private get => _ownerChampion;
+		set
+		{
+			_ownerChampion = value;
+			_ownerAnimComponent = _ownerChampion.GetComponentInChildren<ChampionAnimation>();
+		}
+	}
+
+	private ChampionAnimation _ownerAnimComponent;
 
 	private AttackAction _attackAction;
 	private AtkActionSummonData _summonData;
 	private List<AttackImpactData> _impactDatas = new List<AttackImpactData>();
 	private Champion[] _targetArray;
-	private Func<Vector3, int> _findImpactTargetFunc;
+	private Func<Vector3, Champion[], int> _findImpactTargetFunc;
 	private Func<Champion> _findTargetFunc;
 	private Action<AttackImpactData, int, Champion[]> _impactFunc;
 
@@ -20,7 +31,7 @@ public class SummonSystem
 
 	public TargetTeamKind atkImpactTeamKind { private get; set; }
 
-	public SummonSystem(AttackAction attackAction, AtkActionSummonData summonData, Func<Vector3, int> findImpactTargetFunc, Func<Champion> findTargetFunc)
+	public SummonSystem(AttackAction attackAction, AtkActionSummonData summonData, Func<Vector3, Champion[], int> findImpactTargetFunc, Func<Champion> findTargetFunc)
 	{
 		_attackAction = attackAction;
         _summonData = summonData;
@@ -39,7 +50,7 @@ public class SummonSystem
 	{
 		if (false == _summonData.isSummonOnce)
 		{
-			_elapsedTime += Time.deltaTime;
+			_elapsedTime += Time.deltaTime * _ownerAnimComponent.animationSpeed;
 			if (_elapsedTime >= _summonData.tickTime)
 			{
 				SummonObject();

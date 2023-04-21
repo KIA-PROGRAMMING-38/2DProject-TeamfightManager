@@ -79,6 +79,8 @@ public class Champion : MonoBehaviour, IAttackable
 				_curAttackAction?.OnAnimationEndEvent();
 				_curAttackAction?.OnEnd();
 				_curAttackAction = null;
+
+				_animComponent.ResetAnimation();
 			}
 		}
 	}
@@ -542,6 +544,10 @@ public class Champion : MonoBehaviour, IAttackable
                 _curAttackAction?.OnImpactAction();
                 break;
 
+			case "OnAttackEnd":
+				_curAttackAction?.OnEnd();
+				break;
+
             case "OnAnimEnd":
 				_curAttackAction?.OnAnimationEndEvent();
 				break;
@@ -550,6 +556,11 @@ public class Champion : MonoBehaviour, IAttackable
 				gameObject.SetActive(false);
 				break;
 		}
+	}
+
+	public void OnShowEffectAnimEvent(string effectName)
+	{
+		s_effectManager.ShowEffect(effectName, transform.position, flipX);
 	}
 
 	// 방어력에 따라 데미지 감소되는 로직..

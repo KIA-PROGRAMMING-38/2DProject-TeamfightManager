@@ -15,4 +15,5 @@ MonoBehaviour:
   projectilePrefabContainer:
   - {fileID: 3812614455841238010, guid: 1d34ba282469a9f4c926fc53609a9cbb, type: 3}
   - {fileID: 3566700197003718950, guid: 9c2140527519d88438db21cc2cdd6021, type: 3}
-  - {fileID: 5048750477073143597, guid: 6fc2a5959226d0a438f7ac4519196122, type: 3}
+  - {fileID: 5460187978365671883, guid: ae12768bee26ecd448877f62726966a4, type: 3}
+  - {fileID: 1070868514333204447, guid: 919aca830028ded459ba84cda8989f98, type: 3}
