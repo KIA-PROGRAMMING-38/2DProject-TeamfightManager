@@ -13,5 +13,8 @@ public class PilotData
     public string name;
     public int atkStat;
     public int defStat;
+
     public List<ChampionSkillLevelInfo> champSkillLevelContainer;
+
+    public int hairNumber;
 }

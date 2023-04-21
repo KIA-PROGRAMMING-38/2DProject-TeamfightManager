@@ -78,6 +78,7 @@ public static class SaveLoadLogic
 		}
 
 		index = 12;
+		getPilotData.hairNumber = int.Parse(loadData[index++]);
 
 		return true;
 	}

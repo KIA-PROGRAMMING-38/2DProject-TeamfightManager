@@ -28,4 +28,7 @@ public class GameGlobalData : ScriptableObject
 
 	public BanpickStageGlobalData banpickStageGlobalData;
 	public SpawnObjectGlobalData spawnObjectGolbalData;
+
+	public Sprite pilotTrunkSprite;
+	public Sprite[] pilotHairSprite;
 }

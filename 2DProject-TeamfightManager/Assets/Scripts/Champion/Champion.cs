@@ -606,3 +606,29 @@ public class Champion : MonoBehaviour, IAttackable
 		return (int)(100f / (100 + status.defence) * damage);
 	}
 }
+
+// Token: 0x020004AC RID: 1196
+public static class Formula
+{
+    // Token: 0x06001350 RID: 4944 RVA: 0x0000DD64 File Offset: 0x0000BF64
+    public static int Damage(float Attack, float Defence, int tankMult)
+    {
+		return (int)((Attack * 100 + 99 + Defence) / (100 + Defence));
+    }
+
+    // Token: 0x06001351 RID: 4945 RVA: 0x0000DD86 File Offset: 0x0000BF86
+    public static int DefencePoint(int hp, int defence)
+    {
+        return hp * Mathf.Max(50, 100 + defence) / 100;
+    }
+
+    // Token: 0x06001352 RID: 4946 RVA: 0x0000DD98 File Offset: 0x0000BF98
+    public static int ApplySpeed(int frame, int speed)
+    {
+        if (frame == 0)
+        {
+            return 0;
+        }
+        return Mathf.Max(frame * 100 / speed, 1);
+    }
+}

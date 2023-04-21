@@ -11,15 +11,16 @@ public class BanpickChampUI : UIBase
 
 	private ChampionDataTable _champDataTable;
 	private BattleStageDataTable _battlestageDataTable;
+	private PilotDataTable _pilotDataTable;
 
 	private BanpickChampButtonUI _buttonUI;
 	private ShowChampAnimUI _champAnimUI;
-	private BanpickOutlineUI _outlineUI;
+    private BanpickOutlineUI _outlineUI;
 	[SerializeField] private TMP_Text _champNameText;
 	private ShowBanEffectUI _banEffectUI;
 	private ShowPickEffectUI _pickEffectUI;
 
-	public bool isLockSelect { private get; set; }
+    public bool isLockSelect { private get; set; }
 
 	private string _championName;
 	public string championName
@@ -31,21 +32,22 @@ public class BanpickChampUI : UIBase
 
 			_champNameText.text = _champDataTable.GetChampionData(_championName).nameKR;
 			_champAnimUI.SetChampionName(_championName);
-		}
+        }
 	}
 
 	private void Awake()
 	{
 		_champDataTable = s_dataTableManager.championDataTable;
 		_battlestageDataTable = s_dataTableManager.battleStageDataTable;
+		_pilotDataTable = s_dataTableManager.pilotDataTable;
 
-		_buttonUI = GetComponentInChildren<BanpickChampButtonUI>();
+        _buttonUI = GetComponentInChildren<BanpickChampButtonUI>();
 		_champAnimUI = GetComponentInChildren<ShowChampAnimUI>();
-		_outlineUI = GetComponentInChildren<BanpickOutlineUI>();
+        _outlineUI = GetComponentInChildren<BanpickOutlineUI>();
 		_banEffectUI = GetComponentInChildren<ShowBanEffectUI>();
 		_pickEffectUI = GetComponentInChildren<ShowPickEffectUI>();
 
-		_banEffectUI.gameObject.SetActive(false);
+        _banEffectUI.gameObject.SetActive(false);
 		_pickEffectUI.gameObject.SetActive(false);
 		_outlineUI.gameObject.SetActive(false);
 
