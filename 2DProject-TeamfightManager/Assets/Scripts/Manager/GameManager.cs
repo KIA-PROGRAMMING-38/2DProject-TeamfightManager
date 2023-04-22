@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 	public DataTableManager dataTableManager { get; private set; }
 	public PilotManager pilotManager { get; private set; }
 	public EffectManager effectManager { get; private set; }
-	public ProjectileManager projectileManager { get; private set; }
+	public SummonObjectManager summonObjectManager { get; private set; }
 
 	public BattleStageManager battleStageManager { get; private set; }
 	public BanpickRunner banpickRunner { get; private set; }
@@ -133,7 +133,7 @@ public class GameManager : MonoBehaviour
 		newGameObject = new GameObject("Projectile Manager");
 		DontDestroyOnLoad(newGameObject);
 		newGameObject.transform.parent = transform;
-		projectileManager = newGameObject.AddComponent<ProjectileManager>();
+		summonObjectManager = newGameObject.AddComponent<SummonObjectManager>();
 
 		// Champion Manager »ý¼º..
 		newGameObject = new GameObject("Champion Manager");
@@ -158,6 +158,6 @@ public class GameManager : MonoBehaviour
 		pilotManager.gameManager = this;
         teamManager.gameManager = this;
         effectManager.gameManager = this;
-		projectileManager.gameManager = this;
+		summonObjectManager.gameManager = this;
 	}
 }

@@ -12,7 +12,7 @@ public class Champion : MonoBehaviour, IAttackable
 {
 	public static EffectManager s_effectManager { private get; set; }
 	public static DataTableManager s_dataTableManager { private get; set; }
-	public static ProjectileManager s_projectileManager { private get; set; }
+	public static SummonObjectManager s_summonObjeectManager { private get; set; }
 
 	private ChampionAnimation _animComponent;
 	public PilotBattle pilotBattleComponent { get; set; }
@@ -340,9 +340,9 @@ public class Champion : MonoBehaviour, IAttackable
 		_skillAction.effectManager = s_effectManager;
 		_ultimateAction.effectManager = s_effectManager;
 
-		_attackAction.projectileManager = s_projectileManager;
-		_skillAction.projectileManager = s_projectileManager;
-		_ultimateAction.projectileManager = s_projectileManager;
+		_attackAction.summonObjectManager = s_summonObjeectManager;
+		_skillAction.summonObjectManager = s_summonObjeectManager;
+		_ultimateAction.summonObjectManager = s_summonObjeectManager;
 
 		SetupBlackboard();
 	}

@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Projectile : SummonObject
 {
-	public event Action<Projectile, Champion[], int> OnExecuteImpact;
-
 	public enum ProjectileExecuteImpactType
 	{
 		OnCollision,
@@ -14,16 +12,9 @@ public class Projectile : MonoBehaviour
 		OnArriveTargetPosition,
 	}
 
-	public ProjectileManager projectileManager { private get; set; }
-
-	public string projectileName { get => _projectileName; }
-	[SerializeField] private string _projectileName;
 	[SerializeField] private ProjectileExecuteImpactType _executeImpactType;
 	[SerializeField] private bool _isRotateToMoveDir;
 	[SerializeField] private float _moveSpeed;
-
-	private Champion[] _targetArray;
-	private Func<Vector3, Champion[], int> _targetFindFunc;
 
 	private Rigidbody2D _rigidbody;
 
@@ -32,14 +23,14 @@ public class Projectile : MonoBehaviour
 	private IEnumerator _updateVelToLookTargetCoroutine;
 	private IEnumerator _checkIsArriveDestPointCoroutine;
 
-	private void Awake()
+	new private void Awake()
 	{
+		base.Awake();
+
 		_rigidbody = GetComponent<Rigidbody2D>();
 
 		_updateVelToLookTargetCoroutine = UpdateVelocityToLookTargetDirection();
 		_checkIsArriveDestPointCoroutine = CheckIsArriveDestinationPoint();
-
-		_targetArray = new Champion[10];
     }
 
 	private void OnEnable()
@@ -91,8 +82,9 @@ public class Projectile : MonoBehaviour
 			{
 				int findTargetCount = _targetFindFunc.Invoke(_destination, _targetArray);
 
-				OnExecuteImpact?.Invoke(this, _targetArray, findTargetCount);
-				projectileManager.ReleaseProjectile(this);
+				ReceiveImpactExecuteEvent(findTargetCount);
+				ReceiveReleaseEvent();
+				summonObjectManager.ReleaseSummonObject(this);
 
 				yield return null;
 			}
@@ -121,9 +113,9 @@ public class Projectile : MonoBehaviour
             if (null != target)
             {
                 _targetArray[0] = target;
-                OnExecuteImpact?.Invoke(this, _targetArray, 1);
-
-                projectileManager.ReleaseProjectile(this);
+				ReceiveImpactExecuteEvent(1);
+				ReceiveReleaseEvent();
+				summonObjectManager.ReleaseSummonObject(this);
             }
         }
 	}

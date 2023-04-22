@@ -9,12 +9,12 @@ using UnityEngine;
 public class AttackAction
 {
 	public EffectManager effectManager { private get; set; }
-	public ProjectileManager projectileManager
+	public SummonObjectManager summonObjectManager
 	{
 		set
 		{
 			if (null != _summonSystem)
-				_summonSystem.projectileManager = value;
+				_summonSystem.summonObjectManager = value;
 		}
 	}
 

@@ -50,15 +50,15 @@ public class Effect : MonoBehaviour
         _animator.runtimeAnimatorController = _overrideController;
 
 		_spriteRenderer = GetComponent<SpriteRenderer>();
+
+		_waitForLifetimeSecondCoroutine = WaitForLifeTimeSecond();
+		_updateRotateAroundCoroutine = UpdateRotateAround();
 	}
 
     private void OnEnable()
     {
         if (null != data)
         {
-			_waitForLifetimeSecondCoroutine = WaitForLifeTimeSecond();
-			_updateRotateAroundCoroutine = UpdateRotateAround();
-
 			Vector3 offsetPosition = data.offsetPos;
             if (_spriteRenderer.flipX)
                 offsetPosition.x *= -1f;
@@ -156,7 +156,9 @@ public class Effect : MonoBehaviour
 
 		while (true)
 		{
-            _curAngle += Time.deltaTime * _rotateSpeed;
+			yield return null;
+
+			_curAngle += Time.deltaTime * _rotateSpeed;
 
             position = _targetTransform.position;
             position.x += Mathf.Cos(_curAngle) * data.offsetPos.x;
@@ -164,8 +166,6 @@ public class Effect : MonoBehaviour
             position.z = MathF.Sin(_curAngle) * data.offsetPos.x;
 
 			transform.position = position;
-
-			yield return null;
 		}
 	}
 }

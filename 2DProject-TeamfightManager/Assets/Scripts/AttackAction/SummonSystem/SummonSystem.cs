@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SummonSystem
 {
-	public ProjectileManager projectileManager { private get; set; }
+	public SummonObjectManager summonObjectManager { private get; set; }
 
 	private Champion _ownerChampion;
 	public Champion ownerChampion
@@ -77,7 +77,7 @@ public class SummonSystem
 
 					if (null != target && false == target.isDead)
 					{
-						Projectile projectile = projectileManager.GetProjectile(_summonData.summonObjectName);
+						Projectile projectile = summonObjectManager.GetSummonObject<Projectile>(_summonData.summonObjectName);
 
 						Vector3 moveDirection = _summonData.offsetPosition;
 						int layer = (atkImpactTeamKind == TargetTeamKind.Team) ? ownerChampion.buffSummonLayer : ownerChampion.atkSummonLayer;
@@ -89,8 +89,11 @@ public class SummonSystem
 						projectile.transform.position = ownerChampion.transform.position + moveDirection;
 						projectile.SetAdditionalData(layer, target, _findImpactTargetFunc);
 
-						projectile.OnExecuteImpact -= OnProjectileExecuteImpact;
-						projectile.OnExecuteImpact += OnProjectileExecuteImpact;
+						projectile.OnExecuteImpact -= OnSummonObjectExecuteImpact;
+						projectile.OnExecuteImpact += OnSummonObjectExecuteImpact;
+
+						projectile.OnRelease -= OnSummonRelease;
+						projectile.OnRelease += OnSummonRelease;
 					}
 				}
 
@@ -101,10 +104,8 @@ public class SummonSystem
 		}
 	}
 
-	private void OnProjectileExecuteImpact(Projectile projectile, Champion[] targetArray, int targetCount)
+	private void OnSummonObjectExecuteImpact(SummonObject summonObject, Champion[] targetArray, int targetCount)
 	{
-        projectile.OnExecuteImpact -= OnProjectileExecuteImpact;
-
         for (int targetIndex = 0; targetIndex < targetCount; ++targetIndex)
 		{
 			int impactCount = _impactDatas.Count;
@@ -118,5 +119,11 @@ public class SummonSystem
                 _attackAction.ImpactTarget(curImpactData, targetCount, targetArray);
 			}
 		}
+	}
+
+	private void OnSummonRelease(SummonObject summonObject)
+	{
+		summonObject.OnExecuteImpact -= OnSummonObjectExecuteImpact;
+		summonObject.OnRelease -= OnSummonRelease;
 	}
 }
