@@ -17,3 +17,4 @@ Archer_Ultimate,14,3,0,10000,0,무작위 적들에게 빠르게 화살을 연사
 Soldier_Attack,15,0,0,0,0,,FALSE,0,0,TRUE,1,Bullet,TRUE,0,0.62,0.035,0,TRUE,Effect_Soldier_Attack,1,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Soldier_Skill,16,0,0,0,0,총을 연사하여 적 하나에게 큰 피해를 입힙니다.,FALSE,0,0,TRUE,1,FollowBullet,FALSE,0.25,0.62,0.035,0,TRUE,Effect_Soldier_SkillHit,0,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Soldier_Ultimate,17,1,0,2.08,1,수류탄을 던져 일정 범위의 적들에게 큰 피해를 입힙니다.,FALSE,0,0,TRUE,1,Grenade,TRUE,0,0,0,0,TRUE,Effect_Soldier_Ultimate,1,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Pyromancer_Attack,18,1,0,0.8,0,,FALSE,0,0,FALSE,,,,,,,,TRUE,Effect_Pyromancer_AttackHit,0,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

@@ -5,6 +5,7 @@ public enum SummonObjectType
 	Champion,
 	Projectile,
 	Structure,
+	LivingObject
 }
 
 [System.Serializable]
