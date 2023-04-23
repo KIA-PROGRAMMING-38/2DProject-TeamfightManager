@@ -199,6 +199,9 @@ public class BattleTeam : MonoBehaviour
 		int loopCount = _allChampions.Count;
 		for( int i = 0; i < loopCount; ++i)
 		{
+			if (null == _allChampions[i])
+				continue;
+
 			_allChampions[i].gameObject.SetActive(true);
 			_activeChampions.Add(_allChampions[i]);
 		}

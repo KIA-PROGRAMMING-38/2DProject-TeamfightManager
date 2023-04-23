@@ -2,12 +2,11 @@ using UnityEngine;
 
 public class ShowBanChampUIManager : UIBase
 {
-    ShowBanChampUI[][] _allBanChampUI;
+	[SerializeField] private ShowBanChampUI _banChampUIPrefab;
+    private ShowBanChampUI[][] _allBanChampUI;
 
 	private void Awake()
 	{
-		SetupBanUI();
-
 		s_dataTableManager.battleStageDataTable.OnBanpickUpdate -= UpdateBanData;
 		s_dataTableManager.battleStageDataTable.OnBanpickUpdate += UpdateBanData;
 	}
@@ -17,22 +16,27 @@ public class ShowBanChampUIManager : UIBase
 		s_dataTableManager.battleStageDataTable.OnBanpickUpdate -= UpdateBanData;
 	}
 
+	private void Start()
+	{
+		SetupBanUI();
+	}
+
 	private void SetupBanUI()
 	{
-		ShowBanChampUI[] findRedTeamChampUI = transform.Find("RedTeam").GetComponentsInChildren<ShowBanChampUI>();
-		ShowBanChampUI[] findBlueTeamChampUI = transform.Find("BlueTeam").GetComponentsInChildren<ShowBanChampUI>();
+		Transform redTeamParent = transform.Find("RedTeam");
+		Transform blueTeamParent = transform.Find("BlueTeam");
 
 		int battleTeamCount = (int)BattleTeamKind.End;
 		_allBanChampUI = new ShowBanChampUI[battleTeamCount][];
 
-		int teamChampCount = findRedTeamChampUI.Length;
-		for (int i = 0; i < teamChampCount; ++i)
-		{
-			_allBanChampUI[(int)BattleTeamKind.RedTeam] = new ShowBanChampUI[teamChampCount];
-			_allBanChampUI[(int)BattleTeamKind.BlueTeam] = new ShowBanChampUI[teamChampCount];
+		int banChampCount = s_dataTableManager.battleStageDataTable.totalBanChampCount;
+		_allBanChampUI[(int)BattleTeamKind.RedTeam] = new ShowBanChampUI[banChampCount];
+		_allBanChampUI[(int)BattleTeamKind.BlueTeam] = new ShowBanChampUI[banChampCount];
 
-			_allBanChampUI[(int)BattleTeamKind.RedTeam][i] = findRedTeamChampUI[i];
-			_allBanChampUI[(int)BattleTeamKind.BlueTeam][i] = findBlueTeamChampUI[i];
+		for (int i = 0; i < banChampCount; ++i)
+		{
+			_allBanChampUI[(int)BattleTeamKind.RedTeam][i] = Instantiate(_banChampUIPrefab, redTeamParent);
+			_allBanChampUI[(int)BattleTeamKind.BlueTeam][i] = Instantiate(_banChampUIPrefab, blueTeamParent);
 		}
 	}
 

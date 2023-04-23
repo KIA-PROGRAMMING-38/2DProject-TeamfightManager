@@ -22,6 +22,11 @@ public class ChampionDataTable
 	// 챔피언 이름과 챔피언 생성에 필요한 데이터들을 받아와 컨테이너에 저장..
 	public void AddChampionData(string championName, ChampionData champData, ChampionStatus champStatus, ChampionResourceData resourceData)
 	{
+		while (_champDataContainer.ContainsKey(championName))
+		{
+			championName = championName + "0";
+		}
+
 		_champDataContainer.Add(championName, champData);
 		_champStatusContainer.Add(championName, champStatus);
 
@@ -56,6 +61,11 @@ public class ChampionDataTable
 	// Champion AnimData Getter Setter..
 	public void AddChampionAnimData(string championName, ChampionAnimData championAnimData)
 	{
+		while (_champAnimContainer.ContainsKey(championName))
+		{
+			championName = championName + "0";
+		}
+
 		_champAnimContainer.Add(championName, championAnimData);
 	}
 

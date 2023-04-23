@@ -16,3 +16,6 @@ Effect_Soldier_Skill,Animations/Effect/Champion/Effect_Soldier_Skill,0.605,0.037
 Effect_Soldier_SkillHit,Animations/Effect/Champion/Effect_Soldier_SkillHit,0,0.1,0,TRUE,FALSE,0,0,TRUE,5
 Effect_Soldier_Ultimate,Animations/Effect/Champion/Effect_Soldier_Ultimate,-0.77,0,0,TRUE,FALSE,0,0,FALSE,5
 Effect_Soldier_UltimateHit,Animations/Effect/Champion/Effect_Soldier_UltimateHit,0,0,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Pyromancer_AttackHit,Animations/Effect/Champion/Effect_Pyromancer_AttackHit,0,0,0,TRUE,FALSE,0,0,FALSE,5
+Effect_FireBallHit,Animations/Effect/Champion/Effect_FireBallHit,-0.34,0,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Pyromancer_Ultimate,Animations/Effect/Champion/Effect_Pyromancer_Ultimate,0,-0.27,0,TRUE,FALSE,0,0,FALSE,5

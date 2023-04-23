@@ -98,7 +98,14 @@ AnimationClip:
   m_Events:
   - time: 0.33333334
     functionName: OnAnimationEvent
-    data: OnAttackAction
+    data: OnAttackEffectAction
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.33333334
+    functionName: OnAnimationEvent
+    data: OnAttackImpactAction
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

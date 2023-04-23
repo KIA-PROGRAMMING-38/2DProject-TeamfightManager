@@ -63,6 +63,7 @@ public class BattleStageDataTable
 	public BattleTeamFightData redTeamBattleFightData { get; private set; }
 	public BattleTeamFightData blueTeamBattleFightData { get; private set; }
 	public int maxBanpickLevel { get; set; }
+	public int totalBanChampCount { get; set; }
 	public int curBanpickLevel { get; private set; }
 
 	public BattleStageDataTable()

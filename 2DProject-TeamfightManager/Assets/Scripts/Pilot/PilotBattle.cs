@@ -90,6 +90,9 @@ public class PilotBattle : MonoBehaviour
 
     public void StopChampionLogic()
     {
+        if (null == _controlChampion)
+            return;
+
         _controlChampion.GetComponent<ChampionController>().enabled = false;
         _controlChampion.GetComponentInChildren<ChampionAnimation>().ChangeState(ChampionAnimation.AnimState.Idle);
 		_controlChampion.enabled = false;

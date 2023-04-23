@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class EffectDataTable
 {
-	public readonly string DEFAULT_EFFECT_PATH = "Animations/Effect/Champion";
+	public readonly string DEFAULT_EFFECT_PATH = "Animations/Effect/AnimClip";
 	public readonly string DEFAULT_EFFECT_PREFAB_PATH = "Prefabs/Effect";
 
 	// 이펙트의 정보와 이펙트가 실행할 애니메이션을 이펙트 이름마다 저장할 컨테이너 생성..
