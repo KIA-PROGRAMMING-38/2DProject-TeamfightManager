@@ -17,6 +17,8 @@ public class DecideTarget_Random : AtkActionDecideTargetBase
 
     public override int FindTarget(FindTargetData findTargetData, Champion[] getTargetArray)
     {
+        Debug.Log("랜덤 적 찾는다1");
+
         // 인자로 받은 챔피언 캐시 배열이 빈 배열이라면..
         if (null == getTargetArray || 0 == getTargetArray.Length)
             return 0;
@@ -46,7 +48,9 @@ public class DecideTarget_Random : AtkActionDecideTargetBase
 
     public override int FindTarget(FindTargetData findTargetData, Champion[] getTargetArray, Vector3 startPoint)
     {
-        Champion findTarget = battleTeam.ComputeRandomEnemyInRange(startPoint, findTargetData.impactRange, findTargetData.targetTeamKind);
+		Debug.Log("랜덤 적 찾는다2");
+
+		Champion findTarget = battleTeam.ComputeRandomEnemyInRange(startPoint, findTargetData.impactRange, findTargetData.targetTeamKind);
         if (null != findTargetData)
         {
             getTargetArray[0] = findTarget;

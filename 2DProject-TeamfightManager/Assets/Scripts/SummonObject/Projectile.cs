@@ -181,7 +181,7 @@ public class Projectile : SummonObject
 			case OnReleaseSpawnType.SummonStructure:
 				{
 					SummonStructure summonObject = summonObjectManager.GetSummonObject<SummonStructure>(summonObjectName);
-					summonObject.SetAdditionalData(LayerTable.Number.CalcOtherTeamLayer(_getLayerMask), _targetFindFunc);
+					summonObject.SetAdditionalData(LayerTable.Number.CalcOtherTeamLayer(_getLayerMask), _targetArray[0], _targetFindFunc);
 
 					summonObject.OnExecuteImpact -= OnSummonStructureImpact;
 					summonObject.OnExecuteImpact += OnSummonStructureImpact;

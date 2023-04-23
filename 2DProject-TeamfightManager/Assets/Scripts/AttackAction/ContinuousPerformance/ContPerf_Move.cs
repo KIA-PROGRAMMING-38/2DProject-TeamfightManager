@@ -66,10 +66,7 @@ public class ContPerf_Move : ActionContinuousPerformance
             }
 
             _bezierPoint3 = _bezierPoint1 + dir * distance;
-
-            // 두 점으로 정삼각형 만드는 공식(https://tibyte.kr/10 참고)을 좀 변형..
-            _bezierPoint2.x = ((_bezierPoint1.x + _bezierPoint3.x) * 0.5f) + ((_bezierPoint3.y - _bezierPoint1.y) * Mathf.Sqrt(3f) * 0.2f);
-			_bezierPoint2.y = ((_bezierPoint1.y + _bezierPoint3.y) * 0.5f) - ((_bezierPoint3.x - _bezierPoint1.x) * Mathf.Sqrt(3f) * 0.2f);
+			_bezierPoint2 = _bezierPoint1 + dir * 0.5f + new Vector2(dir.y, dir.x) * 0.5f;
 
 			dir = (_bezierPoint2 - _bezierPoint1);
 			distance = dir.magnitude;

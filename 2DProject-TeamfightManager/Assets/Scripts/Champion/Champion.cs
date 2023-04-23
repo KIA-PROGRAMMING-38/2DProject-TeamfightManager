@@ -236,7 +236,7 @@ public class Champion : MonoBehaviour, IAttackable
 	{
 		blackboard.SetBoolValue(BlackboardKeyTable.IS_CAN_ACT_ULTIMATE, false);
 
-		yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 20f));
+		yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 1f));
 
 		blackboard.SetBoolValue(BlackboardKeyTable.IS_CAN_ACT_ULTIMATE, true);
 		Debug.Log("±Ã±Ø±â On");

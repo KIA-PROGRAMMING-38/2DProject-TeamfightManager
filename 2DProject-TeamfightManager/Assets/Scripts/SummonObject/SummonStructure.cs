@@ -7,6 +7,7 @@ public class SummonStructure : SummonObject
 	[SerializeField] protected float _lifeTime = 0f;
 	[SerializeField] protected bool _isUseLifeTime = true;
 	[SerializeField] protected bool _isAttachTarget = false;
+	[SerializeField] protected bool _isSpawnTargetPosition = false;
 
 	protected float _elapsedTickTime = 0f;
 	protected float _elapsedTime = 0f;
@@ -33,7 +34,7 @@ public class SummonStructure : SummonObject
 		}
 	}
 
-	public void SetAdditionalData(int layerMask, Func<Vector3, Champion[], int> targetFindFunc)
+	public void SetAdditionalData(int layerMask, Champion target, Func<Vector3, Champion[], int> targetFindFunc)
 	{
 		Array.Clear(_targetArray, 0, _targetArray.Length);
 		_elapsedTickTime = 0f;
@@ -42,6 +43,11 @@ public class SummonStructure : SummonObject
 		_targetFindFunc = targetFindFunc;
 
 		_getLayerMask = layerMask;
+
+		if (_isSpawnTargetPosition && null != target)
+		{
+			transform.position = target.transform.position;
+		}
 	}
 
 	protected virtual void Action()

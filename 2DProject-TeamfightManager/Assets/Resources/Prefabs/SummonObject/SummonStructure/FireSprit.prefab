@@ -210,6 +210,7 @@ MonoBehaviour:
   _lifeTime: 4
   _isUseLifeTime: 1
   _isAttachTarget: 0
+  _isSpawnTargetPosition: 1
   _fireProjectileName: FireBall
   _projectileOffsetPos: {x: 0.24, y: -0.05, z: 0}
 --- !u!1 &8245666248735023663

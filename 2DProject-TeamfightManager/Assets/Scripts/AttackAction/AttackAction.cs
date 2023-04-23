@@ -156,7 +156,11 @@ public class AttackAction
 			}, 
 			() =>
 			{
-				_decideTargetLogicContainer[(int)TargetDecideKind.OnlyTarget].FindTarget(_actionData.findTargetData, baseFindTargetsCache);
+				int index = (int)TargetDecideKind.OnlyTarget;
+				if (_baseDecideTargetLogicIndex == (int)TargetDecideKind.Random)
+					index = _baseDecideTargetLogicIndex;
+
+				_decideTargetLogicContainer[index].FindTarget(_actionData.findTargetData, baseFindTargetsCache);
 				return baseFindTargetsCache[0];
 			});
 
@@ -326,10 +330,8 @@ public class AttackAction
 
 	public void ShowEffect(AttackActionEffectData effectData, Champion owner, Champion target)
 	{
-#if UNITY_EDITOR
-		Debug.Assert(null != owner);
-		Debug.Assert(null != target);
-#endif
+		if(null == target || null == owner)
+			return;
 
 		Champion effectPointChampion = (effectData.effectPointKind == ActionStartPointKind.MyPosition) ? owner : target;
 

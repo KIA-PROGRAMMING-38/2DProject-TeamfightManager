@@ -101,27 +101,30 @@ public class SummonSystem
 				break;
 			case SummonObjectType.Structure:
 				{
-					Debug.Log("SummonStructure 소환");
+					Champion target = _findTargetFunc.Invoke();
 
-					SummonStructure summonObject = summonObjectManager.GetSummonObject<SummonStructure>(_summonData.summonObjectName);
+					if (null != target && false == target.isDead)
+					{
+						SummonStructure summonObject = summonObjectManager.GetSummonObject<SummonStructure>(_summonData.summonObjectName);
 
-					int layer = (atkImpactTeamKind == TargetTeamKind.Team) ? ownerChampion.buffSummonLayer : ownerChampion.atkSummonLayer;
-					layer = LayerTable.Number.CalcOtherTeamLayer(layer);
+						int layer = (atkImpactTeamKind == TargetTeamKind.Team) ? ownerChampion.buffSummonLayer : ownerChampion.atkSummonLayer;
+						layer = LayerTable.Number.CalcOtherTeamLayer(layer);
 
-					Vector3 moveDirection = _summonData.offsetPosition;
-					if (ownerChampion.flipX)
-						moveDirection.x *= -1f;
+						Vector3 moveDirection = _summonData.offsetPosition;
+						if (ownerChampion.flipX)
+							moveDirection.x *= -1f;
 
-					summonObject.gameObject.SetActive(true);
+						summonObject.gameObject.SetActive(true);
 
-					summonObject.transform.position = ownerChampion.transform.position + moveDirection;
-					summonObject.SetAdditionalData(layer, _findImpactTargetFunc);
+						summonObject.transform.position = ownerChampion.transform.position + moveDirection;
+						summonObject.SetAdditionalData(layer, target, _findImpactTargetFunc);
 
-					summonObject.OnExecuteImpact -= OnSummonObjectExecuteImpact;
-					summonObject.OnExecuteImpact += OnSummonObjectExecuteImpact;
+						summonObject.OnExecuteImpact -= OnSummonObjectExecuteImpact;
+						summonObject.OnExecuteImpact += OnSummonObjectExecuteImpact;
 
-					summonObject.OnRelease -= OnSummonRelease;
-					summonObject.OnRelease += OnSummonRelease;
+						summonObject.OnRelease -= OnSummonRelease;
+						summonObject.OnRelease += OnSummonRelease;
+					}
 				}
 
 				break;

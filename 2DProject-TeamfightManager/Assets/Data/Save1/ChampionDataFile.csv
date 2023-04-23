@@ -1,12 +1,12 @@
 챔피언 이름,공격력,공격 스피드,사정거리,방어력,체력,움직임 스피드,스킬 쿨타임,이름(영어),클래스 타입,공격 행동 키 번호,스킬 행동 키 번호,궁극기 행동 키 번호,설명,챔피언 아이콘 경로,스킬 아이콘 경로,궁극기 아이콘 경로
-허수아비,0,0.1,0,0,1000,0,100,Jako,5,9,9,9,허수아비,Sprites/UI/Champion/Icon/character_icons_22,Sprites/UI/Champion/Skill/ghost_skill,Sprites/UI/Champion/Skill/ghost_ult
-허수아비,0,0.1,0,0,1000,0,100,Jako,5,9,9,9,허수아비,Sprites/UI/Champion/Icon/character_icons_22,Sprites/UI/Champion/Skill/ghost_skill,Sprites/UI/Champion/Skill/ghost_ult
-허수아비,0,0.1,0,0,1000,0,100,Jako,5,9,9,9,허수아비,Sprites/UI/Champion/Icon/character_icons_22,Sprites/UI/Champion/Skill/ghost_skill,Sprites/UI/Champion/Skill/ghost_ult
-허수아비,0,0.1,0,0,1000,0,100,Jako,5,9,9,9,허수아비,Sprites/UI/Champion/Icon/character_icons_22,Sprites/UI/Champion/Skill/ghost_skill,Sprites/UI/Champion/Skill/ghost_ult
-허수아비,0,0.1,0,0,1000,0,100,Jako,5,9,9,9,허수아비,Sprites/UI/Champion/Icon/character_icons_22,Sprites/UI/Champion/Skill/ghost_skill,Sprites/UI/Champion/Skill/ghost_ult
-허수아비,0,0.1,0,0,1000,0,100,Jako,5,9,9,9,허수아비,Sprites/UI/Champion/Icon/character_icons_22,Sprites/UI/Champion/Skill/ghost_skill,Sprites/UI/Champion/Skill/ghost_ult
-허수아비,0,0.1,0,0,1000,0,100,Jako,5,9,9,9,허수아비,Sprites/UI/Champion/Icon/character_icons_22,Sprites/UI/Champion/Skill/ghost_skill,Sprites/UI/Champion/Skill/ghost_ult
-허수아비,0,0.1,0,0,1000,0,100,Jako,5,9,9,9,허수아비,Sprites/UI/Champion/Icon/character_icons_22,Sprites/UI/Champion/Skill/ghost_skill,Sprites/UI/Champion/Skill/ghost_ult
+허수아비,0,0.1,0,0,100,0,100,Jako,5,9,9,9,허수아비,Sprites/UI/Champion/Icon/character_icons_22,Sprites/UI/Champion/Skill/ghost_skill,Sprites/UI/Champion/Skill/ghost_ult
+허수아비,0,0.1,0,0,100,0,100,Jako,5,9,9,9,허수아비,Sprites/UI/Champion/Icon/character_icons_22,Sprites/UI/Champion/Skill/ghost_skill,Sprites/UI/Champion/Skill/ghost_ult
+허수아비,0,0.1,0,0,100,0,100,Jako,5,9,9,9,허수아비,Sprites/UI/Champion/Icon/character_icons_22,Sprites/UI/Champion/Skill/ghost_skill,Sprites/UI/Champion/Skill/ghost_ult
+허수아비,0,0.1,0,0,100,0,100,Jako,5,9,9,9,허수아비,Sprites/UI/Champion/Icon/character_icons_22,Sprites/UI/Champion/Skill/ghost_skill,Sprites/UI/Champion/Skill/ghost_ult
+허수아비,0,0.1,0,0,100,0,100,Jako,5,9,9,9,허수아비,Sprites/UI/Champion/Icon/character_icons_22,Sprites/UI/Champion/Skill/ghost_skill,Sprites/UI/Champion/Skill/ghost_ult
+허수아비,0,0.1,0,0,100,0,100,Jako,5,9,9,9,허수아비,Sprites/UI/Champion/Icon/character_icons_22,Sprites/UI/Champion/Skill/ghost_skill,Sprites/UI/Champion/Skill/ghost_ult
+허수아비,0,0.1,0,0,100,0,100,Jako,5,9,9,9,허수아비,Sprites/UI/Champion/Icon/character_icons_22,Sprites/UI/Champion/Skill/ghost_skill,Sprites/UI/Champion/Skill/ghost_ult
+허수아비,0,0.1,0,0,100,0,100,Jako,5,9,9,9,허수아비,Sprites/UI/Champion/Icon/character_icons_22,Sprites/UI/Champion/Skill/ghost_skill,Sprites/UI/Champion/Skill/ghost_ult
 검사,15,0.83,0.45,30,130,3,4.2,Swordman,1,0,1,2,검사는 강력한 근접 공격을 구사합니다. 검사는 상대방의 방어력을 깎아내는 기술을 통해 탱커를 효과적으로 공격할 수 있으며 힐러와의 궁합이 좋습니다. 검사를 상대할 땐 그 공격을 봉쇄할 수 있는 제어 기술을 사용하는 챔피언을 기용하는 편이 좋습니다.,Sprites/UI/Champion/Icon/character_icons_16,Sprites/UI/Champion/Skill/swordman_skill,Sprites/UI/Champion/Skill/swordman_ult
 몽크,20,0.71,0.35,40,210,2.5,5.4,Monk,4,6,7,8,몽크는 높은 탱킹 능력을 갖춘 힐러입니다. 광역으로 보호막을 부여하는 궁극기와 잘 어울리는 챔피언을 선택할 경우 높은 시너지를 기대할 수 있습니다.,Sprites/UI/Champion/Icon/character_icons_9,Sprites/UI/Champion/Skill/monk_skill,Sprites/UI/Champion/Skill/monk_ult
 궁수,42,0.67,1.2,5,100,1.5,3,Archer,2,12,13,14,궁수는 상대와 거리를 벌리며 지속적으로 공격하는데 특화된 원거리 딜러입니다. 상대적으로 높은 체력,Sprites/UI/Champion/Icon/character_icons_0,Sprites/UI/Champion/Skill/archer_skill,Sprites/UI/Champion/Skill/archer_ult
