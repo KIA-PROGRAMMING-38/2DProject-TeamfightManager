@@ -20,3 +20,6 @@ Soldier_Ultimate,17,1,0,2.08,1,수류탄을 던져 일정 범위의 적들에게
 Pyromancer_Attack,18,1,0,0.8,0,,FALSE,0,0,FALSE,,,,,,,,TRUE,Effect_Pyromancer_AttackHit,0,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Pyromancer_Skill,19,1,0,1.08,1,공격을 보조하는 화염 정령을 소환합니다.,FALSE,0,0,TRUE,2,FireSprit,TRUE,0,0,0,0,FALSE,,,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Pyromancer_Ultimate,20,1,0,5,1,주변 일정 범위에 지속적으로 피해를 가하는 영역을 생성합니다.,FALSE,0,0,TRUE,2,FireCircleRing,TRUE,0,0,0,0,TRUE,Effect_Pyromancer_Ultimate,1,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Priest_Attack,21,0,1,0,0,,FALSE,0,0,FALSE,,,,,,,,TRUE,Effect_Priest_Attack,1,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Priest_Skill,22,0,1,0,0,아군 하나에게 공격 속도 증가 효과가 있는 보호막을 부여합니다.,FALSE,0,0,FALSE,,,,,,,,TRUE,Effect_Priest_Skill,1,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Priest_Ultimate,23,1,1,5,1,주변 일정 범위에 지속적으로 체력을 회복시키는 영역을 생성합니다.,FALSE,0,0,TRUE,2,HealCircleRing,TRUE,0,0,0,0,TRUE,Effect_Priest_Ultimate,1,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

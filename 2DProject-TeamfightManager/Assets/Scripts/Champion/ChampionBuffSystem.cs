@@ -140,6 +140,7 @@ public class ChampionBuffSystem
 		{
 			case BuffImpactType.Barrier:
 			case BuffImpactType.Barrier_MoveSpeed:
+			case BuffImpactType.Barrier_AtkSpeed:
 				_barrierSystem.AddBarrier(type, amount);
 				return;
 		}

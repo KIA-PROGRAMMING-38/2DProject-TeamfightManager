@@ -122,6 +122,12 @@ public class ChampionBarrierSystem
 				_curBarrierInfo.buffAmount = amount;
 
 				break;
+
+			case BuffImpactType.Barrier_AtkSpeed:
+                _curBarrierInfo.plusBuffType = BuffImpactType.Barrier_AtkSpeed;
+                _curBarrierInfo.buffAmount = amount;
+
+                break;
 		}
 
 		UpdateStatus();
@@ -139,7 +145,12 @@ public class ChampionBarrierSystem
 			switch (_barrierInfoContainer[i].plusBuffType)
 			{
 				case BuffImpactType.Barrier_MoveSpeed:
-					status.moveSpeed += _barrierInfoContainer[i].buffAmount;
+                    status.moveSpeed = Math.Max(status.moveSpeed, 1f) * _barrierInfoContainer[i].buffAmount;
+                    break;
+
+				case BuffImpactType.Barrier_AtkSpeed:
+					status.atkSpeed = Math.Max(status.atkSpeed, 1f) * _barrierInfoContainer[i].buffAmount;
+
 					break;
 			}
 		}

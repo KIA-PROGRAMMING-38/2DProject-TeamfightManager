@@ -19,3 +19,6 @@ Effect_Soldier_UltimateHit,Animations/Effect/Champion/Effect_Soldier_UltimateHit
 Effect_Pyromancer_AttackHit,Animations/Effect/Champion/Effect_Pyromancer_AttackHit,0,0,0,TRUE,FALSE,0,0,FALSE,5
 Effect_FireBallHit,Animations/Effect/Champion/Effect_FireBallHit,-0.34,0,0,TRUE,FALSE,0,0,FALSE,5
 Effect_Pyromancer_Ultimate,Animations/Effect/Champion/Effect_Pyromancer_Ultimate,0,-0.27,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Priest_Attack,Animations/Effect/Champion/Effect_Priest_Attack,0,-0.1,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Priest_Skill,Animations/Effect/Champion/Effect_Priest_Skill,-0.11,0.503,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Priest_Ultimate,Animations/Effect/Champion/Effect_Priest_Ultimate,0,-0.079,0,TRUE,FALSE,0,0,FALSE,5
