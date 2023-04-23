@@ -84,10 +84,13 @@ public class BanpickMainUI : UIBase
 
 		rayCaster.enabled = false;
 
-		yield return YieldInstructionStore.GetWaitForSec(2f);
+		yield return YieldInstructionStore.GetWaitForSec(0.5f);
 
-		rayCaster.enabled = true;
 		_movementComponent.StartMove(true);
 		_banpickEndUI.OnEndBanpick();
+
+		yield return YieldInstructionStore.GetWaitForSec(1f);
+
+		rayCaster.enabled = true;
 	}
 }
