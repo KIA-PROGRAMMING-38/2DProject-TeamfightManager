@@ -18,6 +18,7 @@ public enum BuffImpactType
 
 	Barrier,				// 배리어..
 	Barrier_MoveSpeed,      // 배리어가 유지되는 동안 증가되는 스피드..
+	Barrier_AtkSpeed,		// 배리어가 유지되는 동안 증가되는 공속..
 
 	Barrier_End,
 }
