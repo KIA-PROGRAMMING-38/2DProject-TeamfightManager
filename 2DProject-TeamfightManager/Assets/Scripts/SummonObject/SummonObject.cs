@@ -1,7 +1,6 @@
 using System;
-using System.Collections;
 using UnityEngine;
-using static SummonObject;
+using static Projectile;
 
 public class SummonObject : MonoBehaviour
 {
@@ -9,6 +8,7 @@ public class SummonObject : MonoBehaviour
 	public event Action<SummonObject> OnRelease;
 
 	public SummonObjectManager summonObjectManager { protected get; set; }
+	public EffectManager effectManager { protected get; set; }
 
 	public string summonObjectName { get => _summonObjectName; }
 	[SerializeField] private string _summonObjectName;

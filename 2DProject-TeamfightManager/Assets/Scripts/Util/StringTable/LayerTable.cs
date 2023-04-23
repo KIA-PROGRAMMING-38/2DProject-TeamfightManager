@@ -14,6 +14,29 @@ public static class LayerTable
 
 		public static readonly int STAGE_AREALIMITLINE = LayerMask.NameToLayer(Name.STAGE_AREALIMITLINE);
 		public static readonly int STAGE_OUTOFAREA = LayerMask.NameToLayer(Name.STAGE_AREALIMITLINE);
+
+		public static int CalcOtherTeamLayer(int layer)
+		{
+			if (layer == REDTEAM_CHAMPION)
+				return BLUETEAM_CHAMPION;
+
+			if (layer == REDTEAM_ATKSUMMON)
+				return BLUETEAM_ATKSUMMON;
+
+			if (layer == REDTEAM_BUFFSUMMON)
+				return BLUETEAM_BUFFSUMMON;
+
+			if (layer == BLUETEAM_CHAMPION)
+				return REDTEAM_CHAMPION;
+
+			if (layer == BLUETEAM_ATKSUMMON)
+				return REDTEAM_ATKSUMMON;
+
+			if (layer == BLUETEAM_BUFFSUMMON)
+				return BLUETEAM_CHAMPION;
+
+			return -1;
+		}
     }
 
 	public static class Name

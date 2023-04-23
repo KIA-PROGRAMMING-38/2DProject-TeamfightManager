@@ -7,9 +7,6 @@ public class GameGlobalData : ScriptableObject
 	public int PilotCount = 4;
 	public float battleFightTime = 60f;
 
-	public string DefaultRedTeamName;
-	public string DefaultBlueTeamName;
-
     public string pilotGlobalFilePath;
 
 	public string pilotFileName;
@@ -19,12 +16,6 @@ public class GameGlobalData : ScriptableObject
 	public string attackActionImpactDataFileName;
 	public string effectFileName;
 	public string teamFileName;
-
-    public List<string> testRedChampionCreateOrder;
-	public List<string> testRedPilotCreateOrder;
-
-	public List<string> testBlueChampionCreateOrder;
-	public List<string> testBluePilotCreateOrder;
 
 	public BanpickStageGlobalData banpickStageGlobalData;
 	public SpawnObjectGlobalData spawnObjectGolbalData;

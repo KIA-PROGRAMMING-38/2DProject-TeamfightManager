@@ -3,25 +3,13 @@ using UnityEngine;
 
 public class TestLogic2 : MonoBehaviour
 {
-	private IEnumerator test;
+	public TestLogic t1;
 
-	private void Awake()
+	public void Update()
 	{
-		test = Test();
-	}
-
-	private void OnEnable()
-	{
-		Debug.Log("¾Æ");
-		StartCoroutine(test);
-	}
-
-	private IEnumerator Test()
-	{
-		while(true)
+		if(Input.GetKeyDown(KeyCode.Space))
 		{
-			Debug.Log("Test");
-			yield return null;
+			t1.asdasd();
 		}
 	}
 }

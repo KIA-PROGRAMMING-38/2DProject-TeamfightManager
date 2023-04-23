@@ -9,13 +9,14 @@ public class SummonObjectManager : MonoBehaviour
 		set 
 		{
 			_gameManager = value;
+			_effectManager = _gameManager.effectManager;
 
-			int loopCount = _gameManager.gameGlobalData.spawnObjectGolbalData.projectilePrefabContainer.Length;
+			int loopCount = _gameManager.gameGlobalData.spawnObjectGolbalData.prefabContainer.Length;
 			_summonPoolerContainer = new Dictionary<string, ObjectPooler<SummonObject>>(loopCount);
 
 			for (int i = 0; i < loopCount; ++i)
 			{
-				SummonObject prefab = _gameManager.gameGlobalData.spawnObjectGolbalData.projectilePrefabContainer[i].GetComponent<SummonObject>();
+				SummonObject prefab = _gameManager.gameGlobalData.spawnObjectGolbalData.prefabContainer[i].GetComponent<SummonObject>();
 
 				ObjectPooler<SummonObject> pooler = new ObjectPooler<SummonObject>(
 					() => CreateSummonObject(prefab),
@@ -27,6 +28,7 @@ public class SummonObjectManager : MonoBehaviour
 	}
 
 	private GameManager _gameManager;
+	private EffectManager _effectManager;
 
 	private Dictionary<string, ObjectPooler<SummonObject>> _summonPoolerContainer;
 
@@ -49,6 +51,7 @@ public class SummonObjectManager : MonoBehaviour
 	{
 		SummonObject newObject = Instantiate(prefab);
 		newObject.summonObjectManager = this;
+		newObject.effectManager = _effectManager;
 
 		return newObject;
 	}

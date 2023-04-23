@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3473106059769209045}
-  - component: {fileID: 3621721023295278324}
   - component: {fileID: -3574060941783374767}
   - component: {fileID: 2529606405022847379}
+  - component: {fileID: 5518099615587294471}
   m_Layer: 0
   m_Name: BaseProjectile
   m_TagString: Untagged
@@ -34,22 +34,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3621721023295278324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7395324280537443099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d22a903c960bc4c42a9aabf836ba7125, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _projectileName: 
-  _executeImpactType: 0
-  _isRotateToMoveDir: 1
-  _moveSpeed: 0
 --- !u!212 &-3574060941783374767
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -123,3 +107,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &5518099615587294471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7395324280537443099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f799bd3dd87be44ba6f5aaf76832732, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _summonObjectName: 
+  _executeImpactType: 0
+  _isRotateToMoveDir: 0
+  _moveSpeed: 0

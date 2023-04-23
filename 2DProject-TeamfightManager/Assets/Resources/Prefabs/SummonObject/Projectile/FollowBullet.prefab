@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2113868031554064901}
-  - component: {fileID: 2244468672805289508}
   - component: {fileID: 6380128722729746248}
   - component: {fileID: 5966094218350958666}
   - component: {fileID: 8843111333146905672}
   - component: {fileID: 8843111333881076907}
+  - component: {fileID: 5666617374808293911}
   m_Layer: 0
   m_Name: FollowBullet
   m_TagString: Untagged
@@ -36,22 +36,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2244468672805289508
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5460187978365671883}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d22a903c960bc4c42a9aabf836ba7125, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _projectileName: FollowBullet
-  _executeImpactType: 2
-  _isRotateToMoveDir: 1
-  _moveSpeed: 15
 --- !u!212 &6380128722729746248
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -240,3 +224,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.1
+--- !u!114 &5666617374808293911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5460187978365671883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f799bd3dd87be44ba6f5aaf76832732, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _summonObjectName: FollowBullet
+  _executeImpactType: 2
+  _isRotateToMoveDir: 1
+  _moveSpeed: 15

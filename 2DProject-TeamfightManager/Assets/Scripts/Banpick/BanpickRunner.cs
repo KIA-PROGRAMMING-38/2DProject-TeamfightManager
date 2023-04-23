@@ -20,9 +20,16 @@ public class BanpickRunner : MonoBehaviour
 			_battleStageDataTable.StartBanpick(_globalData.stagesDataContainer[0].kind, _globalData.stagesDataContainer[0].orders[0]);
 
 			int banpickLevelMaxCount = 0;
-			for( int i = 0; i < _levelMaxCount; ++i)
+			int totalBanChampCount = 0;
+			for ( int i = 0; i < _levelMaxCount; ++i)
+			{
 				banpickLevelMaxCount += _globalData.stagesDataContainer[i].orders.Count;
+				if (_globalData.stagesDataContainer[i].kind == BanpickStageKind.Ban)
+					totalBanChampCount += _globalData.stagesDataContainer[i].orders.Count / 2;
+			}
+
 			_battleStageDataTable.maxBanpickLevel = banpickLevelMaxCount;
+			_battleStageDataTable.totalBanChampCount = totalBanChampCount;
         }
 	}
 

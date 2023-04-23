@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6363576319593583633}
-  - component: {fileID: 6503186221700626480}
   - component: {fileID: 2745902743915663509}
   - component: {fileID: 5433578529151968599}
   - component: {fileID: 556648919535739842}
+  - component: {fileID: 7923652946876430430}
   m_Layer: 0
   m_Name: Grenade
   m_TagString: Untagged
@@ -35,22 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6503186221700626480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1070868514333204447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d22a903c960bc4c42a9aabf836ba7125, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _projectileName: Grenade
-  _executeImpactType: 1
-  _isRotateToMoveDir: 1
-  _moveSpeed: 10
 --- !u!212 &2745902743915663509
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -145,3 +129,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7923652946876430430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1070868514333204447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f799bd3dd87be44ba6f5aaf76832732, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _summonObjectName: Grenade
+  _executeImpactType: 1
+  _isRotateToMoveDir: 1
+  _moveSpeed: 15

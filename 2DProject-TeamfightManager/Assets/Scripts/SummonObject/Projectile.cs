@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using static Projectile;
 
 public class Projectile : SummonObject
 {
@@ -12,11 +12,24 @@ public class Projectile : SummonObject
 		OnArriveTargetPosition,
 	}
 
+	public enum OnReleaseSpawnType
+	{
+		None,
+		Effect,
+		SummonStructure
+	}
+
 	[SerializeField] private ProjectileExecuteImpactType _executeImpactType;
 	[SerializeField] private bool _isRotateToMoveDir;
 	[SerializeField] private float _moveSpeed;
 
+	[SerializeField] private OnReleaseSpawnType _releaseSpawnType;
+	[SerializeField] private string _spawnObjectName;
+	[SerializeField] private bool _spawnObjectFlipX;
+
 	private Rigidbody2D _rigidbody;
+
+	private int _getLayerMask;
 
 	private Vector2 _destination;
 	private Transform _targetTransform;
@@ -46,6 +59,7 @@ public class Projectile : SummonObject
 	public void SetAdditionalData(int layerMask, Champion target, Func<Vector3, Champion[], int> targetFindFunc)
 	{
 		gameObject.layer = layerMask;
+		_getLayerMask = layerMask;
 		_targetFindFunc = targetFindFunc;
 
 		switch (_executeImpactType)
@@ -82,9 +96,11 @@ public class Projectile : SummonObject
 			{
 				int findTargetCount = _targetFindFunc.Invoke(_destination, _targetArray);
 
+				transform.position = _destination;
+
 				ReceiveImpactExecuteEvent(findTargetCount);
-				ReceiveReleaseEvent();
-				summonObjectManager.ReleaseSummonObject(this);
+
+				ReleaseProjectile();
 
 				yield return null;
 			}
@@ -113,10 +129,11 @@ public class Projectile : SummonObject
             if (null != target)
             {
                 _targetArray[0] = target;
+
 				ReceiveImpactExecuteEvent(1);
-				ReceiveReleaseEvent();
-				summonObjectManager.ReleaseSummonObject(this);
-            }
+
+				ReleaseProjectile();
+			}
         }
 	}
 
@@ -144,5 +161,52 @@ public class Projectile : SummonObject
 			return true;
 
 		return false;
+	}
+
+	private void ReleaseProjectile()
+	{
+		summonObjectManager.ReleaseSummonObject(this);
+
+		switch (_releaseSpawnType)
+		{
+			case OnReleaseSpawnType.Effect:
+				{
+					Effect effect = effectManager.GetEffect(_spawnObjectName, transform.position, _spawnObjectFlipX);
+					effect.transform.right = transform.right;
+
+					effect.gameObject.SetActive(true);
+				}
+
+				break;
+			case OnReleaseSpawnType.SummonStructure:
+				{
+					SummonStructure summonObject = summonObjectManager.GetSummonObject<SummonStructure>(summonObjectName);
+					summonObject.SetAdditionalData(LayerTable.Number.CalcOtherTeamLayer(_getLayerMask), _targetFindFunc);
+
+					summonObject.OnExecuteImpact -= OnSummonStructureImpact;
+					summonObject.OnExecuteImpact += OnSummonStructureImpact;
+
+					summonObject.OnRelease -= OnSummonStructureRelease;
+					summonObject.OnRelease += OnSummonStructureRelease;
+				}
+
+				return;
+		}
+
+		ReceiveReleaseEvent();
+	}
+
+	private void OnSummonStructureImpact(SummonObject summonObject, Champion[] targetArray, int targetCount)
+	{
+		_targetArray = targetArray;
+		ReceiveImpactExecuteEvent(targetCount);
+	}
+
+	private void OnSummonStructureRelease(SummonObject summonObject)
+	{
+		summonObject.OnExecuteImpact -= OnSummonStructureImpact;
+		summonObject.OnRelease -= OnSummonStructureRelease;
+
+		ReceiveReleaseEvent();
 	}
 }

@@ -5,17 +5,19 @@ public class SummonStructure : SummonObject
 {
 	[SerializeField] protected float _actionTickTime = 0f;
 	[SerializeField] protected float _lifeTime = 0f;
-	[SerializeField] protected float _elapsedTickTime = 0f;
-	[SerializeField] protected float _elapsedTime = 0f;
 	[SerializeField] protected bool _isUseLifeTime = true;
 	[SerializeField] protected bool _isAttachTarget = false;
+
+	protected float _elapsedTickTime = 0f;
+	protected float _elapsedTime = 0f;
+	protected int _getLayerMask;
 
 	private void Update()
 	{
 		if (false == _isUseLifeTime)
 			return;
 
-		float deltaTime = Time.time;
+		float deltaTime = Time.deltaTime;
 		_elapsedTickTime += deltaTime;
 		if (_elapsedTickTime >= _actionTickTime)
 		{
@@ -24,21 +26,22 @@ public class SummonStructure : SummonObject
 		}
 
 		_elapsedTime += deltaTime;
-		if (_elapsedTime < _lifeTime)
+		if (_elapsedTime >= _lifeTime)
 		{
 			ReceiveReleaseEvent();
 			summonObjectManager.ReleaseSummonObject(this);
 		}
 	}
 
-	public void SetAdditionalData(int layerMask, Champion target, Func<Vector3, Champion[], int> targetFindFunc)
+	public void SetAdditionalData(int layerMask, Func<Vector3, Champion[], int> targetFindFunc)
 	{
 		Array.Clear(_targetArray, 0, _targetArray.Length);
 		_elapsedTickTime = 0f;
 		_elapsedTime = 0f;
 
-		gameObject.layer = layerMask;
 		_targetFindFunc = targetFindFunc;
+
+		_getLayerMask = layerMask;
 	}
 
 	protected virtual void Action()

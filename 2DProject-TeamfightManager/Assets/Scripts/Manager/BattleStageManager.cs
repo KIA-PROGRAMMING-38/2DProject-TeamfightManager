@@ -27,7 +27,7 @@ public class BattleStageManager : MonoBehaviour
 			int pilotCount = gameManager.gameGlobalData.PilotCount;
 			_battleStageDataTable.battleChampionTotalCount = Math.Min(pilotCount, 4) * 2;
 
-			SetupBattleTeam( _gameManager.gameGlobalData.DefaultRedTeamName, _gameManager.gameGlobalData.DefaultBlueTeamName );
+			SetupBattleTeam(_dataTableManager.teamDataTable.GetTeamName(0), _dataTableManager.teamDataTable.GetTeamName(1));
 		}
 	}
 
@@ -160,23 +160,6 @@ public class BattleStageManager : MonoBehaviour
 				_battleStageDataTable.blueTeamBattleFightData.pilotFightDataContainer[index].championName = champName;
 
 				break;
-		}
-	}
-
-	// 배틀 스테이지의 각 팀들의 파일럿 생성해주는 함수..
-	private void SetupPilot()
-	{
-		int pilotCount = gameManager.gameGlobalData.PilotCount;
-
-		List<string> blueTeamPilotCreateOrder = gameManager.gameGlobalData.testBluePilotCreateOrder;
-		List<string> blueTeamChampCreateOrder = gameManager.gameGlobalData.testBlueChampionCreateOrder;
-		List<string> redTeamPilotCreateOrder = gameManager.gameGlobalData.testRedPilotCreateOrder;
-		List<string> redTeamChampCreateOrder = gameManager.gameGlobalData.testRedChampionCreateOrder;
-
-		for (int i = 0; i < pilotCount; ++i)
-		{
-			//redTeam.AddChampion(i, redTeamChampCreateOrder[i % redTeamChampCreateOrder.Count]);
-			//blueTeam.AddChampion(i, blueTeamChampCreateOrder[i % blueTeamChampCreateOrder.Count]);
 		}
 	}
 
