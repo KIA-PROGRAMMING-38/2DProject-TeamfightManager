@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Priest_Death
+  m_Name: Effect_Priest_Attack
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,25 +20,25 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: e1b1a631204d9394b803bde68d97e5f7, type: 3}
+      value: {fileID: 21300000, guid: 9b61f704b4470154292367fd3fe39835, type: 3}
     - time: 0.083333336
-      value: {fileID: 21300000, guid: e0af891b0ffc7c849a02d13ea90a15ab, type: 3}
+      value: {fileID: 21300000, guid: c0ed7739d31ca3c4d9bf73fb1cdf2308, type: 3}
     - time: 0.16666667
-      value: {fileID: 21300000, guid: 2d02d8977c62fc248bd61f589b277164, type: 3}
+      value: {fileID: 21300000, guid: b5764e4a8392283449a42e90b609373a, type: 3}
     - time: 0.25
-      value: {fileID: 21300000, guid: ff17efa321f174c4aab829971ff6958b, type: 3}
+      value: {fileID: 21300000, guid: 20089c7a7268b8e43b58b096a95e40ec, type: 3}
     - time: 0.33333334
-      value: {fileID: 21300000, guid: c202fff3834508145ae8efefd40d0481, type: 3}
+      value: {fileID: 21300000, guid: fb26d434011fff44484415f568db21c6, type: 3}
     - time: 0.41666666
-      value: {fileID: 21300000, guid: 9f64fee1248e5a645aee5d1f3dbce832, type: 3}
+      value: {fileID: 21300000, guid: 62387db1bdecf8b459d61887f2d4a54a, type: 3}
     - time: 0.5
-      value: {fileID: 21300000, guid: 423de347ebfb7f44b8e0fbafde44335e, type: 3}
+      value: {fileID: 21300000, guid: cbb5dfbd22269e54a84d6ddde4c985d9, type: 3}
     - time: 0.5833333
-      value: {fileID: 21300000, guid: 44ae9f91bee4d7648b25d048e61cbb86, type: 3}
+      value: {fileID: 21300000, guid: e992b88375d28c84fa74e12c6da44e31, type: 3}
     - time: 0.6666667
-      value: {fileID: 21300000, guid: adca3b9b88fa207438557c85403d988c, type: 3}
+      value: {fileID: 21300000, guid: c26cabd55c2b8db49aa58ea7e3150a7e, type: 3}
     - time: 0.75
-      value: {fileID: 21300000, guid: e84d32f31e10a584f84b1d204d701437, type: 3}
+      value: {fileID: 21300000, guid: 76482f22d2ed3024a8aa4150761b20c2, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -58,16 +58,16 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: e1b1a631204d9394b803bde68d97e5f7, type: 3}
-    - {fileID: 21300000, guid: e0af891b0ffc7c849a02d13ea90a15ab, type: 3}
-    - {fileID: 21300000, guid: 2d02d8977c62fc248bd61f589b277164, type: 3}
-    - {fileID: 21300000, guid: ff17efa321f174c4aab829971ff6958b, type: 3}
-    - {fileID: 21300000, guid: c202fff3834508145ae8efefd40d0481, type: 3}
-    - {fileID: 21300000, guid: 9f64fee1248e5a645aee5d1f3dbce832, type: 3}
-    - {fileID: 21300000, guid: 423de347ebfb7f44b8e0fbafde44335e, type: 3}
-    - {fileID: 21300000, guid: 44ae9f91bee4d7648b25d048e61cbb86, type: 3}
-    - {fileID: 21300000, guid: adca3b9b88fa207438557c85403d988c, type: 3}
-    - {fileID: 21300000, guid: e84d32f31e10a584f84b1d204d701437, type: 3}
+    - {fileID: 21300000, guid: 9b61f704b4470154292367fd3fe39835, type: 3}
+    - {fileID: 21300000, guid: c0ed7739d31ca3c4d9bf73fb1cdf2308, type: 3}
+    - {fileID: 21300000, guid: b5764e4a8392283449a42e90b609373a, type: 3}
+    - {fileID: 21300000, guid: 20089c7a7268b8e43b58b096a95e40ec, type: 3}
+    - {fileID: 21300000, guid: fb26d434011fff44484415f568db21c6, type: 3}
+    - {fileID: 21300000, guid: 62387db1bdecf8b459d61887f2d4a54a, type: 3}
+    - {fileID: 21300000, guid: cbb5dfbd22269e54a84d6ddde4c985d9, type: 3}
+    - {fileID: 21300000, guid: e992b88375d28c84fa74e12c6da44e31, type: 3}
+    - {fileID: 21300000, guid: c26cabd55c2b8db49aa58ea7e3150a7e, type: 3}
+    - {fileID: 21300000, guid: 76482f22d2ed3024a8aa4150761b20c2, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -94,8 +94,8 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.8333333
-    functionName: OnAnimationEvent
-    data: OnDeathAnimEnd
+    functionName: OnEndAnimation
+    data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

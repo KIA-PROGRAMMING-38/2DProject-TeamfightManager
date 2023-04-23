@@ -228,7 +228,7 @@ public class Champion : MonoBehaviour, IAttackable
 
         if (false == s_dataTableManager.attackActionDataTable.GetActionData(this.data.ultimateActionUniqueKey).isPassive)
         {
-            StartCoroutine(TestUltOn());
+            //StartCoroutine(TestUltOn());
         }
     }
 
