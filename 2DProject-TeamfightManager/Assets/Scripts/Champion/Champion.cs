@@ -260,7 +260,7 @@ public class Champion : MonoBehaviour, IAttackable
 		_activeEffectList.Remove(effect);
 	}
 
-	public ChampionStatus debugStatus;
+	// 버프, 디버프로 인해 스탯이 변화될 때 호출되는 콜백 함수..
 	private void UpdateStatus(ChampionStatus status)
 	{
 		if (null == _baseStatus)
@@ -278,8 +278,6 @@ public class Champion : MonoBehaviour, IAttackable
 		_animComponent.animationSpeed = animSpeed;
 
 		OnChangeBuffStatus?.Invoke( status );
-
-		debugStatus = status;
     }
 
 	private void ResetStatus()
