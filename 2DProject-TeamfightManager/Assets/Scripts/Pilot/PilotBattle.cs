@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -13,6 +14,15 @@ public class PilotBattle : MonoBehaviour
 		set
         {
             _controlChampion = value;
+            _findTargetData = new FindTargetData
+            {
+                targetDecideKind = _controlChampion.defaultFindTargetData.targetDecideKind,
+                targetTeamKind = _controlChampion.defaultFindTargetData.targetTeamKind,
+                impactRange = _controlChampion.defaultFindTargetData.impactRange,
+                actionStartPointKind = _controlChampion.defaultFindTargetData.actionStartPointKind,
+                isIncludeMe = _controlChampion.defaultFindTargetData.isIncludeMe,
+                priorityKind = _controlChampion.defaultFindTargetData.priorityKind,
+			};
 
             _controlChampion.pilotBattleComponent = this;
 
@@ -39,8 +49,11 @@ public class PilotBattle : MonoBehaviour
 			_controlChampion.OnChangedBarrierRatio += UpdateBarrierRatio;
 		}
     }
+
     private Champion _controlChampion;
-    public BattleTeam myTeam { get; set; }
+    private FindTargetData _findTargetData;
+
+	public BattleTeam myTeam { get; set; }
 
     public int battleTeamIndexKey { private get; set; }
 
@@ -78,7 +91,7 @@ public class PilotBattle : MonoBehaviour
 
 	public Champion FindTarget(Champion champion)
     {
-        return myTeam.ComputeMostNearestEnemyTarget(champion.transform.position);
+        return myTeam.FindTarget(champion, _findTargetData);
 	}
 
     public void OnChampionDead()

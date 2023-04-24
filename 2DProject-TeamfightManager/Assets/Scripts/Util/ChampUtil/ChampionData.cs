@@ -10,4 +10,6 @@ public class ChampionData
 	public int ultimateActionUniqueKey;		// 공격 행동 키 값..
 
 	public string champDescription;			// 챔피언 설명..
+
+	public FindTargetData findTargetData;	// 챔피언 기본 타겟 찾는 로직에 필요한 정보들..
 }

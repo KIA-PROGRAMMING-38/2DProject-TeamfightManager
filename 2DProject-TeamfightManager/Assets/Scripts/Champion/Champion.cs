@@ -30,8 +30,8 @@ public class Champion : MonoBehaviour, IAttackable
 	[SerializeField] private int _curHp = 0;
 	public int curHp
 	{
-		private get => _curHp;
-		set
+		get => _curHp;
+		private set
 		{
 			_curHp = Mathf.Clamp(value, 0, status.hp);
 
@@ -40,9 +40,10 @@ public class Champion : MonoBehaviour, IAttackable
 				Death();
 			}
 
-			OnChangedHPRatio?.Invoke(curHp / (float)status.hp);
+			OnChangedHPRatio?.Invoke(hpRatio);
 		}
 	}
+	public float hpRatio { get => curHp / (float)status.hp; }
 	public bool isDead { get => _curHp == 0; }
 	public float speed { get => status.moveSpeed; private set => status.moveSpeed = value; }
 
@@ -190,6 +191,8 @@ public class Champion : MonoBehaviour, IAttackable
 		}
 	}
 
+	public FindTargetData defaultFindTargetData { get; private set; }
+
 	private void Awake()
 	{
 		_colliders = GetComponents<Collider2D>();
@@ -229,7 +232,7 @@ public class Champion : MonoBehaviour, IAttackable
         if (false == s_dataTableManager.attackActionDataTable.GetActionData(this.data.ultimateActionUniqueKey).isPassive)
         {
 			//if (this.data.ultimateActionUniqueKey == 23)
-				StartCoroutine(TestUltOn());
+				//StartCoroutine(TestUltOn());
         }
     }
 
@@ -317,6 +320,7 @@ public class Champion : MonoBehaviour, IAttackable
 	{
 		_baseStatus = status;
 		this.data = champData;
+		defaultFindTargetData = champData.findTargetData;
 
 		// status √ ±‚»≠..
 		ResetStatus();

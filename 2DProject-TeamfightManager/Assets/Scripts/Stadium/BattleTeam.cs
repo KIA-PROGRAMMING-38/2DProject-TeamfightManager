@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 /// <summary>
 /// 배틀 스테이지에서 배틀을 하는 팀(하나의 팀)을 관리하기 위한 클래스..
@@ -283,34 +285,95 @@ public class BattleTeam : MonoBehaviour
 	// ==================================== 적을 찾는 함수들.. ====================================
 
 	// originPoint를 기준으로 가장 가까운 적을 찾는 함수..
-	public Champion ComputeMostNearestEnemyTarget(Vector3 originPoint)
+	public Champion FindTarget(Champion champion, FindTargetData findTargetData)
 	{
-		float result = float.MaxValue;
 		Champion target = null;
-		int loopCount = enemyTeam._activeChampions.Count;
-		for( int i = 0; i < loopCount; ++i)
-		{
-			Champion enemy = enemyTeam._activeChampions[i];
+		Vector3 championPosition = champion.transform.position;
+		float targetDistance = 0f;
 
-			float dist = (originPoint - enemy.transform.position).sqrMagnitude;
-			if (dist < result)
-			{
-				result = dist;
-				target = enemy;
-			}
+		switch (findTargetData.targetTeamKind)
+		{
+			case TargetTeamKind.Enemy:
+				{
+					int loopCount = enemyTeam._activeChampions.Count;
+					for( int i = 0; i < loopCount; ++i)
+					{
+						Champion checkChampion = enemyTeam._activeChampions[i];
+
+						float distance = (checkChampion.transform.position - championPosition).magnitude;
+						if(CheckPriorityLogic(checkChampion, target, targetDistance, distance, findTargetData.priorityKind))
+						{
+							target = checkChampion;
+							targetDistance = distance;
+						}
+					}
+				}
+
+				break;
+			case TargetTeamKind.Team:
+				{
+					int loopCount = _activeChampions.Count;
+					for (int i = 0; i < loopCount; ++i)
+					{
+						Champion checkChampion = _activeChampions[i];
+						if (false == findTargetData.isIncludeMe && checkChampion == champion)
+							continue;
+
+						float distance = (checkChampion.transform.position - championPosition).magnitude;
+						if (CheckPriorityLogic(checkChampion, target, targetDistance, distance, findTargetData.priorityKind))
+						{
+							target = checkChampion;
+							targetDistance = distance;
+						}
+					}
+				}
+
+				break;
+			case TargetTeamKind.Both:
+				{
+					int loopCount = enemyTeam._activeChampions.Count;
+					for (int i = 0; i < loopCount; ++i)
+					{
+						Champion checkChampion = enemyTeam._activeChampions[i];
+
+						float distance = (checkChampion.transform.position - championPosition).magnitude;
+						if (CheckPriorityLogic(checkChampion, target, targetDistance, distance, findTargetData.priorityKind))
+						{
+							target = checkChampion;
+							targetDistance = distance;
+						}
+					}
+
+					loopCount = _activeChampions.Count;
+					for (int i = 0; i < loopCount; ++i)
+					{
+						Champion checkChampion = _activeChampions[i];
+						if (false == findTargetData.isIncludeMe && checkChampion == champion)
+							continue;
+
+						float distance = (checkChampion.transform.position - championPosition).magnitude;
+						if (CheckPriorityLogic(checkChampion, target, targetDistance, distance, findTargetData.priorityKind))
+						{
+							target = checkChampion;
+							targetDistance = distance;
+						}
+					}
+				}
+
+				break;
 		}
 
 		return target;
 	}
 
 	// 적을 찾는 로직을 받아와 계산한다..
-	public int ComputeEnemyTarget(Func<Vector3, bool> findLogicFunction, Champion[] championCache, TargetTeamKind teamKind)
+	public int ComputeEnemyTarget(Func<Vector3, bool> findLogicFunction, Champion[] championCache, FindTargetData findTargetData)
 	{
 		int targetCount = 0;
 		int championCacheLength = championCache.Length;
 
 		List<Champion> computeContainer = null;
-		switch (teamKind)
+		switch (findTargetData.targetTeamKind)
 		{
 			case TargetTeamKind.Enemy:
 				computeContainer = enemyTeam._activeChampions;
@@ -374,6 +437,63 @@ public class BattleTeam : MonoBehaviour
 
 		return null;
     }
+
+	private bool CheckPriorityLogic(Champion checkChampion, Champion target, float targetDistance, float curDistance, FindTargetPriorityKind priorityKind)
+	{
+		if (null == target)
+			return true;
+
+		switch (priorityKind)
+		{
+			case FindTargetPriorityKind.None:
+				if (targetDistance > curDistance)
+				{
+					return true;
+				}
+
+				break;
+			case FindTargetPriorityKind.MostLowHP:
+				if (checkChampion.curHp < target.curHp)
+				{
+					return true;
+				}
+				else if (checkChampion.curHp == target.curHp)
+				{
+					if (targetDistance > curDistance)
+					{
+						return true;
+					}
+				}
+
+				break;
+
+			case FindTargetPriorityKind.MostLowHPRatio:
+				{
+					if (checkChampion.hpRatio < target.hpRatio)
+					{
+						return true;
+					}
+					else if (checkChampion.hpRatio == target.hpRatio)
+					{
+						if (targetDistance > curDistance)
+						{
+							return true;
+						}
+					}
+				}
+
+				break;
+			case FindTargetPriorityKind.MostFarDist:
+				if (targetDistance < curDistance)
+				{
+					return true;
+				}
+
+				break;
+		}
+
+		return false;
+	}
 
 	public void RemoveActiveChampionList(Champion champion)
 	{

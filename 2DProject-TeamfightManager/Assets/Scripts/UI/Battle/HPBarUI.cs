@@ -52,7 +52,7 @@ public class HPBarUI : MonoBehaviour
 		Vector3 localPos = _hpBarStartLocalPosition;
 		localPos.x = curBarrierStartPosX;
 		_barrierUIBar[0].rectTransform.localPosition = localPos;
-		_barrierUIBar[0].fillAmount = 1f - curHpBarGauge;
+		_barrierUIBar[0].fillAmount = Mathf.Min(1f - curHpBarGauge, _totalBarrierGauge);
 
 		if (curHpBarGauge + _totalBarrierGauge > 1f)
 		{
