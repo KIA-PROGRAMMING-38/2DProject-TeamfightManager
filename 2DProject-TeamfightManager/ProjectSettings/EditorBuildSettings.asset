@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/StadiumScene.unity
+    guid: 064f2fe6c395f6c49a475af95b7d3bfb
+  - enabled: 1
     path: Assets/Scenes/ColoseumScene.unity
     guid: 1a2e1c646bdbbd944a95b54aadb0f9f4
   - enabled: 1
@@ -15,9 +18,12 @@ EditorBuildSettings:
     path: Assets/Scenes/BattleTeamInfoUIScene.unity
     guid: b0135247dc0821a428a3f035d82cf15f
   - enabled: 1
-    path: Assets/Scenes/StadiumScene.unity
-    guid: 064f2fe6c395f6c49a475af95b7d3bfb
-  - enabled: 1
     path: Assets/Scenes/ChampStatusBarUIScene.unity
     guid: 3ff87bb46dcd1d940ac27d31b7598e90
+  - enabled: 1
+    path: Assets/Scenes/DormitoryScene.unity
+    guid: da51e88f8665e644dbfc4df850a64e1f
+  - enabled: 1
+    path: Assets/Scenes/DormitoryUIScene.unity
+    guid: cd651fde418f18f4c8932fb2fb783dec
   m_configObjects: {}

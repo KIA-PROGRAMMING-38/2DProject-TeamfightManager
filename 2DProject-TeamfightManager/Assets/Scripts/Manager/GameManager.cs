@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour
 	{
 		DontDestroyOnLoad(gameObject);
 
-        GameSaveLoader.SaveGameFile( 0, this );
         LoadFile( 0 );
         SetupManager();
 	}
@@ -53,6 +52,11 @@ public class GameManager : MonoBehaviour
 
 		switch ( _curSceneName )
 		{
+			case SceneNameTable.DORMITORY:
+				SceneManager.LoadScene(SceneNameTable.DORMITORY_UI, LoadSceneMode.Additive);
+
+				break;
+
 			case SceneNameTable.STADIUM:
 				CreateBattleStageManager();
 				CreateBanpickRunner();
