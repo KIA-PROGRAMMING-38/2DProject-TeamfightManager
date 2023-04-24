@@ -76,16 +76,19 @@ public class BattleStageDataTable
 	}
 
 	// 배틀 시작 시 총 배틀해야하는 시간 받아서 초기화하는 부분..
-	public void Initialize(float gameBattleTime, string redTeamName, List<BattlePilotFightData> redTeamBattlePilotFightDatas
+	public void Initialize(string redTeamName, List<BattlePilotFightData> redTeamBattlePilotFightDatas
 		, string blueTeamName, List<BattlePilotFightData> blueTeamBattlePilotFightDatas)
 	{
-		_battleRemainTime = gameBattleTime;
-
 		redTeamBattleFightData.teamName = redTeamName;
 		blueTeamBattleFightData.teamName = blueTeamName;
 
 		redTeamBattleFightData.pilotFightDataContainer = redTeamBattlePilotFightDatas;
 		blueTeamBattleFightData.pilotFightDataContainer = blueTeamBattlePilotFightDatas;
+	}
+
+	public void InitializeBattleTime(float battleTime)
+	{
+		_battleRemainTime = battleTime;
 	}
 
 	// 배틀 끝났을 때 관련 데이터 처리하는 부분..

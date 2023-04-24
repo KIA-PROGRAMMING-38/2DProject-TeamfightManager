@@ -20,6 +20,12 @@ public class SummonObject : MonoBehaviour
 		_targetArray = new Champion[10];
 	}
 
+	private void Start()
+	{
+		summonObjectManager.OnForcedRelease -= OnForcedRelease;
+		summonObjectManager.OnForcedRelease += OnForcedRelease;
+	}
+
 	protected void ReceiveImpactExecuteEvent(int targetCount)
 	{
 		OnExecuteImpact?.Invoke(this, _targetArray, targetCount);
@@ -28,5 +34,13 @@ public class SummonObject : MonoBehaviour
 	protected void ReceiveReleaseEvent()
 	{
 		OnRelease?.Invoke(this);
+	}
+
+	private void OnForcedRelease()
+	{
+		if (false == gameObject.activeSelf)
+			return;
+
+		summonObjectManager.ReleaseSummonObject(this);
 	}
 }

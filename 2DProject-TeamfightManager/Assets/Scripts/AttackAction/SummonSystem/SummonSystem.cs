@@ -65,6 +65,7 @@ public class SummonSystem
 		_impactDatas.Add(impactData);
 	}
 
+	// 공격 행동 시 소환해야할 소환물 소환하는 함수..
 	private void SummonObject()
 	{
 		switch (_summonData.summonObjectType)
@@ -78,6 +79,7 @@ public class SummonSystem
 
 					if (null != target && false == target.isDead)
 					{
+						// 발사체 가져와서 offset 좌표 세팅하고 필요한 정보 넘긴 뒤 Active On..
 						Projectile projectile = summonObjectManager.GetSummonObject<Projectile>(_summonData.summonObjectName);
 
 						Vector3 moveDirection = _summonData.offsetPosition;
@@ -90,6 +92,7 @@ public class SummonSystem
 						projectile.transform.position = ownerChampion.transform.position + moveDirection;
 						projectile.SetAdditionalData(layer, target, _findImpactTargetFunc);
 
+						// 이벤트 구독..
 						projectile.OnExecuteImpact -= OnSummonObjectExecuteImpact;
 						projectile.OnExecuteImpact += OnSummonObjectExecuteImpact;
 
@@ -105,6 +108,7 @@ public class SummonSystem
 
 					if (null != target && false == target.isDead)
 					{
+						// SummonStructure 가져와서 offset 좌표 세팅하고 필요한 정보 넘긴 뒤 Active On..
 						SummonStructure summonObject = summonObjectManager.GetSummonObject<SummonStructure>(_summonData.summonObjectName);
 
 						int layer = (atkImpactTeamKind == TargetTeamKind.Team) ? ownerChampion.buffSummonLayer : ownerChampion.atkSummonLayer;
@@ -119,6 +123,7 @@ public class SummonSystem
 						summonObject.transform.position = ownerChampion.transform.position + moveDirection;
 						summonObject.SetAdditionalData(layer, target, _findImpactTargetFunc);
 
+						// 이벤트 구독..
 						summonObject.OnExecuteImpact -= OnSummonObjectExecuteImpact;
 						summonObject.OnExecuteImpact += OnSummonObjectExecuteImpact;
 
@@ -131,6 +136,7 @@ public class SummonSystem
 		}
 	}
 
+	// Summon Object가 효과 발동 시 호출되는 콜백 함수(공격이라면 공격 효과를 준다)..
 	private void OnSummonObjectExecuteImpact(SummonObject summonObject, Champion[] targetArray, int targetCount)
 	{
         for (int targetIndex = 0; targetIndex < targetCount; ++targetIndex)
@@ -148,6 +154,7 @@ public class SummonSystem
 		}
 	}
 
+	// Summon Object가 Release될 때 호출되는 콜백 함수..
 	private void OnSummonRelease(SummonObject summonObject)
 	{
 		summonObject.OnExecuteImpact -= OnSummonObjectExecuteImpact;

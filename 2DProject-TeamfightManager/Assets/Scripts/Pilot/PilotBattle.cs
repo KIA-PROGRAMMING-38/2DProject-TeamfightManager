@@ -14,7 +14,8 @@ public class PilotBattle : MonoBehaviour
 		set
         {
             _controlChampion = value;
-            _findTargetData = new FindTargetData
+			_championController = _controlChampion.GetComponent<ChampionController>();
+			_findTargetData = new FindTargetData
             {
                 targetDecideKind = _controlChampion.defaultFindTargetData.targetDecideKind,
                 targetTeamKind = _controlChampion.defaultFindTargetData.targetTeamKind,
@@ -51,6 +52,7 @@ public class PilotBattle : MonoBehaviour
     }
 
     private Champion _controlChampion;
+    private ChampionController _championController;
     private FindTargetData _findTargetData;
 
 	public BattleTeam myTeam { get; set; }
@@ -106,10 +108,31 @@ public class PilotBattle : MonoBehaviour
         if (null == _controlChampion)
             return;
 
-        _controlChampion.GetComponent<ChampionController>().enabled = false;
-        _controlChampion.GetComponentInChildren<ChampionAnimation>().ChangeState(ChampionAnimation.AnimState.Idle);
+		_championController.enabled = false;
+        _controlChampion.GetComponentInChildren<ChampionAnimation>().ChangeState(ChampionAnimation.AnimState.Idle, true);
 		_controlChampion.enabled = false;
 	}
+
+    public void Release()
+    {
+        if(null != _controlChampion)
+        {
+			_controlChampion.enabled = true;
+
+			_controlChampion.Release();
+
+			_controlChampion = null;
+		}
+
+		_battleInfoData.killCount = 0;
+		_battleInfoData.deathCount = 0;
+		_battleInfoData.assistCount = 0;
+		_battleInfoData.totalAtkDamage = 0;
+		_battleInfoData.totalTakeDamage = 0;
+		_battleInfoData.totalHill = 0;
+
+		pilot.Release();
+    }
 
     private void OnChampionTakeDamaged(Champion hitChampion, int damage)
     {
