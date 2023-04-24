@@ -62,6 +62,7 @@ public class ChampBuffUI : UIBase
         s_spriteContainer.Add( "Buff_MoveSpeed", Resources.Load<Sprite>( "Sprites/UI/Champion/Data/status/movement_speed_buff" ) );
     }
 
+    // 챔피언 Status가 갱신될 때마다 호출되는 콜백 함수(버프, 디버프가 추가 or 제거될 때마다 호출)..
     private void ChangeChampionStatus(ChampionStatus status)
     {
         for( int i = 0; i < _imageCount; ++i )

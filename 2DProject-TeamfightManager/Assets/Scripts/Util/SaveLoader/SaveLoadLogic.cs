@@ -37,6 +37,14 @@ public static class SaveLoadLogic
 		getChampData.ultimateActionUniqueKey = int.Parse(loadData[index++]);
 		getChampData.champDescription = loadData[index++];
 
+		getChampData.findTargetData = new FindTargetData();
+		getChampData.findTargetData.targetDecideKind = (TargetDecideKind)int.Parse(loadData[index++]);
+		getChampData.findTargetData.targetTeamKind = (TargetTeamKind)int.Parse(loadData[index++]);
+		getChampData.findTargetData.impactRange = float.Parse(loadData[index++]);
+		getChampData.findTargetData.actionStartPointKind = (ActionStartPointKind)int.Parse(loadData[index++]);
+		getChampData.findTargetData.isIncludeMe = bool.Parse(loadData[index++]);
+		getChampData.findTargetData.priorityKind = (FindTargetPriorityKind)int.Parse(loadData[index++]);
+
 		// Champion Resource 데이터 설정..
 		getResourceData.champIconImagePath = loadData[index++];
 		getResourceData.skillIconImagePath = loadData[index++];
@@ -131,6 +139,8 @@ public static class SaveLoadLogic
 		getActionData.findTargetData.targetTeamKind = (TargetTeamKind)int.Parse(loadData[index++]);
 		getActionData.findTargetData.impactRange = float.Parse(loadData[index++]);
 		getActionData.findTargetData.actionStartPointKind = (ActionStartPointKind)int.Parse(loadData[index++]);
+		getActionData.findTargetData.isIncludeMe = bool.Parse(loadData[index++]);
+		getActionData.findTargetData.priorityKind = (FindTargetPriorityKind)int.Parse(loadData[index++]);
 		getActionData.description = loadData[index++];
 		getActionData.isInvincible = bool.Parse(loadData[index++]);
 		getActionData.rangeType = (AtkRangeType)int.Parse(loadData[index++]);
@@ -151,7 +161,7 @@ public static class SaveLoadLogic
 		}
 
 		// Default Shoow Effect 저장..
-		index = 18;
+		index = 20;
 		getEffectData = new AttackActionEffectData();
 		getEffectData.isShowEffect = bool.Parse(loadData[index++]);
 		if(true == getEffectData.isShowEffect)
@@ -161,7 +171,7 @@ public static class SaveLoadLogic
 		}
 
 		// Passive Data 저장..
-		index = 21;
+		index = 23;
 		getActionData.isPassive = bool.Parse(loadData[index++]);
 		if(true == getActionData.isPassive)
 		{

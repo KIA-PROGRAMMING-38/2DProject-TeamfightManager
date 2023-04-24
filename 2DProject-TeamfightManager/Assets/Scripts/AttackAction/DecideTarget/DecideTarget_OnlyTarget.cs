@@ -4,13 +4,15 @@
 /// </summary>
 public class DecideTarget_OnlyTarget : AtkActionDecideTargetBase
 {
+	private BattleTeam battleTeam;
+
 	public DecideTarget_OnlyTarget(AttackAction attackAction, AttackActionData actionData) : base(attackAction, actionData)
 	{
 	}
 
 	public override void OnStart()
 	{
-
+		battleTeam = ownerChampion.pilotBattleComponent.myTeam;
 	}
 
 	public override int FindTarget(FindTargetData findTargetData, Champion[] getTargetArray)
@@ -19,27 +21,14 @@ public class DecideTarget_OnlyTarget : AtkActionDecideTargetBase
 		if (null == getTargetArray || 0 == getTargetArray.Length)
 			return 0;
 
-		TargetTeamKind teamKind = (TargetTeamKind)findTargetData.targetTeamKind;
-
-		switch (teamKind)
+		Champion findTarget = battleTeam.FindTarget(ownerChampion, findTargetData);
+		if(null != findTarget)
 		{
-			case TargetTeamKind.Enemy:
-				if (null == ownerChampion.targetChampion)
-					return 0;
-
-				getTargetArray[0] = attackAction.targetChampion;
-
-				break;
-			case TargetTeamKind.Team:
-				if (null == ownerChampion)
-					return 0;
-
-				getTargetArray[0] = ownerChampion;
-
-				break;
+			getTargetArray[0] = findTarget;
+			return 1;
 		}
 
-		return 1;
+		return 0;
 	}
 
 	public override int FindTarget(FindTargetData findTargetData, Champion[] getTargetArray, Vector3 startPoint)

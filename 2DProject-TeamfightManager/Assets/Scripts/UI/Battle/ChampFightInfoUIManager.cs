@@ -16,7 +16,6 @@ public class ChampFightInfoUIManager : UIBase
 
     private int _halfChampionCount = 0;
 
-    // Start is called before the first frame update
     IEnumerator Start()
     {
 		yield return null;
