@@ -532,7 +532,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 201400933}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1549063192}
+        m_TargetAssemblyTypeName: SystemMenuButtonGroupUI, Assembly-CSharp
+        m_MethodName: OnClickSubGroupButton
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &201400933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -867,7 +879,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 252422009}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 547636500}
+        m_TargetAssemblyTypeName: StatisticsMenuButtonGroupUI, Assembly-CSharp
+        m_MethodName: OnClickSubGroupButton
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &252422009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1534,8 +1558,9 @@ GameObject:
   - component: {fileID: 547636499}
   - component: {fileID: 547636498}
   - component: {fileID: 547636497}
+  - component: {fileID: 547636500}
   m_Layer: 5
-  m_Name: GameInfoButton
+  m_Name: StatisticsGroupButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1583,7 +1608,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 2
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1646,6 +1671,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 547636495}
   m_CullTransparentMesh: 1
+--- !u!114 &547636500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 547636495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8f345ee10563ae44b0e31e330113628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _selectStateSprite: {fileID: 21300000, guid: b1cf669ed09c29f4984ee022f2081c8c, type: 3}
+  _hoverStateSprite: {fileID: 21300000, guid: b9734683cb2540044a34b496254949f3, type: 3}
 --- !u!1 &565233064
 GameObject:
   m_ObjectHideFlags: 0
@@ -1770,7 +1809,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 595429173}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -2006,7 +2045,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 602062549}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 547636500}
+        m_TargetAssemblyTypeName: StatisticsMenuButtonGroupUI, Assembly-CSharp
+        m_MethodName: OnClickSubGroupButton
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &602062549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2925,7 +2976,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 921924425}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1857295418}
+        m_TargetAssemblyTypeName: MenuButtonGroupUIManager, Assembly-CSharp
+        m_MethodName: GoToStadiumScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &921924425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3182,7 +3245,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1026941836}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 547636500}
+        m_TargetAssemblyTypeName: StatisticsMenuButtonGroupUI, Assembly-CSharp
+        m_MethodName: OnClickSubGroupButton
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1026941836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4187,6 +4262,7 @@ GameObject:
   - component: {fileID: 1549063191}
   - component: {fileID: 1549063190}
   - component: {fileID: 1549063189}
+  - component: {fileID: 1549063192}
   m_Layer: 5
   m_Name: SystemButton
   m_TagString: Untagged
@@ -4236,7 +4312,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 2
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -4299,6 +4375,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1549063187}
   m_CullTransparentMesh: 1
+--- !u!114 &1549063192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549063187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb0fe534a88dd6a4daad6b48a2d4b02e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _selectStateSprite: {fileID: 21300000, guid: b1cf669ed09c29f4984ee022f2081c8c, type: 3}
+  _hoverStateSprite: {fileID: 21300000, guid: b9734683cb2540044a34b496254949f3, type: 3}
 --- !u!1 &1754183708
 GameObject:
   m_ObjectHideFlags: 0
@@ -4489,6 +4579,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1857295417}
+  - component: {fileID: 1857295418}
+  - component: {fileID: 1857295421}
+  - component: {fileID: 1857295420}
+  - component: {fileID: 1857295419}
   m_Layer: 5
   m_Name: MenuButtonGroup
   m_TagString: Untagged
@@ -4518,10 +4612,116 @@ RectTransform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 500}
+  m_SizeDelta: {x: 0, y: -150}
   m_Pivot: {x: 0.5, y: 0}
+--- !u!114 &1857295418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857295416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b8ab55982a17c547a937d3abf1b79e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1857295419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857295416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1857295420}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1857295418}
+        m_TargetAssemblyTypeName: MenuButtonGroupUIManager, Assembly-CSharp
+        m_MethodName: OnClickBackgroundButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1857295420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857295416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.003921569}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1857295421
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857295416}
+  m_CullTransparentMesh: 1
 --- !u!1 &1893553975
 GameObject:
   m_ObjectHideFlags: 0
@@ -4951,7 +5151,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1967815039}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1549063192}
+        m_TargetAssemblyTypeName: SystemMenuButtonGroupUI, Assembly-CSharp
+        m_MethodName: OnClickSubGroupButton
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1967815039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5138,7 +5350,7 @@ GameObject:
   - component: {fileID: 2141235309}
   - component: {fileID: 2141235308}
   m_Layer: 5
-  m_Name: SaveButton
+  m_Name: SaveGameButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5208,7 +5420,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2141235309}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1549063192}
+        m_TargetAssemblyTypeName: SystemMenuButtonGroupUI, Assembly-CSharp
+        m_MethodName: OnClickSubGroupButton
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2141235309
 MonoBehaviour:
   m_ObjectHideFlags: 0

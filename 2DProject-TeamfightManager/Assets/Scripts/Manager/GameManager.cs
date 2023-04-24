@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
 
 	private void Awake()
 	{
+		UIBase.s_gameManager = this;
+
 		DontDestroyOnLoad(gameObject);
 
         LoadFile( 0 );
@@ -50,7 +52,12 @@ public class GameManager : MonoBehaviour
 	{
         _curSceneName = SceneManager.GetActiveScene().name;
 
-		switch ( _curSceneName )
+		LoadAdditiveScene();
+	}
+
+	private void LoadAdditiveScene()
+	{
+		switch (_curSceneName)
 		{
 			case SceneNameTable.DORMITORY:
 				SceneManager.LoadScene(SceneNameTable.DORMITORY_UI, LoadSceneMode.Additive);
@@ -68,6 +75,26 @@ public class GameManager : MonoBehaviour
 				dataTableManager.battleStageDataTable.OnStartBattle += OnStartBattle;
 				break;
 		}
+	}
+
+	public void ChangeScene(string sceneName)
+	{
+		_curSceneName = sceneName;
+
+		switch (_curSceneName)
+		{
+			case SceneNameTable.DORMITORY:
+				SceneManager.LoadSceneAsync(_curSceneName, LoadSceneMode.Single);
+
+				break;
+
+			case SceneNameTable.STADIUM:
+				SceneManager.LoadSceneAsync(_curSceneName, LoadSceneMode.Single);
+
+				break;
+		}
+
+		LoadAdditiveScene();
 	}
 
 	private void OnStartBattle()
