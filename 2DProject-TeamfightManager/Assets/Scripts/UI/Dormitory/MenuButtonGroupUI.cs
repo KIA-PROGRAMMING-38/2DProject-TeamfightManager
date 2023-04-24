@@ -26,8 +26,10 @@ public abstract class MenuButtonGroupUI : UIBase, IPointerClickHandler, IPointer
 		_defaultStateSprite = _image.sprite;
 	}
 
+	// 하위 버튼들이 클릭되면 호출되는 콜백 함수..
 	public abstract void OnClickSubGroupButton(int buttonKey);
 
+	// 하위 그룹 Active On/Off..
 	public void SetActiveSubGroup(bool isActive)
 	{
 		_isSubgroupActive = isActive;
