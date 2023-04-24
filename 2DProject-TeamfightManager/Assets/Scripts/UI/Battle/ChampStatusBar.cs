@@ -22,9 +22,8 @@ public class ChampStatusBar : UIBase
 
 	private Camera _mainCamera;
 	private RectTransform _transform;
-
-	[SerializeField] private GaugeBarUI _hpBarUI;
-	[SerializeField] private GaugeBarUI _barrierBarUI;
+	
+	private HPBarUI _hpBarUI;
 	[SerializeField] private GaugeBarUI _mpBarUI;
 	private UltimateIconUI _ultimateIconUI;
 	private ChampBuffUI _buffUI;
@@ -39,11 +38,12 @@ public class ChampStatusBar : UIBase
 
 		_ultimateIconUI = GetComponentInChildren<UltimateIconUI>();
 		_buffUI = GetComponentInChildren<ChampBuffUI>();
+		_hpBarUI = GetComponentInChildren<HPBarUI>();
     }
 
 	private void Start()
 	{
-		_hpBarUI.gaugeBarColor = (teamKind == BattleTeamKind.RedTeam) ? redTeamHPBarColor : blueTeamHPBarColor;
+		_hpBarUI.SetHPBarColor((teamKind == BattleTeamKind.RedTeam) ? redTeamHPBarColor : blueTeamHPBarColor);
 	}
 
 	private void LateUpdate()
@@ -56,17 +56,17 @@ public class ChampStatusBar : UIBase
 
 	public void SetHPRatio(float ratio)
 	{
-		_hpBarUI.SetFillAmount(ratio);
+		_hpBarUI.SetHPBarGauge(ratio);
 	}
 
 	public void SetMPRatio(float ratio)
 	{
-		_mpBarUI.SetFillAmount(ratio);
+		_mpBarUI.fillAmount = ratio;
 	}
 
 	public void SetBarrierRatio(float ratio)
 	{
-		_barrierBarUI.SetFillAmount(ratio);
+		_hpBarUI.SetBarrierBarGauge(ratio);
 	}
 
 	public void SetUltimateActive(bool active)
