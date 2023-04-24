@@ -72,6 +72,7 @@ public class BattleTeam : MonoBehaviour
 		{
 			_battleTeamKind = value;
 
+			// 팀 종류에 따라 레이어 설정..
 			switch (_battleTeamKind)
 			{
 				case BattleTeamKind.RedTeam:
@@ -291,6 +292,7 @@ public class BattleTeam : MonoBehaviour
 		Vector3 championPosition = champion.transform.position;
 		float targetDistance = 0f;
 
+		// 타겟 팀 종류에 따라 찾을 타겟 리스트 결정 후 찾음..
 		switch (findTargetData.targetTeamKind)
 		{
 			case TargetTeamKind.Enemy:
@@ -438,6 +440,7 @@ public class BattleTeam : MonoBehaviour
 		return null;
     }
 
+	// Priority Kind에 따라 추가적인 검사 진행하는 함수..
 	private bool CheckPriorityLogic(Champion checkChampion, Champion target, float targetDistance, float curDistance, FindTargetPriorityKind priorityKind)
 	{
 		if (null == target)
@@ -505,6 +508,9 @@ public class BattleTeam : MonoBehaviour
 		_activeChampions.Add(champion);
 	}
 
+	// ================================================================================================================================================
+	// --- 이벤트에 의해 호출될 콜백 함수들(챔피언 정보와 관련된 함수들)..
+	// ================================================================================================================================================
 	private void OnChangedChampionBattleData(int index, BattleInfoData data)
 	{
 		OnChangedChampionBattleInfoData?.Invoke(battleTeamKind, index, data);

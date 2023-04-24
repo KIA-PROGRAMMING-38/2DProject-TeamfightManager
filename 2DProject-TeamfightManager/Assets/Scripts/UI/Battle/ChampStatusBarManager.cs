@@ -23,6 +23,7 @@ public class ChampStatusBarManager : UIBase
 
 		SetupStatusBar();
 
+		// 이벤트 구독(챔피언의 정보가 바뀔 때 마다 실행된다)..
 		s_dataTableManager.battleStageDataTable.OnChangedChampionHPRatio -= OnChangedChampionHPRatio;
 		s_dataTableManager.battleStageDataTable.OnChangedChampionHPRatio += OnChangedChampionHPRatio;
 
@@ -67,6 +68,7 @@ public class ChampStatusBarManager : UIBase
 
 			for ( int j = 0; j < _halfChampCount; ++j)
 			{
+				// Status Bar 생성한 뒤 적절한 초기화(필요한 참조 및 정보를 채워준다)..
 				ChampStatusBar newChampStatusBar = null;
 
 				newChampStatusBar = Instantiate<ChampStatusBar>(ChampStatusBarPrefab, myUITransform);
