@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Util.Pool;
 
 public class SummonObjectManager : MonoBehaviour
 {
+	public event Action OnForcedRelease;
+
 	public GameManager gameManager
 	{
 		set 
@@ -24,6 +27,9 @@ public class SummonObjectManager : MonoBehaviour
 
 				_summonPoolerContainer.Add(prefab.summonObjectName, pooler);
 			}
+
+			value.OnChangeScene -= OnChangeScene;
+			value.OnChangeScene += OnChangeScene;
 		}
 	}
 
@@ -35,6 +41,11 @@ public class SummonObjectManager : MonoBehaviour
 	private void Awake()
 	{
 		Champion.s_summonObjeectManager = this;
+	}
+
+	private void OnChangeScene()
+	{
+		OnForcedRelease?.Invoke();
 	}
 
 	public T GetSummonObject<T>(string summonName) where T : SummonObject
@@ -50,6 +61,9 @@ public class SummonObjectManager : MonoBehaviour
 	private SummonObject CreateSummonObject(SummonObject prefab)
 	{
 		SummonObject newObject = Instantiate(prefab);
+
+		DontDestroyOnLoad(newObject.gameObject);
+
 		newObject.summonObjectManager = this;
 		newObject.effectManager = _effectManager;
 

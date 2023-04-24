@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,6 +8,10 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+	public event Action OnChangeScene;
+
+	private static GameManager instance;
+
 	public ChampionManager championManager { get; private set; }
 	public TeamManager teamManager { get; private set; }
 	public DataTableManager dataTableManager { get; private set; }
@@ -23,6 +29,17 @@ public class GameManager : MonoBehaviour
 
 	private void Awake()
 	{
+		if (null != instance)
+		{
+			Destroy(gameObject);
+
+			return;
+		}
+		else
+		{
+			instance = this;
+		}
+
 		UIBase.s_gameManager = this;
 
 		DontDestroyOnLoad(gameObject);
@@ -59,6 +76,18 @@ public class GameManager : MonoBehaviour
 	{
 		switch (_curSceneName)
 		{
+			case SceneNameTable.START:
+				ChangeScene(SceneNameTable.TITLE);
+
+				break;
+
+			case SceneNameTable.TITLE:
+				SceneManager.LoadScene(SceneNameTable.TITLE_FIGHT, LoadSceneMode.Additive);
+				CreateBattleStageManager();
+				OnStartBattle();
+
+				break;
+
 			case SceneNameTable.DORMITORY:
 				SceneManager.LoadScene(SceneNameTable.DORMITORY_UI, LoadSceneMode.Additive);
 
@@ -67,8 +96,8 @@ public class GameManager : MonoBehaviour
 			case SceneNameTable.STADIUM:
 				CreateBattleStageManager();
 				CreateBanpickRunner();
-				SceneManager.LoadSceneAsync(SceneNameTable.BANPICK_UI, LoadSceneMode.Additive);
-				SceneManager.LoadSceneAsync(SceneNameTable.BATTLETEAM_INFO_UI, LoadSceneMode.Additive);
+				SceneManager.LoadScene(SceneNameTable.BANPICK_UI, LoadSceneMode.Additive);
+				SceneManager.LoadScene(SceneNameTable.BATTLETEAM_INFO_UI, LoadSceneMode.Additive);
 				//SceneManager.LoadScene(SceneNameTable.CHAMP_STATUSBAR_UI, LoadSceneMode.Additive);
 
 				dataTableManager.battleStageDataTable.OnStartBattle -= OnStartBattle;
@@ -79,33 +108,57 @@ public class GameManager : MonoBehaviour
 
 	public void ChangeScene(string sceneName)
 	{
-		_curSceneName = sceneName;
-
+		// 이전 씬에서 정리해야할 것들 정리..
 		switch (_curSceneName)
 		{
-			case SceneNameTable.DORMITORY:
-				SceneManager.LoadSceneAsync(_curSceneName, LoadSceneMode.Single);
-
-				break;
-
-			case SceneNameTable.STADIUM:
-				SceneManager.LoadSceneAsync(_curSceneName, LoadSceneMode.Single);
+			case SceneNameTable.TITLE:
+				battleStageManager.OnBattleEnd();
+				battleStageManager.ExitBattleStage();
+				Destroy(battleStageManager.gameObject);
 
 				break;
 		}
 
+		_curSceneName = sceneName;
+
+		// 현재 변경되야 할 씬에 맞게 초기화..
+		switch (_curSceneName)
+		{
+			case SceneNameTable.TITLE:
+				SceneManager.LoadScene(_curSceneName, LoadSceneMode.Single);
+
+				break;
+
+			case SceneNameTable.DORMITORY:
+				SceneManager.LoadScene(_curSceneName, LoadSceneMode.Single);
+
+				break;
+
+			case SceneNameTable.STADIUM:
+				SceneManager.LoadScene(_curSceneName, LoadSceneMode.Single);
+
+				break;
+		}
+
+		// 추가 씬 로드(UI 같은 것들)..
 		LoadAdditiveScene();
+
+		OnChangeScene?.Invoke();
 	}
 
 	private void OnStartBattle()
 	{
-		if( _curSceneName == SceneNameTable.STADIUM)
+		if (_curSceneName == SceneNameTable.STADIUM)
 		{
-            SceneManager.LoadSceneAsync( SceneNameTable.CHAMP_STATUSBAR_UI, LoadSceneMode.Additive );
-            SceneManager.UnloadSceneAsync( SceneNameTable.BANPICK_UI );
-        }
+			SceneManager.LoadSceneAsync(SceneNameTable.CHAMP_STATUSBAR_UI, LoadSceneMode.Additive);
+			SceneManager.UnloadSceneAsync(SceneNameTable.BANPICK_UI);
+			SceneManager.LoadSceneAsync(SceneNameTable.BATTLESTAGE, LoadSceneMode.Additive);
+		}
+		else if (_curSceneName == SceneNameTable.TITLE)
+		{
+			SetupTitleFight();
+		}
 
-		SceneManager.LoadSceneAsync(SceneNameTable.BATTLESTAGE, LoadSceneMode.Additive);
 		battleStageManager.StartBattle();
 
 		battleStageManager.OnEndBattle -= OnEndBattle;
@@ -116,12 +169,53 @@ public class GameManager : MonoBehaviour
 	{
         battleStageManager.OnEndBattle -= OnEndBattle;
 
-		if ( _curSceneName == SceneNameTable.STADIUM )
+		if (_curSceneName == SceneNameTable.STADIUM)
 		{
-			dataTableManager.statisticsDataTable.AddBattleTeamFightData( dataTableManager.battleStageDataTable.redTeamBattleFightData,
-				dataTableManager.battleStageDataTable.blueTeamBattleFightData, winTeam );
+			dataTableManager.statisticsDataTable.AddBattleTeamFightData(dataTableManager.battleStageDataTable.redTeamBattleFightData,
+				dataTableManager.battleStageDataTable.blueTeamBattleFightData, winTeam);
+		}
+		else if (_curSceneName == SceneNameTable.TITLE)
+		{
+			Invoke("OnStartBattle", 0.5f);
 		}
     }
+
+	private void SetupTitleFight()
+	{
+		HashSet<string> pickChampionList = new HashSet<string>();
+
+		ChampionDataTable championDataTable = dataTableManager.championDataTable;
+		int championMaxCount = championDataTable.GetTotalChampionCount();
+
+		for (int i = 0; i < gameGlobalData.PilotCount; ++i)
+		{
+			string champName = "";
+
+			while (true)
+			{
+				int randomIndex = UnityEngine.Random.Range(0, championMaxCount);
+				champName = championDataTable.GetChampionName(randomIndex);
+				if (false == pickChampionList.Contains(champName) && false == champName.Contains("Jako"))
+					break;
+			}
+
+			pickChampionList.Add(champName);
+			battleStageManager.PickChampion(BattleTeamKind.BlueTeam, i, champName);
+
+			while (true)
+			{
+				int randomIndex = UnityEngine.Random.Range(0, championMaxCount);
+				champName = championDataTable.GetChampionName(randomIndex);
+				if (false == pickChampionList.Contains(champName) && false == champName.Contains("Jako"))
+					break;
+			}
+
+			pickChampionList.Add(champName);
+			battleStageManager.PickChampion(BattleTeamKind.RedTeam, i, champName);
+
+			Debug.Log($"{i + 1}번째 챔피언 골라부럿다.");
+		}
+	}
 
 	// 배틀 스테이지를 생성하는 함수..
 	private void CreateBattleStageManager()

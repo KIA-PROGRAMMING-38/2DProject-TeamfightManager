@@ -42,7 +42,10 @@ public class ChampionManager : MonoBehaviour
 	{
 		Champion newChampion = Instantiate<Champion>(_championDefaultPrefab);
 
+		DontDestroyOnLoad(newChampion.gameObject);
+
 		newChampion.gameObject.SetActive(false);
+		newChampion.championManager = this;
 		newChampion.transform.parent = transform;
 
 		return newChampion;
@@ -59,11 +62,19 @@ public class ChampionManager : MonoBehaviour
 
 		_championDataTable.GetChampionAllData(championName, out champData, out champStatus, out champAnimData);
 
-        newChampion.SetupNecessaryData(champStatus, champData, champAnimData);
-
 		newChampion.transform.parent = null;
 		newChampion.gameObject.SetActive(true);
 
+		newChampion.SetupNecessaryData(champStatus, champData, champAnimData);
+
 		return newChampion;
+	}
+
+	public void ReleaseChampion(Champion champion)
+	{
+		_championPooler.Release(champion);
+
+		champion.gameObject.SetActive(false);
+		champion.transform.parent = transform;
 	}
 }

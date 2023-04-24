@@ -17,10 +17,14 @@ public class SystemMenuButtonGroupUI : MenuButtonGroupUI
 		switch (subButtonKind)
 		{
 			case SubButtonKind.GoTitle:
+				s_gameManager.ChangeScene(SceneNameTable.TITLE);
+
 				break;
 			case SubButtonKind.SaveGame:
+
 				break;
 			case SubButtonKind.EnviormentSetting:
+
 				break;
 		}
 	}

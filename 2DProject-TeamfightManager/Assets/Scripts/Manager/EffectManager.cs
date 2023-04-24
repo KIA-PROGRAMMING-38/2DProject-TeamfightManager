@@ -7,6 +7,8 @@ using Util.Pool;
 /// </summary>
 public class EffectManager : MonoBehaviour
 {
+	public event Action OnForcedRelease;
+
 	public class EffectPooler : ObjectPooler<Effect>
 	{
 		public EffectPooler(Func<Effect> cretaeFunc, Action<Effect> actionInGet = null, Action<Effect> actionInRelease = null, Action<Effect> actionInDestroy = null, int defaultCapacity = 10, int defaultCreateCount = 10, int maxSize = 10000)
@@ -24,6 +26,9 @@ public class EffectManager : MonoBehaviour
 		{
 			_effectDataTable = value.dataTableManager.effectDataTable;
 			_effectDefaultPrefab = Resources.Load<Effect>(_effectDataTable.DEFAULT_EFFECT_PREFAB_PATH);
+
+			value.OnChangeScene -= OnChangeScene;
+			value.OnChangeScene += OnChangeScene;
 		}
 	}
 	private EffectDataTable _effectDataTable;
@@ -43,6 +48,11 @@ public class EffectManager : MonoBehaviour
 		_pooler = new EffectPooler(CreateEffect, OnGetEffect, OnReleaseEffect, null, 20, 20, 40);
 	}
 
+	private void OnChangeScene()
+	{
+		OnForcedRelease?.Invoke();
+	}
+
 	/// <summary>
 	/// 이펙트 오브젝트 풀러에서 사용할 이펙트 객체 생성 함수..
 	/// </summary>
@@ -50,6 +60,9 @@ public class EffectManager : MonoBehaviour
 	private Effect CreateEffect()
 	{
 		Effect newEffect = Instantiate<Effect>(_effectDefaultPrefab);
+
+		DontDestroyOnLoad(newEffect.gameObject);
+
 		OnGetEffect(newEffect);
 
 		return newEffect;

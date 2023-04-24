@@ -13,11 +13,12 @@ public class Champion : MonoBehaviour, IAttackable
 	public static EffectManager s_effectManager { private get; set; }
 	public static DataTableManager s_dataTableManager { private get; set; }
 	public static SummonObjectManager s_summonObjeectManager { private get; set; }
-
-	private ChampionAnimation _animComponent;
 	public PilotBattle pilotBattleComponent { get; set; }
+	public ChampionManager championManager { private get; set; }
+
 	public Blackboard blackboard { get; private set; }
 	private AIController _aiController;
+	private ChampionAnimation _animComponent;
 
 	[field: SerializeField] public ChampionStatus status { get; private set; }
 	private ChampionStatus _baseStatus;
@@ -141,7 +142,14 @@ public class Champion : MonoBehaviour, IAttackable
 		get => isRunningModifyStatusSystemLogic;
 		set
 		{
-			if(_isRunningModifyStatusSystemLogic != value)
+			if (isDead)
+			{
+				_isRunningModifyStatusSystemLogic = false;
+
+				return;
+			}
+
+			if (_isRunningModifyStatusSystemLogic != value)
 			{
 				_isRunningModifyStatusSystemLogic = value;
 
@@ -212,29 +220,19 @@ public class Champion : MonoBehaviour, IAttackable
 
 		_modifyStatusSystem.OnChangedBarrierAmount -= ModifyBarrierAmount;
 		_modifyStatusSystem.OnChangedBarrierAmount += ModifyBarrierAmount;
-
-		// 코루틴 함수 미리 필드 객체에 저장..
-		_onActiveUpdateCoroutine = OnActionUpdate();
-		_updateAtkCooltimeCoroutine = UpdateAtkCooltime();
-		_updateSkillCooltimeCoroutine = UpdateSkillCooltime();
-		_updateModifyStatusSystemCoroutine = UpdateModifyStatusSystem();
 	}
 
 	private void Start()
 	{
-		curHp = status.hp;
-
-		isAtkCooltime = false;
-		isSkillCooltime = true;
-
 		_modifyStatusSystem.effectManager = s_effectManager;
-
-        if (false == s_dataTableManager.attackActionDataTable.GetActionData(this.data.ultimateActionUniqueKey).isPassive)
-        {
-			//if (this.data.ultimateActionUniqueKey == 23)
-				//StartCoroutine(TestUltOn());
-        }
     }
+
+	public void Release()
+	{
+		InitializeData();
+
+		championManager.ReleaseChampion(this);
+	}
 
 	IEnumerator TestUltOn()
 	{
@@ -302,7 +300,7 @@ public class Champion : MonoBehaviour, IAttackable
 
 	IEnumerator UpdateModifyStatusSystem()
 	{
-		while(true)
+		while (true)
 		{
 			_modifyStatusSystem.Update();
 
@@ -318,6 +316,12 @@ public class Champion : MonoBehaviour, IAttackable
 	// 챔피언이 동작하기 위해 필요한 데이터를 받아와 초기화 하는 함수(챔피언 매니저 클래스에서 함수를 호출한다)..
 	public void SetupNecessaryData(ChampionStatus status, ChampionData champData, ChampionAnimData animData)
 	{
+		// 코루틴 함수 미리 필드 객체에 저장..
+		_onActiveUpdateCoroutine = OnActionUpdate();
+		_updateAtkCooltimeCoroutine = UpdateAtkCooltime();
+		_updateSkillCooltimeCoroutine = UpdateSkillCooltime();
+		_updateModifyStatusSystemCoroutine = UpdateModifyStatusSystem();
+
 		_baseStatus = status;
 		this.data = champData;
 		defaultFindTargetData = champData.findTargetData;
@@ -349,7 +353,21 @@ public class Champion : MonoBehaviour, IAttackable
 		_skillAction.summonObjectManager = s_summonObjeectManager;
 		_ultimateAction.summonObjectManager = s_summonObjeectManager;
 
+		// Status 관련 데이터 초기화..
 		SetupBlackboard();
+
+		_aiController.enabled = true;
+
+		curHp = status.hp;
+
+		isAtkCooltime = false;
+		isSkillCooltime = true;
+
+		if (false == s_dataTableManager.attackActionDataTable.GetActionData(this.data.ultimateActionUniqueKey).isPassive)
+		{
+			//if (this.data.ultimateActionUniqueKey == 23)
+			//StartCoroutine(TestUltOn());
+		}
 	}
 
 	private void Death()
@@ -358,6 +376,13 @@ public class Champion : MonoBehaviour, IAttackable
 
 		pilotBattleComponent.OnChampionDead();
 
+		_aiController.enabled = false;
+
+		InitializeData();
+	}
+
+	private void InitializeData()
+	{
 		foreach (Effect effect in _activeEffectList)
 			effect.Release();
 
@@ -371,12 +396,12 @@ public class Champion : MonoBehaviour, IAttackable
 
 		isRunningModifyStatusSystemLogic = false;
 		_modifyStatusSystem?.Reset();
-
-		_aiController.enabled = false;
 	}
 
 	private void SetupBlackboard()
 	{
+		blackboard.SetBoolValue(BlackboardKeyTable.IS_ACTION_LOCK, false);
+
 		blackboard.SetFloatValue(BlackboardKeyTable.ATTACK_RANGE, status.range);
 		blackboard.SetFloatValue(BlackboardKeyTable.MOVE_SPEED, status.moveSpeed);
 
@@ -610,30 +635,4 @@ public class Champion : MonoBehaviour, IAttackable
 	{
 		return (int)(100f / (100 + status.defence) * damage);
 	}
-}
-
-// Token: 0x020004AC RID: 1196
-public static class Formula
-{
-    // Token: 0x06001350 RID: 4944 RVA: 0x0000DD64 File Offset: 0x0000BF64
-    public static int Damage(float Attack, float Defence, int tankMult)
-    {
-		return (int)((Attack * 100 + 99 + Defence) / (100 + Defence));
-    }
-
-    // Token: 0x06001351 RID: 4945 RVA: 0x0000DD86 File Offset: 0x0000BF86
-    public static int DefencePoint(int hp, int defence)
-    {
-        return hp * Mathf.Max(50, 100 + defence) / 100;
-    }
-
-    // Token: 0x06001352 RID: 4946 RVA: 0x0000DD98 File Offset: 0x0000BF98
-    public static int ApplySpeed(int frame, int speed)
-    {
-        if (frame == 0)
-        {
-            return 0;
-        }
-        return Mathf.Max(frame * 100 / speed, 1);
-    }
 }

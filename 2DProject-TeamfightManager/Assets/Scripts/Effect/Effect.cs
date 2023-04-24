@@ -84,7 +84,13 @@ public class Effect : MonoBehaviour
 		_animator.Play(AnimatorHashStore.EFFECT_KEY_HASH);
 	}
 
-    private void OnDisable()
+	private void Start()
+	{
+		s_effectManager.OnForcedRelease -= OnForcedRelease;
+		s_effectManager.OnForcedRelease += OnForcedRelease;
+	}
+
+	private void OnDisable()
 	{
         StopAllCoroutines();
 
@@ -168,4 +174,12 @@ public class Effect : MonoBehaviour
 			transform.position = position;
 		}
 	}
+
+    private void OnForcedRelease()
+    {
+		if (false == gameObject.activeSelf)
+			return;
+
+		s_effectManager.ReleaseEffect(this);
+    }
 }

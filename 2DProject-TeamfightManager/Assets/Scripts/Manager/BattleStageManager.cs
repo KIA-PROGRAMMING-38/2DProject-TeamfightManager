@@ -71,6 +71,8 @@ public class BattleStageManager : MonoBehaviour
 		redTeam.StartBattle();
 		blueTeam.StartBattle();
 
+		_battleStageDataTable.InitializeBattleTime(gameManager.gameGlobalData.battleFightTime);
+
 		StartCoroutine(_updateTimerCoroutine);
 	}
 
@@ -142,7 +144,7 @@ public class BattleStageManager : MonoBehaviour
 		List<BattlePilotFightData> redTeamBattlePilotFightDatas = redTeam.battlePilotFightData;
 		List<BattlePilotFightData> blueTeamBattlePilotFightDatas = blueTeam.battlePilotFightData;
 
-		_battleStageDataTable.Initialize(gameManager.gameGlobalData.battleFightTime, redTeam.teamName, redTeamBattlePilotFightDatas,
+		_battleStageDataTable.Initialize(redTeam.teamName, redTeamBattlePilotFightDatas,
 			blueTeam.teamName, blueTeamBattlePilotFightDatas);
 	}
 
@@ -207,7 +209,7 @@ public class BattleStageManager : MonoBehaviour
 	}
 
 	// 배틀 종료 시 호출될 함수..
-	private void OnBattleEnd()
+	public void OnBattleEnd()
 	{
 #if UNITY_EDITOR
 		Debug.Log("배틀이 종료되었다.");
@@ -218,6 +220,12 @@ public class BattleStageManager : MonoBehaviour
 		redTeam.OnBattleEnd();
 		blueTeam.OnBattleEnd();
     }
+
+	public void ExitBattleStage()
+	{
+		redTeam.ExitBattleStage();
+		blueTeam.ExitBattleStage();
+	}
 
 	// 배틀 스테이지의 챔피언들의 배틀 정보가 바뀔 때마다 호출된다..
 	private void OnChangedChampionBattleData(BattleTeamKind teamKind, int index, BattleInfoData data)

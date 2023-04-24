@@ -281,6 +281,18 @@ public class BattleTeam : MonoBehaviour
 		}
 	}
 
+	public void ExitBattleStage()
+	{
+		int loopCount = _pilots.Count;
+		for (int i = 0; i < loopCount; ++i)
+		{
+			_pilots[i].Release();
+			_allChampions[i] = null;
+		}
+
+		_activeChampions.Clear();
+	}
+
 	// ==================================== 적을 찾는 함수들.. ====================================
 
 	// originPoint를 기준으로 가장 가까운 적을 찾는 함수..
@@ -300,6 +312,11 @@ public class BattleTeam : MonoBehaviour
 					{
 						Champion checkChampion = enemyTeam._activeChampions[i];
 
+						if (checkChampion.isDead)
+						{
+							continue;
+						}
+
 						float distance = (checkChampion.transform.position - championPosition).magnitude;
 						if(CheckPriorityLogic(checkChampion, target, targetDistance, distance, findTargetData.priorityKind))
 						{
@@ -316,8 +333,14 @@ public class BattleTeam : MonoBehaviour
 					for (int i = 0; i < loopCount; ++i)
 					{
 						Champion checkChampion = _activeChampions[i];
-						if (false == findTargetData.isIncludeMe && checkChampion == champion)
+						if (checkChampion.isDead)
+						{
 							continue;
+						}
+						if (false == findTargetData.isIncludeMe && checkChampion == champion)
+						{
+							continue;
+						}
 
 						float distance = (checkChampion.transform.position - championPosition).magnitude;
 						if (CheckPriorityLogic(checkChampion, target, targetDistance, distance, findTargetData.priorityKind))
@@ -335,6 +358,10 @@ public class BattleTeam : MonoBehaviour
 					for (int i = 0; i < loopCount; ++i)
 					{
 						Champion checkChampion = enemyTeam._activeChampions[i];
+						if (checkChampion.isDead)
+						{
+							continue;
+						}
 
 						float distance = (checkChampion.transform.position - championPosition).magnitude;
 						if (CheckPriorityLogic(checkChampion, target, targetDistance, distance, findTargetData.priorityKind))
@@ -348,8 +375,14 @@ public class BattleTeam : MonoBehaviour
 					for (int i = 0; i < loopCount; ++i)
 					{
 						Champion checkChampion = _activeChampions[i];
-						if (false == findTargetData.isIncludeMe && checkChampion == champion)
+						if (checkChampion.isDead)
+						{
 							continue;
+						}
+						if (false == findTargetData.isIncludeMe && checkChampion == champion)
+						{
+							continue;
+						}
 
 						float distance = (checkChampion.transform.position - championPosition).magnitude;
 						if (CheckPriorityLogic(checkChampion, target, targetDistance, distance, findTargetData.priorityKind))

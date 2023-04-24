@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public class Pilot : MonoBehaviour
 {
+	public PilotManager pilotManager { private get; set; }
     public PilotData data { get; private set; }
     public PilotBattle battleComponent { get; private set; }
 
@@ -18,5 +19,10 @@ public class Pilot : MonoBehaviour
 	public void Initialize(PilotData data)
 	{
 		this.data = data;
+	}
+
+	public void Release()
+	{
+		pilotManager.ReleasePilot(this);
 	}
 }
