@@ -84,10 +84,13 @@ public class Effect : MonoBehaviour
 		_animator.Play(AnimatorHashStore.EFFECT_KEY_HASH);
 	}
 
-	private void Start()
-	{
-		s_effectManager.OnForcedRelease -= OnForcedRelease;
-		s_effectManager.OnForcedRelease += OnForcedRelease;
+    private void Start()
+    {
+        if (null != s_effectManager)
+        {
+            s_effectManager.OnForcedRelease -= OnForcedRelease;
+            s_effectManager.OnForcedRelease += OnForcedRelease;
+        }
 	}
 
 	private void OnDisable()
