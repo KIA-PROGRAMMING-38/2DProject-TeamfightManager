@@ -226,7 +226,13 @@ public class GameManager : MonoBehaviour
 		Debug.Assert(null != damageUIComponent);
 #endif
 
-		FloatingDamageUISpawner.Initialize(() => Instantiate(damageUIComponent));
+		FloatingDamageUISpawner.Initialize(() =>
+		{
+			FloatingDamageUI ui = Instantiate(damageUIComponent);
+			DontDestroyOnLoad(ui.gameObject);
+
+			return ui;
+        });
 	}
 
 	// 배틀 스테이지를 생성하는 함수..

@@ -1,25 +1,13 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4721819528549205319
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a53d54f9efc87b428e54561d85d30a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1102 &-2705219232450695753
+--- !u!1102 &-5208563551644925585
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Effect_Icemage_Skill
+  m_Name: Effect_Gambler_Ultimate
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -32,12 +20,24 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 8126c3570b1d40f41bde04910e5493d5, type: 2}
+  m_Motion: {fileID: 7400000, guid: 595b08b6895dd24468c855e3dd158950, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &-4721819528549205319
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a53d54f9efc87b428e54561d85d30a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
@@ -104,8 +104,11 @@ AnimatorStateMachine:
     m_State: {fileID: 5690064207853671322}
     m_Position: {x: 330, y: 120, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -2705219232450695753}
-    m_Position: {x: 365, y: 185, z: 0}
+    m_State: {fileID: 7659203598118495478}
+    m_Position: {x: 320, y: 190, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -5208563551644925585}
+    m_Position: {x: 389.1667, y: 266.1111, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 1913714010866789173}
@@ -138,7 +141,33 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 1212afedee9389647bbfc3ed2b5ab1aa, type: 2}
+  m_Motion: {fileID: 7400000, guid: 6b2b729141064a14cb65edee680bfcc1, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &7659203598118495478
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Effect_Gambler_Skill
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 2bdac941ec89e774a8f9ebc468f6f1a2, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
