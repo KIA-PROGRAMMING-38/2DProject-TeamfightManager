@@ -161,7 +161,7 @@ MonoBehaviour:
   _summonObjectName: FireBall
   _executeImpactType: 0
   _isRotateToMoveDir: 1
-  _moveSpeed: 10
+  _moveSpeed: 15
   _releaseSpawnType: 1
   _spawnObjectName: Effect_FireBallHit
   _spawnObjectFlipX: 1

@@ -22,8 +22,11 @@ public class SummonObject : MonoBehaviour
 
 	private void Start()
 	{
-		summonObjectManager.OnForcedRelease -= OnForcedRelease;
-		summonObjectManager.OnForcedRelease += OnForcedRelease;
+		if (null != summonObjectManager)
+		{
+			summonObjectManager.OnForcedRelease -= OnForcedRelease;
+			summonObjectManager.OnForcedRelease += OnForcedRelease;
+		}
 	}
 
 	protected void ReceiveImpactExecuteEvent(int targetCount)

@@ -4864,7 +4864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _summonObjectName: HealCircleRing
-  _actionTickTime: 0.1
+  _actionTickTime: 0.4
   _lifeTime: 4
   _isUseLifeTime: 1
   _isAttachTarget: 0

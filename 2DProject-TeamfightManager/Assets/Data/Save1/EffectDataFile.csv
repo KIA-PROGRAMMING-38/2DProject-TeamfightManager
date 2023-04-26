@@ -22,3 +22,9 @@ Effect_Pyromancer_Ultimate,Animations/Effect/Champion/Effect_Pyromancer_Ultimate
 Effect_Priest_Attack,Animations/Effect/Champion/Effect_Priest_Attack,0,-0.1,0,TRUE,FALSE,0,0,FALSE,5
 Effect_Priest_Skill,Animations/Effect/Champion/Effect_Priest_Skill,-0.11,0.503,0,TRUE,FALSE,0,0,FALSE,5
 Effect_Priest_Ultimate,Animations/Effect/Champion/Effect_Priest_Ultimate,0,-0.079,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Icemage_Attack,Animations/Effect/Champion/Effect_Icemage_Attack,0.27,0.181,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Icemage_Skill,Animations/Effect/Champion/Effect_Icemage_Skill,0.026,0.136,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Icemage_Ultimate,Animations/Effect/Champion/Effect_Icemage_Ultimate,0.027,0.128,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Icemage_UltimateHead,Animations/Effect/Champion/Effect_Icemage_UltimateHead,0.1,0.57,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Freeze,Animations/Effect/Champion/Effect_Freeze,0,0.003,0,TRUE,FALSE,0,0,TRUE,5
+Effect_FreezeEnd,Animations/Effect/Champion/Effect_FreezeEnd,0,0.003,0,FALSE,FALSE,0,0,FALSE,5

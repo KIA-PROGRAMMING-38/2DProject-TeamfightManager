@@ -10,6 +10,7 @@ public class Effect : MonoBehaviour
 {
     public event Action<Effect, string> OnAnimationEvent;
     public event Action<Effect> OnDisableEvent;
+    public event Action<Effect> OnOccurEndAnimEvent;
 
     public static EffectManager s_effectManager { private get; set; }
 
@@ -84,10 +85,13 @@ public class Effect : MonoBehaviour
 		_animator.Play(AnimatorHashStore.EFFECT_KEY_HASH);
 	}
 
-	private void Start()
-	{
-		s_effectManager.OnForcedRelease -= OnForcedRelease;
-		s_effectManager.OnForcedRelease += OnForcedRelease;
+    private void Start()
+    {
+        if (null != s_effectManager)
+        {
+            s_effectManager.OnForcedRelease -= OnForcedRelease;
+            s_effectManager.OnForcedRelease += OnForcedRelease;
+        }
 	}
 
 	private void OnDisable()
@@ -112,7 +116,9 @@ public class Effect : MonoBehaviour
 				Release();
 			}
 		}
-    }
+
+        OnOccurEndAnimEvent?.Invoke(this);
+	}
 
     public void Release()
     {

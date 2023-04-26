@@ -9,4 +9,8 @@ public class TestLogic : MonoBehaviour
 	{
 		OnTestEvent?.Invoke();
 	}
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		Debug.Log("OT2");
+	}
 }

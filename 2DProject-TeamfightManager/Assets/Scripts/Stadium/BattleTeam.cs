@@ -204,6 +204,7 @@ public class BattleTeam : MonoBehaviour
 				continue;
 
 			_allChampions[i].gameObject.SetActive(true);
+			_allChampions[i].StartFight();
 			_activeChampions.Add(_allChampions[i]);
 		}
 	}

@@ -34,6 +34,8 @@ public enum DebuffImpactType
 	MoveSpeedDown_Percent,
 
 	Provoke,					// 도발..
+	Slow,
+	Freeze,
 
 	End
 }
