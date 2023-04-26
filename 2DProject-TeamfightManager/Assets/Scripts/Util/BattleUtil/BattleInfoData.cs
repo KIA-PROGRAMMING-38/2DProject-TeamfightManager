@@ -5,5 +5,5 @@
 	public int assistCount;
 	public int totalAtkDamage;
 	public int totalTakeDamage;
-	public int totalHill;
+	public int totalHeal;
 }

@@ -10,6 +10,8 @@ using UnityEngine;
 /// </summary>
 public class Champion : MonoBehaviour, IAttackable
 {
+	private const string FLOATING_DAMAGE_START_POINT = "FloatingDamageStartPoint";
+
 	public static EffectManager s_effectManager { private get; set; }
 	public static DataTableManager s_dataTableManager { private get; set; }
 	public static SummonObjectManager s_summonObjeectManager { private get; set; }
@@ -19,6 +21,7 @@ public class Champion : MonoBehaviour, IAttackable
 	public Blackboard blackboard { get; private set; }
 	public AIController aiController { get; private set; }
 	private ChampionAnimation _animComponent;
+	[SerializeField] private Transform _floatingDamageUIStartPoint;
 
 	[field: SerializeField] public ChampionStatus status { get; private set; }
 	private ChampionStatus _baseStatus;
@@ -58,7 +61,7 @@ public class Champion : MonoBehaviour, IAttackable
 
 	// 공격 시, 피격 시 등등의 이벤트..
 	public event Action<Champion, int> OnHit;       // <때린놈, 데미지> 순으로 보냄..
-	public event Action<Champion, int> OnHill;      // <힐 당한놈, 힐량> 순으로 보냄..
+	public event Action<Champion, int> OnHeal;      // <힐 당한놈, 힐량> 순으로 보냄..
 	public event Action<Champion, int> OnAttack;    // <맞은놈, 데미지> 순으로 보냄..
 	public event Action<float> OnChangedHPRatio;
 	public event Action<float> OnChangedMPRatio;
@@ -203,6 +206,8 @@ public class Champion : MonoBehaviour, IAttackable
 
 	private void Awake()
 	{
+		_floatingDamageUIStartPoint = transform.Find(FLOATING_DAMAGE_START_POINT);
+
 		_colliders = GetComponents<Collider2D>();
 
 		aiController = gameObject.AddComponent<ChampionController>();
@@ -552,6 +557,8 @@ public class Champion : MonoBehaviour, IAttackable
 			}
 			else
 				hitChampion.OnKill?.Invoke(this);
+
+			FloatingDamageUISpawner.ShowFloatingDamageUI(_floatingDamageUIStartPoint.position, damage, FloatingDamageUISpawner.DamageKind.Damage);
 		}
 
 		hitChampion.OnAttack?.Invoke(this, damage);
@@ -563,13 +570,15 @@ public class Champion : MonoBehaviour, IAttackable
 	}
 
 	// 체력이 회복될 때(힐을 받을 때 등등) 호출되는 함수..
-	public void RecoverHP(Champion hilledChampion, int hillAmount)
+	public void RecoverHP(Champion healedChampion, int healAmount)
 	{
-		hillAmount = _modifyStatusSystem.CalcHillDebuff(hillAmount);
+		healAmount = _modifyStatusSystem.CalcHealDebuff(healAmount);
 
-		curHp += hillAmount;
+		curHp += healAmount;
 
-		hilledChampion.OnHill?.Invoke(this, hillAmount);
+		healedChampion.OnHeal?.Invoke(this, healAmount);
+
+		FloatingDamageUISpawner.ShowFloatingDamageUI(_floatingDamageUIStartPoint.position, healAmount, FloatingDamageUISpawner.DamageKind.Heal);
 	}
 
 	public void AddBuff(AttackImpactMainData impactMainData, Champion didChampion)

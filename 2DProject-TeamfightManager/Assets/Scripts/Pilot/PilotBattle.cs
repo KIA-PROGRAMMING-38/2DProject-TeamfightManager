@@ -129,7 +129,7 @@ public class PilotBattle : MonoBehaviour
 		_battleInfoData.assistCount = 0;
 		_battleInfoData.totalAtkDamage = 0;
 		_battleInfoData.totalTakeDamage = 0;
-		_battleInfoData.totalHill = 0;
+		_battleInfoData.totalHeal = 0;
 
 		pilot.Release();
     }

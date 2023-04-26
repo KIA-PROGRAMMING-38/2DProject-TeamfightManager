@@ -155,6 +155,9 @@ public class ChampionBarrierSystem
 			}
 		}
 
+		status.moveSpeed = championBaseStatus.moveSpeed * Math.Max(0f, (status.moveSpeed - 1f));
+		status.atkSpeed = championBaseStatus.moveSpeed * Math.Max(0f, (status.atkSpeed - 1f));
+
 		OnChangedStatus?.Invoke();
 	}
 

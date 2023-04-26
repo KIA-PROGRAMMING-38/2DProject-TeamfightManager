@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour
 
         LoadFile( 0 );
         SetupManager();
+
+		InitializeFloatingDamageUISpanwer();
 	}
 
 	private void Start()
@@ -215,6 +217,16 @@ public class GameManager : MonoBehaviour
 
 			Debug.Log($"{i + 1}번째 챔피언 골라부럿다.");
 		}
+	}
+
+	private void InitializeFloatingDamageUISpanwer()
+	{
+		FloatingDamageUI damageUIComponent = _gameGlobalData.floatingDamageUIPrefab.GetComponent<FloatingDamageUI>();
+#if UNITY_EDITOR
+		Debug.Assert(null != damageUIComponent);
+#endif
+
+		FloatingDamageUISpawner.Initialize(() => Instantiate(damageUIComponent));
 	}
 
 	// 배틀 스테이지를 생성하는 함수..

@@ -14,7 +14,7 @@ public class ChampStatusBarManager : UIBase
 
 	private void Awake()
 	{
-		
+		FloatingDamageUISpawner.uiParentTransform = transform;
 	}
 
 	IEnumerator Start()

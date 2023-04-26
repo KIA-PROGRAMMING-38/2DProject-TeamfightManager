@@ -87,9 +87,9 @@ public class ChampionModifyStatusSystem
 		Debug.Log("버프 디버프로 인한 스탯 갱신..");
 	}
 
-	public int CalcHillDebuff(int hillAmount)
+	public int CalcHealDebuff(int healAmount)
 	{
-		return (int)(hillAmount * (2f - _debuffSystem.hillAmountDebuff));
+		return (int)(healAmount * (2f - _debuffSystem.healAmountDebuff));
 	}
 
 	public void AddBuff(BuffImpactType type, Champion didChampion, float amount, float impactTime)

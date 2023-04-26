@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07a55e2eef29155488a241fd5cafc05e, type: 3}
   m_Name: GameGlobalData
   m_EditorClassIdentifier: 
-  PilotCount: 1
+  PilotCount: 2
   battleFightTime: 60
   pilotGlobalFilePath: PilotGlobal.data
   pilotFileName: PilotDataFile.csv
@@ -22,7 +22,7 @@ MonoBehaviour:
   attackActionImpactDataFileName: AttackActionDataFile_ImpactData.csv
   effectFileName: EffectDataFile.csv
   teamFileName: TeamDataFile.csv
-  banpickStageGlobalData: {fileID: 11400000, guid: c913512666f128b4a8585530ae168924, type: 2}
+  banpickStageGlobalData: {fileID: 11400000, guid: af8291c266d7250419ff3e1264af8fa0, type: 2}
   spawnObjectGolbalData: {fileID: 11400000, guid: 86c2ca5ccf2caf04d9bfd1fdf0a03f14, type: 2}
   pilotTrunkSprite: {fileID: 21300000, guid: 907a154bac407634a8ce897f7ee42708, type: 3}
   pilotHairSprite:
@@ -46,3 +46,4 @@ MonoBehaviour:
   - {fileID: 21300000, guid: bccf359313d013f45b2e1c24c01d9ad3, type: 3}
   - {fileID: 21300000, guid: e2b00c343be9b34448a68b74583ec948, type: 3}
   - {fileID: 21300000, guid: 34c1101cbbc785c438e9702d0ef81ec7, type: 3}
+  floatingDamageUIPrefab: {fileID: 6567420708712784322, guid: 084f95462c465f6489f043efa001a712, type: 3}
