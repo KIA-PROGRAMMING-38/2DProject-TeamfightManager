@@ -42,7 +42,7 @@ public class ChampionDeBuffSystem
 	private int[] _debuffInfoContainerActiveCount;
 	private readonly int _debuffInfoContainerDefaultSize = 4;
 
-	public float hillAmountDebuff { get; private set; }
+	public float healAmountDebuff { get; private set; }
 
 	public bool isEnded { get => _activeDebuffTable == 0; }
 
@@ -73,7 +73,7 @@ public class ChampionDeBuffSystem
 			}
 		}
 
-		hillAmountDebuff = 1f;
+		healAmountDebuff = 1f;
 	}
 
 	public void Update(float deltaTime)
@@ -186,10 +186,10 @@ public class ChampionDeBuffSystem
 	{
 		switch (type)
 		{
-			case DebuffImpactType.HillAmount_Percent:
+			case DebuffImpactType.HealAmount_Percent:
 				float result = 0f;
 				ComputeMulStatFigure(type, out result);
-				hillAmountDebuff = result;
+				healAmountDebuff = result;
 
 				return;
 			case DebuffImpactType.DefenceDown_Add:

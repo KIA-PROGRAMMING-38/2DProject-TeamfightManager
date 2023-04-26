@@ -7,7 +7,7 @@ public class ChampionBattleStatistics
 	public int totalBanCount;
 	public int totalAtkDamageAmount;
 	public int totalTakeDamageAount;
-	public int totalHillAmount;
+	public int totalHealAmount;
 }
 
 public class TeamBattleStatistics
@@ -63,5 +63,5 @@ public class PilotStageFightData
 	public int loseCount;
 	public int totalAtkDamageAmount;
 	public int totalTakeDamageAount;
-	public int totalHillAmount;
+	public int totalHealAmount;
 }

@@ -5,7 +5,7 @@
 
 public enum BuffImpactType
 {
-	Hill,
+	Heal,
 	DefenceUp_Add,
 	DefenceUp_Percent,
 	AtkStatUp_Add,
@@ -25,7 +25,7 @@ public enum BuffImpactType
 
 public enum DebuffImpactType
 {
-	HillAmount_Percent,
+	HealAmount_Percent,
 	DefenceDown_Add,
 	DefenceDown_Percent,
 	AtkStatDown_Add,

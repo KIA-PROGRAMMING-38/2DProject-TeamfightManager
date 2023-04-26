@@ -86,7 +86,7 @@ public class BattleStatisticsDataTable
 				++curPilotStatisticsData.allStageFightDatas[championName].loseCount;
 			curPilotStatisticsData.allStageFightDatas[championName].totalAtkDamageAmount += curBattleData.totalAtkDamage;
 			curPilotStatisticsData.allStageFightDatas[championName].totalTakeDamageAount += curBattleData.totalTakeDamage;
-			curPilotStatisticsData.allStageFightDatas[championName].totalHillAmount += curBattleData.totalHill;
+			curPilotStatisticsData.allStageFightDatas[championName].totalHealAmount += curBattleData.totalHeal;
 			curPilotStatisticsData.totalKillCount += curBattleData.killCount;
 			curPilotStatisticsData.totalAssistCount += curBattleData.assistCount;
 
@@ -101,7 +101,7 @@ public class BattleStatisticsDataTable
 				++curChampStatisticsData.totalWinCount;
 			curChampStatisticsData.totalAtkDamageAmount += curBattleData.totalAtkDamage;
 			curChampStatisticsData.totalTakeDamageAount += curBattleData.totalTakeDamage;
-			curChampStatisticsData.totalHillAmount += curBattleData.totalHill;
+			curChampStatisticsData.totalHealAmount += curBattleData.totalHeal;
 
 			// 팀 통계 정보 갱신..
 			curTeamStatisticsData.totalKillCount += curBattleData.killCount;

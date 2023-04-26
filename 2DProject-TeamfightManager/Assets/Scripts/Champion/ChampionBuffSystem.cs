@@ -222,12 +222,12 @@ public class ChampionBuffSystem
 	{
 		switch (buffType)
 		{
-			case BuffImpactType.Hill:	// 힐은 한 번만 적용되기 때문에 적용하고 바로 초기화..
+			case BuffImpactType.Heal:	// 힐은 한 번만 적용되기 때문에 적용하고 바로 초기화..
 				{
-					int hillAmount = 0;
-					ComputeAddStatFigure(buffType, out hillAmount);
+					int healAmount = 0;
+					ComputeAddStatFigure(buffType, out healAmount);
 
-					_ownerChampion.RecoverHP(_ownerChampion, hillAmount);
+					_ownerChampion.RecoverHP(_ownerChampion, healAmount);
 
 					_buffInfoContainerActiveCount[(int)buffType] = 0;
 				}

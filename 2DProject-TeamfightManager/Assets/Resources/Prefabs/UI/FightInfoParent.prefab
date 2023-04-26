@@ -901,7 +901,7 @@ GameObject:
   - component: {fileID: 2188154697367844288}
   - component: {fileID: 2188154697367844289}
   m_Layer: 5
-  m_Name: TotalHillText
+  m_Name: TotalHealText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2106,12 +2106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4775386a3f6ee7645a47a1da319135bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _killCountText: {fileID: 2188154697581637472}
-  _deathCountText: {fileID: 2188154699013292398}
-  _assistCountText: {fileID: 2188154697148781478}
-  _totalAtkDamageText: {fileID: 2188154698542141405}
-  _totalHitText: {fileID: 2188154697245189827}
-  _totalHillText: {fileID: 2188154697367844289}
   _backgroundImage: {fileID: 2188154698564277555}
   _redTeamBackgroundSprite: {fileID: 21300000, guid: dcf8f48910096a4499a28a788ea10095, type: 3}
   _blueTeamBackgroundSprite: {fileID: 21300000, guid: 1ca151f1bf2b811418bd1463616b184a, type: 3}
