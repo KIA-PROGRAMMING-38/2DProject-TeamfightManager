@@ -139,6 +139,7 @@ public class ChampionDeBuffSystem
 		}
 
 		SetPrevokeEffectActive(false);
+		ResetFreeze();
 	}
 
 	public void AddDebuff(DebuffImpactType type, Champion didChampion, float amount, float impactTime)
@@ -293,6 +294,13 @@ public class ChampionDeBuffSystem
 
 		_freezeEndEffect.gameObject.SetActive(false);
 		_isShowFreezeEffect = false;
+	}
+
+	private void ResetFreeze()
+	{
+		_isShowFreezeEffect = false;
+		_freezeEffect.gameObject.SetActive(false);
+		_freezeEndEffect.gameObject.SetActive(false);
 	}
 
 	private void SetPrevokeEffectActive(bool isActive)
