@@ -19,6 +19,15 @@ public class ChampionDeBuffSystem
 		{
 			_prevokeEffect = value.GetEffect("Effect_Prevoke", UnityEngine.Vector3.zero);
 			_prevokeEffect.SetupAdditionalData(UnityEngine.Vector3.zero, _ownerChampion.transform);
+
+			_freezeEffect = value.GetEffect("Effect_Freeze", UnityEngine.Vector3.zero);
+			_freezeEffect.SetupAdditionalData(UnityEngine.Vector3.zero, _ownerChampion.transform);
+
+			_freezeEndEffect = value.GetEffect("Effect_FreezeEnd", UnityEngine.Vector3.zero);
+			_freezeEndEffect.SetupAdditionalData(UnityEngine.Vector3.zero, _ownerChampion.transform);
+
+			_freezeEndEffect.OnOccurEndAnimEvent -= OnFreezeEndEffectEndAnimation;
+			_freezeEndEffect.OnOccurEndAnimEvent += OnFreezeEndEffectEndAnimation;
 		}
 	}
 
@@ -38,6 +47,10 @@ public class ChampionDeBuffSystem
 	public bool isEnded { get => _activeDebuffTable == 0; }
 
 	private Effect _prevokeEffect;
+
+	private bool _isShowFreezeEffect = false;
+	private Effect _freezeEffect;
+	private Effect _freezeEndEffect;
 
 	public ChampionDeBuffSystem(Champion ownerChampion)
 	{
@@ -217,9 +230,69 @@ public class ChampionDeBuffSystem
 				}
 
 				break;
+
+			case DebuffImpactType.Slow:
+				if (_debuffInfoContainerActiveCount[(int)type] > 0)
+				{
+					float mostBigAmount = 0f;
+					int containerIndex = (int)type;
+					int debuffInfoCount = _debuffInfoContainerActiveCount[containerIndex];
+
+					for (int debuffInfoIndex = 0; debuffInfoIndex < debuffInfoCount; ++debuffInfoIndex)
+					{
+						DebuffInfo debuffInfo = _debuffInfoContainer[containerIndex][debuffInfoIndex];
+
+						if (debuffInfo.amount > mostBigAmount)
+							mostBigAmount = debuffInfo.amount;
+					}
+
+					status.moveSpeed *= championBaseStatus.moveSpeed * (mostBigAmount - 1f);
+				}
+				else
+				{
+					status.moveSpeed = 0f;
+				}
+
+				break;
+
+			case DebuffImpactType.Freeze:
+				if (_debuffInfoContainerActiveCount[(int)type] > 0)
+				{
+					if (false == _isShowFreezeEffect)
+					{
+						_freezeEffect.gameObject.SetActive(true);
+
+						_ownerChampion.aiController.enabled = false;
+
+						_isShowFreezeEffect = true;
+					}
+				}
+				else
+				{
+					if (true == _isShowFreezeEffect)
+					{
+						_freezeEffect.gameObject.SetActive(false);
+
+						_freezeEndEffect.transform.position = _ownerChampion.transform.position;
+						_freezeEndEffect.gameObject.SetActive(true);
+
+						_ownerChampion.aiController.enabled = true;
+					}
+				}
+
+				break;
 		}
 
 		OnChangedStatus?.Invoke();
+	}
+
+	private void OnFreezeEndEffectEndAnimation(Effect effect)
+	{
+		if (effect != _freezeEndEffect)
+			return;
+
+		_freezeEndEffect.gameObject.SetActive(false);
+		_isShowFreezeEffect = false;
 	}
 
 	private void SetPrevokeEffectActive(bool isActive)

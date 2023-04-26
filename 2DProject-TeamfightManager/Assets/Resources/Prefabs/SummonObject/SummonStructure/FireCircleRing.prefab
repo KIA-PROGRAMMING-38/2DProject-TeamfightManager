@@ -49,10 +49,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _summonObjectName: FireCircleRing
-  _actionTickTime: 0.1
+  _actionTickTime: 0.25
   _lifeTime: 4
   _isUseLifeTime: 1
   _isAttachTarget: 0
+  _isSpawnTargetPosition: 0
 --- !u!95 &8290021258458216129
 Animator:
   serializedVersion: 5

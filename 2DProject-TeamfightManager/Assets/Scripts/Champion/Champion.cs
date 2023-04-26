@@ -17,7 +17,7 @@ public class Champion : MonoBehaviour, IAttackable
 	public ChampionManager championManager { private get; set; }
 
 	public Blackboard blackboard { get; private set; }
-	private AIController _aiController;
+	public AIController aiController { get; private set; }
 	private ChampionAnimation _animComponent;
 
 	[field: SerializeField] public ChampionStatus status { get; private set; }
@@ -142,7 +142,7 @@ public class Champion : MonoBehaviour, IAttackable
 		get => isRunningModifyStatusSystemLogic;
 		set
 		{
-			if (isDead)
+			if (false == gameObject.activeSelf)
 			{
 				_isRunningModifyStatusSystemLogic = false;
 
@@ -205,8 +205,8 @@ public class Champion : MonoBehaviour, IAttackable
 	{
 		_colliders = GetComponents<Collider2D>();
 
-		_aiController = gameObject.AddComponent<ChampionController>();
-		blackboard = _aiController.blackboard;
+		aiController = gameObject.AddComponent<ChampionController>();
+		blackboard = aiController.blackboard;
 
 		if (null == _animComponent)
 			_animComponent = GetComponentInChildren<ChampionAnimation>();
@@ -232,6 +232,31 @@ public class Champion : MonoBehaviour, IAttackable
 		InitializeData();
 
 		championManager.ReleaseChampion(this);
+	}
+
+	public void StartFight()
+	{
+		// 코루틴 함수 미리 필드 객체에 저장..
+		_onActiveUpdateCoroutine = OnActionUpdate();
+		_updateAtkCooltimeCoroutine = UpdateAtkCooltime();
+		_updateSkillCooltimeCoroutine = UpdateSkillCooltime();
+		_updateModifyStatusSystemCoroutine = UpdateModifyStatusSystem();
+
+		// Status 관련 데이터 초기화..
+		SetupBlackboard();
+
+		aiController.enabled = true;
+
+		curHp = status.hp;
+
+		isAtkCooltime = false;
+		isSkillCooltime = true;
+
+		if (false == s_dataTableManager.attackActionDataTable.GetActionData(this.data.ultimateActionUniqueKey).isPassive)
+		{
+			if (this.data.ultimateActionUniqueKey == 26)
+				StartCoroutine(TestUltOn());
+		}
 	}
 
 	IEnumerator TestUltOn()
@@ -314,12 +339,6 @@ public class Champion : MonoBehaviour, IAttackable
 	// 챔피언이 동작하기 위해 필요한 데이터를 받아와 초기화 하는 함수(챔피언 매니저 클래스에서 함수를 호출한다)..
 	public void SetupNecessaryData(ChampionStatus status, ChampionData champData, ChampionAnimData animData)
 	{
-		// 코루틴 함수 미리 필드 객체에 저장..
-		_onActiveUpdateCoroutine = OnActionUpdate();
-		_updateAtkCooltimeCoroutine = UpdateAtkCooltime();
-		_updateSkillCooltimeCoroutine = UpdateSkillCooltime();
-		_updateModifyStatusSystemCoroutine = UpdateModifyStatusSystem();
-
 		_baseStatus = status;
 		this.data = champData;
 		defaultFindTargetData = champData.findTargetData;
@@ -350,22 +369,6 @@ public class Champion : MonoBehaviour, IAttackable
 		_attackAction.summonObjectManager = s_summonObjeectManager;
 		_skillAction.summonObjectManager = s_summonObjeectManager;
 		_ultimateAction.summonObjectManager = s_summonObjeectManager;
-
-		// Status 관련 데이터 초기화..
-		SetupBlackboard();
-
-		_aiController.enabled = true;
-
-		curHp = status.hp;
-
-		isAtkCooltime = false;
-		isSkillCooltime = true;
-
-		if (false == s_dataTableManager.attackActionDataTable.GetActionData(this.data.ultimateActionUniqueKey).isPassive)
-		{
-			//if (this.data.ultimateActionUniqueKey == 23)
-			//StartCoroutine(TestUltOn());
-		}
 	}
 
 	private void Death()
@@ -374,7 +377,7 @@ public class Champion : MonoBehaviour, IAttackable
 
 		pilotBattleComponent.OnChampionDead();
 
-		_aiController.enabled = false;
+		aiController.enabled = false;
 
 		InitializeData();
 	}
@@ -420,7 +423,7 @@ public class Champion : MonoBehaviour, IAttackable
 		_animComponent.ResetAnimation();
 		_animComponent.ChangeState(ChampionAnimation.AnimState.Revival);
 
-		_aiController.enabled = true;
+		aiController.enabled = true;
 	}
 
 	public void Attack(string atkKind)
@@ -527,12 +530,18 @@ public class Champion : MonoBehaviour, IAttackable
 		if (true == isDead)
 			return;
 
+		// 데미지의 90% ~ 110% 사이의 값으로 설정..
+		damage = CalcDamageRandomRange(damage);
+
+		// 방어력 수치에 따른 실제 입어야할 데미지 계산..
+		damage = CalcDefenceApplyDamage(damage);
+
 		// 먼저 방어막이 있다면 방어막부터 깐다..
 		damage = _modifyStatusSystem.TakeDamage(damage);
 
 		if (damage > 0)
 		{
-			damage = Math.Min(CalcDefenceApplyDamage(damage), curHp);
+			damage = Math.Min(damage, curHp);
 			curHp -= damage;
 
 			OnHit?.Invoke(hitChampion, damage);
@@ -632,5 +641,11 @@ public class Champion : MonoBehaviour, IAttackable
 	private int CalcDefenceApplyDamage(int damage)
 	{
 		return (int)(100f / (100 + status.defence) * damage);
+	}
+
+	// 데미지에다가 <10% +-> 적용
+	private int CalcDamageRandomRange(int damage)
+	{
+		return (int)(damage * UnityEngine.Random.Range(0.9f, 1.1f));
 	}
 }

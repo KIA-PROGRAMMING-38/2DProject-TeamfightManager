@@ -10,6 +10,7 @@ public class Effect : MonoBehaviour
 {
     public event Action<Effect, string> OnAnimationEvent;
     public event Action<Effect> OnDisableEvent;
+    public event Action<Effect> OnOccurEndAnimEvent;
 
     public static EffectManager s_effectManager { private get; set; }
 
@@ -115,7 +116,9 @@ public class Effect : MonoBehaviour
 				Release();
 			}
 		}
-    }
+
+        OnOccurEndAnimEvent?.Invoke(this);
+	}
 
     public void Release()
     {
