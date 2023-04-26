@@ -26,3 +26,6 @@ Priest_Ultimate,23,1,1,5,1,FALSE,0,주변 일정 범위에 지속적으로 체�
 Icemage_Attack,24,0,0,0,0,FALSE,0,,FALSE,0,0,TRUE,1,IceBullet,TRUE,0,0.44,0.161,0,TRUE,Effect_Icemage_Attack,1,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Icemage_Skill,25,0,0,0,0,FALSE,0,적 하나에게 피해를 가하고 일정 시간동안 얼립니다.,FALSE,0,0,FALSE,,,,,,,,TRUE,Effect_Icemage_Skill,1,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Icemage_Ultimate,26,1,0,5,1,FALSE,0,주변 일정 범위에 적들을 느리게 만드는 영역을 생성합니다. 잠시 후 영역 위의 모든 적들을 얼립니다.,FALSE,0,0,TRUE,2,IceCircleRing,TRUE,0,0,0,0,TRUE,Effect_Icemage_Ultimate,1,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Gambler_Attack,27,0,0,0,0,FALSE,0,,FALSE,0,0,TRUE,1,Chip,TRUE,0,0.3,0.1,0,TRUE,Effect_Gambler_Attack,1,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Gambler_Skill,28,3,0,10000,0,FALSE,0,주사위를 소환해서 해당 주사위에 뜬 눈의 개수만큼 칩을 무작위 대상에게 발사해서 공격합니다.,FALSE,0,0,TRUE,2,RandomDice,TRUE,0,0,0.77,0,TRUE,Effect_Gambler_Skill,1,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Gambler_Ultimate,29,3,0,10000,0,FALSE,0,주사위를 소환해서 해당 주사위에 뜬 눈의 개수만큼 칩을 무작위 대상에게 발사해서 공격합니다.,FALSE,0,0,TRUE,2,SlotMachine,TRUE,0,-0.8,0,0,TRUE,Effect_Gambler_Ultimate,1,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

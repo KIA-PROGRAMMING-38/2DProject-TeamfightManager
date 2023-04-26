@@ -28,3 +28,6 @@ Effect_Icemage_Ultimate,Animations/Effect/Champion/Effect_Icemage_Ultimate,0.027
 Effect_Icemage_UltimateHead,Animations/Effect/Champion/Effect_Icemage_UltimateHead,0.1,0.57,0,TRUE,FALSE,0,0,FALSE,5
 Effect_Freeze,Animations/Effect/Champion/Effect_Freeze,0,0.003,0,TRUE,FALSE,0,0,TRUE,5
 Effect_FreezeEnd,Animations/Effect/Champion/Effect_FreezeEnd,0,0.003,0,FALSE,FALSE,0,0,FALSE,5
+Effect_Gambler_Attack,Animations/Effect/Champion/Effect_Gambler_Attack,0.17,0.057,0,FALSE,FALSE,0,0,FALSE,5
+Effect_Gambler_Skill,Animations/Effect/Champion/Effect_Gambler_Skill,0.03,0.488,0,FALSE,FALSE,0,0,FALSE,5
+Effect_Gambler_Ultimate,Animations/Effect/Champion/Effect_Gambler_Ultimate,0,0.55,0,FALSE,FALSE,0,0,FALSE,5

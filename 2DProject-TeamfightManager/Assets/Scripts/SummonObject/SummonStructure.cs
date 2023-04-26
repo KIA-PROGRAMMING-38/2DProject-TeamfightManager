@@ -6,15 +6,23 @@ public class SummonStructure : SummonObject
 	[SerializeField] protected float _actionTickTime = 0f;
 	[SerializeField] protected float _lifeTime = 0f;
 	[SerializeField] protected bool _isUseLifeTime = true;
-	[SerializeField] protected bool _isAttachTarget = false;
+	[SerializeField] protected bool _isAttachOwner = false;
 	[SerializeField] protected bool _isSpawnTargetPosition = false;
 
 	protected float _elapsedTickTime = 0f;
 	protected float _elapsedTime = 0f;
 	protected int _getLayerMask;
 
-	private void Update()
+	protected Transform _ownerTransform;
+	protected Vector3 _offsetPosition;
+
+	protected void Update()
 	{
+		if(true == _isAttachOwner)
+		{
+			transform.position = _ownerTransform.position + _offsetPosition;
+		}
+
 		if (false == _isUseLifeTime)
 			return;
 
@@ -34,7 +42,7 @@ public class SummonStructure : SummonObject
 		}
 	}
 
-	public void SetAdditionalData(int layerMask, Champion target, Func<Vector3, Champion[], int> targetFindFunc)
+	public virtual void SetAdditionalData(int layerMask, Champion target, Champion owner, Func<Vector3, Champion[], int> targetFindFunc)
 	{
 		Array.Clear(_targetArray, 0, _targetArray.Length);
 		_elapsedTickTime = 0f;
@@ -44,10 +52,14 @@ public class SummonStructure : SummonObject
 
 		_getLayerMask = layerMask;
 
-		if (_isSpawnTargetPosition && null != target)
+		if (null != target && _isSpawnTargetPosition)
 		{
 			transform.position = target.transform.position;
 		}
+		if (null != owner && _isSpawnTargetPosition)
+		{
+			_offsetPosition = transform.position - owner.transform.position;
+        }
 	}
 
 	protected virtual void Action()

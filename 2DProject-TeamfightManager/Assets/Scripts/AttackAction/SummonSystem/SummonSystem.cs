@@ -121,7 +121,7 @@ public class SummonSystem
 						summonObject.gameObject.SetActive(true);
 
 						summonObject.transform.position = ownerChampion.transform.position + moveDirection;
-						summonObject.SetAdditionalData(layer, target, _findImpactTargetFunc);
+						summonObject.SetAdditionalData(layer, target, ownerChampion, _findImpactTargetFunc);
 
 						// 이벤트 구독..
 						summonObject.OnExecuteImpact -= OnSummonObjectExecuteImpact;
