@@ -41,7 +41,7 @@ public class GameResultUI : UIBase
         string blueTeamName = blueTeam.teamName;
 
         _redTeamLogoImage.sprite = s_dataTableManager.teamDataTable.GetLogoSprite(redTeamName);
-        _blueTeamLogoImage.sprite = s_dataTableManager.teamDataTable.GetLogoSprite(redTeamName);
+        _blueTeamLogoImage.sprite = s_dataTableManager.teamDataTable.GetLogoSprite(blueTeamName);
 
         _redTeamNameText.text = redTeamName;
         _blueTeamNameText.text = blueTeamName;
