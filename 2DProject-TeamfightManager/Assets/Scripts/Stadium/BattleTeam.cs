@@ -119,6 +119,8 @@ public class BattleTeam : MonoBehaviour
 
     private List<IEnumerator> _revivalCoroutines = new List<IEnumerator>();
 
+	private bool _isBattleEnd = false;
+
 	public int championLayer { get; private set; }
 	public int atkSummonLayer { get; private set; }
 	public int buffSummonLayer { get; private set; }
@@ -197,6 +199,8 @@ public class BattleTeam : MonoBehaviour
 
 	public void StartBattle()
 	{
+		_isBattleEnd = false;
+
 		int loopCount = _allChampions.Count;
 		for( int i = 0; i < loopCount; ++i)
 		{
@@ -265,6 +269,9 @@ public class BattleTeam : MonoBehaviour
 
 	public void OnSuccessRevival(Champion champion, in Vector3 spawnPosition)
 	{
+		if (true == _isBattleEnd)
+			return;
+
 		champion.Revival();
 
 		champion.transform.position = spawnPosition;
@@ -282,6 +289,8 @@ public class BattleTeam : MonoBehaviour
 		{
 			_pilots[i].StopChampionLogic();
 		}
+
+		_isBattleEnd = true;
 	}
 
 	public void ExitBattleStage()
