@@ -21,9 +21,10 @@ public class FloatingDamageUI : UIBase
 
 	private void Awake()
 	{
-		_rectTransform = GetComponent<RectTransform>();
+		s_dataTableManager.battleStageDataTable.OnBattleEnd -= OnBattleEnd;
+		s_dataTableManager.battleStageDataTable.OnBattleEnd += OnBattleEnd;
 
-		_text = GetComponentInChildren<TMP_Text>();
+        _text = GetComponentInChildren<TMP_Text>();
 
 		_wayPoint1 = transform.GetChild(1).GetComponent<RectTransform>();
 		_wayPoint2 = transform.GetChild(2).GetComponent<RectTransform>();
@@ -35,10 +36,11 @@ public class FloatingDamageUI : UIBase
 
 	private void OnEnable()
 	{
-		_lerpT = 0f;
+        _rectTransform = GetComponent<RectTransform>();
+        _lerpT = 0f;
 	}
 
-	private void Update()
+    private void Update()
 	{
 		_lerpT += Time.deltaTime / lifeTime;
 
@@ -59,4 +61,9 @@ public class FloatingDamageUI : UIBase
 		_text.color = color;
 		_text.text = StringTable.GetString(damage);
 	}
+
+	private void OnBattleEnd(BattleTeam redTeam, BattleTeam blueTeam, BattleTeamKind winTeamKind)
+	{
+		FloatingDamageUISpawner.ReleaseDamageUI(this);
+    }
 }

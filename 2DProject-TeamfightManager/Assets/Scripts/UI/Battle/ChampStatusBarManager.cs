@@ -15,16 +15,17 @@ public class ChampStatusBarManager : UIBase
 	private void Awake()
 	{
 		FloatingDamageUISpawner.uiParentTransform = transform;
-	}
+    }
 
-	IEnumerator Start()
+	private void Start()
 	{
-		yield return null;
-
 		SetupStatusBar();
 
-		// 이벤트 구독(챔피언의 정보가 바뀔 때 마다 실행된다)..
-		s_dataTableManager.battleStageDataTable.OnChangedChampionHPRatio -= OnChangedChampionHPRatio;
+        // 이벤트 구독(챔피언의 정보가 바뀔 때 마다 실행된다)..
+        s_dataTableManager.battleStageDataTable.OnBattleEnd -= EndBattle;
+        s_dataTableManager.battleStageDataTable.OnBattleEnd += EndBattle;
+
+        s_dataTableManager.battleStageDataTable.OnChangedChampionHPRatio -= OnChangedChampionHPRatio;
 		s_dataTableManager.battleStageDataTable.OnChangedChampionHPRatio += OnChangedChampionHPRatio;
 
 		s_dataTableManager.battleStageDataTable.OnChangedChampionMPRatio -= OnChangedChampionMPRatio;
@@ -41,16 +42,6 @@ public class ChampStatusBarManager : UIBase
 
 		s_dataTableManager.battleStageDataTable.OnChampionRevivalEvent -= OnChampionRevival;
 		s_dataTableManager.battleStageDataTable.OnChampionRevivalEvent += OnChampionRevival;
-	}
-
-	private void OnDisable()
-	{
-		s_dataTableManager.battleStageDataTable.OnChangedChampionHPRatio -= OnChangedChampionHPRatio;
-		s_dataTableManager.battleStageDataTable.OnChangedChampionMPRatio -= OnChangedChampionMPRatio;
-		s_dataTableManager.battleStageDataTable.OnChampionUseUltimate -= OnChampionUseUltimate;
-		s_dataTableManager.battleStageDataTable.OnChangedChampionBarrierRatio -= OnChangedChampionBarrierRatio;
-		s_dataTableManager.battleStageDataTable.OnChampionDeadEvent -= OnChampionDead;
-		s_dataTableManager.battleStageDataTable.OnChampionRevivalEvent -= OnChampionRevival;
 	}
 
 	private void SetupStatusBar()
@@ -81,7 +72,21 @@ public class ChampStatusBarManager : UIBase
 		}
 	}
 
-	public void OnChangedChampionHPRatio(BattleTeamKind teamKind, int index, float hpRatio)
+	private void EndBattle(BattleTeam redTeam, BattleTeam blueTeam, BattleTeamKind winTeamKind)
+	{
+        s_dataTableManager.battleStageDataTable.OnChangedChampionHPRatio -= OnChangedChampionHPRatio;
+        s_dataTableManager.battleStageDataTable.OnChangedChampionMPRatio -= OnChangedChampionMPRatio;
+        s_dataTableManager.battleStageDataTable.OnChampionUseUltimate -= OnChampionUseUltimate;
+        s_dataTableManager.battleStageDataTable.OnChangedChampionBarrierRatio -= OnChangedChampionBarrierRatio;
+        s_dataTableManager.battleStageDataTable.OnChampionDeadEvent -= OnChampionDead;
+        s_dataTableManager.battleStageDataTable.OnChampionRevivalEvent -= OnChampionRevival;
+        s_dataTableManager.battleStageDataTable.OnBattleEnd -= EndBattle;
+
+		gameObject.SetActive(false);
+	}
+
+
+    public void OnChangedChampionHPRatio(BattleTeamKind teamKind, int index, float hpRatio)
 	{
 		if (_halfChampCount <= index)
 			return;

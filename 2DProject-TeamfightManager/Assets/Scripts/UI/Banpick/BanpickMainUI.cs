@@ -23,7 +23,10 @@ public class BanpickMainUI : UIBase
 		_battleStageDataTable.OnBanpickOneStageStart -= OnBanpickOneStageStart;
 		_battleStageDataTable.OnBanpickOneStageStart += OnBanpickOneStageStart;
 
-		_banpickChampUIManager = GetComponentInChildren<BanpickChampUIManager>();
+		_battleStageDataTable.OnStartBattle -= OnStartBattle;
+		_battleStageDataTable.OnStartBattle += OnStartBattle;
+
+        _banpickChampUIManager = GetComponentInChildren<BanpickChampUIManager>();
 		_showChampDataUI = GetComponentInChildren<ShowChampDataUI>();
 		_movementComponent = GetComponent<UIMove>();
 
@@ -67,14 +70,21 @@ public class BanpickMainUI : UIBase
 		OnBanpickOneStageStart(_battleStageDataTable.curBanpickStageInfo.stageKind);
 	}
 
-	private void OnEndBlockingProcess()
+	private void OnStartBattle()
+	{
+        _battleStageDataTable.OnBanpickEnd -= OnBanpickEnd;
+        _battleStageDataTable.OnBanpickOneStageStart -= OnBanpickOneStageStart;
+        _battleStageDataTable.OnStartBattle -= OnStartBattle;
+    }
+
+    private void OnEndBlockingProcess()
 	{
 
 	}
 
 	private void OnBanpickOneStageStart(BanpickStageKind curStageKind)
 	{
-		_blockingProcess.SetShowBanpickStageKind(curStageKind);
+        _blockingProcess.SetShowBanpickStageKind(curStageKind);
 		_blockingProcess.gameObject.SetActive(true);
 	}
 

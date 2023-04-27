@@ -9,17 +9,21 @@ public class ShowBanChampUIManager : UIBase
 	{
 		s_dataTableManager.battleStageDataTable.OnBanpickUpdate -= UpdateBanData;
 		s_dataTableManager.battleStageDataTable.OnBanpickUpdate += UpdateBanData;
-	}
 
-	private void OnDisable()
-	{
-		s_dataTableManager.battleStageDataTable.OnBanpickUpdate -= UpdateBanData;
-	}
+		s_dataTableManager.battleStageDataTable.OnStartBattle -= OnStartBattle;
+        s_dataTableManager.battleStageDataTable.OnStartBattle += OnStartBattle;
+    }
 
 	private void Start()
 	{
 		SetupBanUI();
 	}
+
+	private void OnStartBattle()
+	{
+        s_dataTableManager.battleStageDataTable.OnBanpickUpdate -= UpdateBanData;
+        s_dataTableManager.battleStageDataTable.OnStartBattle -= OnStartBattle;
+    }
 
 	private void SetupBanUI()
 	{

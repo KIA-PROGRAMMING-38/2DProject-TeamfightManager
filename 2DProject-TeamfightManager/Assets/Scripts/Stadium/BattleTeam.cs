@@ -207,6 +207,7 @@ public class BattleTeam : MonoBehaviour
 			if (null == _allChampions[i])
 				continue;
 
+			_pilots[i].gameObject.SetActive(true);
 			_pilots[i].StartBattle((BattleTeamKind.BlueTeam == battleTeamKind) ? 15f : 30f);
 
 			_allChampions[i].gameObject.SetActive(true);

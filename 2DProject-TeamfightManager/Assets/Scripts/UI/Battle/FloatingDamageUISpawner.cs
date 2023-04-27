@@ -13,6 +13,7 @@ public static class FloatingDamageUISpawner
         Heal,
     }
 
+    public static GameManager gameManager { private get; set; }
     public static Transform uiParentTransform { private get; set; }
     private static ObjectPooler<FloatingDamageUI> _uiPooler;
 
@@ -42,9 +43,9 @@ public static class FloatingDamageUISpawner
 				break;
 		}
 
-        damageUI.Initialize(uiPosition, uiColor, damage);
         damageUI.lifeTime = 0.7f;
-		damageUI.gameObject.SetActive(true);
+        damageUI.gameObject.SetActive(true);
+        damageUI.Initialize(uiPosition, uiColor, damage);
 
         damageUI.transform.SetParent(uiParentTransform, true);
 
@@ -64,7 +65,7 @@ public static class FloatingDamageUISpawner
 
         _uiPooler.Release(damageUI);
 
-        damageUI.transform.parent = null;
+        damageUI.transform.parent = gameManager.transform;
 
 		Debug.Log("µ•πÃ¡ˆUI release");
 	}

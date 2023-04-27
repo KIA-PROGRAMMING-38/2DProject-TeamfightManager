@@ -6,8 +6,9 @@ using Util.Pool;
 public class SummonObjectManager : MonoBehaviour
 {
 	public event Action OnForcedRelease;
+	public event Action OnReleaseEvent;
 
-	public GameManager gameManager
+    public GameManager gameManager
 	{
 		set 
 		{
@@ -50,7 +51,8 @@ public class SummonObjectManager : MonoBehaviour
 	private void OnChangeScene()
 	{
 		OnForcedRelease?.Invoke();
-	}
+		OnReleaseEvent?.Invoke();
+    }
 
 	public T GetSummonObject<T>(string summonName) where T : SummonObject
 	{

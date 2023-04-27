@@ -71,7 +71,8 @@ public class BanpickRunner : MonoBehaviour
 			++_curLevel;
 			if (_levelMaxCount <= _curLevel)
 			{
-				_battleStageDataTable.EndBanpick();
+                _battleStageDataTable.OnClickedSelectChampionButton -= OnSelectChampion;
+                _battleStageDataTable.EndBanpick();
 
 				return;
 			}

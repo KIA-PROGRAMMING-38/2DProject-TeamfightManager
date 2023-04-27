@@ -27,10 +27,19 @@ public class SummonObject : MonoBehaviour
 		{
 			summonObjectManager.OnForcedRelease -= OnForcedRelease;
 			summonObjectManager.OnForcedRelease += OnForcedRelease;
-		}
+
+			summonObjectManager.OnReleaseEvent -= ReleaseEvent;
+			summonObjectManager.OnReleaseEvent += ReleaseEvent;
+        }
 	}
 
-	protected void ReceiveImpactExecuteEvent(int targetCount)
+	public void ReleaseEvent()
+	{
+		OnExecuteImpact = null;
+		OnRelease = null;
+    }
+
+    protected void ReceiveImpactExecuteEvent(int targetCount)
 	{
 		OnExecuteImpact?.Invoke(this, _targetArray, targetCount);
 	}
