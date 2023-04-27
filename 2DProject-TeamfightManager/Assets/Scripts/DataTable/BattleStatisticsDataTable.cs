@@ -48,11 +48,9 @@ public class BattleStatisticsDataTable
 
 	public void AddBattleTeamFightData(BattleTeamFightData redTeamFightData, BattleTeamFightData blueTeamFightData, BattleTeamKind winTeamKind)
 	{
-		bool isRedTeamwin = (winTeamKind == BattleTeamKind.RedTeam) ? true : false;
-
 		// 팀 관련 통계 정보 갱신..
-		UpdateStatisticsData(redTeamFightData, isRedTeamwin);
-		UpdateStatisticsData(blueTeamFightData, !isRedTeamwin);
+		UpdateStatisticsData(redTeamFightData, BattleTeamKind.RedTeam == winTeamKind);
+		UpdateStatisticsData(blueTeamFightData, BattleTeamKind.BlueTeam == winTeamKind);
 	}
 
 	private void UpdateStatisticsData(BattleTeamFightData fightData, bool isWinTeam)

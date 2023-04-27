@@ -52,6 +52,14 @@ public class SummonChamp : SummonObject
 
 	public void OnChangeChampionHPRatio(float ratio)
 	{
+		if(ratio <= 0f)
+		{
+			ReceiveReleaseEvent();
+			summonObjectManager.ReleaseSummonObject(this);
+
+			return;
+		}
+
 		_statusBar.SetHPRatio(ratio);
 	}
 

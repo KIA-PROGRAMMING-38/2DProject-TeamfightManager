@@ -192,20 +192,28 @@ public class BattleStageManager : MonoBehaviour
 	{
 		if (remainTime <= 0f)
 		{
-            if ( _battleStageDataTable.redTeamBattleFightData.teamTotalKill == _battleStageDataTable.blueTeamBattleFightData.teamTotalKill )
-            {
+            _battleStageDataTable.OnUpdateBattleRemainTime -= OnUpdateBattleRemainTime;
 
-            }
-            else
-            {
-                OnBattleEnd();
-                _battleStageDataTable.Reset();
+            BattleTeamKind winTeam = BattleTeamKind.End;
 
-                BattleTeamKind winTeam = (_battleStageDataTable.redTeamBattleFightData.teamTotalKill > _battleStageDataTable.blueTeamBattleFightData.teamTotalKill)
+            if( _battleStageDataTable.redTeamBattleFightData.teamTotalKill != _battleStageDataTable.blueTeamBattleFightData.teamTotalKill )
+            {
+                winTeam = (_battleStageDataTable.redTeamBattleFightData.teamTotalKill > _battleStageDataTable.blueTeamBattleFightData.teamTotalKill)
                 ? BattleTeamKind.RedTeam : BattleTeamKind.BlueTeam;
-                OnEndBattle?.Invoke( winTeam );
             }
-		}
+
+            if (null != _battleStageDataTable)
+            {
+				_battleStageDataTable.EndBattle(redTeam, blueTeam, winTeam);
+			}
+
+            OnBattleEnd();
+            _battleStageDataTable.Reset();
+
+            OnEndBattle?.Invoke(winTeam);
+
+			ExitBattleStage();
+        }
 	}
 
 	// 배틀 종료 시 호출될 함수..
@@ -214,7 +222,6 @@ public class BattleStageManager : MonoBehaviour
 #if UNITY_EDITOR
 		Debug.Log("배틀이 종료되었다.");
 #endif
-
 		StopAllCoroutines();
 
 		redTeam.OnBattleEnd();

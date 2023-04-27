@@ -17,6 +17,14 @@ public class BattleStageDataTable
 			this.teamKind = teamKind;
 			this.level = level;
 		}
+
+		public void Reset()
+		{
+			champName = "";
+			stageKind = BanpickStageKind.None;
+			teamKind = BattleTeamKind.End;
+			level = 0;
+		}
 	}
 		
 
@@ -42,6 +50,8 @@ public class BattleStageDataTable
 	public event Action<BattleTeamKind, int> OnChampionDeadEvent;
 	public event Action<BattleTeamKind, int> OnChampionRevivalEvent;
 	public event Action<BattleTeamKind, int, float> OnChangedChampionBarrierRatio;
+
+	public event Action<BattleTeam, BattleTeam, BattleTeamKind> OnBattleEnd;
 
 	private Dictionary<string, BanpickStageKind> banpickChampContainer = new Dictionary<string, BanpickStageKind>();
 
@@ -97,10 +107,26 @@ public class BattleStageDataTable
 		OnUpdateBattleRemainTime = null;
 
 		banpickChampContainer.Clear();
+        curBanpickStageInfo.Reset();
 
-		curBanpickLevel = 1;
+		redTeamBattleFightData.teamName = "";
+		redTeamBattleFightData.teamTotalKill = 0;
+		redTeamBattleFightData.pilotFightDataContainer.Clear();
+		redTeamBattleFightData.banChampionContainer.Clear();
+
+        blueTeamBattleFightData.teamName = "";
+        blueTeamBattleFightData.teamTotalKill = 0;
+        blueTeamBattleFightData.pilotFightDataContainer.Clear();
+        blueTeamBattleFightData.banChampionContainer.Clear();
+
+        curBanpickLevel = 1;
 		maxBanpickLevel = 0;
     }
+
+	public void EndBattle(BattleTeam redTeam, BattleTeam blueTeam, BattleTeamKind winTeamKind)
+	{
+		OnBattleEnd?.Invoke(redTeam, blueTeam, winTeamKind);
+	}
 
 	// ============================================================================================================
 	// --- 밴픽 관련 함수들..

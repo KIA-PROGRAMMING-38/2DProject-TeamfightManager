@@ -46,6 +46,12 @@ public class ChampBuffUI : UIBase
         }
     }
 
+    private void OnDisable()
+    {
+        if (null != _ownerChampion)
+            _ownerChampion.OnChangeBuffStatus -= ChangeChampionStatus;
+    }
+
     private static void SetupSprite()
     {
         s_spriteContainer = new Dictionary<string, Sprite>();

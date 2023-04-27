@@ -20,15 +20,19 @@ public class BanpickChampUIManager : UIBase
 		_dataTable.OnBanpickUpdate -= OnUpdateBackpickStage;
 		_dataTable.OnBanpickUpdate += OnUpdateBackpickStage;
 
-		SetupChampUI();
+        _dataTable.OnStartBattle -= OnStartBattle;
+        _dataTable.OnStartBattle += OnStartBattle;
+
+        SetupChampUI();
 	}
 
-	private void Start()
+	private void OnStartBattle()
 	{
+        _dataTable.OnBanpickUpdate -= OnUpdateBackpickStage;
+        _dataTable.OnStartBattle -= OnStartBattle;
+    }
 
-	}
-
-	private void SetupChampUI()
+    private void SetupChampUI()
 	{
 		// 챔피언 개수만큼 UI를 생성하며 챔피언 이름도 같이 넘겨준다..
 		{

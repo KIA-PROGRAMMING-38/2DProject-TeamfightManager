@@ -114,11 +114,11 @@ public class PilotBattle : MonoBehaviour
 			{
 				if(champion == _summonChampionContainer[i])
 				{
-					_summonChampionContainer[i].Release();
+                    myTeam.RemoveActiveChampionList(_summonChampionContainer[i]);
+
+                    _summonChampionContainer[i].Release();
 					_summonChampionContainer.RemoveAt(i);
 					_summonChampionControllerContainer.RemoveAt(i);
-
-					myTeam.RemoveActiveChampionList(_summonChampionContainer[i]);
 
 					break;
 				}

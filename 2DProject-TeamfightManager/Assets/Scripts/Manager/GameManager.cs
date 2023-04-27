@@ -119,7 +119,12 @@ public class GameManager : MonoBehaviour
 				Destroy(battleStageManager.gameObject);
 
 				break;
-		}
+
+            case SceneNameTable.STADIUM:
+                Destroy(battleStageManager.gameObject);
+
+                break;
+        }
 
 		_curSceneName = sceneName;
 
@@ -226,7 +231,8 @@ public class GameManager : MonoBehaviour
 		Debug.Assert(null != damageUIComponent);
 #endif
 
-		FloatingDamageUISpawner.Initialize(() =>
+		FloatingDamageUISpawner.gameManager = this;
+        FloatingDamageUISpawner.Initialize(() =>
 		{
 			FloatingDamageUI ui = Instantiate(damageUIComponent);
 			DontDestroyOnLoad(ui.gameObject);

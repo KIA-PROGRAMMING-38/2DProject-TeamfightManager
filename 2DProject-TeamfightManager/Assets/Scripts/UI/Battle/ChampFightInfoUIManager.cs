@@ -28,16 +28,28 @@ public class ChampFightInfoUIManager : UIBase
 
 		s_dataTableManager.battleStageDataTable.OnBanpickUpdate -= UpdateBanpickData;
 		s_dataTableManager.battleStageDataTable.OnBanpickUpdate += UpdateBanpickData;
-	}
 
-	private void OnDisable()
+        s_dataTableManager.battleStageDataTable.OnStartBattle -= OnStartBattle;
+        s_dataTableManager.battleStageDataTable.OnStartBattle += OnStartBattle;
+
+        s_dataTableManager.battleStageDataTable.OnBattleEnd -= OnBattleEnd;
+        s_dataTableManager.battleStageDataTable.OnBattleEnd += OnBattleEnd;
+    }
+
+	private void OnStartBattle()
 	{
-        s_dataTableManager.battleStageDataTable.OnChangedChampionBattleData -= OnChangedChampionBattleData;
 		s_dataTableManager.battleStageDataTable.OnBanpickUpdate -= UpdateBanpickData;
-	}
+        s_dataTableManager.battleStageDataTable.OnStartBattle -= OnStartBattle;
+    }
+
+    private void OnBattleEnd(BattleTeam redTeam, BattleTeam blueTeam, BattleTeamKind winTeamKind)
+    {
+        s_dataTableManager.battleStageDataTable.OnChangedChampionBattleData -= OnChangedChampionBattleData;
+        s_dataTableManager.battleStageDataTable.OnBattleEnd -= OnBattleEnd;
+    }
 
     // Champion Fight Info UI 생성 및 초기화..
-	private void SetupChampFightInfoUI()
+    private void SetupChampFightInfoUI()
     {
 		BattleStageDataTable dataTable = s_dataTableManager.battleStageDataTable;
 
