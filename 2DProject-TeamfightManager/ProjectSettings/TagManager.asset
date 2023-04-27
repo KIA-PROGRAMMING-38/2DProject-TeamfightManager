@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Champion
   - MapLimitArea
+  - SummonObject
   layers:
   - Default
   - TransparentFX
