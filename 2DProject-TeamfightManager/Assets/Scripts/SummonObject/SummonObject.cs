@@ -23,6 +23,8 @@ public class SummonObject : MonoBehaviour
 
 	private void Start()
 	{
+		gameObject.tag = "SummonObject";
+
 		if (null != summonObjectManager)
 		{
 			summonObjectManager.OnForcedRelease -= OnForcedRelease;
@@ -54,6 +56,12 @@ public class SummonObject : MonoBehaviour
 		if (false == gameObject.activeSelf)
 			return;
 
+		summonObjectManager.ReleaseSummonObject(this);
+	}
+
+	public void Release()
+	{
+		ReceiveReleaseEvent();
 		summonObjectManager.ReleaseSummonObject(this);
 	}
 }
