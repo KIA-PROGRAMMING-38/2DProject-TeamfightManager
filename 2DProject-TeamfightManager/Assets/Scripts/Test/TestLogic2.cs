@@ -7,9 +7,6 @@ public class TestLogic2 : MonoBehaviour
 
 	public void Update()
 	{
-		if(Input.GetKeyDown(KeyCode.Space))
-		{
-			t1.asdasd();
-		}
+
 	}
 }

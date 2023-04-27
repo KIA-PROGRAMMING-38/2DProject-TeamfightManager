@@ -1,16 +1,48 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class TestLogic : MonoBehaviour
 {
-	public event Action OnTestEvent;
+	public Transform[] transforms;
+	public Vector3[] pos;
 
-	public void asdasd()
+	private void Awake()
 	{
-		OnTestEvent?.Invoke();
+		pos = new Vector3[transforms.Length];
+		for ( int i = 0; i < transforms.Length; ++i)
+		{
+			pos[i] = transforms[i].position;
+		}
 	}
-	private void OnTriggerEnter2D(Collider2D collision)
+
+	private void Update()
 	{
-		Debug.Log("OT2");
+		if(Input.GetKeyDown(KeyCode.Return))
+		{
+			Debug.Log("Start");
+
+			for( int i = 0; i < transforms.Length; ++i)
+			{
+				transforms[i].position = pos[i];
+			}
+
+			GetComponent<CircleCollider2D>().enabled = true;
+
+			StartCoroutine(asdsdads());
+		}
+	}
+
+	IEnumerator asdsdads()
+	{
+		yield return new WaitForSeconds(1f);
+
+		GetComponent<CircleCollider2D>().enabled = false;
+	}
+
+	private void OnTriggerExit2D(Collider2D collision)
+	{
+		Debug.Log("asd");
+		collision.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
 	}
 }

@@ -259,7 +259,7 @@ public class Champion : MonoBehaviour, IAttackable
 
 		if (false == s_dataTableManager.attackActionDataTable.GetActionData(this.data.ultimateActionUniqueKey).isPassive)
 		{
-			//if (this.data.ultimateActionUniqueKey == 26)
+			if (this.data.ultimateActionUniqueKey == 32)
 				StartCoroutine(TestUltOn());
 		}
 	}

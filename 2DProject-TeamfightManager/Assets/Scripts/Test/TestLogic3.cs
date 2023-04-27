@@ -7,7 +7,7 @@ public class TestLogic3 : MonoBehaviour
 
 	public void Awake()
 	{
-		t1.OnTestEvent += OnTestEvent;
+
 	}
 
 	private void OnTestEvent()
