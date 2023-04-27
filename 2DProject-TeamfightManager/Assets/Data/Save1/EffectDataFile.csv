@@ -31,3 +31,6 @@ Effect_FreezeEnd,Animations/Effect/Champion/Effect_FreezeEnd,0,0.003,0,FALSE,FAL
 Effect_Gambler_Attack,Animations/Effect/Champion/Effect_Gambler_Attack,0.17,0.057,0,FALSE,FALSE,0,0,FALSE,5
 Effect_Gambler_Skill,Animations/Effect/Champion/Effect_Gambler_Skill,0.03,0.488,0,FALSE,FALSE,0,0,FALSE,5
 Effect_Gambler_Ultimate,Animations/Effect/Champion/Effect_Gambler_Ultimate,0,0.55,0,FALSE,FALSE,0,0,FALSE,5
+Effect_Magicknight_Attack,Animations/Effect/Champion/Effect_Magicknight_Attack,0.56,0.25,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Magicknight_Skill,Animations/Effect/Champion/Effect_Magicknight_Skill,0.377,0.074,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Magicknight_Ultimate,Animations/Effect/Champion/Effect_Magicknight_Ultimate,0.2,0.1,0,TRUE,FALSE,0,0,FALSE,5
