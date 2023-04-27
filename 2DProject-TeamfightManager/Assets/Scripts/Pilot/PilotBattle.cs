@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -52,8 +53,11 @@ public class PilotBattle : MonoBehaviour
     }
 
     private Champion _controlChampion;
-    private ChampionController _championController;
+	private ChampionController _championController;
     private FindTargetData _findTargetData;
+
+	private List<Champion> _summonChampionContainer = new List<Champion>();
+	private List<ChampionController> _summonChampionControllerContainer = new List<ChampionController>();
 
 	public BattleTeam myTeam { get; set; }
 
@@ -96,12 +100,45 @@ public class PilotBattle : MonoBehaviour
         return myTeam.FindTarget(champion, _findTargetData);
 	}
 
-    public void OnChampionDead()
+    public void OnChampionDead(Champion champion)
     {
-        myTeam.OnChampionDead(battleTeamIndexKey);
+		if(champion == controlChampion)
+		{
+			myTeam.OnChampionDead(battleTeamIndexKey);
 
-        ++_battleInfoData.deathCount;
+			++_battleInfoData.deathCount;
+		}
+		else
+		{
+			for( int i = 0; i < _summonChampionContainer.Count; ++i)
+			{
+				if(champion == _summonChampionContainer[i])
+				{
+					_summonChampionContainer[i].Release();
+					_summonChampionContainer.RemoveAt(i);
+					_summonChampionControllerContainer.RemoveAt(i);
+
+					myTeam.RemoveActiveChampionList(_summonChampionContainer[i]);
+
+					break;
+				}
+			}
+		}
     }
+
+	public void StartBattle(float ultWaitTime)
+	{
+		StartCoroutine(WaitUltiDelay(ultWaitTime));
+	}
+
+	IEnumerator WaitUltiDelay(float ultWaitTime)
+	{
+		//float waitTime = UnityEngine.Random.Range(ultWaitTime - 5f, ultWaitTime + 5f);
+		//yield return YieldInstructionStore.GetWaitForSec(waitTime);
+		yield return null;
+
+		_controlChampion.TurnOnUltimate();
+	}
 
     public void StopChampionLogic()
     {
@@ -111,6 +148,13 @@ public class PilotBattle : MonoBehaviour
 		_championController.enabled = false;
         _controlChampion.GetComponentInChildren<ChampionAnimation>().ChangeState(ChampionAnimation.AnimState.Idle, true);
 		_controlChampion.enabled = false;
+
+		for( int i = 0; i < _summonChampionContainer.Count; ++i)
+		{
+			_summonChampionContainer[i].enabled = false;
+			_summonChampionContainer[i].GetComponentInChildren<ChampionAnimation>().ChangeState(ChampionAnimation.AnimState.Idle, true);
+			_summonChampionControllerContainer[i].enabled = false;
+		}
 	}
 
     public void Release()
@@ -132,7 +176,16 @@ public class PilotBattle : MonoBehaviour
 		_battleInfoData.totalHeal = 0;
 
 		pilot.Release();
-    }
+
+		for (int i = 0; i < _summonChampionContainer.Count; ++i)
+		{
+			_summonChampionContainer[i].enabled = true;
+			_summonChampionContainer[i].Release();
+		}
+
+		_summonChampionContainer.Clear();
+		_summonChampionControllerContainer.Clear();
+	}
 
     private void OnChampionTakeDamaged(Champion hitChampion, int damage)
     {
@@ -191,5 +244,37 @@ public class PilotBattle : MonoBehaviour
 	public void AddActiveChampionList()
 	{
         myTeam.AddActiveChampionList(controlChampion);
+	}
+
+    public void AddSummonChampion(Champion champion)
+    {
+		champion.pilotBattleComponent = this;
+
+		// 챔피언의 이벤트들 구독..
+		champion.OnHit -= OnChampionTakeDamaged;
+		champion.OnHit += OnChampionTakeDamaged;
+
+		champion.OnKill -= OnChampionKill;
+		champion.OnKill += OnChampionKill;
+
+		champion.OnAttack -= OnChampionAttack;
+		champion.OnAttack += OnChampionAttack;
+
+		champion.OnChangedHPRatio -= UpdateChampionHPRatio;
+		champion.OnChangedHPRatio += UpdateChampionHPRatio;
+
+		champion.OnChangedMPRatio -= UpdateChampionMPRatio;
+		champion.OnChangedMPRatio += UpdateChampionMPRatio;
+
+		champion.OnUseUltimate -= UpdateChampionUseUltimateState;
+		champion.OnUseUltimate += UpdateChampionUseUltimateState;
+
+		champion.OnChangedBarrierRatio -= UpdateBarrierRatio;
+		champion.OnChangedBarrierRatio += UpdateBarrierRatio;
+
+		_summonChampionContainer.Add(champion);
+		_summonChampionControllerContainer.Add(champion.GetComponent<ChampionController>());
+
+		myTeam.AddActiveChampionList(champion);
 	}
 }

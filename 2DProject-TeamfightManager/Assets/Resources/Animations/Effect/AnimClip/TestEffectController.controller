@@ -1,31 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1102 &-4892985080236027076
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Effect_Magicknight_Ultimate_Sword_Idle
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 5b5a50bbc75a261409a2f4062160bebb, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!114 &-4721819528549205319
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -38,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a53d54f9efc87b428e54561d85d30a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1102 &-1681206950986118767
+--- !u!1102 &-2241394708092961027
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Effect_Magicknight_Ultimate
+  m_Name: Effect_Ninja_Skill_Start
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -58,7 +32,33 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 80fd08e75adcd1447ac3f8a14ccadfe7, type: 2}
+  m_Motion: {fileID: 7400000, guid: 57bcf3ce704838d4b95f1586b2db14b1, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &-310024468303951238
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Effect_Ninja_Ultimate
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 174c114c95f58a94eb354f0e87eea867, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -92,32 +92,6 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
---- !u!1102 &1100836136976740677
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Effect_Magicknight_Attack
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4fc38c562946b8e4c931cd25265922b3, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1101 &1913714010866789173
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -143,32 +117,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!1102 &2938908440804218757
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Effect_Magicknight_Skill
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 88959c4f6529ce548bf328838b24ca81, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1107 &3520753748002233250
 AnimatorStateMachine:
   serializedVersion: 6
@@ -182,29 +130,17 @@ AnimatorStateMachine:
     m_State: {fileID: 5690064207853671322}
     m_Position: {x: 330, y: 120, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 1100836136976740677}
-    m_Position: {x: 424.1667, y: 331.1111, z: 0}
+    m_State: {fileID: 3811600339056694522}
+    m_Position: {x: 360, y: 210, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 2938908440804218757}
-    m_Position: {x: 459.1667, y: 396.1111, z: 0}
+    m_State: {fileID: -2241394708092961027}
+    m_Position: {x: 395, y: 275, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 5003245912257018868}
-    m_Position: {x: 494.1667, y: 461.1111, z: 0}
+    m_State: {fileID: 8494022252898962984}
+    m_Position: {x: 430, y: 340, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 4229998460614421766}
-    m_Position: {x: 529.1667, y: 526.1111, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -1681206950986118767}
-    m_Position: {x: 564.1667, y: 591.1111, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 7559501182431179798}
-    m_Position: {x: 599.1667, y: 656.1111, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -4892985080236027076}
-    m_Position: {x: 634.1667, y: 721.1111, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 9098357221884892046}
-    m_Position: {x: 669.1667, y: 786.1111, z: 0}
+    m_State: {fileID: -310024468303951238}
+    m_Position: {x: 465, y: 405, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 1913714010866789173}
@@ -216,14 +152,14 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 5690064207853671322}
---- !u!1102 &4229998460614421766
+--- !u!1102 &3811600339056694522
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Effect_Magicknight_SwordAura_End
+  m_Name: Effect_Ninja_Attack
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -236,33 +172,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 46b4ff19651b7014a97ae01dbcfecd7f, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &5003245912257018868
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Effect_Magicknight_SwordAura_Loop
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: eebeee433f90e4742877ce4a4e012b42, type: 2}
+  m_Motion: {fileID: 7400000, guid: d21b99c3a7d43934da471d9b766ac828, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -295,14 +205,14 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &7559501182431179798
+--- !u!1102 &8494022252898962984
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Effect_Magicknight_Ultimate_Circle
+  m_Name: Effect_Ninja_Skill_End
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -315,33 +225,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: bfe00faeb2f947c4280e6769531bdecf, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &9098357221884892046
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Effect_Magicknight_Ultimate_Sword_Break
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: a85fa6c9bfb768f42b2d0aa9255c6160, type: 2}
+  m_Motion: {fileID: 7400000, guid: 2b813590c4053c54791f408d651c4505, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

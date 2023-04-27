@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using static Projectile;
 
 public class SummonObject : MonoBehaviour
 {
@@ -9,6 +8,8 @@ public class SummonObject : MonoBehaviour
 
 	public SummonObjectManager summonObjectManager { protected get; set; }
 	public EffectManager effectManager { protected get; set; }
+	public ChampionManager championManager { protected get; set; }
+	public DataTableManager dataTableManager { protected get; set; }
 
 	public string summonObjectName { get => _summonObjectName; }
 	[SerializeField] private string _summonObjectName;

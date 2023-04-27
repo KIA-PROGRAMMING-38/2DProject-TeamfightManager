@@ -34,3 +34,7 @@ Effect_Gambler_Ultimate,Animations/Effect/Champion/Effect_Gambler_Ultimate,0,0.5
 Effect_Magicknight_Attack,Animations/Effect/Champion/Effect_Magicknight_Attack,0.56,0.25,0,TRUE,FALSE,0,0,FALSE,5
 Effect_Magicknight_Skill,Animations/Effect/Champion/Effect_Magicknight_Skill,0.377,0.074,0,TRUE,FALSE,0,0,FALSE,5
 Effect_Magicknight_Ultimate,Animations/Effect/Champion/Effect_Magicknight_Ultimate,0.2,0.1,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Ninja_Attack,Animations/Effect/Champion/Effect_Ninja_Attack,0.24,0.11,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Ninja_Skill_Start,Animations/Effect/Champion/Effect_Ninja_Skill_Start,0,0.1,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Ninja_Skill_End,Animations/Effect/Champion/Effect_Ninja_Skill_End,0,-0.105,0,TRUE,FALSE,0,0,FALSE,5
+Effect_Ninja_Ultimate,Animations/Effect/Champion/Effect_Ninja_Ultimate,-0.066,0.029,0,TRUE,FALSE,0,0,FALSE,5

@@ -111,7 +111,7 @@ public class Champion : MonoBehaviour, IAttackable
 	private float _atkActTime;
 
 	// Skill Cooltime On/Off Logic..
-	private bool isSkillCooltime
+	public bool isSkillCooltime
 	{
 		set
 		{
@@ -124,7 +124,8 @@ public class Champion : MonoBehaviour, IAttackable
 			else
 			{
 				OnChangedMPRatio?.Invoke(1f);
-				StopCoroutine(_updateSkillCooltimeCoroutine);
+				if (null != _updateSkillCooltimeCoroutine)
+					StopCoroutine(_updateSkillCooltimeCoroutine);
 				blackboard.SetBoolValue(BlackboardKeyTable.IS_CAN_ACT_SKILL, true);
 			}
 		}
@@ -256,22 +257,11 @@ public class Champion : MonoBehaviour, IAttackable
 
 		isAtkCooltime = false;
 		isSkillCooltime = true;
-
-		if (false == s_dataTableManager.attackActionDataTable.GetActionData(this.data.ultimateActionUniqueKey).isPassive)
-		{
-			if (this.data.ultimateActionUniqueKey == 32)
-				StartCoroutine(TestUltOn());
-		}
 	}
 
-	IEnumerator TestUltOn()
+	public void TurnOnUltimate()
 	{
-		blackboard.SetBoolValue(BlackboardKeyTable.IS_CAN_ACT_ULTIMATE, false);
-
-		yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 1f));
-
 		blackboard.SetBoolValue(BlackboardKeyTable.IS_CAN_ACT_ULTIMATE, true);
-		Debug.Log("±Ã±Ø±â On");
 	}
 
 	public void AddActiveEffect(Effect effect)
@@ -380,7 +370,7 @@ public class Champion : MonoBehaviour, IAttackable
 	{
 		_animComponent.ChangeState(ChampionAnimation.AnimState.Dead, true);
 
-		pilotBattleComponent.OnChampionDead();
+		pilotBattleComponent.OnChampionDead(this);
 
 		aiController.enabled = false;
 

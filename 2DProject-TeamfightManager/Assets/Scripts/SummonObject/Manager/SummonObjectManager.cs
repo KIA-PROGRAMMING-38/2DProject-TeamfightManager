@@ -13,6 +13,8 @@ public class SummonObjectManager : MonoBehaviour
 		{
 			_gameManager = value;
 			_effectManager = _gameManager.effectManager;
+			_championManager = _gameManager.championManager;
+			_dataTableManager = _gameManager.dataTableManager;
 
 			int loopCount = _gameManager.gameGlobalData.spawnObjectGolbalData.prefabContainer.Length;
 			_summonPoolerContainer = new Dictionary<string, ObjectPooler<SummonObject>>(loopCount);
@@ -35,6 +37,8 @@ public class SummonObjectManager : MonoBehaviour
 
 	private GameManager _gameManager;
 	private EffectManager _effectManager;
+	private ChampionManager _championManager;
+	private DataTableManager _dataTableManager;
 
 	private Dictionary<string, ObjectPooler<SummonObject>> _summonPoolerContainer;
 
@@ -66,6 +70,8 @@ public class SummonObjectManager : MonoBehaviour
 
 		newObject.summonObjectManager = this;
 		newObject.effectManager = _effectManager;
+		newObject.championManager = _championManager;
+		newObject.dataTableManager = _dataTableManager;
 
 		return newObject;
 	}

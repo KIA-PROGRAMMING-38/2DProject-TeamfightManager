@@ -32,3 +32,6 @@ Gambler_Ultimate,29,3,0,10000,0,FALSE,0,주사위를 소환해서 해당 주사�
 Magicknight_Attack,30,0,0,0,0,FALSE,0,,FALSE,0,0,FALSE,,,,,,,,TRUE,Effect_Magicknight_Attack,1,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Magicknight_Skill,31,0,0,0,0,FALSE,0,일직선 상의 모든 적을 공격하는 마법을 발사합니다.,FALSE,2,1.7,TRUE,2,SwordAura,TRUE,0,0,0,0,TRUE,Effect_Magicknight_Skill,1,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Magicknight_Ultimate,32,1,0,4,1,FALSE,0,주변 적들을 중심으로 끌어들이는 영역을 생성합니다.,FALSE,2,3.5,TRUE,2,GravityField,TRUE,0,-0.1,0.15,0,TRUE,Effect_Magicknight_Ultimate,1,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Ninja_Attack,33,0,0,0,0,FALSE,0,,FALSE,0,0,FALSE,,,,,,,,TRUE,Effect_Ninja_Attack,1,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Ninja_Skill,34,0,0,10000,0,FALSE,3,적 하나에게 순간이동으로 접근하여 출혈 효과가 있는 공격을 가합니다.,FALSE,1,10000,FALSE,,,,,,,,TRUE,Effect_Ninja_Skill_Start,1,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Ninja_Ultimate,35,0,0,10000,0,FALSE,0,지속적으로 체력이 소모되는 분신을 소환합니다.,FALSE,1,10000,TRUE,0,NinjaSummon,TRUE,0,-0.39,0,0,TRUE,Effect_Ninja_Ultimate,1,FALSE,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

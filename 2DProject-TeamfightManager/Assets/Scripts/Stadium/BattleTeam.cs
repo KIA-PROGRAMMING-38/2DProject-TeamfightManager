@@ -65,7 +65,7 @@ public class BattleTeam : MonoBehaviour
 	private BattleTeamKind _battleTeamKind;
 	public BattleTeamKind battleTeamKind
 	{
-		private get => _battleTeamKind;
+		get => _battleTeamKind;
 		set
 		{
 			_battleTeamKind = value;
@@ -202,6 +202,8 @@ public class BattleTeam : MonoBehaviour
 		{
 			if (null == _allChampions[i])
 				continue;
+
+			_pilots[i].StartBattle((BattleTeamKind.BlueTeam == battleTeamKind) ? 15f : 30f);
 
 			_allChampions[i].gameObject.SetActive(true);
 			_allChampions[i].StartFight();

@@ -163,6 +163,15 @@ public class ContPerf_Move : ActionContinuousPerformance
 					break;
 
 				case MovePerformanceType.TeleportToTarget:
+					{
+						Vector3 offsetPosition = performanceData.vectorData[0];
+						if(ownerChampion.flipX)
+						{
+							offsetPosition.x *= -1f;
+						}
+
+						ownerChampion.transform.position = _targetTransform.position + offsetPosition;
+					}
 					break;
 			}
 

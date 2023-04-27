@@ -71,6 +71,18 @@ public class SummonSystem
 		switch (_summonData.summonObjectType)
 		{
 			case SummonObjectType.Champion:
+				{
+					SummonChamp summonChampion = summonObjectManager.GetSummonObject<SummonChamp>(_summonData.summonObjectName);
+
+					Vector3 moveDirection = _summonData.offsetPosition;
+					int layer = (atkImpactTeamKind == TargetTeamKind.Team) ? ownerChampion.buffSummonLayer : ownerChampion.atkSummonLayer;
+					if (ownerChampion.flipX)
+						moveDirection.x *= -1f;
+
+					summonChampion.transform.position = ownerChampion.transform.position + moveDirection;
+					summonChampion.gameObject.SetActive(true);
+					summonChampion.SetAdditionalData(ownerChampion);
+				}
 
 				break;
 			case SummonObjectType.Projectile:

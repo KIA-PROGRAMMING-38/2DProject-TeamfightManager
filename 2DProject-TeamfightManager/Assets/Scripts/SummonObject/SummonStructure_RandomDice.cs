@@ -61,6 +61,9 @@ public class SummonStructure_RandomDice : SummonStructure
         int targetCount = _targetFindFunc.Invoke(transform.position, _targetArray);
         if (0 < targetCount)
         {
+            if (null == _targetArray[0])
+                return;
+
             float directionX = (_targetArray[0].transform.position - transform.position).x;
             bool flipX = directionX < 0f;
 

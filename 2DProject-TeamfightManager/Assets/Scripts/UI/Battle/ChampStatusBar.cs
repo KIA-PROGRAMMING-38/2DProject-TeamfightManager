@@ -78,4 +78,9 @@ public class ChampStatusBar : UIBase
 	{
 		_ultimateIconUI.SetUltimateIconSprite(iconSprite);
 	}
+
+	public void SetUltimateIconHide(bool isHide)
+	{
+		_ultimateIconUI.gameObject.SetActive(!isHide);
+	}
 }
