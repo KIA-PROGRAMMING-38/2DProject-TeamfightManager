@@ -8,7 +8,12 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
-	public event Action OnChangeScene;
+    private const string TITLE_ENVIORMENT_SOUND_NAME = "Title_Enviorment";
+    private const string BANPICK_ENVIORMENT_SOUND_NAME = "Banpick_Enviorment";
+    private const string BATTLESTAGE_ENVIORMENT_SOUND_NAME = "BattleStage_Enviorment";
+    private const string DORMITORY_ENVIORMENT_SOUND_NAME = "Dormitory_Enviorment";
+
+    public event Action OnChangeScene;
 
 	private static GameManager instance;
 
@@ -27,6 +32,8 @@ public class GameManager : MonoBehaviour
 
 	private string _curSceneName;
 
+	private AudioSource _audioSource;
+
 	private void Awake()
 	{
 		if (null != instance)
@@ -40,7 +47,9 @@ public class GameManager : MonoBehaviour
 			instance = this;
 		}
 
-		UIBase.s_gameManager = this;
+        _audioSource = GetComponent<AudioSource>();
+
+        UIBase.s_gameManager = this;
 
 		DontDestroyOnLoad(gameObject);
 
@@ -74,26 +83,25 @@ public class GameManager : MonoBehaviour
 		LoadAdditiveScene();
 	}
 
-	private void LoadAdditiveScene()
+    private void LoadAdditiveScene()
 	{
 		switch (_curSceneName)
 		{
-			case SceneNameTable.START:
-				ChangeScene(SceneNameTable.TITLE);
-
-				break;
-
 			case SceneNameTable.TITLE:
 				SceneManager.LoadScene(SceneNameTable.TITLE_FIGHT, LoadSceneMode.Additive);
 				CreateBattleStageManager();
 				OnStartBattle();
+
+				PlayEnviormentSound(TITLE_ENVIORMENT_SOUND_NAME);
 
 				break;
 
 			case SceneNameTable.DORMITORY:
 				SceneManager.LoadScene(SceneNameTable.DORMITORY_UI, LoadSceneMode.Additive);
 
-				break;
+                PlayEnviormentSound(DORMITORY_ENVIORMENT_SOUND_NAME);
+
+                break;
 
 			case SceneNameTable.STADIUM:
 				CreateBattleStageManager();
@@ -104,8 +112,17 @@ public class GameManager : MonoBehaviour
 
 				dataTableManager.battleStageDataTable.OnStartBattle -= OnStartBattle;
 				dataTableManager.battleStageDataTable.OnStartBattle += OnStartBattle;
-				break;
+
+                PlayEnviormentSound(BANPICK_ENVIORMENT_SOUND_NAME);
+                break;
 		}
+	}
+
+	private void PlayEnviormentSound(string soundName)
+	{
+		AudioClip enviormentClip = SoundStore.GetAudioClip(soundName);
+		_audioSource.clip = enviormentClip;
+		_audioSource.Play();
 	}
 
 	public void ChangeScene(string sceneName)
@@ -157,7 +174,9 @@ public class GameManager : MonoBehaviour
 	{
 		if (_curSceneName == SceneNameTable.STADIUM)
 		{
-			SceneManager.LoadSceneAsync(SceneNameTable.CHAMP_STATUSBAR_UI, LoadSceneMode.Additive);
+			PlayEnviormentSound(BATTLESTAGE_ENVIORMENT_SOUND_NAME);
+
+            SceneManager.LoadSceneAsync(SceneNameTable.CHAMP_STATUSBAR_UI, LoadSceneMode.Additive);
 			SceneManager.UnloadSceneAsync(SceneNameTable.BANPICK_UI);
 			SceneManager.LoadSceneAsync(SceneNameTable.BATTLESTAGE, LoadSceneMode.Additive);
 		}
