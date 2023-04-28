@@ -28,8 +28,27 @@ public class PilotBattle : MonoBehaviour
 
             _controlChampion.pilotBattleComponent = this;
 
-            // 챔피언의 이벤트들 구독..
-            _controlChampion.OnHit -= OnChampionTakeDamaged;
+			// 현재 픽한 챔피언의 숙련도가 있는지 체크..
+			plusStat = 0;
+
+			List<ChampionSkillLevelInfo> champSkillInfoContainer = pilot.data.champSkillLevelContainer;
+			int loopCount = champSkillInfoContainer.Count;
+			string champName = controlChampion.data.name;
+			for ( int i = 0; i < loopCount; ++i)
+			{
+				if (champName == champSkillInfoContainer[i].champName)
+				{
+					plusStat = champSkillInfoContainer[i].level;
+
+					break;
+				}
+			}
+
+			// 파일럿 능력치 챔피언에게 적용..
+			_controlChampion.SetPilotStatus(atkStat, defStat);
+
+			// 챔피언의 이벤트들 구독..
+			_controlChampion.OnHit -= OnChampionTakeDamaged;
             _controlChampion.OnHit += OnChampionTakeDamaged;
 
 			_controlChampion.OnKill -= OnChampionKill;
@@ -81,6 +100,11 @@ public class PilotBattle : MonoBehaviour
             };
         }
     }
+
+	// 챔피언 숙련도로 인해 plus 되는 능력치..
+	public int plusStat { get; private set; }
+	public int atkStat { get => pilot.data.atkStat + plusStat; }
+	public int defStat { get => pilot.data.defStat + plusStat; }
 
 	// 외부의 구독자들을 위한 이벤트들..
 	public event Action<int, BattleInfoData> OnChangedBattleInfoData;

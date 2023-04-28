@@ -8,6 +8,12 @@ public class ChampSkillLevelUI : UIBase
 {
     [SerializeField] private Text _levelText;
     [SerializeField] private Image _champIconImage;
+	[SerializeField] private Image _selectImage;
+
+	private void Awake()
+	{
+		_selectImage.gameObject.SetActive(false);
+	}
 
 	// 파일럿의 챔피언 숙련도를 받아와 UI를 갱신해주는 함수..
 	public void SetChampionSkillLevel(ChampionSkillLevelInfo championSkillLevelInfo)
@@ -16,5 +22,10 @@ public class ChampSkillLevelUI : UIBase
 		_champIconImage.sprite = s_dataTableManager.championDataTable.GetChampionImage(championSkillLevelInfo.champName);
 
 		UIUtility.CalcSpriteCenterPos(_champIconImage.rectTransform, _champIconImage.sprite, _champIconImage.rectTransform.localPosition);
+	}
+
+	public void ShowSelectImage()
+	{
+		_selectImage.gameObject.SetActive(true);
 	}
 }
