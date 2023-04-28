@@ -16,7 +16,33 @@ public class SummonStructure : SummonObject
 	protected Transform _ownerTransform;
 	protected Vector3 _offsetPosition;
 
-	protected void Update()
+	[SerializeField] private bool _isPlaySound;
+	protected AudioSource _audioSource;
+
+	new protected void Awake()
+	{
+		base.Awake();
+
+		_audioSource = GetComponent<AudioSource>();
+	}
+
+	private void OnEnable()
+	{
+		if (_isPlaySound && null != _audioSource)
+		{
+			_audioSource.Play();
+		}
+	}
+
+	private void OnDisable()
+	{
+		if (_isPlaySound && null != _audioSource)
+		{
+			_audioSource.Stop();
+		}
+	}
+
+    protected void Update()
 	{
 		if(true == _isAttachOwner)
 		{

@@ -54,9 +54,9 @@ RELOAD_Pump_stereo : 픽했을 때
 	}
 	얼음술사
 	{
-		공격 : Arrow Flying Past 6
-		스킬 : Light  Ice Footsteps 3-trim
-		궁극기 : Heavy Snow 1
+		공격 :		Arrow Flying Past 6
+		스킬 :		Light  Ice Footsteps 3-trim
+		궁극기 :		Heavy Snow 1
 	}
 	도박사
 	{

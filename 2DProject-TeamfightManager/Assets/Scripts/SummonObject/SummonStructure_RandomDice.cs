@@ -113,6 +113,8 @@ public class SummonStructure_RandomDice : SummonStructure
         _diceAnimator.enabled = false;
         _diceSpriteRenderer.sprite = _diceSprites[randomIndex];
 
+        _audioSource.PlayOneShot(SoundStore.GetAudioClip("RandomDice_Decide"));
+
         for (int i = 0; i < randomValue; ++i)
         {
             this.Action();

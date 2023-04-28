@@ -47,9 +47,13 @@ public class BanpickRunner : MonoBehaviour
 	BanpickStageKind _curStageKind;
 	BattleTeamKind _curSelectTeamKind;
 
+	private AudioSource _audioSource;
+
 	private void Start()
 	{
-		_battleStageDataTable.StartBanpick(_globalData.stagesDataContainer[0].kind, _globalData.stagesDataContainer[0].orders[0]);
+		_audioSource = gameObject.AddComponent<AudioSource>();
+
+        _battleStageDataTable.StartBanpick(_globalData.stagesDataContainer[0].kind, _globalData.stagesDataContainer[0].orders[0]);
 
 		StartCoroutine(DelayBanpickStart());
 	}
@@ -70,11 +74,13 @@ public class BanpickRunner : MonoBehaviour
 		switch (_curStageKind)
 		{
 			case BanpickStageKind.Ban:
-				curStage = _curBanStage / BATTLE_TEAM_COUNT;
+				_audioSource.PlayOneShot(SoundStore.GetAudioClip("BanChampion"), 1f);
+                curStage = _curBanStage / BATTLE_TEAM_COUNT;
 				++_curBanStage;
 				break;
 			case BanpickStageKind.Pick:
-				curStage = _curPickStage / BATTLE_TEAM_COUNT;
+                _audioSource.PlayOneShot(SoundStore.GetAudioClip("PickChampion"), 1f);
+                curStage = _curPickStage / BATTLE_TEAM_COUNT;
 				++_curPickStage;
 				_battleStageManager.PickChampion(tmpCurSelectTeamKind, curStage, championName);
 				break;

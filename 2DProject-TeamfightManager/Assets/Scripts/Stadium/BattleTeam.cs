@@ -314,6 +314,10 @@ public class BattleTeam : MonoBehaviour
 
 	public void ProgressMyTurnBanpick(BanpickRunner banpickRunner)
 	{
+		banpickRunner.SetReceiveButtonEventState(true);
+
+		return;
+
 		bool isPlayerTeam = teamName == _playerTeamName;
 
 		banpickRunner.SetReceiveButtonEventState(isPlayerTeam);

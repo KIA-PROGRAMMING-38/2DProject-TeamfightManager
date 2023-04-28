@@ -10,7 +10,7 @@ public class SummonStructure_IceRing : SummonStructure
 	{
 		base.Awake();
 
-		OnRelease -= ActLastFreezeImpact;
+        OnRelease -= ActLastFreezeImpact;
 		OnRelease += ActLastFreezeImpact;
 
 		lastFreezeImpactData = new AttackImpactMainData
@@ -23,7 +23,7 @@ public class SummonStructure_IceRing : SummonStructure
 		};
 	}
 
-	private void ActLastFreezeImpact(SummonObject summonObject)
+    private void ActLastFreezeImpact(SummonObject summonObject)
 	{
 		int targetCount = _targetFindFunc.Invoke(transform.position, _targetArray);
 		if (0 < targetCount)

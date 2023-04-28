@@ -19,6 +19,16 @@ public class Projectile : SummonObject
 		SummonStructure
 	}
 
+	public enum SoundPlayTimeKind
+	{
+		Start,
+		End
+	}
+
+	[SerializeField] private bool _isPlaySound;
+	[SerializeField] private string _soundName;
+	[SerializeField] private SoundPlayTimeKind _soundPlayTimeKind;
+
 	[SerializeField] private ProjectileExecuteImpactType _executeImpactType;
 	[SerializeField] private bool _isRotateToMoveDir;
 	[SerializeField] private float _moveSpeed;
@@ -44,11 +54,6 @@ public class Projectile : SummonObject
 
 		_updateVelToLookTargetCoroutine = UpdateVelocityToLookTargetDirection();
 		_checkIsArriveDestPointCoroutine = CheckIsArriveDestinationPoint();
-    }
-
-	private void OnEnable()
-	{
-		
 	}
 
 	private void OnDisable()
@@ -76,6 +81,11 @@ public class Projectile : SummonObject
 		}
 
 		UpdateVelocity(target.transform.position);
+
+		if (true == _isPlaySound)
+		{
+			SoundStore.PlayAudio(_soundName, transform.position);
+		}
 	}
 
 	private IEnumerator CheckIsArriveDestinationPoint()
@@ -165,9 +175,15 @@ public class Projectile : SummonObject
 
 	private void ReleaseProjectile()
 	{
-		summonObjectManager.ReleaseSummonObject(this);
+        if (true == _isPlaySound)
+        {
+            if (_soundPlayTimeKind == SoundPlayTimeKind.End)
+            {
+                SoundStore.PlayAudio(_soundName, transform.position);
+            }
+        }
 
-		switch (_releaseSpawnType)
+        switch (_releaseSpawnType)
 		{
 			case OnReleaseSpawnType.Effect:
 				{
@@ -193,7 +209,8 @@ public class Projectile : SummonObject
 				return;
 		}
 
-		ReceiveReleaseEvent();
+        summonObjectManager.ReleaseSummonObject(this);
+        ReceiveReleaseEvent();
 	}
 
 	private void OnSummonStructureImpact(SummonObject summonObject, Champion[] targetArray, int targetCount)
