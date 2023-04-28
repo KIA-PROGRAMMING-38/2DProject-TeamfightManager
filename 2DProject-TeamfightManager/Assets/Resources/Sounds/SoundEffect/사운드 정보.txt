@@ -1,0 +1,18 @@
+Spear Stab (Flesh) 1 : 밴했을 때
+RELOAD_Pump_stereo : 픽했을 때
+
+챔피언 정보
+{
+	검사
+	{
+		공격 : Throwing Knife (Thrown) 3
+		스킬 : Throwing Knife (Thrown) 5
+		궁극기 : Spear Stab (Flesh) 1
+	}
+	마검사
+	{
+		공격 : Heavy Sword Swing 14
+		스킬 : Heavy Sword Swing 10
+		궁극기 : 
+	}
+}
