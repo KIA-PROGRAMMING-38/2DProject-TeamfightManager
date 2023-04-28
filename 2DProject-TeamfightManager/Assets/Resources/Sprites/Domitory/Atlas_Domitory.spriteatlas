@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Atlas_Domitory
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 0
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 62e8735de3e453f4d8ef322e02a9c6c3, type: 3}
+    - {fileID: 2800000, guid: 5a67e7e0d571c9f4bb322bcb23e9f80b, type: 3}
+    - {fileID: 2800000, guid: 478e8e2954ea85e40b2d96def23b846b, type: 3}
+    - {fileID: 2800000, guid: 7c980bdae32aa964fbadb8d1462fb6e1, type: 3}
+    - {fileID: 2800000, guid: 8704d0f2144a4b64d9dccf91874f318e, type: 3}
+    - {fileID: 2800000, guid: 67f930bc08f033145aa00080b755bb5e, type: 3}
+    - {fileID: 2800000, guid: 881f3c0f18a127f4ab10a46a9cc8e3bc, type: 3}
+    - {fileID: 2800000, guid: 653f0d309a0e6554dbd345bba392fa74, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 653f0d309a0e6554dbd345bba392fa74, type: 3}
+  - {fileID: 21300000, guid: 5a67e7e0d571c9f4bb322bcb23e9f80b, type: 3}
+  - {fileID: 21300000, guid: 8704d0f2144a4b64d9dccf91874f318e, type: 3}
+  - {fileID: 21300000, guid: 478e8e2954ea85e40b2d96def23b846b, type: 3}
+  - {fileID: 21300000, guid: 7c980bdae32aa964fbadb8d1462fb6e1, type: 3}
+  - {fileID: 21300000, guid: 67f930bc08f033145aa00080b755bb5e, type: 3}
+  - {fileID: 21300000, guid: 62e8735de3e453f4d8ef322e02a9c6c3, type: 3}
+  - {fileID: 21300000, guid: 881f3c0f18a127f4ab10a46a9cc8e3bc, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - lv3_house_shower_ani_0
+  - house_bg
+  - lv1_house_objects_2
+  - lv1_house_objects_0
+  - lv1_house_objects_1
+  - lv1_house_objects_3
+  - Domitory_Tile
+  - lv3_house_bathroom_ani_0
+  m_RenderDataMap: {}
+  m_Tag: Atlas_Domitory
+  m_IsVariant: 0

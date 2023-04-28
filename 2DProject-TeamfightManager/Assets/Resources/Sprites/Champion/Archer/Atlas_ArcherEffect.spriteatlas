@@ -70,6 +70,7 @@ SpriteAtlas:
     - {fileID: 2800000, guid: c39a6e3e3de22ce4c819f95a519a6562, type: 3}
     - {fileID: 2800000, guid: 0a9b4c0ed5ceacb4eb5f59899d801ef9, type: 3}
     - {fileID: 2800000, guid: 38e7af0721945994cbff978763caaabd, type: 3}
+    - {fileID: 2800000, guid: 5882e16cc703d8140a2837bdaf9ae4c0, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -91,6 +92,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: a35c4d09bd7d953468eabc767d3e7aae, type: 3}
   - {fileID: 21300000, guid: 12e2460aa2a6bbb429c884e043aa0c40, type: 3}
   - {fileID: 21300000, guid: 5ccd9b0c7864dd54a8589d8d713536f8, type: 3}
+  - {fileID: 21300000, guid: 5882e16cc703d8140a2837bdaf9ae4c0, type: 3}
   - {fileID: 21300000, guid: 6696f8ccfb8a3d84f84d81479cf5ed99, type: 3}
   - {fileID: 21300000, guid: 75ff786d89edd384fb65ccf7d7564066, type: 3}
   - {fileID: 21300000, guid: 0a9b4c0ed5ceacb4eb5f59899d801ef9, type: 3}
@@ -118,6 +120,7 @@ SpriteAtlas:
   - archer_effect_9
   - archer_effect_7
   - archer_effect_0
+  - arrow
   - archer_effect_12
   - archer_effect_11
   - archer_effect_24

@@ -117,5 +117,5 @@ SpriteAtlas:
   - character_spawn_effect_4
   - character_spawn_effect_6
   m_RenderDataMap: {}
-  m_Tag: SA_CharacterSpawnEffect
+  m_Tag: Atlas_CharacterSpawnEffect
   m_IsVariant: 0
