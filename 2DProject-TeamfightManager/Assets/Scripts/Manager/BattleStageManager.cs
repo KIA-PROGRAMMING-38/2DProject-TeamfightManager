@@ -165,6 +165,19 @@ public class BattleStageManager : MonoBehaviour
 		}
 	}
 
+	public void ProgressBanpick(BanpickRunner banpickRunner, BattleTeamKind curTurnTeamKind)
+	{
+		switch (curTurnTeamKind)
+		{
+			case BattleTeamKind.RedTeam:
+				redTeam.ProgressMyTurnBanpick(banpickRunner);
+				break;
+			case BattleTeamKind.BlueTeam:
+				blueTeam.ProgressMyTurnBanpick(banpickRunner);
+				break;
+		}
+	}
+
 	// 팀 종류와 인덱스를 받아와 챔피언의 이름을 리턴하는 함수..
 	public string GetChampionName(BattleTeamKind teamKind, int index)
 	{

@@ -10,12 +10,14 @@ public class BattleStageDataTable
 		public BanpickStageKind stageKind;
 		public BattleTeamKind teamKind;
 		public int level;
+		public int progressStageNumber;
 
-		public void Set(BanpickStageKind stageKind, BattleTeamKind teamKind, int level)
+		public void Set(BanpickStageKind stageKind, BattleTeamKind teamKind, int level, int progressStageNumber)
 		{
 			this.stageKind = stageKind;
 			this.teamKind = teamKind;
 			this.level = level;
+			this.progressStageNumber = progressStageNumber;
 		}
 
 		public void Reset()
@@ -24,6 +26,7 @@ public class BattleStageDataTable
 			stageKind = BanpickStageKind.None;
 			teamKind = BattleTeamKind.End;
 			level = 0;
+			progressStageNumber = 0;
 		}
 	}
 		
@@ -70,17 +73,22 @@ public class BattleStageDataTable
 	}
 
 	public BanpickStageInfo curBanpickStageInfo { get; set; }
+	public BanpickStageInfo nextBanpickStageInfo { get; set; }
 	public BattleTeamFightData redTeamBattleFightData { get; private set; }
 	public BattleTeamFightData blueTeamBattleFightData { get; private set; }
 	public int maxBanpickLevel { get; set; }
 	public int totalBanChampCount { get; set; }
 	public int curBanpickLevel { get; private set; }
+	public List<string> banpickChampionList { get; private set; }
+	public bool isPauseBanpick { get; set; }
 
 	public BattleStageDataTable()
 	{
 		curBanpickStageInfo = new BanpickStageInfo();
+		nextBanpickStageInfo = new BanpickStageInfo();
 		redTeamBattleFightData = new BattleTeamFightData();
 		blueTeamBattleFightData = new BattleTeamFightData();
+		banpickChampionList = new List<string>();
 
 		curBanpickLevel = 1;
 	}
@@ -106,8 +114,11 @@ public class BattleStageDataTable
 	{
 		OnUpdateBattleRemainTime = null;
 
+		curBanpickStageInfo.Reset();
+		nextBanpickStageInfo.Reset();
+
 		banpickChampContainer.Clear();
-        curBanpickStageInfo.Reset();
+		banpickChampionList.Clear();
 
 		redTeamBattleFightData.teamName = "";
 		redTeamBattleFightData.teamTotalKill = 0;
@@ -146,6 +157,7 @@ public class BattleStageDataTable
 
 	public void UpdateBanpickData(string championName, BanpickStageKind stageKind, BattleTeamKind teamKind, int index)
 	{
+		banpickChampionList.Add(championName);
 		curBanpickStageInfo.champName = championName;
 		OnBanpickUpdate?.Invoke(championName, stageKind, teamKind, index);
 
@@ -173,7 +185,7 @@ public class BattleStageDataTable
 	
 	public void StartBanpick(BanpickStageKind stageKind, BattleTeamKind teamKind)
 	{
-		curBanpickStageInfo.Set(stageKind, teamKind, 0);
+		curBanpickStageInfo.Set(stageKind, teamKind, 0, 1);
 	}
 
 	public void StartBanpickOneStage(BanpickStageKind curStageKind)
