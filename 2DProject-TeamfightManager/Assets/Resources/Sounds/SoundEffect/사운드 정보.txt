@@ -9,10 +9,80 @@ RELOAD_Pump_stereo : 픽했을 때
 		스킬 : Throwing Knife (Thrown) 5
 		궁극기 : Spear Stab (Flesh) 1
 	}
+	몽크
+	{
+		공격 : Punch Impact (Flesh) 3
+		스킬 : MAGIC_SPELL_Morphing_Synth_Harp_Scales_Subtle_stereo
+		궁극기 : MAGIC_SPELL_Shield_mono
+	}
+	궁수
+	{
+		공격 :		Arrow Flying Past 6
+		스킬 :		Bow string drawing fast 1_20
+		궁극기 :		Arrow Flying Past 6
+	}
+	유령
+	{
+		공격 :		Bloody stabs 9
+		궁극기 :		Drinking 6_cut
+	}
+	기사
+	{
+		공격 :		Swing 1
+		스킬 :		VOICE_Martial_Art_Shout_22_mono
+		궁극기 :		Buff 4
+	}
+	소총수
+	{
+		공격 :		FIREARM_Assault_Rifle_Model_01_Fire_Single_RR1_stereo
+		스킬 :		FIREARM_Sub_Machine_Gun_Model_01_Fire_Single_RR1_stereo
+		궁극기 :		Earth Bolt 14
+	}
+	화염술사
+	{
+		공격 :					Fire bolt 17
+		스킬
+			- 소환 :				MAGIC_SPELL_Flame_04_mono
+			- 소환수 파이어볼 :	FLYBY_Missile_01_Fast_mono
+		궁극기 :					THRUSTER_Flickering_Flame_loop_mono
+	}
+	성직자
+	{
+		공격 :		MAGIC_SPELL_Morphing_Synth_Harp_Scales_Subtle_stereo
+		스킬 :		MAGIC_SPELL_Shield_mono
+		궁극기 :		Magical Ambiance Loop 4
+	}
+	얼음술사
+	{
+		공격 : Arrow Flying Past 6
+		스킬 : Light  Ice Footsteps 3-trim
+		궁극기 : Heavy Snow 1
+	}
+	도박사
+	{
+		공격 :							FLYBY_Missile_01_Fast_mono
+		스킬
+			- 주사위 눈 나왔을 때 :		Item purchase 5
+			- 발사체 :					FLYBY_Missile_01_Fast_mono
+		궁극기
+			- 슬롯 머신 착지 :			Body Fall 7
+			- 슬롯 머신 돌리기 :			Prize wheel spin 1
+			- 슬롯 머신 눈금 정해짐 :		Cash register 5
+	}
 	마검사
 	{
-		공격 : Heavy Sword Swing 14
-		스킬 : Heavy Sword Swing 10
-		궁극기 : 
+		공격 :				Heavy Sword Swing 14
+		스킬 :				Heavy Sword Swing 10
+		궁극기
+			- 시전 시 :		Sword Stab (Flesh) 1
+			- 끌어당길 때 :	WHOOSH_Steam_Fast_02_mono
+	}
+	닌자
+	{
+		공격 :				Dagger Swing 8
+		스킬
+			- 순간이동 전 :	Body Drop 3
+			- 순간이동 때 :	Stone Impact 4
+		궁극기 :				MAGIC_SPELL_Spawn_mono
 	}
 }
