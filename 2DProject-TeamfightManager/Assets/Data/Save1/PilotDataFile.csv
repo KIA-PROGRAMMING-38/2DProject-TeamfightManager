@@ -1,9 +1,9 @@
 파일럿 이름,공격력,방어력,챔피언 숙련도 개수,챔피언 이름,숙련도,챔피언 이름,숙련도,챔피언 이름,숙련도,챔피언 이름,숙련도,헤어 번호
-YHKim,10,10,0,,,,,,,,,1
-JGYou,10,10,0,,,,,,,,,19
-JHJung,10,10,0,,,,,,,,,15
-QBKim,10,10,0,,,,,,,,,2
-Bakery,10,10,0,,,,,,,,,7
-Malin,10,10,0,,,,,,,,,13
-Bangki,10,10,0,,,,,,,,,8
-Woolpoo,10,10,0,,,,,,,,,18
+YHKim,10,16,3,Knight,7,Monk,6,Priest,6,,,1
+JGYou,22,9,3,Pyromancer,8,Icemage,5,Ninja,8,,,19
+JHJung,22,7,3,Archer,8,Soldier,5,Gambler,8,,,15
+QBKim,19,10,3,Swordman,8,Magicknight,7,Ghost,8,,,2
+Bakery,21,8,4,Pyromancer,5,Icemage,5,Archer,5,Soldier,4,7
+Malin,22,5,3,Swordman,7,Knight,7,Magicknight,6,,,13
+Bangki,16,10,3,Ninja,6,Ghost,7,Monk,8,,,8
+Woolpoo,10,19,3,Monk,6,Priest,7,Icemage,6,,,18

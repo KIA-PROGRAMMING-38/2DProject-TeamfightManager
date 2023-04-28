@@ -226,6 +226,8 @@ public class Champion : MonoBehaviour, IAttackable
 
 		_modifyStatusSystem.OnChangedBarrierAmount -= ModifyBarrierAmount;
 		_modifyStatusSystem.OnChangedBarrierAmount += ModifyBarrierAmount;
+
+		_baseStatus = new ChampionStatus();
 	}
 
 	private void Start()
@@ -257,6 +259,12 @@ public class Champion : MonoBehaviour, IAttackable
 
 		isAtkCooltime = false;
 		isSkillCooltime = true;
+	}
+
+	public void SetPilotStatus(int atkStat, int defStat)
+	{
+		_baseStatus.atkStat += (int)(atkStat * 0.1f);
+		_baseStatus.defence += (int)(defStat * 0.1f);
 	}
 
 	public void TurnOnUltimate()
@@ -334,7 +342,14 @@ public class Champion : MonoBehaviour, IAttackable
 	// 챔피언이 동작하기 위해 필요한 데이터를 받아와 초기화 하는 함수(챔피언 매니저 클래스에서 함수를 호출한다)..
 	public void SetupNecessaryData(ChampionStatus status, ChampionData champData, ChampionAnimData animData)
 	{
-		_baseStatus = status;
+		_baseStatus.atkStat = status.atkStat;
+		_baseStatus.atkSpeed = status.atkSpeed;
+		_baseStatus.range = status.range;
+		_baseStatus.defence = status.defence;
+		_baseStatus.hp = status.hp;
+		_baseStatus.moveSpeed = status.moveSpeed;
+		_baseStatus.skillCooltime = status.skillCooltime;
+
 		this.data = champData;
 		defaultFindTargetData = champData.findTargetData;
 

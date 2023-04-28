@@ -46,6 +46,6 @@ public class ChampFightInfoUI : UIBase
 	{
 		Sprite champIconSprite = _champDataTable.GetChampionImage(champName);
 
-		_pilotDataUI.ChangePilotIconImage(champIconSprite);
+		_pilotDataUI.ChangePilotIconImage(champIconSprite, champName);
 	}
 }

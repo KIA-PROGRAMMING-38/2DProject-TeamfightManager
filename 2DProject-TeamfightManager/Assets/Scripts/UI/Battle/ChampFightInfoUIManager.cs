@@ -72,8 +72,8 @@ public class ChampFightInfoUIManager : UIBase
 			fightInfoUIContainer[blueTeamIndex][i].SetBackgroundImage(BattleTeamKind.BlueTeam);
             fightInfoUIContainer[redTeamIndex][i].SetBackgroundImage(BattleTeamKind.RedTeam);
 
-            fightInfoUIContainer[blueTeamIndex][i].SetPilot(dataTable.GetPilot(BattleTeamKind.BlueTeam, i));
-            fightInfoUIContainer[redTeamIndex][i].SetPilot(dataTable.GetPilot(BattleTeamKind.RedTeam, i));
+			fightInfoUIContainer[blueTeamIndex][i].SetPilot(dataTable.GetPilot(BattleTeamKind.BlueTeam, i));
+			fightInfoUIContainer[redTeamIndex][i].SetPilot(dataTable.GetPilot(BattleTeamKind.RedTeam, i));
 		}
 	}
 
