@@ -48,8 +48,10 @@ public class BanpickBlockingProcess : UIBase
     {
         while(true)
         {
-            // 초기화..
-            float curAlpha = 0f;
+			// 초기화..
+			s_dataTableManager.battleStageDataTable.isPauseBanpick = true;
+
+			float curAlpha = 0f;
             float alphaAcc = _alphaHighlightTime / 1f;
 
             _curStageText.alpha = 0f;
@@ -82,11 +84,13 @@ public class BanpickBlockingProcess : UIBase
 			gameObject.SetActive(false);
             OnEndProcess?.Invoke();
 
+			s_dataTableManager.battleStageDataTable.isPauseBanpick = false;
+
 			StopCoroutine(_updateBlockingCoroutine);
 
             yield return null;
 		}
-    }
+	}
 
     public void OnEndTextMove()
     {

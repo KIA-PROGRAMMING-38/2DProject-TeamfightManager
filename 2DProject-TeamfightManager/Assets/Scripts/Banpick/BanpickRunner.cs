@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class BanpickRunner : MonoBehaviour
@@ -10,14 +11,9 @@ public class BanpickRunner : MonoBehaviour
 			_battleStageManager = value.battleStageManager;
 			_battleStageDataTable = value.dataTableManager.battleStageDataTable;
 
-			_battleStageDataTable.OnClickedSelectChampionButton -= OnSelectChampion;
-			_battleStageDataTable.OnClickedSelectChampionButton += OnSelectChampion;
-
 			_globalData = value.gameGlobalData.banpickStageGlobalData;
 			_levelMaxCount = _globalData.stagesDataContainer.Length;
 			_detailLevelMaxCount = _globalData.stagesDataContainer[_curLevel].orders.Count;
-
-			_battleStageDataTable.StartBanpick(_globalData.stagesDataContainer[0].kind, _globalData.stagesDataContainer[0].orders[0]);
 
 			int banpickLevelMaxCount = 0;
 			int totalBanChampCount = 0;
@@ -39,6 +35,7 @@ public class BanpickRunner : MonoBehaviour
 	private int _curLevel = 0;
 	private int _curDetailLevel = 0;
 	private int _detailLevelMaxCount = 0;
+	private int _progressStageCount = 1;
 	private int _levelMaxCount = 0;
 
 	[SerializeField] private BanpickStageGlobalData _globalData;
@@ -47,34 +44,53 @@ public class BanpickRunner : MonoBehaviour
 	private int _curPickStage = 0;
 	private readonly int BATTLE_TEAM_COUNT = (int)BattleTeamKind.End;
 
+	BanpickStageKind _curStageKind;
+	BattleTeamKind _curSelectTeamKind;
+
+	private void Start()
+	{
+		_battleStageDataTable.StartBanpick(_globalData.stagesDataContainer[0].kind, _globalData.stagesDataContainer[0].orders[0]);
+
+		StartCoroutine(DelayBanpickStart());
+	}
+
+	IEnumerator DelayBanpickStart()
+	{
+		yield return YieldInstructionStore.GetWaitForSec(1f);
+
+		ProgressBanpick();
+	}
+
 	public void OnSelectChampion(string championName)
 	{
-		BanpickStageKind curStageKind = _globalData.stagesDataContainer[_curLevel].kind;
-		BattleTeamKind curSelectTeamKind = _globalData.stagesDataContainer[_curLevel].orders[_curDetailLevel];
+		BanpickStageKind tmpCurStageKind = _curStageKind;
+		BattleTeamKind tmpCurSelectTeamKind = _curSelectTeamKind;
+		int curStage = 0;
 
-		switch (curStageKind)
+		switch (_curStageKind)
 		{
 			case BanpickStageKind.Ban:
-				_battleStageDataTable.UpdateBanpickData(championName, curStageKind, curSelectTeamKind, _curBanStage / BATTLE_TEAM_COUNT);
+				curStage = _curBanStage / BATTLE_TEAM_COUNT;
 				++_curBanStage;
 				break;
 			case BanpickStageKind.Pick:
-				_battleStageDataTable.UpdateBanpickData(championName, curStageKind, curSelectTeamKind, _curPickStage / BATTLE_TEAM_COUNT);
-				_battleStageManager.PickChampion(curSelectTeamKind, _curPickStage / BATTLE_TEAM_COUNT, championName);
+				curStage = _curPickStage / BATTLE_TEAM_COUNT;
 				++_curPickStage;
+				_battleStageManager.PickChampion(tmpCurSelectTeamKind, curStage, championName);
 				break;
 		}
 
+		Debug.Log("BanPick");
+
+		++_progressStageCount;
 		++_curDetailLevel;
 		if (_detailLevelMaxCount <= _curDetailLevel)
 		{
 			++_curLevel;
 			if (_levelMaxCount <= _curLevel)
 			{
-                _battleStageDataTable.OnClickedSelectChampionButton -= OnSelectChampion;
-                _battleStageDataTable.EndBanpick();
-
-				return;
+				SetReceiveButtonEventState(false);
+				_battleStageDataTable.EndBanpick();
 			}
 			else
 			{
@@ -85,10 +101,55 @@ public class BanpickRunner : MonoBehaviour
 			}
 		}
 
-		int level = (_globalData.stagesDataContainer[_curLevel].kind == BanpickStageKind.Pick)
-			? _curPickStage / BATTLE_TEAM_COUNT : _curBanStage / BATTLE_TEAM_COUNT;
+		if (_levelMaxCount > _curLevel)
+		{
+			_battleStageDataTable.curBanpickStageInfo.Set(
+				_globalData.stagesDataContainer[_curLevel].kind,
+				_globalData.stagesDataContainer[_curLevel].orders[_curDetailLevel], curStage, _progressStageCount);
 
-		_battleStageDataTable.curBanpickStageInfo.Set(_globalData.stagesDataContainer[_curLevel].kind,
-			_globalData.stagesDataContainer[_curLevel].orders[_curDetailLevel], level);
+			ProgressBanpick();
+		}
+
+		switch (tmpCurStageKind)
+		{
+			case BanpickStageKind.Ban:
+				_battleStageDataTable.UpdateBanpickData(championName, tmpCurStageKind, tmpCurSelectTeamKind, curStage);
+				break;
+			case BanpickStageKind.Pick:
+				_battleStageDataTable.UpdateBanpickData(championName, tmpCurStageKind, tmpCurSelectTeamKind, curStage);
+				break;
+		}
+	}
+
+	public void ProgressBanpick()
+	{
+		StartCoroutine(CheckPauseBanpick());
+	}
+
+	IEnumerator CheckPauseBanpick()
+	{
+		while (_battleStageDataTable.isPauseBanpick)
+		{
+			yield return null;
+		}
+
+		_curStageKind = _globalData.stagesDataContainer[_curLevel].kind;
+		_curSelectTeamKind = _globalData.stagesDataContainer[_curLevel].orders[_curDetailLevel];
+
+		_battleStageManager.ProgressBanpick(this, _curSelectTeamKind);
+	}
+
+	// 버튼 이벤트를 받을건지 안받을건지 인자의 값에 따라 정하는 함수..
+	public void SetReceiveButtonEventState(bool isOnReceive)
+	{
+		if(true == isOnReceive)
+		{
+			_battleStageDataTable.OnClickedSelectChampionButton -= OnSelectChampion;
+			_battleStageDataTable.OnClickedSelectChampionButton += OnSelectChampion;
+		}
+		else
+		{
+			_battleStageDataTable.OnClickedSelectChampionButton -= OnSelectChampion;
+		}
 	}
 }

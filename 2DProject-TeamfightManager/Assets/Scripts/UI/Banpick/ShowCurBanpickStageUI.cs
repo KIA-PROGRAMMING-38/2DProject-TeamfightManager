@@ -53,7 +53,10 @@ public class ShowCurBanpickStageUI : UIBase
 
     private void UpdateBanpickData( string championName, BanpickStageKind stageKind, BattleTeamKind teamKind, int index )
     {
-        ModifyBanpickData( (teamKind == BattleTeamKind.BlueTeam) ? BattleTeamKind.RedTeam : BattleTeamKind.BlueTeam, _battleStageDataTable.curBanpickLevel + 1 );
+        teamKind = _battleStageDataTable.curBanpickStageInfo.teamKind;
+        int stage = _battleStageDataTable.curBanpickStageInfo.progressStageNumber;
+
+		ModifyBanpickData( teamKind, stage );
     }
 
     private void ModifyBanpickData(BattleTeamKind teamKind, int curPickNumber )

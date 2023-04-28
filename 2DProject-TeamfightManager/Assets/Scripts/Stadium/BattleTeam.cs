@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 /// <summary>
 /// 배틀 스테이지에서 배틀을 하는 팀(하나의 팀)을 관리하기 위한 클래스..
@@ -16,7 +17,10 @@ public class BattleTeam : MonoBehaviour
 			_pilotManager = value.pilotManager;
 			_battleStageManager = value.battleStageManager;
 			_battleStageDataTable = value.dataTableManager.battleStageDataTable;
+			_championDataTable = value.dataTableManager.championDataTable;
 			_effectManager = value.effectManager;
+
+			_playerTeamName = value.gameGlobalData.playerTeamName;
 		}
 	}
 
@@ -46,6 +50,7 @@ public class BattleTeam : MonoBehaviour
 	private PilotManager _pilotManager;
 	private BattleStageManager _battleStageManager;
 	private BattleStageDataTable _battleStageDataTable;
+	private ChampionDataTable _championDataTable;
 	private EffectManager _effectManager;
 
 	public BattleTeam enemyTeam { private get; set; }
@@ -62,6 +67,7 @@ public class BattleTeam : MonoBehaviour
 	private Team _teamComponent;
 	public string teamName { get => _teamComponent.data.name; }
 
+	private string _playerTeamName;
 	private BattleTeamKind _battleTeamKind;
 	public BattleTeamKind battleTeamKind
 	{
@@ -133,7 +139,7 @@ public class BattleTeam : MonoBehaviour
 	private void Start()
 	{
 		_revivalWaitSecInst = YieldInstructionStore.GetWaitForSec(_revivalWaitTime);
-		_revivalDelaySecInst = YieldInstructionStore.GetWaitForSec( _revivalDelayTime );
+		_revivalDelaySecInst = YieldInstructionStore.GetWaitForSec(_revivalDelayTime);
     }
 
 	/// <summary>
@@ -304,6 +310,54 @@ public class BattleTeam : MonoBehaviour
 		}
 
 		_activeChampions.Clear();
+	}
+
+	public void ProgressMyTurnBanpick(BanpickRunner banpickRunner)
+	{
+		bool isPlayerTeam = teamName == _playerTeamName;
+
+		banpickRunner.SetReceiveButtonEventState(isPlayerTeam);
+
+		// Player Team이 아니라면 AI에 의해 고르도록 한다..
+		if (false == isPlayerTeam)
+		{
+			StartCoroutine(DecideBanpickChampion(banpickRunner));
+		}
+	}
+
+	// AI가 banpick할 챔피언을 결정하는 함수..
+	IEnumerator DecideBanpickChampion(BanpickRunner banpickRunner)
+	{
+		yield return YieldInstructionStore.GetWaitForSec(1f);
+
+		List<string> banpickChampionList = _battleStageDataTable.banpickChampionList;
+		int banpickChampCount = banpickChampionList.Count;
+
+		int totalChampCount = _championDataTable.GetTotalChampionCount();
+		while (true)
+		{
+			bool isSuccessSelect = true;
+
+			// 챔피언을 선택한 뒤 이미 밴 또는 픽한 챔피언인지 검사한다..
+			int selectIndex = UnityEngine.Random.Range(0, totalChampCount);
+			string championName = _championDataTable.GetChampionName(selectIndex);
+			for( int i = 0; i < banpickChampCount; ++i)
+			{
+				if (banpickChampionList[i] == championName)
+				{
+					isSuccessSelect = false;
+					break;
+				}
+			}
+
+			if( true == isSuccessSelect)
+			{
+				Debug.Log($"AI가 챔피언을 고름 : {championName}");
+				banpickRunner.OnSelectChampion(championName);
+
+				break;
+			}
+		}
 	}
 
 	// ==================================== 적을 찾는 함수들.. ====================================
