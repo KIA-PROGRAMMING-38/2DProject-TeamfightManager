@@ -328,7 +328,8 @@ public class BattleTeam : MonoBehaviour
 	// AI가 banpick할 챔피언을 결정하는 함수..
 	IEnumerator DecideBanpickChampion(BanpickRunner banpickRunner)
 	{
-		yield return YieldInstructionStore.GetWaitForSec(1f);
+		float randomWaitTime = UnityEngine.Random.Range(1f, 3f);
+		yield return YieldInstructionStore.GetWaitForSec(randomWaitTime);
 
 		List<string> banpickChampionList = _battleStageDataTable.banpickChampionList;
 		int banpickChampCount = banpickChampionList.Count;

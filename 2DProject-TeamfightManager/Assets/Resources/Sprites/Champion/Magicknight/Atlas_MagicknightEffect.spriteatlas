@@ -1,0 +1,184 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Atlas_MagicknightEffect
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 0
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: c296fe1e8f8e0674a9e3a013c333d46b, type: 3}
+    - {fileID: 2800000, guid: 641dd40af3e6ff84eb758f96173b0a61, type: 3}
+    - {fileID: 2800000, guid: e397b1e09f24bb2439cf4b2becd708ca, type: 3}
+    - {fileID: 2800000, guid: 01966f1e5d745c349a128d161aef1106, type: 3}
+    - {fileID: 2800000, guid: f327b97684da1d34982fe58eb6dc4a7e, type: 3}
+    - {fileID: 2800000, guid: 462c033bf65be8a409cae4be84a5c2cc, type: 3}
+    - {fileID: 2800000, guid: d7697debed992c14396e16546a932820, type: 3}
+    - {fileID: 2800000, guid: 0aae62a33dc46bf45abf83b7cf8b863e, type: 3}
+    - {fileID: 2800000, guid: bfadff75fb1f35f4c8551e4ed82ac1d6, type: 3}
+    - {fileID: 2800000, guid: 08f70cc0454c68a449a839d306015522, type: 3}
+    - {fileID: 2800000, guid: c95a263bc41bc9b4b9823b1a0f9428fe, type: 3}
+    - {fileID: 2800000, guid: 23f400acea6cf64419cf9abf8dffab14, type: 3}
+    - {fileID: 2800000, guid: 4c8662191ec3e4e49b2729bafe5535c2, type: 3}
+    - {fileID: 2800000, guid: 3850ab4cf5743be48879fc9d722e365f, type: 3}
+    - {fileID: 2800000, guid: 7025d1ecb7120554c8c4a49d30c59bbe, type: 3}
+    - {fileID: 2800000, guid: 97c0c82b75f04d543a09ec23e9d26d51, type: 3}
+    - {fileID: 2800000, guid: 761d2464e0373934fae4e5cd5571b44f, type: 3}
+    - {fileID: 2800000, guid: 41849f0efb58c7948bad839985cbbd09, type: 3}
+    - {fileID: 2800000, guid: cea172d6b72cdf04eb9e0c670e1a3e45, type: 3}
+    - {fileID: 2800000, guid: 6a22900383691b7499cb34a014cb665b, type: 3}
+    - {fileID: 2800000, guid: c4ebcce019c00774887bfcfa982e08bb, type: 3}
+    - {fileID: 2800000, guid: 76592bcafb459294cb26f15211e53f2b, type: 3}
+    - {fileID: 2800000, guid: 5ca28525ed3225540ad70c20ec954ba5, type: 3}
+    - {fileID: 2800000, guid: f7bad720aa43dd8408590cb2058971be, type: 3}
+    - {fileID: 2800000, guid: 844e8641ee86eea44b97aa4ea550f090, type: 3}
+    - {fileID: 2800000, guid: 68a110dbbc5da2d45b07a6ffa694bfb7, type: 3}
+    - {fileID: 2800000, guid: 85f192c6ffbaa804dbec479772f7e42e, type: 3}
+    - {fileID: 2800000, guid: 363afeb993a505644bcd9148a1f3478c, type: 3}
+    - {fileID: 2800000, guid: 7542a3e590e6d9d4e91bd67bc738fcbd, type: 3}
+    - {fileID: 2800000, guid: 1e776166b7b62c444be9a8e4a2199f84, type: 3}
+    - {fileID: 2800000, guid: 1c66b9ec608ce57499eafa8cfad732a5, type: 3}
+    - {fileID: 2800000, guid: e7ef4108693bda346990ca0ebcd93220, type: 3}
+    - {fileID: 2800000, guid: 42f36785f0075b147bdc85602ef5dd2a, type: 3}
+    - {fileID: 2800000, guid: fc09e529cb4842347bedce6ec40c7ae1, type: 3}
+    - {fileID: 2800000, guid: 27ae5f1f23f85e842beb22861168e3bb, type: 3}
+    - {fileID: 2800000, guid: 69bf3bc290d346b418fccb6dc2705fc5, type: 3}
+    - {fileID: 2800000, guid: 88baa72565392cc42ad9143e3445f75a, type: 3}
+    - {fileID: 2800000, guid: ea0f714b00caa9d428fd707b5648bf24, type: 3}
+    - {fileID: 2800000, guid: 22563deae4b3e394fa6d1c9f0733072a, type: 3}
+    - {fileID: 2800000, guid: 77122fbfe47d5944986ef7bfaa53c957, type: 3}
+    - {fileID: 2800000, guid: 64cdf9137e8a573408f81687dea2b916, type: 3}
+    - {fileID: 2800000, guid: bae9c361721d57143817ce48879a7819, type: 3}
+    - {fileID: 2800000, guid: f421f114cd3df4b46abf0420e677d846, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: f7bad720aa43dd8408590cb2058971be, type: 3}
+  - {fileID: 21300000, guid: 08f70cc0454c68a449a839d306015522, type: 3}
+  - {fileID: 21300000, guid: e397b1e09f24bb2439cf4b2becd708ca, type: 3}
+  - {fileID: 21300000, guid: c4ebcce019c00774887bfcfa982e08bb, type: 3}
+  - {fileID: 21300000, guid: 844e8641ee86eea44b97aa4ea550f090, type: 3}
+  - {fileID: 21300000, guid: bae9c361721d57143817ce48879a7819, type: 3}
+  - {fileID: 21300000, guid: 69bf3bc290d346b418fccb6dc2705fc5, type: 3}
+  - {fileID: 21300000, guid: 6a22900383691b7499cb34a014cb665b, type: 3}
+  - {fileID: 21300000, guid: 64cdf9137e8a573408f81687dea2b916, type: 3}
+  - {fileID: 21300000, guid: 0aae62a33dc46bf45abf83b7cf8b863e, type: 3}
+  - {fileID: 21300000, guid: f421f114cd3df4b46abf0420e677d846, type: 3}
+  - {fileID: 21300000, guid: 761d2464e0373934fae4e5cd5571b44f, type: 3}
+  - {fileID: 21300000, guid: 5ca28525ed3225540ad70c20ec954ba5, type: 3}
+  - {fileID: 21300000, guid: 88baa72565392cc42ad9143e3445f75a, type: 3}
+  - {fileID: 21300000, guid: bfadff75fb1f35f4c8551e4ed82ac1d6, type: 3}
+  - {fileID: 21300000, guid: 42f36785f0075b147bdc85602ef5dd2a, type: 3}
+  - {fileID: 21300000, guid: 7542a3e590e6d9d4e91bd67bc738fcbd, type: 3}
+  - {fileID: 21300000, guid: 1e776166b7b62c444be9a8e4a2199f84, type: 3}
+  - {fileID: 21300000, guid: f327b97684da1d34982fe58eb6dc4a7e, type: 3}
+  - {fileID: 21300000, guid: 85f192c6ffbaa804dbec479772f7e42e, type: 3}
+  - {fileID: 21300000, guid: cea172d6b72cdf04eb9e0c670e1a3e45, type: 3}
+  - {fileID: 21300000, guid: e7ef4108693bda346990ca0ebcd93220, type: 3}
+  - {fileID: 21300000, guid: 4c8662191ec3e4e49b2729bafe5535c2, type: 3}
+  - {fileID: 21300000, guid: fc09e529cb4842347bedce6ec40c7ae1, type: 3}
+  - {fileID: 21300000, guid: 363afeb993a505644bcd9148a1f3478c, type: 3}
+  - {fileID: 21300000, guid: 641dd40af3e6ff84eb758f96173b0a61, type: 3}
+  - {fileID: 21300000, guid: 76592bcafb459294cb26f15211e53f2b, type: 3}
+  - {fileID: 21300000, guid: 22563deae4b3e394fa6d1c9f0733072a, type: 3}
+  - {fileID: 21300000, guid: 97c0c82b75f04d543a09ec23e9d26d51, type: 3}
+  - {fileID: 21300000, guid: 462c033bf65be8a409cae4be84a5c2cc, type: 3}
+  - {fileID: 21300000, guid: c95a263bc41bc9b4b9823b1a0f9428fe, type: 3}
+  - {fileID: 21300000, guid: ea0f714b00caa9d428fd707b5648bf24, type: 3}
+  - {fileID: 21300000, guid: 68a110dbbc5da2d45b07a6ffa694bfb7, type: 3}
+  - {fileID: 21300000, guid: d7697debed992c14396e16546a932820, type: 3}
+  - {fileID: 21300000, guid: 3850ab4cf5743be48879fc9d722e365f, type: 3}
+  - {fileID: 21300000, guid: 23f400acea6cf64419cf9abf8dffab14, type: 3}
+  - {fileID: 21300000, guid: 7025d1ecb7120554c8c4a49d30c59bbe, type: 3}
+  - {fileID: 21300000, guid: 1c66b9ec608ce57499eafa8cfad732a5, type: 3}
+  - {fileID: 21300000, guid: 41849f0efb58c7948bad839985cbbd09, type: 3}
+  - {fileID: 21300000, guid: c296fe1e8f8e0674a9e3a013c333d46b, type: 3}
+  - {fileID: 21300000, guid: 01966f1e5d745c349a128d161aef1106, type: 3}
+  - {fileID: 21300000, guid: 27ae5f1f23f85e842beb22861168e3bb, type: 3}
+  - {fileID: 21300000, guid: 77122fbfe47d5944986ef7bfaa53c957, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - magic_knight_effect_7
+  - magic knight_ult_effect_ani_9
+  - magic knight_ult_effect_ani_2
+  - magic_knight_effect_4
+  - magic_knight_effect_8
+  - magic_knight_skill_effect_6
+  - magic_knight_skill_effect_0
+  - magic_knight_effect_3
+  - magic_knight_skill_effect_5
+  - magic knight_ult_effect_ani_7
+  - magic_knight_skill_effect_7
+  - magic_knight_effect_0
+  - magic_knight_effect_6
+  - magic_knight_skill_effect_1
+  - magic knight_ult_effect_ani_8
+  - magic_knight_effect_16
+  - magic_knight_effect_12
+  - magic_knight_effect_13
+  - magic knight_ult_effect_ani_4
+  - magic_knight_effect_10
+  - magic_knight_effect_2
+  - magic_knight_effect_15
+  - magic knight_ult_effect_ani_12
+  - magic_knight_effect_17
+  - magic_knight_effect_11
+  - magic knight_ult_effect_ani_1
+  - magic_knight_effect_5
+  - magic_knight_skill_effect_3
+  - magic knight_ult_effect_ani_15
+  - magic knight_ult_effect_ani_5
+  - magic knight_ult_effect_ani_10
+  - magic_knight_skill_effect_2
+  - magic_knight_effect_9
+  - magic knight_ult_effect_ani_6
+  - magic knight_ult_effect_ani_13
+  - magic knight_ult_effect_ani_11
+  - magic knight_ult_effect_ani_14
+  - magic_knight_effect_14
+  - magic_knight_effect_1
+  - magic knight_ult_effect_ani_0
+  - magic knight_ult_effect_ani_3
+  - magic_knight_effect_18
+  - magic_knight_skill_effect_4
+  m_RenderDataMap: {}
+  m_Tag: Atlas_MagicknightEffect
+  m_IsVariant: 0

@@ -1,0 +1,187 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Atlas_Swordman
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 0
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 4803e1dad0382f84b8ac8945ddd1dc81, type: 3}
+    - {fileID: 2800000, guid: 94c9b308c67a97b48b8d3a88a5001671, type: 3}
+    - {fileID: 2800000, guid: fe58118040e4da146a3e141669d859b2, type: 3}
+    - {fileID: 2800000, guid: 73163ab2ec0a8a94aad3d651b7d2e45b, type: 3}
+    - {fileID: 2800000, guid: fa0cf8fd6cf52ac488918299c47d5256, type: 3}
+    - {fileID: 2800000, guid: c47d0f29fe2177e498445d74b3a84f82, type: 3}
+    - {fileID: 2800000, guid: 40f20fca1c84cca4a9ad2f592f1cf9a3, type: 3}
+    - {fileID: 2800000, guid: 7076de53cd1bb5644b44fa867065a0eb, type: 3}
+    - {fileID: 2800000, guid: 771ced88a0e829046b0900c4b17c304c, type: 3}
+    - {fileID: 2800000, guid: ebafe0b719e14174f81ae56c9c50984e, type: 3}
+    - {fileID: 2800000, guid: 61cd687324b7ee145819358301b9c2ef, type: 3}
+    - {fileID: 2800000, guid: bc2d4c20ce5c4fa4dbcef3f358709429, type: 3}
+    - {fileID: 2800000, guid: 24c04d6851f30c24a9a32a4d519024c9, type: 3}
+    - {fileID: 2800000, guid: 0c5463d6dbd9af64a9b25e43c634e42c, type: 3}
+    - {fileID: 2800000, guid: 939ea3b486c4ac4489ff01210a0271c7, type: 3}
+    - {fileID: 2800000, guid: a3b2d87d712725b46b8a4344b4f5f800, type: 3}
+    - {fileID: 2800000, guid: 74a3569a78cdfed4e98fcfc3243a7506, type: 3}
+    - {fileID: 2800000, guid: bdba40f2b095f0044b4dee7429b31a58, type: 3}
+    - {fileID: 2800000, guid: a142b9ba2500bd242bc2f62bb6ff7c6d, type: 3}
+    - {fileID: 2800000, guid: 1437ab438aa06ea40bcefcc0e0a370fd, type: 3}
+    - {fileID: 2800000, guid: c5deb185fdb05dd4ebb56cc43428d973, type: 3}
+    - {fileID: 2800000, guid: 34b0facecae8b124aaf5399cfd5d0d45, type: 3}
+    - {fileID: 2800000, guid: 2743405182258254ea1d7729597eeedd, type: 3}
+    - {fileID: 2800000, guid: 46b3ccb1e1ad04443b180d29e1824db2, type: 3}
+    - {fileID: 2800000, guid: 385348316200a73409f84085c2f742db, type: 3}
+    - {fileID: 2800000, guid: cebd167515df46646bbaea337bb0ce7a, type: 3}
+    - {fileID: 2800000, guid: dc91fbe6c475ab34ca1c22c8952f92ff, type: 3}
+    - {fileID: 2800000, guid: fd9caabccaff8a145ac675e9bbc92b0f, type: 3}
+    - {fileID: 2800000, guid: 5137387d17da4c542b5d33cc0a751b04, type: 3}
+    - {fileID: 2800000, guid: 42c542b8a88d20240a4af8807c9b1be0, type: 3}
+    - {fileID: 2800000, guid: 2f4fb12d0a89b1b45a5853f380502f7b, type: 3}
+    - {fileID: 2800000, guid: fbce17057c812d3438e25aff9d824f40, type: 3}
+    - {fileID: 2800000, guid: d8ee8dc877dea2847a79745eafa3c1c7, type: 3}
+    - {fileID: 2800000, guid: 012a5e9904268f24ebf894c0e03b9f57, type: 3}
+    - {fileID: 2800000, guid: b649a70c793eb244d9f84c0921e1aa9a, type: 3}
+    - {fileID: 2800000, guid: 53eadc8202555424aa389e777749b06b, type: 3}
+    - {fileID: 2800000, guid: de1a9767bc23148438be4b8d5bd7e7c3, type: 3}
+    - {fileID: 2800000, guid: 380958abd5cb75e4a86b1867ec092944, type: 3}
+    - {fileID: 2800000, guid: 20b2cdf66a598ff45ad8fcfbb9a8d37a, type: 3}
+    - {fileID: 2800000, guid: 0b35fea0b33a9e0449e62d941be205cf, type: 3}
+    - {fileID: 2800000, guid: 3c4b4ad0d1f2728478fe72b5797a4c45, type: 3}
+    - {fileID: 2800000, guid: 601e78d0c1d596e4e9d5aefe3b1c12ac, type: 3}
+    - {fileID: 2800000, guid: d877ce51c3aa9ae4eaf3bcc78aceef07, type: 3}
+    - {fileID: 2800000, guid: 60730d9caec25064792529fd64d12494, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: bc2d4c20ce5c4fa4dbcef3f358709429, type: 3}
+  - {fileID: 21300000, guid: fe58118040e4da146a3e141669d859b2, type: 3}
+  - {fileID: 21300000, guid: 0b35fea0b33a9e0449e62d941be205cf, type: 3}
+  - {fileID: 21300000, guid: 601e78d0c1d596e4e9d5aefe3b1c12ac, type: 3}
+  - {fileID: 21300000, guid: 3c4b4ad0d1f2728478fe72b5797a4c45, type: 3}
+  - {fileID: 21300000, guid: 385348316200a73409f84085c2f742db, type: 3}
+  - {fileID: 21300000, guid: 2743405182258254ea1d7729597eeedd, type: 3}
+  - {fileID: 21300000, guid: d877ce51c3aa9ae4eaf3bcc78aceef07, type: 3}
+  - {fileID: 21300000, guid: 46b3ccb1e1ad04443b180d29e1824db2, type: 3}
+  - {fileID: 21300000, guid: 53eadc8202555424aa389e777749b06b, type: 3}
+  - {fileID: 21300000, guid: 73163ab2ec0a8a94aad3d651b7d2e45b, type: 3}
+  - {fileID: 21300000, guid: bdba40f2b095f0044b4dee7429b31a58, type: 3}
+  - {fileID: 21300000, guid: 1437ab438aa06ea40bcefcc0e0a370fd, type: 3}
+  - {fileID: 21300000, guid: 7076de53cd1bb5644b44fa867065a0eb, type: 3}
+  - {fileID: 21300000, guid: 61cd687324b7ee145819358301b9c2ef, type: 3}
+  - {fileID: 21300000, guid: 939ea3b486c4ac4489ff01210a0271c7, type: 3}
+  - {fileID: 21300000, guid: fbce17057c812d3438e25aff9d824f40, type: 3}
+  - {fileID: 21300000, guid: cebd167515df46646bbaea337bb0ce7a, type: 3}
+  - {fileID: 21300000, guid: c5deb185fdb05dd4ebb56cc43428d973, type: 3}
+  - {fileID: 21300000, guid: 0c5463d6dbd9af64a9b25e43c634e42c, type: 3}
+  - {fileID: 21300000, guid: dc91fbe6c475ab34ca1c22c8952f92ff, type: 3}
+  - {fileID: 21300000, guid: 20b2cdf66a598ff45ad8fcfbb9a8d37a, type: 3}
+  - {fileID: 21300000, guid: de1a9767bc23148438be4b8d5bd7e7c3, type: 3}
+  - {fileID: 21300000, guid: ebafe0b719e14174f81ae56c9c50984e, type: 3}
+  - {fileID: 21300000, guid: 94c9b308c67a97b48b8d3a88a5001671, type: 3}
+  - {fileID: 21300000, guid: 24c04d6851f30c24a9a32a4d519024c9, type: 3}
+  - {fileID: 21300000, guid: 771ced88a0e829046b0900c4b17c304c, type: 3}
+  - {fileID: 21300000, guid: 42c542b8a88d20240a4af8807c9b1be0, type: 3}
+  - {fileID: 21300000, guid: d8ee8dc877dea2847a79745eafa3c1c7, type: 3}
+  - {fileID: 21300000, guid: c47d0f29fe2177e498445d74b3a84f82, type: 3}
+  - {fileID: 21300000, guid: 012a5e9904268f24ebf894c0e03b9f57, type: 3}
+  - {fileID: 21300000, guid: 74a3569a78cdfed4e98fcfc3243a7506, type: 3}
+  - {fileID: 21300000, guid: a142b9ba2500bd242bc2f62bb6ff7c6d, type: 3}
+  - {fileID: 21300000, guid: 40f20fca1c84cca4a9ad2f592f1cf9a3, type: 3}
+  - {fileID: 21300000, guid: 4803e1dad0382f84b8ac8945ddd1dc81, type: 3}
+  - {fileID: 21300000, guid: 380958abd5cb75e4a86b1867ec092944, type: 3}
+  - {fileID: 21300000, guid: b649a70c793eb244d9f84c0921e1aa9a, type: 3}
+  - {fileID: 21300000, guid: 60730d9caec25064792529fd64d12494, type: 3}
+  - {fileID: 21300000, guid: fd9caabccaff8a145ac675e9bbc92b0f, type: 3}
+  - {fileID: 21300000, guid: 2f4fb12d0a89b1b45a5853f380502f7b, type: 3}
+  - {fileID: 21300000, guid: 5137387d17da4c542b5d33cc0a751b04, type: 3}
+  - {fileID: 21300000, guid: a3b2d87d712725b46b8a4344b4f5f800, type: 3}
+  - {fileID: 21300000, guid: fa0cf8fd6cf52ac488918299c47d5256, type: 3}
+  - {fileID: 21300000, guid: 34b0facecae8b124aaf5399cfd5d0d45, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - swordman_new_11
+  - swordman_new_2
+  - swordman_new_39
+  - swordman_new_41
+  - swordman_new_40
+  - swordman_new_24
+  - swordman_new_22
+  - swordman_new_42
+  - swordman_new_23
+  - swordman_new_35
+  - swordman_new_3
+  - swordman_new_17
+  - swordman_new_19
+  - swordman_new_7
+  - swordman_new_10
+  - swordman_new_14
+  - swordman_new_31
+  - swordman_new_25
+  - swordman_new_20
+  - swordman_new_13
+  - swordman_new_26
+  - swordman_new_38
+  - swordman_new_36
+  - swordman_new_9
+  - swordman_new_1
+  - swordman_new_12
+  - swordman_new_8
+  - swordman_new_29
+  - swordman_new_32
+  - swordman_new_5
+  - swordman_new_33
+  - swordman_new_16
+  - swordman_new_18
+  - swordman_new_6
+  - swordman_new_0
+  - swordman_new_37
+  - swordman_new_34
+  - swordman_new_43
+  - swordman_new_27
+  - swordman_new_30
+  - swordman_new_28
+  - swordman_new_15
+  - swordman_new_4
+  - swordman_new_21
+  m_RenderDataMap: {}
+  m_Tag: Atlas_Swordman
+  m_IsVariant: 0

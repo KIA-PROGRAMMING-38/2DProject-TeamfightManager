@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Atlas_Stadium
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 0
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 67e391e953f86824d975070e76d3a78c, type: 3}
+    - {fileID: 2800000, guid: 77c109069feb7ef47806eac29a7676c4, type: 3}
+    - {fileID: 2800000, guid: 1fb8a996c89ea144e956c71c49de89f9, type: 3}
+    - {fileID: 2800000, guid: ba4ef2fb048b70740bf4d761eaa764f3, type: 3}
+    - {fileID: 2800000, guid: d49ed325d3bc02540bebd35d34bf45d4, type: 3}
+    - {fileID: 2800000, guid: 846413793f3af704285fa2e2db483b94, type: 3}
+    - {fileID: 2800000, guid: 3c75ba6577b852241a4824af1ec54e4d, type: 3}
+    - {fileID: 2800000, guid: 119e0ff9db92f184cbe90db8edca8c17, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: d49ed325d3bc02540bebd35d34bf45d4, type: 3}
+  - {fileID: 21300000, guid: 3c75ba6577b852241a4824af1ec54e4d, type: 3}
+  - {fileID: 21300000, guid: 77c109069feb7ef47806eac29a7676c4, type: 3}
+  - {fileID: 21300000, guid: 1fb8a996c89ea144e956c71c49de89f9, type: 3}
+  - {fileID: 21300000, guid: 846413793f3af704285fa2e2db483b94, type: 3}
+  - {fileID: 21300000, guid: 67e391e953f86824d975070e76d3a78c, type: 3}
+  - {fileID: 21300000, guid: 119e0ff9db92f184cbe90db8edca8c17, type: 3}
+  - {fileID: 21300000, guid: ba4ef2fb048b70740bf4d761eaa764f3, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - stadium_waterfall_animation_2
+  - stadium_waterfall_animation_6
+  - stadium_sky_bg
+  - stadium_waterfall_animation_0
+  - stadium_waterfall_animation_5
+  - stadium
+  - stadium_waterfall_animation_7
+  - stadium_waterfall_animation_1
+  m_RenderDataMap: {}
+  m_Tag: Atlas_Stadium
+  m_IsVariant: 0
