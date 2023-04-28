@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Atlas_KnightEffect
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 0
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 9a1bd0e89b70cc543b309d9ac8a8ce1e, type: 3}
+    - {fileID: 2800000, guid: 0e3585e232cee0d46bbd72599ea679f6, type: 3}
+    - {fileID: 2800000, guid: c56129c8b60b0e645a3cfbaed9ba735b, type: 3}
+    - {fileID: 2800000, guid: cd90e6d66c080db45b892b647b08aafd, type: 3}
+    - {fileID: 2800000, guid: 1d7a904613bda4e46bd538c84998789a, type: 3}
+    - {fileID: 2800000, guid: 7960961459c47ee40897ca70e66b877a, type: 3}
+    - {fileID: 2800000, guid: 17315676fd7837948bdac6575be57912, type: 3}
+    - {fileID: 2800000, guid: 1094be9d8b8438b47b0b260341c25c0f, type: 3}
+    - {fileID: 2800000, guid: 16c22439aa59d264a8cb1d5855b29027, type: 3}
+    - {fileID: 2800000, guid: ca423d3287aef5f45a23414b9a99d129, type: 3}
+    - {fileID: 2800000, guid: 29eb8f57d2b4ba84bb86db3122c044f5, type: 3}
+    - {fileID: 2800000, guid: aeeb9b99cf25dd949b80cce0ab10dedd, type: 3}
+    - {fileID: 2800000, guid: f9177055f7e837545b676a739644fc5f, type: 3}
+    - {fileID: 2800000, guid: d03b7abe5e04f154cb7e9ce5de26c50f, type: 3}
+    - {fileID: 2800000, guid: 23eb45eaf6b200f4dbd1ec59323701c1, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: ca423d3287aef5f45a23414b9a99d129, type: 3}
+  - {fileID: 21300000, guid: 0e3585e232cee0d46bbd72599ea679f6, type: 3}
+  - {fileID: 21300000, guid: 7960961459c47ee40897ca70e66b877a, type: 3}
+  - {fileID: 21300000, guid: f9177055f7e837545b676a739644fc5f, type: 3}
+  - {fileID: 21300000, guid: 1d7a904613bda4e46bd538c84998789a, type: 3}
+  - {fileID: 21300000, guid: 17315676fd7837948bdac6575be57912, type: 3}
+  - {fileID: 21300000, guid: cd90e6d66c080db45b892b647b08aafd, type: 3}
+  - {fileID: 21300000, guid: 29eb8f57d2b4ba84bb86db3122c044f5, type: 3}
+  - {fileID: 21300000, guid: c56129c8b60b0e645a3cfbaed9ba735b, type: 3}
+  - {fileID: 21300000, guid: 9a1bd0e89b70cc543b309d9ac8a8ce1e, type: 3}
+  - {fileID: 21300000, guid: 16c22439aa59d264a8cb1d5855b29027, type: 3}
+  - {fileID: 21300000, guid: aeeb9b99cf25dd949b80cce0ab10dedd, type: 3}
+  - {fileID: 21300000, guid: 23eb45eaf6b200f4dbd1ec59323701c1, type: 3}
+  - {fileID: 21300000, guid: 1094be9d8b8438b47b0b260341c25c0f, type: 3}
+  - {fileID: 21300000, guid: d03b7abe5e04f154cb7e9ce5de26c50f, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - knight_effect_9
+  - knight_effect_1
+  - knight_effect_5
+  - knight_effect_12
+  - knight_effect_4
+  - knight_effect_6
+  - knight_effect_3
+  - knight_effect_10
+  - knight_effect_2
+  - knight_effect_0
+  - knight_effect_8
+  - knight_effect_11
+  - knight_effect_14
+  - knight_effect_7
+  - knight_effect_13
+  m_RenderDataMap: {}
+  m_Tag: Atlas_KnightEffect
+  m_IsVariant: 0

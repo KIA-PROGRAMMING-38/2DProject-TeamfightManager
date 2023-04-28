@@ -1,0 +1,142 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Atlas_PriestEffect
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 0
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 9b61f704b4470154292367fd3fe39835, type: 3}
+    - {fileID: 2800000, guid: c0ed7739d31ca3c4d9bf73fb1cdf2308, type: 3}
+    - {fileID: 2800000, guid: b5764e4a8392283449a42e90b609373a, type: 3}
+    - {fileID: 2800000, guid: 20089c7a7268b8e43b58b096a95e40ec, type: 3}
+    - {fileID: 2800000, guid: fb26d434011fff44484415f568db21c6, type: 3}
+    - {fileID: 2800000, guid: 62387db1bdecf8b459d61887f2d4a54a, type: 3}
+    - {fileID: 2800000, guid: cbb5dfbd22269e54a84d6ddde4c985d9, type: 3}
+    - {fileID: 2800000, guid: e992b88375d28c84fa74e12c6da44e31, type: 3}
+    - {fileID: 2800000, guid: c26cabd55c2b8db49aa58ea7e3150a7e, type: 3}
+    - {fileID: 2800000, guid: 76482f22d2ed3024a8aa4150761b20c2, type: 3}
+    - {fileID: 2800000, guid: a5b6efefa50d49c48b720d9080590775, type: 3}
+    - {fileID: 2800000, guid: 263f6965f3c970c46b56fda8c25e5a4f, type: 3}
+    - {fileID: 2800000, guid: 7b46ec897be10e542ac56d6dc7828b53, type: 3}
+    - {fileID: 2800000, guid: e9a90ff53833f574ab1ed525ac8bfca1, type: 3}
+    - {fileID: 2800000, guid: e1cd0e2220e747248b49f936e37312c5, type: 3}
+    - {fileID: 2800000, guid: 3775fac77fc84f941ba5559080b7c443, type: 3}
+    - {fileID: 2800000, guid: 8ea95193d081f4846852fc32abd188fa, type: 3}
+    - {fileID: 2800000, guid: 4e177559e168c9349a07fe1e39c30ef4, type: 3}
+    - {fileID: 2800000, guid: 037b7ac8824bf844997f349e4dc1b977, type: 3}
+    - {fileID: 2800000, guid: 7c9a860823bd30d45a6032f614b6f86a, type: 3}
+    - {fileID: 2800000, guid: 5f2d819c8e1d2ed4494578e3ae305452, type: 3}
+    - {fileID: 2800000, guid: 4e8d3edf671c136439da7eb070ea1f06, type: 3}
+    - {fileID: 2800000, guid: 33419b7326e740548a085df4ec1ba323, type: 3}
+    - {fileID: 2800000, guid: dacf1f82e43a5a2438978ca36ca8eb26, type: 3}
+    - {fileID: 2800000, guid: 79821695ec5b9744eb8d95017b27e438, type: 3}
+    - {fileID: 2800000, guid: 8738af8e24b112d46add1deff5f92a0c, type: 3}
+    - {fileID: 2800000, guid: f45e365a6a8f3ae45bdd71a1e52bf5f6, type: 3}
+    - {fileID: 2800000, guid: b4ba81683157ce646a5f823abab8302b, type: 3}
+    - {fileID: 2800000, guid: d95fdf7a279bab644939de8108caaae0, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 62387db1bdecf8b459d61887f2d4a54a, type: 3}
+  - {fileID: 21300000, guid: e1cd0e2220e747248b49f936e37312c5, type: 3}
+  - {fileID: 21300000, guid: 76482f22d2ed3024a8aa4150761b20c2, type: 3}
+  - {fileID: 21300000, guid: dacf1f82e43a5a2438978ca36ca8eb26, type: 3}
+  - {fileID: 21300000, guid: 33419b7326e740548a085df4ec1ba323, type: 3}
+  - {fileID: 21300000, guid: e992b88375d28c84fa74e12c6da44e31, type: 3}
+  - {fileID: 21300000, guid: 8ea95193d081f4846852fc32abd188fa, type: 3}
+  - {fileID: 21300000, guid: 9b61f704b4470154292367fd3fe39835, type: 3}
+  - {fileID: 21300000, guid: fb26d434011fff44484415f568db21c6, type: 3}
+  - {fileID: 21300000, guid: 263f6965f3c970c46b56fda8c25e5a4f, type: 3}
+  - {fileID: 21300000, guid: 79821695ec5b9744eb8d95017b27e438, type: 3}
+  - {fileID: 21300000, guid: c26cabd55c2b8db49aa58ea7e3150a7e, type: 3}
+  - {fileID: 21300000, guid: e9a90ff53833f574ab1ed525ac8bfca1, type: 3}
+  - {fileID: 21300000, guid: 3775fac77fc84f941ba5559080b7c443, type: 3}
+  - {fileID: 21300000, guid: 7c9a860823bd30d45a6032f614b6f86a, type: 3}
+  - {fileID: 21300000, guid: b4ba81683157ce646a5f823abab8302b, type: 3}
+  - {fileID: 21300000, guid: 037b7ac8824bf844997f349e4dc1b977, type: 3}
+  - {fileID: 21300000, guid: c0ed7739d31ca3c4d9bf73fb1cdf2308, type: 3}
+  - {fileID: 21300000, guid: 4e177559e168c9349a07fe1e39c30ef4, type: 3}
+  - {fileID: 21300000, guid: 7b46ec897be10e542ac56d6dc7828b53, type: 3}
+  - {fileID: 21300000, guid: b5764e4a8392283449a42e90b609373a, type: 3}
+  - {fileID: 21300000, guid: f45e365a6a8f3ae45bdd71a1e52bf5f6, type: 3}
+  - {fileID: 21300000, guid: 20089c7a7268b8e43b58b096a95e40ec, type: 3}
+  - {fileID: 21300000, guid: d95fdf7a279bab644939de8108caaae0, type: 3}
+  - {fileID: 21300000, guid: 5f2d819c8e1d2ed4494578e3ae305452, type: 3}
+  - {fileID: 21300000, guid: cbb5dfbd22269e54a84d6ddde4c985d9, type: 3}
+  - {fileID: 21300000, guid: 8738af8e24b112d46add1deff5f92a0c, type: 3}
+  - {fileID: 21300000, guid: 4e8d3edf671c136439da7eb070ea1f06, type: 3}
+  - {fileID: 21300000, guid: a5b6efefa50d49c48b720d9080590775, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - priest_effect_5
+  - priest_effect_14
+  - priest_effect_9
+  - priest_effect_23
+  - priest_effect_22
+  - priest_effect_7
+  - priest_effect_16
+  - priest_effect_0
+  - priest_effect_4
+  - priest_effect_11
+  - priest_effect_24
+  - priest_effect_8
+  - priest_effect_13
+  - priest_effect_15
+  - priest_effect_19
+  - priest_effect_27
+  - priest_effect_18
+  - priest_effect_1
+  - priest_effect_17
+  - priest_effect_12
+  - priest_effect_2
+  - priest_effect_26
+  - priest_effect_3
+  - priest_effect_28
+  - priest_effect_20
+  - priest_effect_6
+  - priest_effect_25
+  - priest_effect_21
+  - priest_effect_10
+  m_RenderDataMap: {}
+  m_Tag: Atlas_PriestEffect
+  m_IsVariant: 0

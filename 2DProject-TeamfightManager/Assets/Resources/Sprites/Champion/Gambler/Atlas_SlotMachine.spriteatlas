@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Atlas_SlotMachine
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 0
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: c16523dcdd41f674fa1acb8cd842313f, type: 3}
+    - {fileID: 2800000, guid: 39e43b631fb9f66418beca4c8f696e12, type: 3}
+    - {fileID: 2800000, guid: 2c5443ae8b16bae4da5c08798cea7f67, type: 3}
+    - {fileID: 2800000, guid: 7b892736d6fa84d40945646d8465d6a0, type: 3}
+    - {fileID: 2800000, guid: 2d1bfbc044f066f439f54ba0dc5844ba, type: 3}
+    - {fileID: 2800000, guid: d6685a845158f91408d5060eec61e619, type: 3}
+    - {fileID: 2800000, guid: 4451b771e483db44095de2d3e6d3c444, type: 3}
+    - {fileID: 2800000, guid: 9b3a0a04c8a27a142a7c76cd266d964d, type: 3}
+    - {fileID: 2800000, guid: b2fa5f3e3ddccc046a7ec93486d1ff8b, type: 3}
+    - {fileID: 2800000, guid: 67ea7ba6115e7f24ea9cb5eaa9f47238, type: 3}
+    - {fileID: 2800000, guid: 5b4482450f615824b8e4befd54aced7e, type: 3}
+    - {fileID: 2800000, guid: 5bd5330e8b4c85249bddf739c3c249f8, type: 3}
+    - {fileID: 2800000, guid: 08c8af08c18c43948a01eea19aa7e887, type: 3}
+    - {fileID: 2800000, guid: af7a0e40fb3283740a69d2b9f2d6abb7, type: 3}
+    - {fileID: 2800000, guid: 1c24fdf4d1e896b4bb0be4778635e8cc, type: 3}
+    - {fileID: 2800000, guid: 0d09ba4516771e44f937e7dc279f65d7, type: 3}
+    - {fileID: 2800000, guid: e4ff455d31f062243813a5dc5bff1fe6, type: 3}
+    - {fileID: 2800000, guid: 83f94ffa3e1e1e44a9d927e7129352d5, type: 3}
+    - {fileID: 2800000, guid: b221437115f596545b333a140932d627, type: 3}
+    - {fileID: 2800000, guid: a64e62921be3d8c4e9c41367a57cafa4, type: 3}
+    - {fileID: 2800000, guid: 8f84136df12f2db4880aa40e9ee4fbd4, type: 3}
+    - {fileID: 2800000, guid: 93bdb931f1ce34240a6e3212f972fc47, type: 3}
+    - {fileID: 2800000, guid: d1838a2f48d94ca4fbf21c0791727f0f, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: af7a0e40fb3283740a69d2b9f2d6abb7, type: 3}
+  - {fileID: 21300000, guid: 2d1bfbc044f066f439f54ba0dc5844ba, type: 3}
+  - {fileID: 21300000, guid: 93bdb931f1ce34240a6e3212f972fc47, type: 3}
+  - {fileID: 21300000, guid: b221437115f596545b333a140932d627, type: 3}
+  - {fileID: 21300000, guid: 4451b771e483db44095de2d3e6d3c444, type: 3}
+  - {fileID: 21300000, guid: a64e62921be3d8c4e9c41367a57cafa4, type: 3}
+  - {fileID: 21300000, guid: 39e43b631fb9f66418beca4c8f696e12, type: 3}
+  - {fileID: 21300000, guid: 9b3a0a04c8a27a142a7c76cd266d964d, type: 3}
+  - {fileID: 21300000, guid: d6685a845158f91408d5060eec61e619, type: 3}
+  - {fileID: 21300000, guid: 1c24fdf4d1e896b4bb0be4778635e8cc, type: 3}
+  - {fileID: 21300000, guid: 5b4482450f615824b8e4befd54aced7e, type: 3}
+  - {fileID: 21300000, guid: 0d09ba4516771e44f937e7dc279f65d7, type: 3}
+  - {fileID: 21300000, guid: 7b892736d6fa84d40945646d8465d6a0, type: 3}
+  - {fileID: 21300000, guid: 67ea7ba6115e7f24ea9cb5eaa9f47238, type: 3}
+  - {fileID: 21300000, guid: 08c8af08c18c43948a01eea19aa7e887, type: 3}
+  - {fileID: 21300000, guid: 83f94ffa3e1e1e44a9d927e7129352d5, type: 3}
+  - {fileID: 21300000, guid: c16523dcdd41f674fa1acb8cd842313f, type: 3}
+  - {fileID: 21300000, guid: e4ff455d31f062243813a5dc5bff1fe6, type: 3}
+  - {fileID: 21300000, guid: 8f84136df12f2db4880aa40e9ee4fbd4, type: 3}
+  - {fileID: 21300000, guid: 5bd5330e8b4c85249bddf739c3c249f8, type: 3}
+  - {fileID: 21300000, guid: b2fa5f3e3ddccc046a7ec93486d1ff8b, type: 3}
+  - {fileID: 21300000, guid: 2c5443ae8b16bae4da5c08798cea7f67, type: 3}
+  - {fileID: 21300000, guid: d1838a2f48d94ca4fbf21c0791727f0f, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - gambler_slot_number_3
+  - gambler_slot_machine_4
+  - gambler_slot_icon_2
+  - gambler_slot_number_8
+  - gambler_slot_machine_6
+  - gambler_slot_number_9
+  - gambler_slot_machine_1
+  - gambler_slot_machine_7
+  - gambler_slot_machine_5
+  - gambler_slot_number_4
+  - gambler_slot_number_0
+  - gambler_slot_number_5
+  - gambler_slot_machine_3
+  - gambler_slot_machine_9
+  - gambler_slot_number_2
+  - gambler_slot_number_7
+  - gambler_slot_machine_0
+  - gambler_slot_number_6
+  - gambler_slot_icon_3
+  - gambler_slot_number_1
+  - gambler_slot_machine_8
+  - gambler_slot_machine_2
+  - gambler_slot_icon_1
+  m_RenderDataMap: {}
+  m_Tag: Atlas_SlotMachine
+  m_IsVariant: 0
