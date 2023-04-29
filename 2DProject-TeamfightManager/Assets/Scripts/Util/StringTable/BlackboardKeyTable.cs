@@ -26,4 +26,7 @@
 	public const string TARGET = "target";
 	public const string TARGET_DISTANCE = "isDeath";
 	public const string FORCED_TARGET = "forcedTarget";
+
+	// 카이팅 관련..
+	public const string IS_ON_KITING = "isOnKiting";
 }

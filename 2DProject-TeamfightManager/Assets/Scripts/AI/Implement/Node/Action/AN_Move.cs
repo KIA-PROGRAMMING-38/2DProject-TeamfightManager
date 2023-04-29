@@ -1,5 +1,6 @@
 ﻿using MH_AIFramework;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// 실제 움직임을 담당하는 Node..
@@ -27,7 +28,7 @@ public class AN_Move : ActionNode
 
 	protected override void OnStop()
 	{
-		
+
 	}
 
 	protected override State OnUpdate()
@@ -37,10 +38,25 @@ public class AN_Move : ActionNode
 		Debug.Assert(null != _transform);
 #endif
 
+		// 만약 맵 밖으로 벗어나려고 한다면 못 벗어나게 방향을 조정해준다..
+		RaycastHit2D hit;
+		hit = Physics2D.Raycast(_transform.position, _moveDirection, 0.5f, 1 << LayerTable.Number.STAGE_AREALIMITLINE);
+		if (null != hit.collider)
+		{
+			Vector2 normalVec = CalcNormalVector(hit.collider).normalized;
+			_moveDirection.x = normalVec.y * -1f;
+			_moveDirection.y = normalVec.x;
+		}
+
 		_transform.Translate(Time.deltaTime * _speed * _moveDirection, Space.World);
 
 		//Debug.Log($"{Time.deltaTime * _speed * _moveDirection} 방향으로 움직임");
 
 		return State.Success;
+	}
+
+	private Vector2 CalcNormalVector(Collider2D collider)
+	{
+		return collider.gameObject.transform.position - collider.bounds.center;
 	}
 }

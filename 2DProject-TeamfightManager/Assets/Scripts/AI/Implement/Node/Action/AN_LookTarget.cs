@@ -10,6 +10,7 @@ public class AN_LookTarget : ActionNode
 	private float _dirMul;
 
 	private Transform _transform;
+	private ChampionAnimation _championAnimation;
 
 	public AN_LookTarget(float dirMul = 1f)
 	{
@@ -21,6 +22,7 @@ public class AN_LookTarget : ActionNode
 		base.OnCreate();
 
 		_transform = behaviourTree.gameObject.transform;
+		_championAnimation = behaviourTree.gameObject.GetComponentInChildren<ChampionAnimation>();
 	}
 
 	protected override void OnStart()

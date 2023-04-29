@@ -35,6 +35,7 @@ public class ChampionBT : BehaviourTree
 		blackboard.SetBoolValue(BlackboardKeyTable.IS_ACTION_LOCK, false);
 		blackboard.SetBoolValue(BlackboardKeyTable.SPRITE_FLIP_X, false);
 		blackboard.SetBoolValue(BlackboardKeyTable.IS_CAN_ACT_ULTIMATE, false);
+		blackboard.SetBoolValue(BlackboardKeyTable.IS_ON_KITING, false);
 
 		// float 값들 기본 세팅..
 		blackboard.SetFloatValue(BlackboardKeyTable.TARGET_DISTANCE, float.MaxValue);
@@ -56,36 +57,12 @@ public class ChampionBT : BehaviourTree
 		AddNode(rootChildNode, rootNode, "RootChild");
 
 		// ========================================================================
-		// Death 상태일 때 실행할 노드 하이어라키 정의..
-		// ========================================================================
-		//SetupDeadStateNodeHierarchy(rootChildNode);
-
-
-		// ========================================================================
 		// 전투 상태일 때 실행할 노드 하이어라키 정의..
 		// ========================================================================
 		SetupBattleNodeHierarchy(rootChildNode);
 
+		// 적을 찾지 못한 경우 Idle 애니메이션으로 돌리기 위한 노드..
 		AddNode(new AN_ChangeAnimState(ChampionAnimation.AnimState.Idle, true), rootChildNode, "ChangeAnimState_Idle");
-	}
-
-	private void SetupDeadStateNodeHierarchy(Node parentNode)
-	{
-		// Dead State 최상위 노드 생성 및 등록..
-		Node deadStateBodyNode = new SequenceNode();
-		AddNode(deadStateBodyNode, parentNode);
-
-		// 죽었는지 체크하는 노드 생성 및 등록..
-		AddNode(new DN_CheckBoolValue(true, BlackboardKeyTable.IS_DEATH), deadStateBodyNode);
-
-		// 죽었을 때 해줘야할 행동 노드 생성 및 등록..
-		//AddNode(new AN_OnDeath(), deadStateBodyNode);
-
-		// 죽었을 때 부활까지 기다려야하는 시간이 있기 때문에 기다리는 노드 생성 및 등록..
-		AddNode(new AN_Wait(1f), deadStateBodyNode);
-
-		// 죽은 다음 부활할 때 챔피언 기능 초기화할 노드 생성 및 등록..
-		//AddNode(new AN_Revival(), deadStateBodyNode);
 	}
 
 	private void SetupBattleNodeHierarchy(Node parentNode)
@@ -123,11 +100,11 @@ public class ChampionBT : BehaviourTree
 		// 궁극기를 사용하기 위한 조건 관련 노드 생성 및 등록..
 		AddNode(new DN_CheckIsCanAttack(BlackboardKeyTable.IS_CAN_ACT_ULTIMATE, BlackboardKeyTable.ULTIMATE_RANGE), ultimateBodyNode);
 
-		// 애니메이션 상태를 궁극기 상태로 변경하는 노드 생성 및 등록..
-		AddNode(new AN_ChangeAnimState(ChampionAnimation.AnimState.Ultimate, true), ultimateBodyNode);
-
 		// 적을 향해 나아가기 위한 방향 설정 노드 생성 및 등록..
 		AddNode(new AN_LookTarget(), ultimateBodyNode);
+
+		// 애니메이션 상태를 궁극기 상태로 변경하는 노드 생성 및 등록..
+		AddNode(new AN_ChangeAnimState(ChampionAnimation.AnimState.Ultimate, true), ultimateBodyNode);
 
 		// 궁극기 사용 노드 생성 및 등록..
 		AddNode(new AN_Attack(ActionKeyTable.ULTIMATE), ultimateBodyNode);
@@ -142,11 +119,11 @@ public class ChampionBT : BehaviourTree
 		// 스킬을 사용하기 위한 조건 관련 노드 생성 및 등록..
 		AddNode(new DN_CheckIsCanAttack(BlackboardKeyTable.IS_CAN_ACT_SKILL, BlackboardKeyTable.SKILL_RANGE), skillBodyNode);
 
-		// 애니메이션 상태를 스킬 상태로 변경하는 노드 생성 및 등록..
-		AddNode(new AN_ChangeAnimState(ChampionAnimation.AnimState.Skill, true), skillBodyNode);
-
 		// 적을 향해 나아가기 위한 방향 설정 노드 생성 및 등록..
 		AddNode(new AN_LookTarget(), skillBodyNode);
+
+		// 애니메이션 상태를 스킬 상태로 변경하는 노드 생성 및 등록..
+		AddNode(new AN_ChangeAnimState(ChampionAnimation.AnimState.Skill, true), skillBodyNode);
 
 		// 스킬 사용 노드 생성 및 등록..
 		AddNode(new AN_Attack(ActionKeyTable.SKILL), skillBodyNode);
@@ -161,14 +138,34 @@ public class ChampionBT : BehaviourTree
 		// 적을 공격하기 위한 조건 관련 노드 생성 및 등록..
 		AddNode(new DN_CheckIsCanAttack(BlackboardKeyTable.IS_CAN_ACT_ATTACK, BlackboardKeyTable.ATTACK_RANGE), attackBodyNode);
 
-		// 애니메이션 상태를 공격 상태로 변경하는 노드 생성 및 등록..
-		AddNode(new AN_ChangeAnimState(ChampionAnimation.AnimState.Attack, true), attackBodyNode);
-
 		// 적을 향해 나아가기 위한 방향 설정 노드 생성 및 등록..
 		AddNode(new AN_LookTarget(), attackBodyNode);
 
+		// 애니메이션 상태를 공격 상태로 변경하는 노드 생성 및 등록..
+		AddNode(new AN_ChangeAnimState(ChampionAnimation.AnimState.Attack, true), attackBodyNode);
+
 		// 적을 공격하는 노드 생성 및 등록..
 		AddNode(new AN_Attack(ActionKeyTable.ATTACK), attackBodyNode);
+		// =============================================================================
+
+
+		// =============================================================================
+		// ----- Kiting 행동 관련 노드 정의..
+		// 적을 쫓는 상태 최상위 노드 생성 및 등록..
+		Node kitingBodyNode = new SequenceNode();
+		AddNode(kitingBodyNode, battleActionBodyNode);
+
+		// 카이팅이 가능한지 체크하는 조건 노드 생성 및 등록..
+		AddNode(new DN_ConditionKiting(), kitingBodyNode);
+
+		// 카이팅 정보 갱신하는 서비스 노드 생성 및 등록..
+		AddNode(new SN_KitingInfoUpdate(0.2f), kitingBodyNode);
+
+		// 애니메이션 상태를 움직임 상태로 변경하는 노드 생성 및 등록..
+		AddNode(new AN_ChangeAnimState(ChampionAnimation.AnimState.Move, true), kitingBodyNode);
+
+		// 카이팅 움직임을 실행할 노드 생성 및 등록..
+		AddNode(new AN_Move(), kitingBodyNode);
 		// =============================================================================
 
 
@@ -181,11 +178,11 @@ public class ChampionBT : BehaviourTree
 		// 적을 쫓기 위한 조건 노드 생성 및 등록..
 		AddNode(new DN_ConditionChaseTarget(), chaseBodyNode);
 
-		// 애니메이션 상태를 움직임 상태로 변경하는 노드 생성 및 등록..
-		AddNode(new AN_ChangeAnimState(ChampionAnimation.AnimState.Move, true), chaseBodyNode);
-
 		// 적을 향해 나아가기 위한 방향 설정 노드 생성 및 등록..
 		AddNode(new AN_LookTarget(), chaseBodyNode);
+
+		// 애니메이션 상태를 움직임 상태로 변경하는 노드 생성 및 등록..
+		AddNode(new AN_ChangeAnimState(ChampionAnimation.AnimState.Move, true), chaseBodyNode);
 
 		// 움직이는 노드 생성 및 등록..
 		AddNode(new AN_Move(), chaseBodyNode);

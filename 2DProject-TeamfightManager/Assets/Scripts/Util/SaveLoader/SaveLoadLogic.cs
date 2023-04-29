@@ -42,6 +42,8 @@ public static class SaveLoadLogic
 		getChampData.findTargetData.isIncludeMe = bool.Parse(loadData[index++]);
 		getChampData.findTargetData.priorityKind = (FindTargetPriorityKind)int.Parse(loadData[index++]);
 
+		getChampData.kitingOrder = int.Parse(loadData[index++]);
+
 		// Champion Resource 데이터 설정..
 		getResourceData.champIconImagePath = loadData[index++];
 		getResourceData.skillIconImagePath = loadData[index++];
