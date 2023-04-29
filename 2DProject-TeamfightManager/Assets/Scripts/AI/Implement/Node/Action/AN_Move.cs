@@ -46,6 +46,8 @@ public class AN_Move : ActionNode
 			Vector2 normalVec = CalcNormalVector(hit.collider).normalized;
 			_moveDirection.x = normalVec.y * -1f;
 			_moveDirection.y = normalVec.x;
+
+			blackboard.SetVectorValue(BlackboardKeyTable.MOVE_DIRECTION, _moveDirection);
 		}
 
 		_transform.Translate(Time.deltaTime * _speed * _moveDirection, Space.World);
