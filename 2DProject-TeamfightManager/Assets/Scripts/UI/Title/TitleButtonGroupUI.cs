@@ -8,4 +8,13 @@ public class TitleButtonGroupUI : UIBase
     {
         s_gameManager.ChangeScene(SceneNameTable.DORMITORY);
 	}
+
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+
+        Application.Quit();
+    }
 }
