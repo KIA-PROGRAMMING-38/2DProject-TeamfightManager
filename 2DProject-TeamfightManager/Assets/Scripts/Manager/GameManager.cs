@@ -74,6 +74,8 @@ public class GameManager : MonoBehaviour
         dataTableManager = newGameObject.AddComponent<DataTableManager>();
 
         GameSaveLoader.LoadGameFile(loadFileNumber, this);
+
+		dataTableManager.OnEndReadData();
 	}
 
 	private void InitializeScene()

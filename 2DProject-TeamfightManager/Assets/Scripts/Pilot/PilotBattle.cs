@@ -54,6 +54,9 @@ public class PilotBattle : MonoBehaviour
 			_controlChampion.OnKill -= OnChampionKill;
 			_controlChampion.OnKill += OnChampionKill;
 
+			_controlChampion.OnHeal -= OnChampionHeal;
+			_controlChampion.OnHeal += OnChampionHeal;
+
 			_controlChampion.OnAttack -= OnChampionAttack;
 			_controlChampion.OnAttack += OnChampionAttack;
 
@@ -240,7 +243,14 @@ public class PilotBattle : MonoBehaviour
 		OnChangedBattleInfoData?.Invoke(battleTeamIndexKey, _battleInfoData);
 	}
 
-    private void UpdateChampionHPRatio(float ratio)
+	private void OnChampionHeal(Champion recoverHPChampion, int healAmount)
+	{
+		_battleInfoData.totalHeal += healAmount;
+
+		OnChangedBattleInfoData?.Invoke(battleTeamIndexKey, _battleInfoData);
+	}
+
+	private void UpdateChampionHPRatio(float ratio)
     {
         OnChangedChampionHPRatio?.Invoke(battleTeamIndexKey, ratio);
     }

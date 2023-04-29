@@ -59,14 +59,18 @@ public class SummonStructure_GravityField : SummonStructure
 		StartCoroutine(UpdateLogic());
 	}
 
+	// 적을 끌어당기고 데미지를 주는 로직..
 	protected override void Action()
 	{
 		_findTargetCount = _targetFindFunc.Invoke(transform.position, _targetArray);
 		SetupActionEndPosition();
 
+		ReceiveImpactExecuteEvent(_findTargetCount);
+
 		StartCoroutine(UpdateAction());
 	}
 
+	// 중력장에서 해야할 행동들 실행하는 코루틴..
 	private IEnumerator UpdateLogic()
 	{
 		for( int i = 1; i < ACTION_COUNT; ++i)
@@ -85,6 +89,7 @@ public class SummonStructure_GravityField : SummonStructure
 		_swordAnimator.SetTrigger(s_OnBreakAnimHash);
 	}
 
+	// 적을 끌어당기는 로직 코루틴..
 	private IEnumerator UpdateAction()
 	{
 		_collider.enabled = true;
@@ -98,7 +103,7 @@ public class SummonStructure_GravityField : SummonStructure
 
 			for (int i = 0; i < _findTargetCount; ++i)
 			{
-				if (null == _targetArray[i])
+				if (null == _targetArray[i] || _targetArray[i].isDead)
 				{
 					continue;
 				}

@@ -221,12 +221,13 @@ public class BattleStageManager : MonoBehaviour
 			}
 
             OnBattleEnd();
-            _battleStageDataTable.Reset();
 
             OnEndBattle?.Invoke(winTeam);
 
+			_battleStageDataTable.Reset();
+
 			ExitBattleStage();
-        }
+		}
 	}
 
 	// 배틀 종료 시 호출될 함수..

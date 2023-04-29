@@ -21,6 +21,7 @@ public class StatisticsMenuButtonGroupUI : MenuButtonGroupUI
 			case SubButtonKind.TeamStatistics:
 				break;
 			case SubButtonKind.ChampionStatistics:
+				manager.ShowSubMenu(DomitorySubMenuGroup.SubMenuKind.ChampionBattleStatistics);
 				break;
 			case SubButtonKind.ChampionInfomation:
 				break;

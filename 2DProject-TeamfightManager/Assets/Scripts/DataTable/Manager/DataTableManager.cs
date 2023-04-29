@@ -24,12 +24,11 @@ public class DataTableManager : MonoBehaviour
 		attackActionDataTable = new AttackActionDataTable();
 		battleStageDataTable = new BattleStageDataTable();
 		teamDataTable = new TeamDataTable();
-		statisticsDataTable = new BattleStatisticsDataTable();
+	}
 
+	public void OnEndReadData()
+	{
+		statisticsDataTable = new BattleStatisticsDataTable(championDataTable, teamDataTable, pilotDataTable);
 		battleStageDataTable.championDataTable = championDataTable;
-
-		statisticsDataTable.championDataTable = championDataTable;
-		statisticsDataTable.teamDataTable = teamDataTable;
-		statisticsDataTable.pilotDataTable = pilotDataTable;
 	}
 }
