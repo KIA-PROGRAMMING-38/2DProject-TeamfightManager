@@ -46,7 +46,7 @@ public static class SoundStore
         // ================================================================================================================================================
         _audioClipContainer.Add("Title_Enviorment", Resources.Load<AudioClip>("Sounds/Enviorment/Stupid_Dancer"));
         _audioClipContainer.Add("Banpick_Enviorment", Resources.Load<AudioClip>("Sounds/Enviorment/StreetLove"));
-        _audioClipContainer.Add("BattleStage_Enviorment", Resources.Load<AudioClip>("Sounds/Enviorment/Electronic001"));
+        _audioClipContainer.Add("BattleStage_Enviorment", Resources.Load<AudioClip>("Sounds/Enviorment/Loop Electronic001"));
         _audioClipContainer.Add("Dormitory_Enviorment", Resources.Load<AudioClip>("Sounds/Enviorment/InfiniteDoors"));
 
         // ================================================================================================================================================
