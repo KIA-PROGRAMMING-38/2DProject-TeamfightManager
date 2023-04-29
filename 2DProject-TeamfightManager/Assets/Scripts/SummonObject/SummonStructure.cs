@@ -82,10 +82,11 @@ public class SummonStructure : SummonObject
 		{
 			transform.position = target.transform.position;
 		}
-		if (null != owner && _isSpawnTargetPosition)
+		if (null != owner && _isAttachOwner)
 		{
 			_offsetPosition = transform.position - owner.transform.position;
-        }
+			_ownerTransform = owner.transform;
+		}
 	}
 
 	protected virtual void Action()
