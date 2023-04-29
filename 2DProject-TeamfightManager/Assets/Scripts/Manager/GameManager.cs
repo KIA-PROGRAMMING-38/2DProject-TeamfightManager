@@ -47,6 +47,8 @@ public class GameManager : MonoBehaviour
 			instance = this;
 		}
 
+		Screen.SetResolution(1920, 1080, true);
+
         _audioSource = GetComponent<AudioSource>();
 
         UIBase.s_gameManager = this;

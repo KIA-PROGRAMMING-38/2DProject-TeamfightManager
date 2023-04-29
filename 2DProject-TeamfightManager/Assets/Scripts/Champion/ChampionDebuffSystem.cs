@@ -222,7 +222,8 @@ public class ChampionDeBuffSystem
 					int containerIndex = (int)DebuffImpactType.Provoke;
 					int lastIndex = _debuffInfoContainerActiveCount[containerIndex] - 1;
 
-					_ownerChampion.forcedTarget = _debuffInfoContainer[containerIndex][lastIndex].didChampion;
+					Champion forcedTarget = _debuffInfoContainer[containerIndex][lastIndex].didChampion;
+					_ownerChampion.forcedTarget = forcedTarget;
 
 					SetPrevokeEffectActive(true);
 				}

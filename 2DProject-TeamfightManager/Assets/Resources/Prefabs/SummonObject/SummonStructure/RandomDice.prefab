@@ -263,8 +263,9 @@ MonoBehaviour:
   _actionTickTime: 0.1
   _lifeTime: 0
   _isUseLifeTime: 0
-  _isAttachOwner: 0
+  _isAttachOwner: 1
   _isSpawnTargetPosition: 0
+  _isPlaySound: 0
   _fireProjectileName: Chip
   _projectileOffsetPos: {x: 0, y: 0, z: 0}
   _diceSprites:

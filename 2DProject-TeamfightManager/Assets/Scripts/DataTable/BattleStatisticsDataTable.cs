@@ -3,6 +3,13 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class BattleStatisticsDataTable
 {
+	private enum BattleResultKind
+	{
+		Win,
+		Lose,
+		Draw
+	}
+
 	private Dictionary<string, ChampionBattleStatistics> _champBattleStatisticsContainer;
 	private Dictionary<string, TeamBattleStatistics> _teamBattleStatisticsContainer;
 	private Dictionary<string, PilotBattleStatistics> _pilotBattleStatisticsContainer;
@@ -45,13 +52,28 @@ public class BattleStatisticsDataTable
 	public void AddBattleTeamFightData(BattleTeamFightData redTeamFightData, BattleTeamFightData blueTeamFightData, BattleTeamKind winTeamKind)
 	{
 		// 팀 관련 통계 정보 갱신..
-		UpdateStatisticsData(redTeamFightData, BattleTeamKind.RedTeam == winTeamKind);
-		UpdateStatisticsData(blueTeamFightData, BattleTeamKind.BlueTeam == winTeamKind);
+		BattleResultKind redTeamBattleResultKind = BattleResultKind.Draw;
+		BattleResultKind blueTeamBattleResultKind = BattleResultKind.Draw;
+
+		switch (winTeamKind)
+		{
+			case BattleTeamKind.RedTeam:
+				redTeamBattleResultKind = BattleResultKind.Win;
+				blueTeamBattleResultKind = BattleResultKind.Lose;
+				break;
+			case BattleTeamKind.BlueTeam:
+				redTeamBattleResultKind = BattleResultKind.Lose;
+				blueTeamBattleResultKind = BattleResultKind.Win;
+				break;
+		}
+
+		UpdateStatisticsData(redTeamFightData, redTeamBattleResultKind);
+		UpdateStatisticsData(blueTeamFightData, blueTeamBattleResultKind);
 
 		++totalBattleDayCount;
 	}
 
-	private void UpdateStatisticsData(BattleTeamFightData fightData, bool isWinTeam)
+	private void UpdateStatisticsData(BattleTeamFightData fightData, BattleResultKind resultKind)
 	{
 		if ( false == _teamBattleStatisticsContainer.ContainsKey( fightData.teamName ) )
 			_teamBattleStatisticsContainer.Add( fightData.teamName, new TeamBattleStatistics() );
@@ -76,10 +98,20 @@ public class BattleStatisticsDataTable
 				curPilotStatisticsData.allStageFightDatas.Add(championName, new PilotStageFightData());
 
 			++curPilotStatisticsData.allStageFightDatas[championName].pickCount;
-			if (true == isWinTeam)
-				++curPilotStatisticsData.allStageFightDatas[championName].winCount;
-			else
-				++curPilotStatisticsData.allStageFightDatas[championName].loseCount;
+			switch (resultKind)
+			{
+				case BattleResultKind.Win:
+					++curPilotStatisticsData.allStageFightDatas[championName].winCount;
+					++curTeamStatisticsData.totalWinCount;
+					break;
+				case BattleResultKind.Lose:
+					++curPilotStatisticsData.allStageFightDatas[championName].winCount;
+					++curTeamStatisticsData.totalLoseCount;
+					break;
+				case BattleResultKind.Draw:
+					++curTeamStatisticsData.totalDrawCount;
+					break;
+			}
 			curPilotStatisticsData.allStageFightDatas[championName].totalAtkDamageAmount += curBattleData.totalAtkDamage;
 			curPilotStatisticsData.allStageFightDatas[championName].totalTakeDamageAount += curBattleData.totalTakeDamage;
 			curPilotStatisticsData.allStageFightDatas[championName].totalHealAmount += curBattleData.totalHeal;
@@ -93,7 +125,7 @@ public class BattleStatisticsDataTable
             ChampionBattleStatistics curChampStatisticsData = _champBattleStatisticsContainer[championName];
 
 			++curChampStatisticsData.totalPickCount;
-			if (isWinTeam)
+			if (resultKind == BattleResultKind.Win)
 				++curChampStatisticsData.totalWinCount;
 			curChampStatisticsData.totalAtkDamageAmount += curBattleData.totalAtkDamage;
 			curChampStatisticsData.totalTakeDamageAount += curBattleData.totalTakeDamage;

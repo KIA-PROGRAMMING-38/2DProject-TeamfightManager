@@ -74,18 +74,36 @@ public class Champion : MonoBehaviour, IAttackable
 	private Champion _forcedTarget;
 	public Champion forcedTarget
 	{
-		private get => _forcedTarget;
+		private get
+		{
+			if (null != _forcedTarget)
+			{
+				if (_forcedTarget.isDead)
+				{
+					return null;
+				}
+				else
+				{
+					return _forcedTarget;
+				}
+			}
+
+			return null;
+		}
 		set
 		{
-			_forcedTarget = value;
-
-			if(null != _forcedTarget)
+			if (false == value.isDead)
 			{
-				_curAttackAction?.OnAnimationEndEvent();
-				_curAttackAction?.OnEnd();
-				_curAttackAction = null;
+				_forcedTarget = value;
 
-				_animComponent.ResetAnimation();
+				if (null != _forcedTarget)
+				{
+					_curAttackAction?.OnAnimationEndEvent();
+					_curAttackAction?.OnEnd();
+					_curAttackAction = null;
+
+					_animComponent.ResetAnimation();
+				}
 			}
 		}
 	}
@@ -349,6 +367,23 @@ public class Champion : MonoBehaviour, IAttackable
 		_baseStatus.hp = status.hp;
 		_baseStatus.moveSpeed = status.moveSpeed;
 		_baseStatus.skillCooltime = status.skillCooltime;
+
+		switch (champData.type)
+		{
+			case ChampionClassType.Warrior:
+				break;
+			case ChampionClassType.ADCarry:
+				_baseStatus.range *= 2f;
+				break;
+			case ChampionClassType.Magician:
+				_baseStatus.range *= 2f;
+				break;
+			case ChampionClassType.Assistant:
+				break;
+			case ChampionClassType.Assassin:
+				break;
+		}
+
 
 		this.data = champData;
 		defaultFindTargetData = champData.findTargetData;

@@ -16,6 +16,9 @@ public class TeamBattleStatistics
 	public Dictionary<string, int> champBanCountContainer;
 	public int totalKillCount;
 	public int totalDeathCount;
+	public int totalWinCount;
+	public int totalLoseCount;
+	public int totalDrawCount;
 
 	public TeamBattleStatistics()
 	{
