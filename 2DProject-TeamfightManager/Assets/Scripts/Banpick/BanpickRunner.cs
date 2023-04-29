@@ -86,8 +86,6 @@ public class BanpickRunner : MonoBehaviour
 				break;
 		}
 
-		Debug.Log("BanPick");
-
 		++_progressStageCount;
 		++_curDetailLevel;
 		if (_detailLevelMaxCount <= _curDetailLevel)

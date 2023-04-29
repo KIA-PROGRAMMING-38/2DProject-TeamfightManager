@@ -10,21 +10,28 @@ public class DomitorySubMenuGroup : MonoBehaviour
 
 	private GameObject _background;
     private ChampionBattleStatsticsUIManager _champBattleStatisticsUI;
+	private ChampInfoButtonUIManager _champInfoUI;
+	private SubMenuKind _curShowMenuKind;
 
     public enum SubMenuKind
     {
-        ChampionBattleStatistics
+        ChampionBattleStatistics,
+		ChampionInfomation
     }
 
 	private void Awake()
 	{
 		_background = transform.GetChild(0).gameObject;
 		_champBattleStatisticsUI = GetComponentInChildren<ChampionBattleStatsticsUIManager>();
+		_champInfoUI = GetComponentInChildren<ChampInfoButtonUIManager>();
 
+		// 얘네는 서브 버튼 그룹의 버튼이 눌렸을 때 보여줘야하는 애들이기 때문에 시작할 때 꺼두기..
 		_background.gameObject.SetActive(false);
 		_champBattleStatisticsUI.gameObject.SetActive(false);
+		_champInfoUI.gameObject.SetActive(false);
 	}
 
+	// 어떤 UI를 출력할지 받아와 그 UI를 출력..
 	public void ShowSubMenu(SubMenuKind menuKind)
     {
 		switch (menuKind)
@@ -33,15 +40,34 @@ public class DomitorySubMenuGroup : MonoBehaviour
 				_champBattleStatisticsUI.gameObject.SetActive(true);
 				break;
 
+			case SubMenuKind.ChampionInfomation:
+				_champInfoUI.gameObject.SetActive(true);
+				break;
+
 			default:
 				return;
 		}
 
+		_curShowMenuKind = menuKind;
 		_background.SetActive(true);
 	}
 
 	public void CloseSubMenuUI()
     {
-        OnCloseSubMenu?.Invoke();
-    }
+		switch (_curShowMenuKind)
+		{
+			case SubMenuKind.ChampionBattleStatistics:
+				_champBattleStatisticsUI.gameObject.SetActive(false);
+				break;
+			case SubMenuKind.ChampionInfomation:
+				if(true == _champInfoUI.isShowDetailInfo)
+				{
+					_champInfoUI.HideDetailInfoUI();
+				}
+
+				break;
+		}
+
+		OnCloseSubMenu?.Invoke();
+	}
 }

@@ -58,11 +58,6 @@ public class ChampionBattleStatsticsUI : UIBase
 		_totalHealText = transform.Find("TotalHealText").GetComponent<TMP_Text>();
 	}
 
-	public void Initialize(int ranking, string showChampionName)
-	{
-		//_rankingText.text = StringTable.GetString(value);
-	}
-
 	private void SetupChampBattleStatistics(ChampionBattleStatistics battleStatistics)
 	{
 		int totalBanpickCount = battleStatistics.totalBanCount + battleStatistics.totalPickCount;

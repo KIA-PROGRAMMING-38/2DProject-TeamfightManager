@@ -24,6 +24,7 @@ public class StatisticsMenuButtonGroupUI : MenuButtonGroupUI
 				manager.ShowSubMenu(DomitorySubMenuGroup.SubMenuKind.ChampionBattleStatistics);
 				break;
 			case SubButtonKind.ChampionInfomation:
+				manager.ShowSubMenu(DomitorySubMenuGroup.SubMenuKind.ChampionInfomation);
 				break;
 		}
 	}
