@@ -6,6 +6,7 @@ public class MenuButtonGroupUIManager : UIBase
 {
     private MenuButtonGroupUI[] _menuButtonGroupUIs;
     private MenuButtonGroupUI _curActiveMenuButtonGroupUI = null;
+	[SerializeField] private DomitorySubMenuGroup _subMenuGroup;
 
 	private void Awake()
 	{
@@ -41,5 +42,18 @@ public class MenuButtonGroupUIManager : UIBase
 	public void GoToStadiumScene()
 	{
 		s_gameManager.ChangeScene(SceneNameTable.STADIUM);
+	}
+
+	public void ShowSubMenu(DomitorySubMenuGroup.SubMenuKind subMenuKind)
+	{
+		_subMenuGroup.OnCloseSubMenu -= OnCloseSubMenu;
+		_subMenuGroup.OnCloseSubMenu += OnCloseSubMenu;
+
+		_subMenuGroup.ShowSubMenu(subMenuKind);
+	}
+
+	private void OnCloseSubMenu()
+	{
+
 	}
 }

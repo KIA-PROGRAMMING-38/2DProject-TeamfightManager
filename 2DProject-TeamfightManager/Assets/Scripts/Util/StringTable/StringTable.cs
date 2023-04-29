@@ -5,6 +5,7 @@ public static class StringTable
 {
 	private static DataToStringConverter<int> s_intToStringConverter = new DataToStringConverter<int>();
 	private static DataToStringConverter<float> s_floatToStringConverter = new DataToStringConverter<float>();
+	private static DataToStringConverter<double> s_doubleToStringConverter = new DataToStringConverter<double>();
 
 	public static string GetString(int number)
 	{
@@ -14,6 +15,11 @@ public static class StringTable
 	public static string GetString(float number)
 	{
 		return s_floatToStringConverter.Convert(number);
+	}
+
+	public static string GetString(double number)
+	{
+		return s_doubleToStringConverter.Convert(number);
 	}
 }
 

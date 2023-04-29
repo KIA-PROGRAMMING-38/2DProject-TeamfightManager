@@ -1,56 +1,54 @@
 ﻿using System.Collections.Generic;
+using static UnityEngine.Rendering.DebugUI;
 
 public class BattleStatisticsDataTable
 {
-	public ChampionDataTable championDataTable
-	{
-		set
-		{
-			int championCount = value.GetTotalChampionCount();
-			_champBattleStatisticsContainer = new Dictionary<string, ChampionBattleStatistics>(championCount);
-			for (int i = 0; i < championCount; ++i)
-			{
-				_champBattleStatisticsContainer.Add(value.GetChampionName(i), new ChampionBattleStatistics());
-			}
-		}
-	}
-
-	public TeamDataTable teamDataTable
-	{
-		set
-		{
-			int teamCount = value.GetTotalTeamCount();
-			_teamBattleStatisticsContainer = new Dictionary<string, TeamBattleStatistics>(teamCount);
-			for (int i = 0; i < teamCount; ++i)
-			{
-				_teamBattleStatisticsContainer.Add(value.GetTeamName(i), new TeamBattleStatistics());
-			}
-		}
-	}
-
-	public PilotDataTable pilotDataTable
-	{
-		set
-		{
-			int pilotCount = value.GetTotalPilotCount();
-			_pilotBattleStatisticsContainer = new Dictionary<string, PilotBattleStatistics>(pilotCount);
-			for (int i = 0; i < pilotCount; ++i)
-			{
-				_teamBattleStatisticsContainer.Add(value.GetPilotName(i), new TeamBattleStatistics());
-			}
-		}
-	}
-
 	private Dictionary<string, ChampionBattleStatistics> _champBattleStatisticsContainer;
 	private Dictionary<string, TeamBattleStatistics> _teamBattleStatisticsContainer;
 	private Dictionary<string, PilotBattleStatistics> _pilotBattleStatisticsContainer;
 	private Dictionary<int, PilotBattleStatistics> _dayPilotBattleStatisticsContainer;
+	public int totalBattleDayCount { get; private set; }
+
+	public ChampionBattleStatistics GetChampBattleStatistics(string name) => _champBattleStatisticsContainer[name];
+	public TeamBattleStatistics GetTeamBattleStatistics(string name) => _teamBattleStatisticsContainer[name];
+	public PilotBattleStatistics GetPilotBattleStatistics(string name) => _pilotBattleStatisticsContainer[name];
+
+	public BattleStatisticsDataTable(ChampionDataTable championDataTable, TeamDataTable teamDataTable, PilotDataTable pilotDataTable)
+	{
+		totalBattleDayCount = 0;
+
+		// 챔피언 관련 정보 초기화..
+		int championCount = championDataTable.GetTotalChampionCount();
+		_champBattleStatisticsContainer = new Dictionary<string, ChampionBattleStatistics>(championCount);
+		for (int i = 0; i < championCount; ++i)
+		{
+			_champBattleStatisticsContainer.Add(championDataTable.GetChampionName(i), new ChampionBattleStatistics());
+		}
+
+		// 팀 관련 정보 초기화..
+		int teamCount = teamDataTable.GetTotalTeamCount();
+		_teamBattleStatisticsContainer = new Dictionary<string, TeamBattleStatistics>(teamCount);
+		for (int i = 0; i < teamCount; ++i)
+		{
+			_teamBattleStatisticsContainer.Add(teamDataTable.GetTeamName(i), new TeamBattleStatistics());
+		}
+
+		// 파일럿 관련 정보 초기화..
+		int pilotCount = pilotDataTable.GetTotalPilotCount();
+		_pilotBattleStatisticsContainer = new Dictionary<string, PilotBattleStatistics>(pilotCount);
+		for (int i = 0; i < pilotCount; ++i)
+		{
+			_teamBattleStatisticsContainer.Add(pilotDataTable.GetPilotName(i), new TeamBattleStatistics());
+		}
+	}
 
 	public void AddBattleTeamFightData(BattleTeamFightData redTeamFightData, BattleTeamFightData blueTeamFightData, BattleTeamKind winTeamKind)
 	{
 		// 팀 관련 통계 정보 갱신..
 		UpdateStatisticsData(redTeamFightData, BattleTeamKind.RedTeam == winTeamKind);
 		UpdateStatisticsData(blueTeamFightData, BattleTeamKind.BlueTeam == winTeamKind);
+
+		++totalBattleDayCount;
 	}
 
 	private void UpdateStatisticsData(BattleTeamFightData fightData, bool isWinTeam)

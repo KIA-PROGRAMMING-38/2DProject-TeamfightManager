@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public abstract class MenuButtonGroupUI : UIBase, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
 	private UIMove _subGroupMoveComponent;
-	public MenuButtonGroupUIManager manager { private get; set; }
+	public MenuButtonGroupUIManager manager { protected get; set; }
 
 	private bool _isSubgroupActive = false;
 
