@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BanpickRunner : MonoBehaviour
@@ -56,6 +57,11 @@ public class BanpickRunner : MonoBehaviour
         _battleStageDataTable.StartBanpick(_globalData.stagesDataContainer[0].kind, _globalData.stagesDataContainer[0].orders[0]);
 
 		StartCoroutine(DelayBanpickStart());
+	}
+
+	private void OnDisable()
+	{
+		Debug.Log("OnDisable");
 	}
 
 	IEnumerator DelayBanpickStart()

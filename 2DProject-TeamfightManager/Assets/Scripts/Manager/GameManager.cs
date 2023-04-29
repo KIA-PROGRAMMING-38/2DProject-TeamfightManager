@@ -276,6 +276,7 @@ public class GameManager : MonoBehaviour
 	private void CreateBanpickRunner()
 	{
 		GameObject newGameObject = new GameObject("Banpick Runner");
+		newGameObject.transform.parent = transform;
 		banpickRunner = newGameObject.AddComponent<BanpickRunner>();
 
 		banpickRunner.gameManager = this;

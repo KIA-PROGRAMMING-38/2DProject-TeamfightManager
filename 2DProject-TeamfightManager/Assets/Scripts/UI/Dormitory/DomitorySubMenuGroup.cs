@@ -12,6 +12,7 @@ public class DomitorySubMenuGroup : MonoBehaviour
     private ChampionBattleStatsticsUIManager _champBattleStatisticsUI;
 	private ChampInfoButtonUIManager _champInfoUI;
 	private SubMenuKind _curShowMenuKind;
+	private GameObject _closeButtonObject;
 
     public enum SubMenuKind
     {
@@ -24,11 +25,13 @@ public class DomitorySubMenuGroup : MonoBehaviour
 		_background = transform.GetChild(0).gameObject;
 		_champBattleStatisticsUI = GetComponentInChildren<ChampionBattleStatsticsUIManager>();
 		_champInfoUI = GetComponentInChildren<ChampInfoButtonUIManager>();
+		_closeButtonObject = transform.Find("HideDetailInfoButton").gameObject;
 
 		// 얘네는 서브 버튼 그룹의 버튼이 눌렸을 때 보여줘야하는 애들이기 때문에 시작할 때 꺼두기..
 		_background.gameObject.SetActive(false);
 		_champBattleStatisticsUI.gameObject.SetActive(false);
 		_champInfoUI.gameObject.SetActive(false);
+		_closeButtonObject.SetActive(false);
 	}
 
 	// 어떤 UI를 출력할지 받아와 그 UI를 출력..
@@ -48,6 +51,7 @@ public class DomitorySubMenuGroup : MonoBehaviour
 				return;
 		}
 
+		_closeButtonObject.SetActive(true);
 		_curShowMenuKind = menuKind;
 		_background.SetActive(true);
 	}
@@ -63,11 +67,18 @@ public class DomitorySubMenuGroup : MonoBehaviour
 				if(true == _champInfoUI.isShowDetailInfo)
 				{
 					_champInfoUI.HideDetailInfoUI();
+					return;
+				}
+				else
+				{
+					_champInfoUI.gameObject.SetActive(false);
 				}
 
 				break;
 		}
 
+		_background.SetActive(false);
+		_closeButtonObject.SetActive(false);
 		OnCloseSubMenu?.Invoke();
 	}
 }

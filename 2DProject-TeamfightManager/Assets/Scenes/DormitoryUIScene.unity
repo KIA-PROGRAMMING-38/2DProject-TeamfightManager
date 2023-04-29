@@ -4964,7 +4964,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1373146310}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -11082,7 +11082,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0007719537}
+  m_AnchoredPosition: {x: 0, y: 0.000038682196}
   m_SizeDelta: {x: 0, y: 400}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1324045446
@@ -11574,7 +11574,6 @@ RectTransform:
   - {fileID: 1142874512}
   - {fileID: 511924390}
   - {fileID: 1447511070}
-  - {fileID: 2033158697}
   - {fileID: 521256044}
   - {fileID: 2053935667}
   m_Father: {fileID: 2094373885}
@@ -12541,7 +12540,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 198698464}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999624
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -13573,6 +13572,7 @@ RectTransform:
   - {fileID: 469733676}
   - {fileID: 1408656830}
   - {fileID: 2094373885}
+  - {fileID: 2033158697}
   m_Father: {fileID: 1754183712}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15067,18 +15067,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2033158696}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1990593650}
-  m_Father: {fileID: 1373146310}
-  m_RootOrder: 4
+  m_Father: {fileID: 1727544533}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 785, y: -330}
+  m_AnchoredPosition: {x: 785, y: -280}
   m_SizeDelta: {x: 180, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2033158698
@@ -15125,9 +15125,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2094373886}
-        m_TargetAssemblyTypeName: ChampInfoButtonUIManager, Assembly-CSharp
-        m_MethodName: HideDetailInfoUI
+      - m_Target: {fileID: 1727544534}
+        m_TargetAssemblyTypeName: DomitorySubMenuGroup, Assembly-CSharp
+        m_MethodName: CloseSubMenuUI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15379,7 +15379,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1373146310}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
