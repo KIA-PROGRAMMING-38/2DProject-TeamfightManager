@@ -11,5 +11,7 @@ public class ChampionData
 
 	public string champDescription;			// 챔피언 설명..
 
-	public FindTargetData findTargetData;	// 챔피언 기본 타겟 찾는 로직에 필요한 정보들..
+	public FindTargetData findTargetData;   // 챔피언 기본 타겟 찾는 로직에 필요한 정보들..
+
+	public int kitingOrder;					// 카이팅 우선 순위(낮을수록 카이팅함)..
 }
