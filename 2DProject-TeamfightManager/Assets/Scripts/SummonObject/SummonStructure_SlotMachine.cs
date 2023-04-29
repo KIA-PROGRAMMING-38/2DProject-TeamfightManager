@@ -124,6 +124,8 @@ public class SummonStructure_SlotMachine : SummonStructure
         _upperThirdDigitRenderer.sprite = _numberSprites[randomNumber];
         fireCount += randomNumber;
 
+        _audioSource.PlayOneShot(SoundStore.GetAudioClip("SlotMachine_End"));
+
         // 총 발사 개수에 따라 스프라이트 갱신..
         _lowerSecondDigitRenderer.sprite = _numberSprites[fireCount / 10];
         _lowerThirdDigitRenderer.sprite = _numberSprites[fireCount % 10];

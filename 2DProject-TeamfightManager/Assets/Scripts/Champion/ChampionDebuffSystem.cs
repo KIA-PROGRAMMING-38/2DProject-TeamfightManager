@@ -35,6 +35,7 @@ public class ChampionDeBuffSystem
 	public ChampionStatus championBaseStatus { private get; set; }
 
 	private Champion _ownerChampion;
+	private AudioSource _audioSource;
 
 	private int _activeDebuffTable; // 각 비트자리마다 그 자리에 매칭되는 버프가 활성화되있는지를 체크(DeBuffImpactType의 값 == 비트 자리)..
 	private int _debuffCount = 0;
@@ -74,6 +75,8 @@ public class ChampionDeBuffSystem
 		}
 
 		healAmountDebuff = 1f;
+
+		_audioSource = _ownerChampion.GetComponent<AudioSource>();
 	}
 
 	public void Update(float deltaTime)
@@ -261,6 +264,8 @@ public class ChampionDeBuffSystem
 				{
 					if (false == _isShowFreezeEffect)
 					{
+						_audioSource.PlayOneShot(SoundStore.GetAudioClip("Freeze"));
+
 						_freezeEffect.gameObject.SetActive(true);
 
 						_ownerChampion.aiController.enabled = false;

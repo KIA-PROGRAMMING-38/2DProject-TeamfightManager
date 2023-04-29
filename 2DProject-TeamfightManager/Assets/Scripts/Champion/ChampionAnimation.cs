@@ -29,6 +29,8 @@ public class ChampionAnimation : MonoBehaviour
 	private AnimState _state;
 	private AnimatorOverrideController _animatorOverrideController;
 
+	private AudioSource _audioSource;
+
 	// 적에게 피격 시 흰색으로 깜빡거리는 효과 관련 필드..
 	private readonly static float s_hitEffectTime = 0.1f;
 	private WaitForSeconds _hitEffectWaitForSecInstance;
@@ -71,8 +73,9 @@ public class ChampionAnimation : MonoBehaviour
 		_animator = GetComponent<Animator>();
 		_spriteRenderer = GetComponent<SpriteRenderer>();
 		_champion = GetComponentInParent<Champion>();
+		_audioSource = GetComponentInParent<AudioSource>();
 
-		_originMaterial = _spriteRenderer.material;
+        _originMaterial = _spriteRenderer.material;
 	}
 
 	void Start()
@@ -218,6 +221,12 @@ public class ChampionAnimation : MonoBehaviour
 	public void OnShowEffectAnimEvent(string effectName)
 	{
 		_champion?.OnShowEffectAnimEvent(effectName);
+	}
+
+	public void OnPlaySoundEvent(string soundName)
+	{
+		AudioClip clip = SoundStore.GetAudioClip(soundName);
+		_audioSource.PlayOneShot(clip);
 	}
 
 	// 애니메이션 이벤트 : 애니메이션이 종료될 때 호출..

@@ -19,13 +19,16 @@ public class SummonStructure_GravityField : SummonStructure
 
 	private int _findTargetCount = 0;
 
+	private AudioClip _startClip;
+	private AudioClip _impactClip;
+
 	private Vector3[] _actionEndPositionArray;
 
 	new private void Awake()
 	{
 		base.Awake();
 
-		_collider = GetComponentInChildren<Collider2D>();
+        _collider = GetComponentInChildren<Collider2D>();
 		_circleAnimator = transform.Find("Circle").GetComponent<Animator>();
 		_swordAnimator = transform.Find("Sword").GetComponent<Animator>();
 
@@ -33,9 +36,22 @@ public class SummonStructure_GravityField : SummonStructure
 		_waitActionEndSecInst = YieldInstructionStore.GetWaitForSec(0.5f);
 
 		_actionEndPositionArray = new Vector3[4];
-	}
 
-	public override void SetAdditionalData(int layerMask, Champion target, Champion owner, Func<Vector3, Champion[], int> targetFindFunc)
+		_startClip = SoundStore.GetAudioClip("Magicknight_UltimateStart");
+        _impactClip = SoundStore.GetAudioClip("Magicknight_UltimateImpact");
+    }
+
+    private void OnEnable()
+    {
+		_audioSource.PlayOneShot(_startClip);
+    }
+
+    private void OnDisable()
+    {
+		_audioSource.Stop();
+    }
+
+    public override void SetAdditionalData(int layerMask, Champion target, Champion owner, Func<Vector3, Champion[], int> targetFindFunc)
 	{
 		base.SetAdditionalData(layerMask, target, owner, targetFindFunc);
 
@@ -55,7 +71,9 @@ public class SummonStructure_GravityField : SummonStructure
 	{
 		for( int i = 1; i < ACTION_COUNT; ++i)
 		{
-			this.Action();
+            _audioSource.PlayOneShot(_impactClip);
+
+            this.Action();
 
 			yield return _waitTickSecInst;
 		}
