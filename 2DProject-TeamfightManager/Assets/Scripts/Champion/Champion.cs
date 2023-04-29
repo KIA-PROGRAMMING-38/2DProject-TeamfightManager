@@ -370,17 +370,9 @@ public class Champion : MonoBehaviour, IAttackable
 
 		switch (champData.type)
 		{
-			case ChampionClassType.Warrior:
-				break;
 			case ChampionClassType.ADCarry:
-				_baseStatus.range *= 2f;
-				break;
 			case ChampionClassType.Magician:
 				_baseStatus.range *= 2f;
-				break;
-			case ChampionClassType.Assistant:
-				break;
-			case ChampionClassType.Assassin:
 				break;
 		}
 
