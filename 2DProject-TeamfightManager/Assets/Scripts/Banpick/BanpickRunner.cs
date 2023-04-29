@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BanpickRunner : MonoBehaviour
@@ -58,6 +59,11 @@ public class BanpickRunner : MonoBehaviour
 		StartCoroutine(DelayBanpickStart());
 	}
 
+	private void OnDisable()
+	{
+		Debug.Log("OnDisable");
+	}
+
 	IEnumerator DelayBanpickStart()
 	{
 		yield return YieldInstructionStore.GetWaitForSec(1f);
@@ -85,8 +91,6 @@ public class BanpickRunner : MonoBehaviour
 				_battleStageManager.PickChampion(tmpCurSelectTeamKind, curStage, championName);
 				break;
 		}
-
-		Debug.Log("BanPick");
 
 		++_progressStageCount;
 		++_curDetailLevel;
