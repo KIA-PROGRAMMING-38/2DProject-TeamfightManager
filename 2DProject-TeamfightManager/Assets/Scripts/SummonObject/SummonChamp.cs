@@ -28,25 +28,34 @@ public class SummonChamp : SummonObject
 		_controlChampion.gameObject.SetActive(true);
 		_controlChampion.StartFight();
 
-		_statusBar.target = _controlChampion.transform;
-		_statusBar.teamKind = _controlChampion.pilotBattleComponent.myTeam.battleTeamKind;
-
-		// Status Bar 갱신을 위한 이벤트만 구독..
-		_controlChampion.OnChangedHPRatio -= OnChangeChampionHPRatio;
-		_controlChampion.OnChangedHPRatio += OnChangeChampionHPRatio;
-
-		_controlChampion.OnChangedHPRatio -= OnChangeChampionMPRatio;
-		_controlChampion.OnChangedHPRatio += OnChangeChampionMPRatio;
-
-		_controlChampion.OnChangedBarrierRatio -= OnChangeChampionBarrierRatio;
-		_controlChampion.OnChangedBarrierRatio += OnChangeChampionBarrierRatio;
-
-		_controlChampion.isSkillCooltime = false;
-
-		if (false == _isHideUltIcon)
+		if (GameManager.s_currentSceneName == SceneNameTable.STADIUM)
 		{
-			_statusBar.SetUltimateIconSprite(dataTableManager.championDataTable.GetUltimateIconImage(_summonChampName));
-			_statusBar.SetUltimateActive(false);
+			_statusBar.gameObject.SetActive(true);
+
+			_statusBar.target = _controlChampion.transform;
+			_statusBar.teamKind = _controlChampion.pilotBattleComponent.myTeam.battleTeamKind;
+
+			// Status Bar 갱신을 위한 이벤트만 구독..
+			_controlChampion.OnChangedHPRatio -= OnChangeChampionHPRatio;
+			_controlChampion.OnChangedHPRatio += OnChangeChampionHPRatio;
+
+			_controlChampion.OnChangedHPRatio -= OnChangeChampionMPRatio;
+			_controlChampion.OnChangedHPRatio += OnChangeChampionMPRatio;
+
+			_controlChampion.OnChangedBarrierRatio -= OnChangeChampionBarrierRatio;
+			_controlChampion.OnChangedBarrierRatio += OnChangeChampionBarrierRatio;
+
+			_controlChampion.isSkillCooltime = false;
+
+			if (false == _isHideUltIcon)
+			{
+				_statusBar.SetUltimateIconSprite(dataTableManager.championDataTable.GetUltimateIconImage(_summonChampName));
+				_statusBar.SetUltimateActive(false);
+			}
+		}
+		else
+		{
+			_statusBar.gameObject.SetActive(false);
 		}
 	}
 

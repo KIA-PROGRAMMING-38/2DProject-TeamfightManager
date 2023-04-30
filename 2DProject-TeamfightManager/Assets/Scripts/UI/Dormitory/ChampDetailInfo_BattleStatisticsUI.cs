@@ -53,12 +53,12 @@ public class ChampDetailInfo_BattleStatisticsUI : UIBase
 		double banpickRate = 0.0;
 		if (totalBanpickCount > 0)
 		{
-			winRate = battleStatistics.totalWinCount / (double)totalBanpickCount * 100.0;
-			banpickRate = s_dataTableManager.statisticsDataTable.totalBattleDayCount / (double)totalBanpickCount * 100.0;
+			winRate = battleStatistics.totalWinCount / (double)totalBattleGameCount * 100.0;
+			banpickRate = totalBanpickCount / (double)s_dataTableManager.statisticsDataTable.totalBattleDayCount * 100.0;
 		}
 
-		_totalBattleGameCountText.text = StringTable.GetString(battleStatistics.totalWinCount);
-		_totalWinCountText.text = StringTable.GetString(totalBattleGameCount);
+		_totalBattleGameCountText.text = StringTable.GetString(totalBattleGameCount);
+		_totalWinCountText.text = StringTable.GetString(battleStatistics.totalWinCount);
 		_totalLoseCountText.text = StringTable.GetString(totalBattleGameCount - battleStatistics.totalWinCount);
 		_winRateText.text = StringTable.GetString(Math.Round(winRate, 2)) + "%";
 		_pickCounText.text = StringTable.GetString(battleStatistics.totalPickCount);

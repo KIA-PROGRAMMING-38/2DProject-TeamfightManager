@@ -19,6 +19,12 @@ public class MenuButtonGroupUIManager : UIBase
 		}
 	}
 
+	private void Update()
+	{
+		if (GameManager.isAutoPlaying)
+			GoToStadiumScene();
+	}
+
 	public void OnClickButton(MenuButtonGroupUI buttonGroup)
     {
 		if (null != _curActiveMenuButtonGroupUI)

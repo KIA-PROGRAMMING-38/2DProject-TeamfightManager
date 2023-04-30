@@ -16,7 +16,7 @@ public class ChampionBattleStatsticsUI : UIBase
 			_champIconImage.sprite = champIconSprite;
 			UIUtility.CalcSpriteCenterPos(_champIconImage.rectTransform, champIconSprite, _champIconImage.rectTransform.localPosition);
 
-			_champNameText.text = value;
+			_champNameText.text = s_dataTableManager.championDataTable.GetChampionData(value).nameKR;
 
 			ChampionBattleStatistics champBattleStatistics = s_dataTableManager.statisticsDataTable.GetChampBattleStatistics(value);
 			SetupChampBattleStatistics(champBattleStatistics);
@@ -66,8 +66,8 @@ public class ChampionBattleStatsticsUI : UIBase
 		double banpickRate = 0.0;
 		if (totalBanpickCount > 0)
 		{
-			winRate = battleStatistics.totalWinCount / (double)totalBanpickCount * 100.0;
-			banpickRate = s_dataTableManager.statisticsDataTable.totalBattleDayCount / (double)totalBanpickCount * 100.0;
+			winRate = battleStatistics.totalWinCount / (double)battleStatistics.totalPickCount * 100.0;
+			banpickRate = totalBanpickCount / (double)s_dataTableManager.statisticsDataTable.totalBattleDayCount * 100.0;
 		}
 
 		_winRateText.text = StringTable.GetString(Math.Round(winRate, 2)) + "%";

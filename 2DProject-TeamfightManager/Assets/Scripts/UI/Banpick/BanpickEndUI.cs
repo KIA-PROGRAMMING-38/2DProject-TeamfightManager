@@ -13,9 +13,14 @@ public class BanpickEndUI : UIBase
         _child.SetActive(false);
 	}
 
-    public void OnEndBanpick()
+	public void OnEndBanpick()
     {
 		_child.SetActive(true);
+
+		if (GameManager.isAutoPlaying)
+		{
+			OnStartBattleButtonClick();
+		}
 	}
 
     public void OnStartBattleButtonClick()

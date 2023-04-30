@@ -52,8 +52,6 @@ public class AN_Move : ActionNode
 
 		_transform.Translate(Time.deltaTime * _speed * _moveDirection, Space.World);
 
-		//Debug.Log($"{Time.deltaTime * _speed * _moveDirection} 방향으로 움직임");
-
 		return State.Success;
 	}
 

@@ -28,13 +28,9 @@ public class SummonStructure_FireSprit : SummonStructure
 
 	protected override void Action()
 	{
-		Debug.Log("Fire");
-
 		int targetCount = _targetFindFunc.Invoke(transform.position, _targetArray);
 		if (0 < targetCount)
 		{
-			Debug.Log("Fire Projectile Create");
-
 			float directionX = (_targetArray[0].transform.position - transform.position).x;
 			bool flipX = directionX < 0f;
 

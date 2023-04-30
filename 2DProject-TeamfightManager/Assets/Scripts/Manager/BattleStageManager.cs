@@ -51,29 +51,36 @@ public class BattleStageManager : MonoBehaviour
 		new Vector2(-5f, -2.5f), new Vector2(-3f, 1.5f)
 	};
 
-	private IEnumerator _updateTimerCoroutine;
+	//private IEnumerator _updateTimerCoroutine;
 
-	private void Awake()
+	private void OnDisable()
 	{
-		_updateTimerCoroutine = UpdateBattleTimer();
-	}
-
-	private void Start()
-	{
-		//SetupPilot();
-
-		_battleStageDataTable.OnUpdateBattleRemainTime -= OnUpdateBattleRemainTime;
-		_battleStageDataTable.OnUpdateBattleRemainTime += OnUpdateBattleRemainTime;
+		DisconnectBattleTeamEvent(redTeam);
+		DisconnectBattleTeamEvent(blueTeam);
 	}
 
 	public void StartBattle()
 	{
+		// 각 팀 컴포넌트의 이벤트 구독..
+		ConnectBattleTeamEvent(redTeam);
+		ConnectBattleTeamEvent(blueTeam);
+
+		// 각 팀 컴포넌트들에게 배틀 시작 알려주기..
 		redTeam.StartBattle();
 		blueTeam.StartBattle();
 
+		// 전투 시간 초기화..
 		_battleStageDataTable.InitializeBattleTime(gameManager.gameGlobalData.battleFightTime);
 
-		StartCoroutine(_updateTimerCoroutine);
+		// 그 외 필요한 작업들 실행..
+		_battleStageDataTable.OnUpdateBattleRemainTime -= OnUpdateBattleRemainTime;
+		_battleStageDataTable.OnUpdateBattleRemainTime += OnUpdateBattleRemainTime;
+
+		StartCoroutine(UpdateBattleTimer());
+
+#if UNITY_EDITOR
+		Time.timeScale = 3f;
+#endif
 	}
 
 	private IEnumerator UpdateBattleTimer()
@@ -108,44 +115,30 @@ public class BattleStageManager : MonoBehaviour
 		blueTeam.enemyTeam = redTeam;
 		blueTeam.spawnArea = _blueTeamSpawnArea;
 
-		// 각 팀 컴포넌트의 이벤트 구독..
-		redTeam.OnChangedChampionBattleInfoData -= OnChangedChampionBattleData;
-		redTeam.OnChangedChampionBattleInfoData += OnChangedChampionBattleData;
-
-		redTeam.OnChangedChampionHPRatio -= OnUpdateChampionHPRatio;
-		redTeam.OnChangedChampionHPRatio += OnUpdateChampionHPRatio;
-
-		redTeam.OnChangedChampionMPRatio -= OnUpdateChampionMPRatio;
-		redTeam.OnChangedChampionMPRatio += OnUpdateChampionMPRatio;
-
-		redTeam.OnChampionUseUltimate -= OnChampionUseUltimate;
-		redTeam.OnChampionUseUltimate += OnChampionUseUltimate;
-
-		redTeam.OnChangedChampionBarrierRatio -= OnChangedChampionBarrierRatio;
-		redTeam.OnChangedChampionBarrierRatio += OnChangedChampionBarrierRatio;
-
-
-		blueTeam.OnChangedChampionBattleInfoData -= OnChangedChampionBattleData;
-		blueTeam.OnChangedChampionBattleInfoData += OnChangedChampionBattleData;
-
-		blueTeam.OnChangedChampionHPRatio -= OnUpdateChampionHPRatio;
-		blueTeam.OnChangedChampionHPRatio += OnUpdateChampionHPRatio;
-
-		blueTeam.OnChangedChampionMPRatio -= OnUpdateChampionMPRatio;
-		blueTeam.OnChangedChampionMPRatio += OnUpdateChampionMPRatio;
-
-		blueTeam.OnChampionUseUltimate -= OnChampionUseUltimate;
-		blueTeam.OnChampionUseUltimate += OnChampionUseUltimate;
-
-		blueTeam.OnChangedChampionBarrierRatio -= OnChangedChampionBarrierRatio;
-		blueTeam.OnChangedChampionBarrierRatio += OnChangedChampionBarrierRatio;
-
 		// 데이터 테이블에 넘길 정보 생성 및 넘겨주기..
 		List<BattlePilotFightData> redTeamBattlePilotFightDatas = redTeam.battlePilotFightData;
 		List<BattlePilotFightData> blueTeamBattlePilotFightDatas = blueTeam.battlePilotFightData;
 
 		_battleStageDataTable.Initialize(redTeam.teamName, redTeamBattlePilotFightDatas,
 			blueTeam.teamName, blueTeamBattlePilotFightDatas);
+	}
+
+	private void DisconnectBattleTeamEvent(BattleTeam team)
+	{
+		team.OnChangedChampionBattleInfoData -= OnChangedChampionBattleData;
+		team.OnChangedChampionHPRatio -= OnUpdateChampionHPRatio;
+		team.OnChangedChampionMPRatio -= OnUpdateChampionMPRatio;
+		team.OnChampionUseUltimate -= OnChampionUseUltimate;
+		team.OnChangedChampionBarrierRatio -= OnChangedChampionBarrierRatio;
+	}
+
+	private void ConnectBattleTeamEvent(BattleTeam team)
+	{
+		team.OnChangedChampionBattleInfoData += OnChangedChampionBattleData;
+		team.OnChangedChampionHPRatio += OnUpdateChampionHPRatio;
+		team.OnChangedChampionMPRatio += OnUpdateChampionMPRatio;
+		team.OnChampionUseUltimate += OnChampionUseUltimate;
+		team.OnChangedChampionBarrierRatio += OnChangedChampionBarrierRatio;
 	}
 
 	public void PickChampion(BattleTeamKind teamKind, int index, string champName)
@@ -203,10 +196,12 @@ public class BattleStageManager : MonoBehaviour
 	// 배틀 남은 시간 갱신되면 호출되는 콜백 함수..
 	private void OnUpdateBattleRemainTime(float remainTime)
 	{
+		// 전투 시간이 끝났다면..
 		if (remainTime <= 0f)
 		{
             _battleStageDataTable.OnUpdateBattleRemainTime -= OnUpdateBattleRemainTime;
 
+			// 이긴 팀 계산..
             BattleTeamKind winTeam = BattleTeamKind.End;
 
             if( _battleStageDataTable.redTeamBattleFightData.teamTotalKill != _battleStageDataTable.blueTeamBattleFightData.teamTotalKill )
@@ -215,10 +210,13 @@ public class BattleStageManager : MonoBehaviour
                 ? BattleTeamKind.RedTeam : BattleTeamKind.BlueTeam;
             }
 
+			// 전투가 끝났다는 것을 다른 인스턴스들에게 알려준다..
             if (null != _battleStageDataTable)
             {
 				_battleStageDataTable.EndBattle(redTeam, blueTeam, winTeam);
 			}
+
+			StopAllCoroutines();
 
             OnBattleEnd();
 
@@ -227,6 +225,10 @@ public class BattleStageManager : MonoBehaviour
 			_battleStageDataTable.Reset();
 
 			ExitBattleStage();
+
+#if UNITY_EDITOR
+			Time.timeScale = 1f;
+#endif
 		}
 	}
 
@@ -237,6 +239,10 @@ public class BattleStageManager : MonoBehaviour
 		Debug.Log("배틀이 종료되었다.");
 #endif
 		StopAllCoroutines();
+
+		// 팀 컴포넌트 이벤트 구독 해지..
+		DisconnectBattleTeamEvent(redTeam);
+		DisconnectBattleTeamEvent(blueTeam);
 
 		redTeam.OnBattleEnd();
 		blueTeam.OnBattleEnd();

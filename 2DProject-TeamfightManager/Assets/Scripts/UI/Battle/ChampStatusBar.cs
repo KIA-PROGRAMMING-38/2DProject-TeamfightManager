@@ -33,13 +33,17 @@ public class ChampStatusBar : UIBase
 
 	private void Awake()
 	{
-		_mainCamera = Camera.main;
 		_transform = GetComponent<RectTransform>();
 
 		_ultimateIconUI = GetComponentInChildren<UltimateIconUI>();
 		_buffUI = GetComponentInChildren<ChampBuffUI>();
 		_hpBarUI = GetComponentInChildren<HPBarUI>();
     }
+
+	private void OnEnable()
+	{
+		_mainCamera = Camera.main;
+	}
 
 	private void Start()
 	{

@@ -69,7 +69,7 @@ public class ChampionBT : BehaviourTree
 	{
 		// Battle 최상위 노드 생성 및 등록..
 		Node battleBodyNode = new SequenceNode();
-		AddNode(battleBodyNode, parentNode); 
+		AddNode(battleBodyNode, parentNode);
 
 		// 적을 찾는 Service Node 생성 및 등록..
 		AddNode(new SN_FindTarget(_champion.FindTarget, 0.1f), battleBodyNode);

@@ -168,6 +168,14 @@ public class AttackAction
 		}
 	}
 
+	public void Release()
+	{
+		if(null != _passiveSystem)
+		{
+			_passiveSystem.Release();
+		}
+	}
+
 	public void AddImpactData(AttackImpactData impactData)
 	{
 		_impactData.Add(impactData);

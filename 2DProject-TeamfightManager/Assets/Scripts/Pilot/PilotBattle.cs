@@ -188,13 +188,16 @@ public class PilotBattle : MonoBehaviour
     {
         if(null != _controlChampion)
         {
+			// 이벤트 구독 해지..
+			DisconectChampEvent(_controlChampion);
+
+			// 챔피언 Release..
 			_controlChampion.enabled = true;
-
 			_controlChampion.Release();
-
 			_controlChampion = null;
 		}
 
+		// 배틀 정보 초기화..
 		_battleInfoData.killCount = 0;
 		_battleInfoData.deathCount = 0;
 		_battleInfoData.assistCount = 0;
@@ -202,19 +205,37 @@ public class PilotBattle : MonoBehaviour
 		_battleInfoData.totalTakeDamage = 0;
 		_battleInfoData.totalHeal = 0;
 
-		pilot.Release();
-
+		// 소환수 초기화..
 		for (int i = 0; i < _summonChampionContainer.Count; ++i)
 		{
+			// 이벤트 구독 해지..
+			DisconectChampEvent(_summonChampionContainer[i]);
+
+			// 챔피언 Release..
 			_summonChampionContainer[i].enabled = true;
 			_summonChampionContainer[i].Release();
 		}
 
 		_summonChampionContainer.Clear();
 		_summonChampionControllerContainer.Clear();
+
+		pilot.Release();
 	}
 
-    private void OnChampionTakeDamaged(Champion hitChampion, int damage)
+	private void DisconectChampEvent(Champion champion)
+	{
+		// 챔피언의 이벤트들 구독 해지..
+		champion.OnHit -= OnChampionTakeDamaged;
+		champion.OnKill -= OnChampionKill;
+		champion.OnHeal -= OnChampionHeal;
+		champion.OnAttack -= OnChampionAttack;
+		champion.OnChangedHPRatio -= UpdateChampionHPRatio;
+		champion.OnChangedMPRatio -= UpdateChampionMPRatio;
+		champion.OnUseUltimate -= UpdateChampionUseUltimateState;
+		champion.OnChangedBarrierRatio -= UpdateBarrierRatio;
+	}
+
+	private void OnChampionTakeDamaged(Champion hitChampion, int damage)
     {
         _battleInfoData.totalTakeDamage += damage;
 		OnChangedBattleInfoData?.Invoke(battleTeamIndexKey, _battleInfoData);
@@ -285,26 +306,11 @@ public class PilotBattle : MonoBehaviour
 		champion.pilotBattleComponent = this;
 
 		// 챔피언의 이벤트들 구독..
-		champion.OnHit -= OnChampionTakeDamaged;
-		champion.OnHit += OnChampionTakeDamaged;
-
 		champion.OnKill -= OnChampionKill;
 		champion.OnKill += OnChampionKill;
 
 		champion.OnAttack -= OnChampionAttack;
 		champion.OnAttack += OnChampionAttack;
-
-		champion.OnChangedHPRatio -= UpdateChampionHPRatio;
-		champion.OnChangedHPRatio += UpdateChampionHPRatio;
-
-		champion.OnChangedMPRatio -= UpdateChampionMPRatio;
-		champion.OnChangedMPRatio += UpdateChampionMPRatio;
-
-		champion.OnUseUltimate -= UpdateChampionUseUltimateState;
-		champion.OnUseUltimate += UpdateChampionUseUltimateState;
-
-		champion.OnChangedBarrierRatio -= UpdateBarrierRatio;
-		champion.OnChangedBarrierRatio += UpdateBarrierRatio;
 
 		_summonChampionContainer.Add(champion);
 		_summonChampionControllerContainer.Add(champion.GetComponent<ChampionController>());

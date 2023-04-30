@@ -83,8 +83,6 @@ public class ChampionModifyStatusSystem
 		_status.skillCooltime = _buffSystem.status.skillCooltime - _debuffSystem.status.skillCooltime;
 
 		OnChangedStatus?.Invoke(_status);
-
-		Debug.Log("버프 디버프로 인한 스탯 갱신..");
 	}
 
 	public int CalcHealDebuff(int healAmount)

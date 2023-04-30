@@ -156,8 +156,6 @@ public class SummonSystem
 			int impactCount = _impactDatas.Count;
             for ( int impactIndex = 0; impactIndex < impactCount; ++impactIndex)
 			{
-				Debug.Log("데미지를 준다.");
-
                 AttackImpactData curImpactData = _impactDatas[impactIndex];
 
                 // 찾은 타겟 개수만큼 효과 부여..

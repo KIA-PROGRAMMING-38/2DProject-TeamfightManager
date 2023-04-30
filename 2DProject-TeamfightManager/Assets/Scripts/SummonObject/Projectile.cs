@@ -98,8 +98,6 @@ public class Projectile : SummonObject
 		{
 			prevPos = _rigidbody.position;
 
-			Debug.Log("??");
-
 			yield return null;
 
 			if (true == IsPassDestinationPoint(prevPos, _rigidbody.position, _destination))
@@ -129,12 +127,8 @@ public class Projectile : SummonObject
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		Debug.Log("OnTriggerEnter2d");
-
 		if(collision.CompareTag(TagTable.CHAMPION))
 		{
-            Debug.Log("OnTriggerEnter2d_2");
-
             Champion target = collision.GetComponent<Champion>();
             if (null != target)
             {

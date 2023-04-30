@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class ChampionBarrierSystem
 {
@@ -62,13 +63,13 @@ public class ChampionBarrierSystem
 
 	public int TakeDamage(int damage)
 	{
-		if (null == _curBarrierInfo)
+		if (0 > _barrierContainerLastIndex || null == _curBarrierInfo)
 			return damage;
 
 		bool isNeedUpdate = false;
 
 		int remainDamage = damage;
-		while(remainDamage > 0)
+		while (remainDamage > 0)
 		{
 			damage = Math.Min(_curBarrierInfo.barrierAmount, damage);
 			remainDamage -= damage;
@@ -79,6 +80,11 @@ public class ChampionBarrierSystem
 				isNeedUpdate = true;
 
 				--_barrierContainerLastIndex;
+
+				if (_barrierContainerLastIndex < -1)
+				{
+					Debug.LogError("배리어 인덱스 -1보다 작다.");
+				}
 
 				if (0 > _barrierContainerLastIndex)
 				{
@@ -110,6 +116,12 @@ public class ChampionBarrierSystem
 		{
 			case BuffImpactType.Barrier:
 				++_barrierContainerLastIndex;
+#if UNITY_EDITOR
+				if(_barrierContainerLastIndex < 0 || _barrierContainerLastIndex > _barrierInfoContainer.Count)
+				{
+					UnityEngine.Debug.LogError($"배리어 인덱스 Out of range : 값{_barrierContainerLastIndex}");
+				}
+#endif
 				_curBarrierInfo = _barrierInfoContainer[_barrierContainerLastIndex];
 
 				_curBarrierInfo.barrierAmount = (int)(amount * championBaseStatus.hp);

@@ -12,24 +12,27 @@ EditorBuildSettings:
     path: Assets/Scenes/StadiumScene.unity
     guid: 064f2fe6c395f6c49a475af95b7d3bfb
   - enabled: 1
-    path: Assets/Scenes/ColoseumScene.unity
+    path: Assets/Scenes/AdditiveScene/ColoseumScene.unity
     guid: 1a2e1c646bdbbd944a95b54aadb0f9f4
   - enabled: 1
-    path: Assets/Scenes/BanpickScene.unity
+    path: Assets/Scenes/AdditiveScene/BanpickScene.unity
     guid: f8e6ab83bb200bf43bcae5ce107f8741
   - enabled: 1
-    path: Assets/Scenes/BattleTeamInfoUIScene.unity
+    path: Assets/Scenes/AdditiveScene/BattleTeamInfoUIScene.unity
     guid: b0135247dc0821a428a3f035d82cf15f
   - enabled: 1
-    path: Assets/Scenes/ChampStatusBarUIScene.unity
+    path: Assets/Scenes/AdditiveScene/ChampStatusBarUIScene.unity
     guid: 3ff87bb46dcd1d940ac27d31b7598e90
   - enabled: 1
     path: Assets/Scenes/DormitoryScene.unity
     guid: da51e88f8665e644dbfc4df850a64e1f
   - enabled: 1
-    path: Assets/Scenes/TitleFIghtScene.unity
+    path: Assets/Scenes/AdditiveScene/TitleFIghtScene.unity
     guid: 7b22dec4773db724cb9b1616e0da22ce
   - enabled: 1
-    path: Assets/Scenes/DormitoryUIScene.unity
+    path: Assets/Scenes/AdditiveScene/DormitoryUIScene.unity
     guid: cd651fde418f18f4c8932fb2fb783dec
+  - enabled: 1
+    path: Assets/Scenes/AdditiveScene/PauseUIScene.unity
+    guid: 670f0e24fe79aa748b10dc85ab044c18
   m_configObjects: {}

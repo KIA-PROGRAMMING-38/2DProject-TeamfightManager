@@ -13,8 +13,8 @@ public class TitleButtonGroupUI : UIBase
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-#endif
-
+#else
         Application.Quit();
-    }
+#endif
+	}
 }

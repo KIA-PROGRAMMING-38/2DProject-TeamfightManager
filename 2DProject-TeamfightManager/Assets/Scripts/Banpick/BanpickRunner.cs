@@ -22,11 +22,11 @@ public class BanpickRunner : MonoBehaviour
 			{
 				banpickLevelMaxCount += _globalData.stagesDataContainer[i].orders.Count;
 				if (_globalData.stagesDataContainer[i].kind == BanpickStageKind.Ban)
-					totalBanChampCount += _globalData.stagesDataContainer[i].orders.Count / 2;
+					totalBanChampCount += _globalData.stagesDataContainer[i].orders.Count;
 			}
 
 			_battleStageDataTable.maxBanpickLevel = banpickLevelMaxCount;
-			_battleStageDataTable.totalBanChampCount = totalBanChampCount;
+			_battleStageDataTable.totalBanChampCount = totalBanChampCount / 2;
         }
 	}
 
@@ -57,11 +57,6 @@ public class BanpickRunner : MonoBehaviour
         _battleStageDataTable.StartBanpick(_globalData.stagesDataContainer[0].kind, _globalData.stagesDataContainer[0].orders[0]);
 
 		StartCoroutine(DelayBanpickStart());
-	}
-
-	private void OnDisable()
-	{
-		Debug.Log("OnDisable");
 	}
 
 	IEnumerator DelayBanpickStart()

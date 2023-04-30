@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class GameResultUI : UIBase
 {
-    public UIMove _moveComponent;
+    private UIMove _moveComponent;
 
     private Image _blueTeamLogoImage;
     private Image _redTeamLogoImage;
@@ -17,6 +17,8 @@ public class GameResultUI : UIBase
     private void Awake()
     {
         _moveComponent = GetComponent<UIMove>();
+        _moveComponent.OnMoveEnd -= OnMoveEnd;
+        _moveComponent.OnMoveEnd += OnMoveEnd;
 
         s_dataTableManager.battleStageDataTable.OnBattleEnd -= OnBattleEnd;
         s_dataTableManager.battleStageDataTable.OnBattleEnd += OnBattleEnd;
@@ -31,7 +33,7 @@ public class GameResultUI : UIBase
         _winloseText = battleUIParent.Find("WinLoseText").GetComponent<TMP_Text>();
     }
 
-    private void OnBattleEnd(BattleTeam redTeam, BattleTeam blueTeam, BattleTeamKind winTeamKind)
+	private void OnBattleEnd(BattleTeam redTeam, BattleTeam blueTeam, BattleTeamKind winTeamKind)
     {
         s_dataTableManager.battleStageDataTable.OnBattleEnd -= OnBattleEnd;
 
@@ -68,6 +70,12 @@ public class GameResultUI : UIBase
                 break;
         }
     }
+
+    private void OnMoveEnd()
+    {
+		if (GameManager.isAutoPlaying)
+			OnClickProgressButton();
+	}
 
     public void OnClickProgressButton()
     {
