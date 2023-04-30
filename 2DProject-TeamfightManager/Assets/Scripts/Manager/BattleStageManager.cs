@@ -57,6 +57,8 @@ public class BattleStageManager : MonoBehaviour
 	{
 		DisconnectBattleTeamEvent(redTeam);
 		DisconnectBattleTeamEvent(blueTeam);
+
+		_battleStageDataTable.OnUpdateBattleRemainTime -= OnUpdateBattleRemainTime;
 	}
 
 	public void StartBattle()
