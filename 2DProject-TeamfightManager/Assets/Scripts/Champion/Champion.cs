@@ -92,18 +92,19 @@ public class Champion : MonoBehaviour, IAttackable
 		}
 		set
 		{
-			if (false == value.isDead)
+			if (null != _forcedTarget && false == value.isDead)
 			{
 				_forcedTarget = value;
 
-				if (null != _forcedTarget)
-				{
-					_curAttackAction?.OnAnimationEndEvent();
-					_curAttackAction?.OnEnd();
-					_curAttackAction = null;
+				_curAttackAction?.OnAnimationEndEvent();
+				_curAttackAction?.OnEnd();
+				_curAttackAction = null;
 
-					_animComponent.ResetAnimation();
-				}
+				_animComponent.ResetAnimation();
+			}
+			else
+			{
+				_forcedTarget = null;
 			}
 		}
 	}
@@ -257,6 +258,12 @@ public class Champion : MonoBehaviour, IAttackable
 	{
 		InitializeData();
 
+		StopAllCoroutines();
+
+		_attackAction?.Release();
+		_skillAction?.Release();
+		_ultimateAction?.Release();
+
 		championManager.ReleaseChampion(this);
 	}
 
@@ -360,22 +367,8 @@ public class Champion : MonoBehaviour, IAttackable
 	// 챔피언이 동작하기 위해 필요한 데이터를 받아와 초기화 하는 함수(챔피언 매니저 클래스에서 함수를 호출한다)..
 	public void SetupNecessaryData(ChampionStatus status, ChampionData champData, ChampionAnimData animData)
 	{
-		_baseStatus.atkStat = status.atkStat;
-		_baseStatus.atkSpeed = status.atkSpeed;
-		_baseStatus.range = status.range;
-		_baseStatus.defence = status.defence;
-		_baseStatus.hp = status.hp;
-		_baseStatus.moveSpeed = status.moveSpeed;
-		_baseStatus.skillCooltime = status.skillCooltime;
-
-		switch (champData.type)
-		{
-			case ChampionClassType.ADCarry:
-			case ChampionClassType.Magician:
-				_baseStatus.range *= 2f;
-				break;
-		}
-
+		// 챔피언 기본 능력치 설정..
+		SetupBaseStatus(status, champData.type);
 
 		this.data = champData;
 		defaultFindTargetData = champData.findTargetData;
@@ -387,9 +380,16 @@ public class Champion : MonoBehaviour, IAttackable
 		// 스탯 변화 로직 시스템에게 base status 넘겨주기..
 		_modifyStatusSystem.championBaseStatus = _baseStatus;
 
+		// 애니메이션 세팅..
 		_animComponent.animData = animData;
 
-		// Data Table에서 챔피언에 맞는 공격 행동을 가져온다..
+		// 공격 행동 초기화..
+		SetupAttackAction(champData);
+	}
+
+	private void SetupAttackAction(ChampionData data)
+	{
+		// Data Table에서 챔피언에 맞는 공격 행동을 가져온 뒤 초기화..
 		_attackAction = s_dataTableManager.attackActionDataTable.GetAttackAction(this.data.atkActionUniqueKey);
 		_skillAction = s_dataTableManager.attackActionDataTable.GetAttackAction(this.data.skillActionUniqueKey);
 		_ultimateAction = s_dataTableManager.attackActionDataTable.GetAttackAction(this.data.ultimateActionUniqueKey);
@@ -406,6 +406,25 @@ public class Champion : MonoBehaviour, IAttackable
 		_attackAction.summonObjectManager = s_summonObjeectManager;
 		_skillAction.summonObjectManager = s_summonObjeectManager;
 		_ultimateAction.summonObjectManager = s_summonObjeectManager;
+	}
+
+	private void SetupBaseStatus(ChampionStatus status, ChampionClassType type)
+	{
+		_baseStatus.atkStat = status.atkStat;
+		_baseStatus.atkSpeed = status.atkSpeed;
+		_baseStatus.range = status.range;
+		_baseStatus.defence = status.defence;
+		_baseStatus.hp = status.hp;
+		_baseStatus.moveSpeed = status.moveSpeed;
+		_baseStatus.skillCooltime = status.skillCooltime;
+
+		switch (type)
+		{
+			case ChampionClassType.ADCarry:
+			case ChampionClassType.Magician:
+				_baseStatus.range *= 2f;
+				break;
+		}
 	}
 
 	private void Death()
@@ -445,13 +464,12 @@ public class Champion : MonoBehaviour, IAttackable
 
 		blackboard.SetFloatValue(BlackboardKeyTable.SKILL_RANGE, _skillAction.attackRange);
 		blackboard.SetFloatValue(BlackboardKeyTable.ULTIMATE_RANGE, _ultimateAction.attackRange);
-
-		Debug.Log($"스킬 사정거리 : {_skillAction.attackRange}");
-		Debug.Log($"궁극기 사정거리 : {_ultimateAction.attackRange}");
 	}
 
 	public void Revival()
 	{
+		_onActiveUpdateCoroutine = OnActionUpdate();
+
 		curHp = status.hp;
 
 		isAtkCooltime = false;

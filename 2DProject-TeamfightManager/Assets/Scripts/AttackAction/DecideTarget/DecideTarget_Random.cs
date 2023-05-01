@@ -46,8 +46,6 @@ public class DecideTarget_Random : AtkActionDecideTargetBase
 
     public override int FindTarget(FindTargetData findTargetData, Champion[] getTargetArray, Vector3 startPoint)
     {
-		Debug.Log("랜덤 적 찾는다2");
-
 		Champion findTarget = battleTeam.ComputeRandomEnemyInRange(startPoint, findTargetData.impactRange, findTargetData.targetTeamKind);
         if (null != findTargetData)
         {

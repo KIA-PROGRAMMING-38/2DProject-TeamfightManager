@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stagesDataContainer:
   - kind: 1
-    orders: 0100000000000000
+    orders: 00000000
   - kind: 2
     orders: 01000000000000000000000001000000
   - kind: 1
-    orders: 0000000001000000
+    orders: 01000000
   - kind: 2
     orders: 00000000010000000100000000000000

@@ -35,7 +35,7 @@ public class SummonStructure_GravityField : SummonStructure
 		_waitTickSecInst = YieldInstructionStore.GetWaitForSec(_actionTickTime);
 		_waitActionEndSecInst = YieldInstructionStore.GetWaitForSec(0.5f);
 
-		_actionEndPositionArray = new Vector3[4];
+		_actionEndPositionArray = new Vector3[8];
 
 		_startClip = SoundStore.GetAudioClip("Magicknight_UltimateStart");
         _impactClip = SoundStore.GetAudioClip("Magicknight_UltimateImpact");

@@ -51,7 +51,7 @@ public class BattleStatisticsDataTable
 
 	public void AddBattleTeamFightData(BattleTeamFightData redTeamFightData, BattleTeamFightData blueTeamFightData, BattleTeamKind winTeamKind)
 	{
-		// 팀 관련 통계 정보 갱신..
+		// 이긴 팀이 어디인지 받아와 redTeam과 blueTeam의 경기 결과를 계산..
 		BattleResultKind redTeamBattleResultKind = BattleResultKind.Draw;
 		BattleResultKind blueTeamBattleResultKind = BattleResultKind.Draw;
 
@@ -67,6 +67,7 @@ public class BattleStatisticsDataTable
 				break;
 		}
 
+		// 블루팀 및 레드팀으로 뛰었던 팀들 및 파일럿들과 챔피언들의 정보 갱신..
 		UpdateStatisticsData(redTeamFightData, redTeamBattleResultKind);
 		UpdateStatisticsData(blueTeamFightData, blueTeamBattleResultKind);
 
@@ -102,14 +103,9 @@ public class BattleStatisticsDataTable
 			{
 				case BattleResultKind.Win:
 					++curPilotStatisticsData.allStageFightDatas[championName].winCount;
-					++curTeamStatisticsData.totalWinCount;
 					break;
 				case BattleResultKind.Lose:
 					++curPilotStatisticsData.allStageFightDatas[championName].winCount;
-					++curTeamStatisticsData.totalLoseCount;
-					break;
-				case BattleResultKind.Draw:
-					++curTeamStatisticsData.totalDrawCount;
 					break;
 			}
 			curPilotStatisticsData.allStageFightDatas[championName].totalAtkDamageAmount += curBattleData.totalAtkDamage;
@@ -139,6 +135,17 @@ public class BattleStatisticsDataTable
 				curTeamStatisticsData.champPickCountContainer.Add(championName, 0);
 
 			++curTeamStatisticsData.champPickCountContainer[championName];
+		}
+
+		// 팀 관련 통계 정보 갱신..
+		switch (resultKind)
+		{
+			case BattleResultKind.Win:
+				++curTeamStatisticsData.totalWinCount;
+				break;
+			case BattleResultKind.Lose:
+				++curTeamStatisticsData.totalLoseCount;
+				break;
 		}
 
 		// 밴 관련 통계 정보 갱신..

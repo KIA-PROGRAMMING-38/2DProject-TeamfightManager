@@ -51,15 +51,15 @@ public class Effect : MonoBehaviour
         _animator.runtimeAnimatorController = _overrideController;
 
 		_spriteRenderer = GetComponent<SpriteRenderer>();
-
-		_waitForLifetimeSecondCoroutine = WaitForLifeTimeSecond();
-		_updateRotateAroundCoroutine = UpdateRotateAround();
 	}
 
     private void OnEnable()
     {
         if (null != data)
         {
+			_waitForLifetimeSecondCoroutine = WaitForLifeTimeSecond();
+			_updateRotateAroundCoroutine = UpdateRotateAround();
+
 			Vector3 offsetPosition = data.offsetPos;
             if (_spriteRenderer.flipX)
                 offsetPosition.x *= -1f;

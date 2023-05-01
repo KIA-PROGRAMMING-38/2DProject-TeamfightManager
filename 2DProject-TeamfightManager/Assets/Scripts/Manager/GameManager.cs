@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,6 +9,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+	public static string s_currentSceneName { get; private set; }
+
     private const string TITLE_ENVIORMENT_SOUND_NAME = "Title_Enviorment";
     private const string BANPICK_ENVIORMENT_SOUND_NAME = "Banpick_Enviorment";
     private const string BATTLESTAGE_ENVIORMENT_SOUND_NAME = "BattleStage_Enviorment";
@@ -66,6 +69,15 @@ public class GameManager : MonoBehaviour
 		InitializeScene();
 	}
 
+	public static bool isAutoPlaying = false;
+	private void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.F3))
+		{
+			isAutoPlaying = !isAutoPlaying;
+		}
+	}
+
 	// 저장된 파일을 불러오는 메소드..
 	private void LoadFile(int loadFileNumber)
 	{
@@ -89,6 +101,8 @@ public class GameManager : MonoBehaviour
 
     private void LoadAdditiveScene()
 	{
+		s_currentSceneName = _curSceneName;
+
 		switch (_curSceneName)
 		{
 			case SceneNameTable.TITLE:
@@ -102,6 +116,7 @@ public class GameManager : MonoBehaviour
 
 			case SceneNameTable.DORMITORY:
 				SceneManager.LoadScene(SceneNameTable.DORMITORY_UI, LoadSceneMode.Additive);
+				SceneManager.LoadScene(SceneNameTable.PAUSE_UI, LoadSceneMode.Additive);
 
                 PlayEnviormentSound(DORMITORY_ENVIORMENT_SOUND_NAME);
 
@@ -112,7 +127,7 @@ public class GameManager : MonoBehaviour
 				CreateBanpickRunner();
 				SceneManager.LoadScene(SceneNameTable.BANPICK_UI, LoadSceneMode.Additive);
 				SceneManager.LoadScene(SceneNameTable.BATTLETEAM_INFO_UI, LoadSceneMode.Additive);
-				//SceneManager.LoadScene(SceneNameTable.CHAMP_STATUSBAR_UI, LoadSceneMode.Additive);
+				SceneManager.LoadScene(SceneNameTable.PAUSE_UI, LoadSceneMode.Additive);
 
 				dataTableManager.battleStageDataTable.OnStartBattle -= OnStartBattle;
 				dataTableManager.battleStageDataTable.OnStartBattle += OnStartBattle;
@@ -143,8 +158,9 @@ public class GameManager : MonoBehaviour
 
             case SceneNameTable.STADIUM:
                 Destroy(battleStageManager.gameObject);
+				Destroy(banpickRunner.gameObject);
 
-                break;
+				break;
         }
 
 		_curSceneName = sceneName;
@@ -197,18 +213,33 @@ public class GameManager : MonoBehaviour
 
 	private void OnEndBattle(BattleTeamKind winTeam)
 	{
+		BattleStageDataTable dataTable = dataTableManager.battleStageDataTable;
+
         battleStageManager.OnEndBattle -= OnEndBattle;
 
+		// 현재 씬에 따라 해야할 행동을 한다..
 		if (_curSceneName == SceneNameTable.STADIUM)
 		{
-			dataTableManager.statisticsDataTable.AddBattleTeamFightData(dataTableManager.battleStageDataTable.redTeamBattleFightData,
-				dataTableManager.battleStageDataTable.blueTeamBattleFightData, winTeam);
+			// 통계를 담당하는 인스턴스에게 데이터 전달..
+			dataTableManager.statisticsDataTable.AddBattleTeamFightData(
+				dataTable.redTeamBattleFightData, dataTable.blueTeamBattleFightData, winTeam);
 		}
 		else if (_curSceneName == SceneNameTable.TITLE)
 		{
-			Invoke("OnStartBattle", 0.5f);
+			// 다시 챔피언을 무작위 픽한 다음 전투 개시..
+			StartCoroutine(StartTitleBattle());
 		}
     }
+
+	IEnumerator StartTitleBattle()
+	{
+		yield return YieldInstructionStore.GetWaitForSec(0.5f);
+
+		dataTableManager.battleStageDataTable.Initialize(battleStageManager.redTeam.teamName, battleStageManager.redTeam.battlePilotFightData,
+			battleStageManager.blueTeam.teamName, battleStageManager.blueTeam.battlePilotFightData);
+
+		OnStartBattle();
+	}
 
 	private void SetupTitleFight()
 	{
@@ -242,8 +273,6 @@ public class GameManager : MonoBehaviour
 
 			pickChampionList.Add(champName);
 			battleStageManager.PickChampion(BattleTeamKind.RedTeam, i, champName);
-
-			Debug.Log($"{i + 1}번째 챔피언 골라부럿다.");
 		}
 	}
 

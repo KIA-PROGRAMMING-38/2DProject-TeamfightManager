@@ -48,8 +48,6 @@ public static class FloatingDamageUISpawner
         damageUI.Initialize(uiPosition, uiColor, damage);
 
         damageUI.transform.SetParent(uiParentTransform, true);
-
-        Debug.Log("데미지UI 생성");
 	}
 
     // Floating Damage UI가 할 일을 끝나고 pool에 들어갈 때 호출된다..
@@ -65,8 +63,6 @@ public static class FloatingDamageUISpawner
 
         _uiPooler.Release(damageUI);
 
-        damageUI.transform.parent = gameManager.transform;
-
-		Debug.Log("데미지UI release");
+        damageUI.transform.SetParent(gameManager.transform);
 	}
 }

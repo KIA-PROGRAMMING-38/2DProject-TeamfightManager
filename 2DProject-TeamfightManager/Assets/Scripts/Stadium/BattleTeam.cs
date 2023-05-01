@@ -159,25 +159,6 @@ public class BattleTeam : MonoBehaviour
 
 		// Pilot Battle Component 를 나의 팀으로 넣기..
 		_pilots[index] = pilotBattle;
-
-		// 파일럿 이벤트 연결..
-		pilotBattle.OnChangedBattleInfoData -= OnChangedChampionBattleData;
-		pilotBattle.OnChangedBattleInfoData += OnChangedChampionBattleData;
-
-		pilotBattle.OnChangedChampionHPRatio -= UpdateChampionHPRatio;
-		pilotBattle.OnChangedChampionHPRatio += UpdateChampionHPRatio;
-
-		pilotBattle.OnChangedChampionMPRatio -= UpdateChampionMPRatio;
-		pilotBattle.OnChangedChampionMPRatio += UpdateChampionMPRatio;
-
-		pilotBattle.OnChampionUseUltimate -= UpdateChampionUseUltimateState;
-		pilotBattle.OnChampionUseUltimate += UpdateChampionUseUltimateState;
-
-		pilotBattle.OnChangedChampionBarrierRatio -= UpdateChampionBarrierRatio;
-		pilotBattle.OnChangedChampionBarrierRatio += UpdateChampionBarrierRatio;
-
-		// 코루틴 등록..
-		_revivalCoroutines.Add(WaitRevival(_pilots.Count - 1));
 	}
 
 	public void AddChampion(int index, string championName)
@@ -207,19 +188,52 @@ public class BattleTeam : MonoBehaviour
 	{
 		_isBattleEnd = false;
 
+		_revivalCoroutines.Clear();
+
 		int loopCount = _allChampions.Count;
 		for( int i = 0; i < loopCount; ++i)
 		{
 			if (null == _allChampions[i])
 				continue;
 
+			// 파일럿 활성화..
 			_pilots[i].gameObject.SetActive(true);
 			_pilots[i].StartBattle((BattleTeamKind.BlueTeam == battleTeamKind) ? 15f : 30f);
 
+			// 파일럿 이벤트 연결..
+			ConnectPilotBattleEvent(_pilots[i]);
+
+			// 챔피언 활성화..
 			_allChampions[i].gameObject.SetActive(true);
 			_allChampions[i].StartFight();
 			_activeChampions.Add(_allChampions[i]);
+
+			// 코루틴 등록..
+			_revivalCoroutines.Add(WaitRevival(i));
 		}
+	}
+
+	private void DisconnectPilotBattleEvent(PilotBattle pilotBattle)
+	{
+		// 파일럿 이벤트 구독 해지..
+		pilotBattle.OnChangedBattleInfoData -= OnChangedChampionBattleData;
+		pilotBattle.OnChangedChampionHPRatio -= UpdateChampionHPRatio;
+		pilotBattle.OnChangedChampionMPRatio -= UpdateChampionMPRatio;
+		pilotBattle.OnChampionUseUltimate -= UpdateChampionUseUltimateState;
+		pilotBattle.OnChangedChampionBarrierRatio -= UpdateChampionBarrierRatio;
+	}
+
+	private void ConnectPilotBattleEvent(PilotBattle pilotBattle)
+	{
+		// 혹시 모르니 이벤트 구독 해지부터..
+		DisconnectPilotBattleEvent(pilotBattle);
+
+		// 파일럿 이벤트 연결..
+		pilotBattle.OnChangedBattleInfoData += OnChangedChampionBattleData;
+		pilotBattle.OnChangedChampionHPRatio += UpdateChampionHPRatio;
+		pilotBattle.OnChangedChampionMPRatio += UpdateChampionMPRatio;
+		pilotBattle.OnChampionUseUltimate += UpdateChampionUseUltimateState;
+		pilotBattle.OnChangedChampionBarrierRatio += UpdateChampionBarrierRatio;
 	}
 
 	public Champion GetChampion(int index)
@@ -294,6 +308,9 @@ public class BattleTeam : MonoBehaviour
 		int loopCount = _pilots.Count;
 		for (int i = 0; i < loopCount; ++i)
 		{
+			// 파일럿 이벤트 구독 해지..
+			DisconnectPilotBattleEvent(_pilots[i]);
+
 			_pilots[i].StopChampionLogic();
 		}
 
@@ -314,18 +331,22 @@ public class BattleTeam : MonoBehaviour
 
 	public void ProgressMyTurnBanpick(BanpickRunner banpickRunner)
 	{
-		banpickRunner.SetReceiveButtonEventState(true);
-
-		return;
-
-		bool isPlayerTeam = teamName == _playerTeamName;
-
-		banpickRunner.SetReceiveButtonEventState(isPlayerTeam);
-
-		// Player Team이 아니라면 AI에 의해 고르도록 한다..
-		if (false == isPlayerTeam)
+		if(GameManager.isAutoPlaying)
 		{
+			banpickRunner.SetReceiveButtonEventState(false);
 			StartCoroutine(DecideBanpickChampion(banpickRunner));
+		}
+		else
+		{
+			bool isPlayerTeam = teamName == _playerTeamName;
+
+			banpickRunner.SetReceiveButtonEventState(isPlayerTeam);
+
+			// Player Team이 아니라면 AI에 의해 고르도록 한다..
+			if (false == isPlayerTeam)
+			{
+				StartCoroutine(DecideBanpickChampion(banpickRunner));
+			}
 		}
 	}
 
@@ -357,7 +378,6 @@ public class BattleTeam : MonoBehaviour
 
 			if( true == isSuccessSelect)
 			{
-				Debug.Log($"AI가 챔피언을 고름 : {championName}");
 				banpickRunner.OnSelectChampion(championName);
 
 				break;

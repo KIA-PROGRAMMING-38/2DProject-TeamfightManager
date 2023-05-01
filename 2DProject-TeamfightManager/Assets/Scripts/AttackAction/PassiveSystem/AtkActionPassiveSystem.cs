@@ -32,6 +32,11 @@
 		_passiveData = passiveData;
 	}
 
+	public void Release()
+	{
+		_ownerChampion.OnKill -= OnOwnerChampionKill;
+	}
+
 	private void OnOwnerChampionKill(Champion killedChampion)
 	{
 		_ownerChampion.Attack(ActionKeyTable.ULTIMATE);
