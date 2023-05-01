@@ -62,7 +62,7 @@ public class ChampionBT : BehaviourTree
 		SetupBattleNodeHierarchy(rootChildNode);
 
 		// 적을 찾지 못한 경우 Idle 애니메이션으로 돌리기 위한 노드..
-		AddNode(new AN_ChangeAnimState(ChampionAnimation.AnimState.Idle, true), rootChildNode, "ChangeAnimState_Idle");
+		AddNode(new AN_FindTarget(_champion.FindTarget), rootChildNode, "FindTarget");
 	}
 
 	private void SetupBattleNodeHierarchy(Node parentNode)
@@ -74,7 +74,7 @@ public class ChampionBT : BehaviourTree
 		// 적을 찾는 Service Node 생성 및 등록..
 		AddNode(new SN_FindTarget(_champion.FindTarget, 0.1f), battleBodyNode);
 
-		// =============================================================================
+		// ===================================================================mpiona==========
 		// 캐릭터가 전투를 하기 위해 필요한 값들을 갱신하고 적이 있는지 체크하는 노드 생성 및 등록..
 		Node targetInfoUpdateParentNode = new SequenceNode();
 		AddNode(targetInfoUpdateParentNode, battleBodyNode);
@@ -186,6 +186,17 @@ public class ChampionBT : BehaviourTree
 
 		// 움직이는 노드 생성 및 등록..
 		AddNode(new AN_Move(), chaseBodyNode);
+		// =============================================================================
+
+		// =============================================================================
+		// ----- Chase 행동 관련 노드 정의..
+		// 적을 쫓는 상태 최상위 노드 생성 및 등록..
+		Node idleBodyNode = new SequenceNode();
+		AddNode(idleBodyNode, battleActionBodyNode);
+
+		AddNode(new AN_LookTarget(), idleBodyNode);
+
+		AddNode(new AN_ChangeAnimState(ChampionAnimation.AnimState.Idle, true), idleBodyNode);
 		// =============================================================================
 	}
 }

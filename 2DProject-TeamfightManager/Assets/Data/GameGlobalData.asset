@@ -48,3 +48,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e2b00c343be9b34448a68b74583ec948, type: 3}
   - {fileID: 21300000, guid: 34c1101cbbc785c438e9702d0ef81ec7, type: 3}
   floatingDamageUIPrefab: {fileID: 6567420708712784322, guid: 084f95462c465f6489f043efa001a712, type: 3}
+  pilotConditionSprites:
+  - {fileID: 21300000, guid: 26c89c3c9b52ad84b95951a80477f2d3, type: 3}
+  - {fileID: 21300000, guid: 73ebe81b351529641ad22d32fd7ae2cc, type: 3}
+  - {fileID: 21300000, guid: c9f907ada8e507446b30041b094426cd, type: 3}
+  - {fileID: 21300000, guid: 18417f500419c2749b33245c7ff56fc1, type: 3}
+  - {fileID: 21300000, guid: 9742282960eba5a44ac18624e3ca44fe, type: 3}
+  pilotPrefab: {fileID: 6109750569865147478, guid: 809b15f36ca538448b24aaef1687cb75, type: 3}

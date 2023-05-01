@@ -20,18 +20,14 @@ public static class GameSaveLoader
 
 		{
 			// Pilot 전역적으로 사용될 파일 불러온다..
-			string pilotGlobalFilePath = Path.Combine("Assets/Data", gameManager.gameGlobalData.pilotGlobalFilePath);
-			string[] loadData = File.ReadAllLines(pilotGlobalFilePath);
-
-			string[] conditionsFilePath = loadData[0].Split(',');
-			int loopCount = conditionsFilePath.Length;
+			int loopCount = gameManager.gameGlobalData.pilotConditionSprites.Length;
 			for( int i = 0; i < loopCount; ++i)
 			{
-				Sprite loadSprite = Resources.Load<Sprite>(conditionsFilePath[i]);
+				Sprite loadSprite = gameManager.gameGlobalData.pilotConditionSprites[i];
 				dataTableManager.pilotDataTable.AddConditionSprite(loadSprite);
 			}
 
-			dataTableManager.pilotDataTable.SetPilotDefaultPrefab(Resources.Load<GameObject>(loadData[1]));
+			dataTableManager.pilotDataTable.SetPilotDefaultPrefab(gameManager.gameGlobalData.pilotPrefab);
 
 			loopCount = gameManager.gameGlobalData.pilotHairSprite.Length;
 			dataTableManager.pilotDataTable.trunkIconSprite = gameManager.gameGlobalData.pilotTrunkSprite;

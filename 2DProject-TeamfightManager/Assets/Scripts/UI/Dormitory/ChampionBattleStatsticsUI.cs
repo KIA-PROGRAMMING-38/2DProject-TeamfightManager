@@ -66,8 +66,11 @@ public class ChampionBattleStatsticsUI : UIBase
 		double banpickRate = 0.0;
 		if (totalBanpickCount > 0)
 		{
-			winRate = battleStatistics.totalWinCount / (double)battleStatistics.totalPickCount * 100.0;
 			banpickRate = totalBanpickCount / (double)s_dataTableManager.statisticsDataTable.totalBattleDayCount * 100.0;
+		}
+		if (battleStatistics.totalPickCount > 0)
+		{
+			winRate = battleStatistics.totalWinCount / (double)battleStatistics.totalPickCount * 100.0;
 		}
 
 		_winRateText.text = StringTable.GetString(Math.Round(winRate, 2)) + "%";

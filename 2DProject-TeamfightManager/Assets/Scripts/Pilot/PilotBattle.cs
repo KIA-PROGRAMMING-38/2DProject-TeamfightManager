@@ -160,9 +160,13 @@ public class PilotBattle : MonoBehaviour
 
 	IEnumerator WaitUltiDelay(float ultWaitTime)
 	{
-		//float waitTime = UnityEngine.Random.Range(ultWaitTime - 5f, ultWaitTime + 5f);
-		//yield return YieldInstructionStore.GetWaitForSec(waitTime);
-		yield return null;
+		float waitTime = UnityEngine.Random.Range(ultWaitTime, ultWaitTime + 10f);
+		yield return YieldInstructionStore.GetWaitForSec(waitTime);
+
+		while (true == _controlChampion.isDead)
+		{
+			yield return null;
+		}
 
 		_controlChampion.TurnOnUltimate();
 	}

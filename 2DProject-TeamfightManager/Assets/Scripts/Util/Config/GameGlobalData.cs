@@ -25,4 +25,7 @@ public class GameGlobalData : ScriptableObject
 	public Sprite[] pilotHairSprite;
 
 	public GameObject floatingDamageUIPrefab;
+
+	public Sprite[] pilotConditionSprites;
+	public GameObject pilotPrefab;
 }

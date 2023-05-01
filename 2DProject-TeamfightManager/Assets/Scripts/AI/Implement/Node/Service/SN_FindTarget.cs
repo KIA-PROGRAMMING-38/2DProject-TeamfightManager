@@ -34,7 +34,8 @@ public class SN_FindTarget : ServiceNode
 	{
 		Champion findTarget = _findTargetFunc?.Invoke();
 
-		blackboard.SetObjectValue(BlackboardKeyTable.TARGET, findTarget );
+		if (null != findTarget)
+			blackboard.SetObjectValue(BlackboardKeyTable.TARGET, findTarget );
 
 		return State.Success;
 	}

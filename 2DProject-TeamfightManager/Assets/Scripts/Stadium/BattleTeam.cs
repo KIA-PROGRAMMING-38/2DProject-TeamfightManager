@@ -298,7 +298,9 @@ public class BattleTeam : MonoBehaviour
 		champion.transform.position = spawnPosition;
 		champion.gameObject.SetActive(true);
 
-        _activeChampions.Add( champion );
+		champion.StartSkillCooltime();
+
+		_activeChampions.Add( champion );
     }
 
 	public void OnBattleEnd()

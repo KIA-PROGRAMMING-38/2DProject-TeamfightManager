@@ -155,10 +155,11 @@ public class ChampionAnimation : MonoBehaviour
 
 				break;
 			case AnimState.Dead:
+				_animator.ResetTrigger(AnimatorHashStore.REVIVAL_KEY_HASH);
 				_animator.SetTrigger(AnimatorHashStore.DEATH_KEY_HASH);
 
 				break;
-
+				
 			case AnimState.Revival:
 				_animator.SetTrigger(AnimatorHashStore.REVIVAL_KEY_HASH);
 				ChangeState(AnimState.Idle);

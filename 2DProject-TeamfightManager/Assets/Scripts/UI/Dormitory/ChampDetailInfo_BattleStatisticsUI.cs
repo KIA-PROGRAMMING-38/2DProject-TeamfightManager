@@ -51,9 +51,12 @@ public class ChampDetailInfo_BattleStatisticsUI : UIBase
 
 		double winRate = 0.0;
 		double banpickRate = 0.0;
-		if (totalBanpickCount > 0)
+		if (totalBattleGameCount > 0)
 		{
 			winRate = battleStatistics.totalWinCount / (double)totalBattleGameCount * 100.0;
+		}
+		if (totalBanpickCount > 0)
+		{
 			banpickRate = totalBanpickCount / (double)s_dataTableManager.statisticsDataTable.totalBattleDayCount * 100.0;
 		}
 

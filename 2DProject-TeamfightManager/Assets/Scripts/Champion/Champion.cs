@@ -224,6 +224,9 @@ public class Champion : MonoBehaviour, IAttackable
 
 	public FindTargetData defaultFindTargetData { get; private set; }
 
+	private bool _isPassiveUltimate = false;
+	private float _revivalSkillCoolTimeFillAmount = 0f;
+
 	private void Awake()
 	{
 		_floatingDamageUIStartPoint = transform.Find(FLOATING_DAMAGE_START_POINT);
@@ -420,9 +423,24 @@ public class Champion : MonoBehaviour, IAttackable
 
 		switch (type)
 		{
+			case ChampionClassType.Warrior:
+				_revivalSkillCoolTimeFillAmount = 0.5f;
+				break;
+
 			case ChampionClassType.ADCarry:
 			case ChampionClassType.Magician:
+				_revivalSkillCoolTimeFillAmount = 0.6f;
 				_baseStatus.range *= 2f;
+				break;
+
+			case ChampionClassType.Assistant:
+				_revivalSkillCoolTimeFillAmount = 0.7f;
+				break;
+
+			case ChampionClassType.Assassin:
+				_baseStatus.moveSpeed *= 0.7f;
+				_baseStatus.skillCooltime *= 0.8f;
+				_revivalSkillCoolTimeFillAmount = 1f;
 				break;
 		}
 	}
@@ -473,12 +491,18 @@ public class Champion : MonoBehaviour, IAttackable
 		curHp = status.hp;
 
 		isAtkCooltime = false;
-		isSkillCooltime = false;
 
 		_animComponent.ResetAnimation();
 		_animComponent.ChangeState(ChampionAnimation.AnimState.Revival);
 
 		aiController.enabled = true;
+	}
+
+	public void StartSkillCooltime()
+	{
+		isSkillCooltime = true;
+
+		_skillActTime = Time.time - _revivalSkillCoolTimeFillAmount * status.skillCooltime;
 	}
 
 	public void Attack(string atkKind)
