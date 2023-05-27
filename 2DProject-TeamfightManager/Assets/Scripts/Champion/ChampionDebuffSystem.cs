@@ -314,7 +314,7 @@ public class ChampionDeBuffSystem
 		if (null == _prevokeEffect)
 			return;
 
-		if(true == isActive)
+		if (true == isActive)
 		{
 			_prevokeEffect.gameObject.SetActive(true);
 		}

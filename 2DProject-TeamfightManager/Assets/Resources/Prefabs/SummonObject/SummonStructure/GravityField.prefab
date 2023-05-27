@@ -160,6 +160,7 @@ MonoBehaviour:
   _isUseLifeTime: 0
   _isAttachOwner: 0
   _isSpawnTargetPosition: 0
+  _isPlaySound: 0
 --- !u!58 &814672078110959333
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -175,7 +176,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 4
+  m_Radius: 3.9
 --- !u!82 &-7460461381420281028
 AudioSource:
   m_ObjectHideFlags: 0

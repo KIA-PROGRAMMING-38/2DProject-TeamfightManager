@@ -81,7 +81,7 @@ public class BattleStageManager : MonoBehaviour
 		StartCoroutine(UpdateBattleTimer());
 
 #if UNITY_EDITOR
-		Time.timeScale = 3f;
+		Time.timeScale = 1f;
 #endif
 	}
 
