@@ -220,9 +220,10 @@ public class GameManager : MonoBehaviour
 		// 현재 씬에 따라 해야할 행동을 한다..
 		if (_curSceneName == SceneNameTable.STADIUM)
 		{
+			BattleStatisticsDataTable statisticsDataTable = dataTableManager.statisticsDataTable;
+
 			// 통계를 담당하는 인스턴스에게 데이터 전달..
-			dataTableManager.statisticsDataTable.AddBattleTeamFightData(
-				dataTable.redTeamBattleFightData, dataTable.blueTeamBattleFightData, winTeam);
+			statisticsDataTable.AddBattleTeamFightData( dataTable.redTeamBattleFightData, dataTable.blueTeamBattleFightData, winTeam);
 		}
 		else if (_curSceneName == SceneNameTable.TITLE)
 		{

@@ -34,50 +34,50 @@ namespace MH_AIFramework
 		// ===============================================================================================================================
 		// --- Data Getter..
 		// ===============================================================================================================================
-#if UNITY_EDITOR
-		public string GetStringValue(string key)
-		{
-			if (!_stringContainer.ContainsKey(key))
-				Debug.Assert(false, key + " invalid key");
-			return _stringContainer[key];
-		}
-		public float GetFloatValue(string key)
-		{
-			if (!_floatContainer.ContainsKey(key))
-				Debug.Assert(false, key + " invalid key");
-			return _floatContainer[key];
-		}
-		public int GetIntValue(string key)
-		{
-			if (!_intContainer.ContainsKey(key))
-				Debug.Assert(false, key + " invalid key");
-			return _intContainer[key];
-		}
-		public bool GetBoolValue(string key)
-		{
-			if (!_boolContainer.ContainsKey(key))
-				Debug.Assert(false, key + " invalid key");
-			return _boolContainer[key];
-		}
-		public void GetVectorValue(string key, out Vector3 get)
-		{
-			if (!_vec3Container.ContainsKey(key))
-				Debug.Assert(false, key + " invalid key");
-			get = _vec3Container[key];
-		}
-		public void GetRotatorValue(string key, out Quaternion get)
-		{
-			if (!_quatContainer.ContainsKey(key))
-				Debug.Assert(false, key + " invalid key");
-			get = _quatContainer[key];
-		}
-		public object GetObjectValue(string key)
-		{
-			if (!_objectContainer.ContainsKey(key))
-				Debug.Assert(false, key + "invalid key");
-			return _objectContainer[key];
-		}
-#else
+//#if UNITY_EDITOR
+//		public string GetStringValue(string key)
+//		{
+//			if (!_stringContainer.ContainsKey(key))
+//				Debug.Assert(false, key + " invalid key");
+//			return _stringContainer[key];
+//		}
+//		public float GetFloatValue(string key)
+//		{
+//			if (!_floatContainer.ContainsKey(key))
+//				Debug.Assert(false, key + " invalid key");
+//			return _floatContainer[key];
+//		}
+//		public int GetIntValue(string key)
+//		{
+//			if (!_intContainer.ContainsKey(key))
+//				Debug.Assert(false, key + " invalid key");
+//			return _intContainer[key];
+//		}
+//		public bool GetBoolValue(string key)
+//		{
+//			if (!_boolContainer.ContainsKey(key))
+//				Debug.Assert(false, key + " invalid key");
+//			return _boolContainer[key];
+//		}
+//		public void GetVectorValue(string key, out Vector3 get)
+//		{
+//			if (!_vec3Container.ContainsKey(key))
+//				Debug.Assert(false, key + " invalid key");
+//			get = _vec3Container[key];
+//		}
+//		public void GetRotatorValue(string key, out Quaternion get)
+//		{
+//			if (!_quatContainer.ContainsKey(key))
+//				Debug.Assert(false, key + " invalid key");
+//			get = _quatContainer[key];
+//		}
+//		public object GetObjectValue(string key)
+//		{
+//			if (!_objectContainer.ContainsKey(key))
+//				Debug.Assert(false, key + "invalid key");
+//			return _objectContainer[key];
+//		}
+//#else
 		public string GetStringValue( string key ) => _stringContainer[key];
 		public float GetFloatValue( string key ) => _floatContainer[key];
 		public int GetIntValue( string key ) => _intContainer[key];
@@ -85,7 +85,7 @@ namespace MH_AIFramework
 		public void GetVectorValue(string key, out Vector3 get) => get = _vec3Container[key];
 		public void GetRotatorValue(string key, out Quaternion get) => get = _quatContainer[key];
 		public object GetObjectValue( string key ) => _objectContainer[key];
-#endif
+//#endif
 
 		// ===============================================================================================================================
 		// --- Data Setter..

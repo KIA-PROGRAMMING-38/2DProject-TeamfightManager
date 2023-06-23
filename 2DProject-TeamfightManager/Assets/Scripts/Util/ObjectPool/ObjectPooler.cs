@@ -18,7 +18,8 @@ namespace Util.Pool
 		public int CountInactive { get { return _objectContainer.Count; } }
 		public int CountActive { get { return CountAll - CountInactive; } }
 
-		public ObjectPooler( Func<T> cretaeFunc, Action<T> actionInGet = null, Action<T> actionInRelease = null, Action<T> actionInDestroy = null, int defaultCapacity = 10, int defaultCreateCount = 10, int maxSize = 10000 )
+		public ObjectPooler( Func<T> cretaeFunc, Action<T> actionInGet = null, Action<T> actionInRelease = null, Action<T> actionInDestroy = null, 
+			int defaultCapacity = 10, int defaultCreateCount = 10, int maxSize = 10000 )
 		{
 			if ( null == cretaeFunc)
 			{
@@ -71,7 +72,10 @@ namespace Util.Pool
 			}
 
 			T outObject = _objectContainer.Dequeue();
+
+#if UNITY_EDITOR
 			Debug.Assert( null != outObject );
+#endif
 
 			_actionOnGet?.Invoke( outObject );
 
@@ -80,7 +84,9 @@ namespace Util.Pool
 
 		public void Release( T element )
 		{
+#if UNITY_EDITOR
 			Debug.Assert( null != element );
+#endif
 
 			_actionOnRelease?.Invoke( element );
 

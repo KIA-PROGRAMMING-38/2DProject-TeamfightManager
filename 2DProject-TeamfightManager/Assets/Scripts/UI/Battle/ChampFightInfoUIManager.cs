@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// 모든 ChampFightInfoUI 를 관리하고 데이터 테이블의 정보가 바뀔 때마다 가져와서 ChampFightInfoUI들에게 정보를 넘겨준다..
@@ -20,25 +21,33 @@ public class ChampFightInfoUIManager : UIBase
     {
 		yield return null;
 
+		// 각 챔피언 전투 정보 UI 생성 및 초기화..
 		SetupChampFightInfoUI();
 
-        // 데이터 테이블 이벤트 구독..
-		s_dataTableManager.battleStageDataTable.OnChangedChampionBattleData -= OnChangedChampionBattleData;
-		s_dataTableManager.battleStageDataTable.OnChangedChampionBattleData += OnChangedChampionBattleData;
-
-		s_dataTableManager.battleStageDataTable.OnBanpickUpdate -= UpdateBanpickData;
-		s_dataTableManager.battleStageDataTable.OnBanpickUpdate += UpdateBanpickData;
-
-        s_dataTableManager.battleStageDataTable.OnStartBattle -= OnStartBattle;
-        s_dataTableManager.battleStageDataTable.OnStartBattle += OnStartBattle;
-
-        s_dataTableManager.battleStageDataTable.OnBattleEnd -= OnBattleEnd;
-        s_dataTableManager.battleStageDataTable.OnBattleEnd += OnBattleEnd;
+		// 필요한 이벤트 구독..
+		LinkToRequireEvent();
     }
+
+    private void LinkToRequireEvent()
+    {
+		BattleStageDataTable battleStageDataTable = s_dataTableManager.battleStageDataTable;
+
+		battleStageDataTable.OnChangedChampionBattleData -= OnChangedChampionBattleData;
+		battleStageDataTable.OnChangedChampionBattleData += OnChangedChampionBattleData;
+
+		battleStageDataTable.OnBanpickUpdate -= OnUpdateBanpickData;
+		battleStageDataTable.OnBanpickUpdate += OnUpdateBanpickData;
+
+		battleStageDataTable.OnStartBattle -= OnStartBattle;
+		battleStageDataTable.OnStartBattle += OnStartBattle;
+
+		battleStageDataTable.OnBattleEnd -= OnBattleEnd;
+		battleStageDataTable.OnBattleEnd += OnBattleEnd;
+	}
 
 	private void OnStartBattle()
 	{
-		s_dataTableManager.battleStageDataTable.OnBanpickUpdate -= UpdateBanpickData;
+		s_dataTableManager.battleStageDataTable.OnBanpickUpdate -= OnUpdateBanpickData;
         s_dataTableManager.battleStageDataTable.OnStartBattle -= OnStartBattle;
     }
 
@@ -48,7 +57,6 @@ public class ChampFightInfoUIManager : UIBase
         s_dataTableManager.battleStageDataTable.OnBattleEnd -= OnBattleEnd;
     }
 
-    // Champion Fight Info UI 생성 및 초기화..
     private void SetupChampFightInfoUI()
     {
 		BattleStageDataTable dataTable = s_dataTableManager.battleStageDataTable;
@@ -86,7 +94,7 @@ public class ChampFightInfoUIManager : UIBase
         fightInfoUIContainer[(int)teamKind][index].UpdateData(data);
     }
 
-    private void UpdateBanpickData(string champName, BanpickStageKind banpickKind, BattleTeamKind teamKind, int index)
+    private void OnUpdateBanpickData(string champName, BanpickStageKind banpickKind, BattleTeamKind teamKind, int index)
     {
         if (BanpickStageKind.Pick != banpickKind)
             return;

@@ -34,7 +34,6 @@ public class AN_Move : ActionNode
 	protected override State OnUpdate()
 	{
 #if UNITY_EDITOR
-		Debug.Log("움직인다");
 		Debug.Assert(null != _transform);
 #endif
 

@@ -148,17 +148,16 @@ public class BattleTeam : MonoBehaviour
 	/// </summary>
 	/// <param name="pilotName"></param>
 	/// <param name="champName"></param>
-	private void SetupPilot(PilotBattle pilotBattle, int index)
+	private void SetupPilot(PilotBattle pilot, int index)
     {
 #if UNITY_EDITOR
-		Debug.Assert(null != pilotBattle);
+		Debug.Assert(null != pilot);
 #endif
 		// 초기화..
-		pilotBattle.myTeam = this;
-		pilotBattle.battleTeamIndexKey = index;
+		pilot.myTeam = this;
+		pilot.battleTeamIndexKey = index;
 
-		// Pilot Battle Component 를 나의 팀으로 넣기..
-		_pilots[index] = pilotBattle;
+		_pilots[index] = pilot;
 	}
 
 	public void AddChampion(int index, string championName)
@@ -203,9 +202,7 @@ public class BattleTeam : MonoBehaviour
 			// 파일럿 이벤트 연결..
 			ConnectPilotBattleEvent(_pilots[i]);
 
-			// 챔피언 활성화..
-			_allChampions[i].gameObject.SetActive(true);
-			_allChampions[i].StartFight();
+			// 활성화된 챔피언 목록에 저장..
 			_activeChampions.Add(_allChampions[i]);
 
 			// 코루틴 등록..
@@ -213,27 +210,27 @@ public class BattleTeam : MonoBehaviour
 		}
 	}
 
-	private void DisconnectPilotBattleEvent(PilotBattle pilotBattle)
+	private void DisconnectPilotBattleEvent(PilotBattle pilot)
 	{
 		// 파일럿 이벤트 구독 해지..
-		pilotBattle.OnChangedBattleInfoData -= OnChangedChampionBattleData;
-		pilotBattle.OnChangedChampionHPRatio -= UpdateChampionHPRatio;
-		pilotBattle.OnChangedChampionMPRatio -= UpdateChampionMPRatio;
-		pilotBattle.OnChampionUseUltimate -= UpdateChampionUseUltimateState;
-		pilotBattle.OnChangedChampionBarrierRatio -= UpdateChampionBarrierRatio;
+		pilot.OnChangedBattleInfoData -= OnChangedChampionBattleData;
+		pilot.OnChangedChampionHPRatio -= UpdateChampionHPRatio;
+		pilot.OnChangedChampionMPRatio -= UpdateChampionMPRatio;
+		pilot.OnChampionUseUltimate -= UpdateChampionUseUltimateState;
+		pilot.OnChangedChampionBarrierRatio -= UpdateChampionBarrierRatio;
 	}
 
-	private void ConnectPilotBattleEvent(PilotBattle pilotBattle)
+	private void ConnectPilotBattleEvent(PilotBattle pilot)
 	{
 		// 혹시 모르니 이벤트 구독 해지부터..
-		DisconnectPilotBattleEvent(pilotBattle);
+		DisconnectPilotBattleEvent(pilot);
 
 		// 파일럿 이벤트 연결..
-		pilotBattle.OnChangedBattleInfoData += OnChangedChampionBattleData;
-		pilotBattle.OnChangedChampionHPRatio += UpdateChampionHPRatio;
-		pilotBattle.OnChangedChampionMPRatio += UpdateChampionMPRatio;
-		pilotBattle.OnChampionUseUltimate += UpdateChampionUseUltimateState;
-		pilotBattle.OnChangedChampionBarrierRatio += UpdateChampionBarrierRatio;
+		pilot.OnChangedBattleInfoData += OnChangedChampionBattleData;
+		pilot.OnChangedChampionHPRatio += UpdateChampionHPRatio;
+		pilot.OnChangedChampionMPRatio += UpdateChampionMPRatio;
+		pilot.OnChampionUseUltimate += UpdateChampionUseUltimateState;
+		pilot.OnChangedChampionBarrierRatio += UpdateChampionBarrierRatio;
 	}
 
 	public Champion GetChampion(int index)

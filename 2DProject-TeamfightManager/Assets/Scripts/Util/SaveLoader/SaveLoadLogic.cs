@@ -9,12 +9,13 @@ public static class SaveLoadLogic
 	// ============================================================================================== //
 	public static bool LoadChampionFile(string fileData, out ChampionStatus getChampionStatus, out ChampionData getChampData, out ChampionResourceData getResourceData)
 	{
-		string[] loadData = fileData.Split(',');
 		int index = 1;
 
 		getChampionStatus = new ChampionStatus();
 		getChampData = new ChampionData();
 		getResourceData = new ChampionResourceData();
+
+		string[] loadData = fileData.Split(',');
 
 		// Champion Status 데이터 설정..
 		getChampionStatus.atkStat = int.Parse(loadData[index++]);
@@ -27,7 +28,6 @@ public static class SaveLoadLogic
 
 		// Champion Data 설정..
 		getChampData.name = loadData[index++];
-		getChampData.nameKR = loadData[0];
 		getChampData.type = (ChampionClassType)int.Parse(loadData[index++]);
 		getChampData.atkActionUniqueKey = int.Parse(loadData[index++]);
 		getChampData.skillActionUniqueKey = int.Parse(loadData[index++]);
@@ -48,6 +48,8 @@ public static class SaveLoadLogic
 		getResourceData.champIconImagePath = loadData[index++];
 		getResourceData.skillIconImagePath = loadData[index++];
 		getResourceData.ultimateIconImagePath = loadData[index++];
+
+		getChampData.nameKR = loadData[0];
 
 		return true;
 	}

@@ -11,9 +11,9 @@ public class ChampionBT : BehaviourTree
 
 	private Champion _champion;
 
-	public ChampionBT(AIController aiController) : base(aiController)
+	public ChampionBT(GameObject ownerGameObject, Blackboard blackboard) : base(ownerGameObject, blackboard)
 	{
-		_champion = aiController.GetComponent<Champion>();
+		_champion = ownerGameObject.GetComponent<Champion>();
 
 		SetupNodeHierarchy();
 	}

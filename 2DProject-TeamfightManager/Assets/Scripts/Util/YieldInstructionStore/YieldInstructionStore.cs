@@ -6,18 +6,6 @@ using UnityEngine;
 /// </summary>
 public static class YieldInstructionStore
 {
-	class FloatComparer : IEqualityComparer<float>
-	{
-		bool IEqualityComparer<float>.Equals(float x, float y)
-		{
-			return x == y;
-		}
-		int IEqualityComparer<float>.GetHashCode(float obj)
-		{
-			return obj.GetHashCode();
-		}
-	}
-
 	private static readonly Dictionary<float, WaitForSeconds> _waitForSeconds = new Dictionary<float, WaitForSeconds>();
 
 	public static WaitForSeconds GetWaitForSec(float second)
@@ -30,5 +18,17 @@ public static class YieldInstructionStore
 		}
 
 		return outValue;
+	}
+
+	class FloatComparer : IEqualityComparer<float>
+	{
+		bool IEqualityComparer<float>.Equals(float x, float y)
+		{
+			return x == y;
+		}
+		int IEqualityComparer<float>.GetHashCode(float obj)
+		{
+			return obj.GetHashCode();
+		}
 	}
 }

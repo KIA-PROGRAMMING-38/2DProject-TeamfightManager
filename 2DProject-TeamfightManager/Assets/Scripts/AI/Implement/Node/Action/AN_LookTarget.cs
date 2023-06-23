@@ -37,10 +37,6 @@ public class AN_LookTarget : ActionNode
 
 	protected override State OnUpdate()
 	{
-#if UNITY_EDITOR
-		//Debug.Log("타겟을 바라본다.");
-#endif
-
 		Champion target = blackboard.GetObjectValue("target") as Champion;
 
 		if (null == target)
@@ -50,10 +46,6 @@ public class AN_LookTarget : ActionNode
 		moveDirection = (moveDirection * _dirMul).normalized;
 
 		blackboard.SetVectorValue(BlackboardKeyTable.MOVE_DIRECTION, moveDirection);
-
-#if UNITY_EDITOR
-		//Debug.Log("타겟을 바라보는 함수 끝.");
-#endif
 
 		return State.Success;
 	}

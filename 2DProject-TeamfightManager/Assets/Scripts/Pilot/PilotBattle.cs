@@ -155,7 +155,14 @@ public class PilotBattle : MonoBehaviour
 
 	public void StartBattle(float ultWaitTime)
 	{
+#if UNITY_EDITOR
+		Debug.Assert(null != _controlChampion);
+#endif
+
 		StartCoroutine(WaitUltiDelay(ultWaitTime));
+
+		_controlChampion.gameObject.SetActive(true);
+		_controlChampion.StartFight();
 	}
 
 	IEnumerator WaitUltiDelay(float ultWaitTime)

@@ -11,19 +11,24 @@ namespace MH_AIFramework
 	{
 		protected Node rootNode { get; private set; }
 		public Blackboard blackboard { get; private set; }
-		public AIController aiController { get; set; }
 		public GameObject gameObject { get; private set; }
 
-		public BehaviourTree(AIController aiController)
+		public BehaviourTree(GameObject ownerGameObject, Blackboard blackboard)
 		{
-			this.aiController = aiController;
-			this.gameObject = aiController.gameObject;
+			//this.aiController = aiController;
+			this.gameObject = ownerGameObject;
 
-			blackboard = new Blackboard();
+			this.blackboard = blackboard;
 			rootNode = new RootNode();
 
 			rootNode.blackboard = blackboard;
 			rootNode.behaviourTree = this;
+		}
+
+		public void Run()
+		{
+			if (null != rootNode)
+				rootNode.Update();
 		}
 
 		public virtual void OnEnable()
@@ -36,17 +41,13 @@ namespace MH_AIFramework
 			rootNode?.OnDisable();
 		}
 
-		public void Run()
-		{
-			if ( null != rootNode )
-				rootNode.Update();
-		}
-
 		protected Node AddNode( Node newNode, Node parent, string name = "")
 		{
+#if UNITY_EDITOR
 			// 유효한 값인지 검사..
 			Debug.Assert( null != newNode );
 			Debug.Assert( null != parent );
+#endif
 
 			newNode.blackboard = blackboard;
 			newNode.behaviourTree = this;

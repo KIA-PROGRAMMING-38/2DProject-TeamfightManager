@@ -108,6 +108,7 @@ public class BattleStatisticsDataTable
 					++curPilotStatisticsData.allStageFightDatas[championName].winCount;
 					break;
 			}
+
 			curPilotStatisticsData.allStageFightDatas[championName].totalAtkDamageAmount += curBattleData.totalAtkDamage;
 			curPilotStatisticsData.allStageFightDatas[championName].totalTakeDamageAount += curBattleData.totalTakeDamage;
 			curPilotStatisticsData.allStageFightDatas[championName].totalHealAmount += curBattleData.totalHeal;

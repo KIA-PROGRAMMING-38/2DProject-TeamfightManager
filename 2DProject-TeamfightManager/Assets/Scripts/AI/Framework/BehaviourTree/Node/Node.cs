@@ -44,12 +44,14 @@
 			return _state;
 		}
 
-		// 자식 Node 추가 및 제거 관련 함수(자식이 있는 Node의 경우 재정의해서 사용)..
-		public abstract void AddChild( Node child );
-		public abstract void RemoveChild( Node child );
+		// 노드가 종료되었다가 시작될 때 호출될 이벤트 함수..
+		protected abstract void OnStart();
 
-		// 노드가 생성 시 호출될 이벤트 함수..
-		public virtual void OnCreate() { }
+		// 노드가 행동을 종료될 때 호출될 이벤트 함수..
+		protected abstract void OnStop();
+
+		// 실제 노드 Update 함수..
+		protected abstract State OnUpdate();
 
 		// 노드가 활성화될 때(정확히는 BehaviourTree가 활성화될 때)호출될 이벤트 함수..
 		public virtual void OnEnable()
@@ -65,13 +67,11 @@
 			_state = State.Failure;
 		}
 
-		// 노드가 종료되었다가 시작될 때 호출될 이벤트 함수..
-		protected abstract void OnStart();
+		// 자식 Node 추가 및 제거 관련 함수(자식이 있는 Node의 경우 재정의해서 사용)..
+		public abstract void AddChild( Node child );
+		public abstract void RemoveChild( Node child );
 
-		// 노드가 행동을 종료될 때 호출될 이벤트 함수..
-		protected abstract void OnStop();
-
-		// 실제 노드 Update 함수..
-		protected abstract State OnUpdate();
+		// 노드가 생성 시 호출될 이벤트 함수..
+		public virtual void OnCreate() { }
 	}
 }
