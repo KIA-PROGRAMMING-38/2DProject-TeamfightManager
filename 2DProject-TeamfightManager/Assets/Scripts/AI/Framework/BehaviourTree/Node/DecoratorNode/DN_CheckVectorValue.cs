@@ -9,7 +9,8 @@ namespace MH_AIFramework
 
 		private Vector3 _bbValue;
 
-		public DN_CheckVectorValue(in Vector3 cmpValue, string bbKey)
+		public DN_CheckVectorValue(Node node, in Vector3 cmpValue, string bbKey)
+			: base(node)
 		{
 			_cmpValue = cmpValue;
 			_bbKey = bbKey;
@@ -29,7 +30,9 @@ namespace MH_AIFramework
 		{
 			blackboard.GetVectorValue(_bbKey, out _bbValue);
 			if (_bbValue == _cmpValue)
-				return State.Success;
+			{
+				return base.OnUpdate();
+			}
 
 			return State.Failure;
 		}

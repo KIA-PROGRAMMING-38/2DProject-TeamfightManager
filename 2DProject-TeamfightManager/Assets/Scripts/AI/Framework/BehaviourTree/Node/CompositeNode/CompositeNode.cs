@@ -12,10 +12,6 @@ namespace MH_AIFramework
 		protected List<Node> _children = new List<Node>();
 		protected int _childCount = 0;
 
-		// 소속된 Decorator Node들과 그 개수..
-		private List<DecoratorNode> _decoratorChildren = new List<DecoratorNode>();
-		private int _decoratorChildCount = 0;
-
 		// 소속된 Service Node들과 그 개수..
 		private List<ServiceNode> _serviceChildren = new List<ServiceNode>();
 		private int _serviceChildCount = 0;
@@ -26,18 +22,6 @@ namespace MH_AIFramework
 		/// <param name="child"> 추가할 자식 Node.. </param>
 		public override void AddChild( Node child )
 		{
-			// Decorator Node 인지 체크..
-			{
-				DecoratorNode decoratorNode = child as DecoratorNode;
-				if ( null != decoratorNode )
-				{
-					_decoratorChildren.Add( decoratorNode );
-					++_decoratorChildCount;
-
-					return;
-				}
-			}
-
 			// Service Node 인지 체크..
 			{
 				ServiceNode serviceNode = child as ServiceNode;
@@ -63,18 +47,6 @@ namespace MH_AIFramework
 		/// <param name="child"> 삭제할 자식 Node.. </param>
 		public override void RemoveChild( Node child )
 		{
-			// Decorator Node 인지 체크..
-			{
-				DecoratorNode decoratorNode = child as DecoratorNode;
-				if ( null != decoratorNode )
-				{
-					_decoratorChildren.Remove( decoratorNode );
-					_decoratorChildCount = _decoratorChildren.Count;
-
-					return;
-				}
-			}
-
 			// Service Node 인지 체크..
 			{
 				ServiceNode serviceNode = child as ServiceNode;
@@ -99,7 +71,6 @@ namespace MH_AIFramework
 			base.OnCreate();
 
 			_childCount = _children.Count;
-			_decoratorChildCount = _decoratorChildren.Count;
 			_serviceChildCount = _serviceChildren.Count;
 		}
 
@@ -110,11 +81,6 @@ namespace MH_AIFramework
 			for( int i = 0; i < _childCount; ++i)
 			{
 				_children[i].OnDisable();
-			}
-
-			for (int i = 0; i < _decoratorChildCount; ++i)
-			{
-				_decoratorChildren[i].OnDisable();
 			}
 
 			for (int i = 0; i < _serviceChildCount; ++i)
@@ -135,12 +101,6 @@ namespace MH_AIFramework
 
 		private bool CheckDecoratorCondition()
 		{
-			for(int i = 0; i < _decoratorChildCount; ++i)
-			{
-				if (State.Failure == _decoratorChildren[i].Update())
-					return false;
-			}
-
 			return true;
 		}
 

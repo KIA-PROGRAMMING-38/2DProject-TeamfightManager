@@ -9,7 +9,8 @@ namespace MH_AIFramework
 
 		private Quaternion _bbValue;
 
-		public DN_CheckQuaternionValue( Quaternion cmpValue, string bbKey)
+		public DN_CheckQuaternionValue(Node node, Quaternion cmpValue, string bbKey)
+			: base(node)
 		{
 			_cmpValue = cmpValue;
 			_bbKey = bbKey;
@@ -29,7 +30,9 @@ namespace MH_AIFramework
 		{
 			blackboard.GetRotatorValue(_bbKey, out _bbValue);
 			if (_bbValue == _cmpValue)
-				return State.Success;
+			{
+				return base.OnUpdate();
+			}
 
 			return State.Failure;
 		}

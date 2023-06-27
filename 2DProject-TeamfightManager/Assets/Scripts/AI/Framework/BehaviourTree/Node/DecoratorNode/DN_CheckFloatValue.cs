@@ -8,7 +8,8 @@ namespace MH_AIFramework
 		private float _cmpValue;
 		private string _bbKey;
 
-		public DN_CheckFloatValue( float cmpValue, string bbKey)
+		public DN_CheckFloatValue(Node node, float cmpValue, string bbKey)
+			: base(node)
 		{
 			_cmpValue = cmpValue;
 			_bbKey = bbKey;
@@ -28,7 +29,9 @@ namespace MH_AIFramework
 		{
 			float dist = Math.Abs(blackboard.GetFloatValue( _bbKey ) - _cmpValue);
 			if ( dist <= float.Epsilon )
-				return State.Success;
+			{
+				return base.OnUpdate();
+			}
 
 			return State.Failure;
 		}

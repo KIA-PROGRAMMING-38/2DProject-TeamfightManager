@@ -6,7 +6,8 @@ namespace MH_AIFramework
 	{
 		private string _bbKey;
 
-		public DN_ValidObjectValue( string bbKey )
+		public DN_ValidObjectValue(Node node, string bbKey )
+			: base( node )
 		{
 			_bbKey = bbKey;
 		}
@@ -24,7 +25,9 @@ namespace MH_AIFramework
 		protected override State OnUpdate()
 		{
 			if ( null != blackboard.GetObjectValue( _bbKey ) )
-				return State.Success;
+			{
+				return base.OnUpdate();
+			}
 
 			return State.Failure;
 		}

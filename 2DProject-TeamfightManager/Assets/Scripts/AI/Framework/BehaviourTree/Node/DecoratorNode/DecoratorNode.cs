@@ -6,6 +6,13 @@
 	/// </summary>
 	public abstract class DecoratorNode : Node
 	{
+		private Node _node;
+
+		public DecoratorNode(Node node)
+		{
+			_node = node;
+		}
+
 		// 얘는 자식이 없으므로 자식 관련 함수 호출 시 에러 발생시킴..
 		public override void AddChild( Node child )
 		{
@@ -15,6 +22,36 @@
 		public override void RemoveChild( Node child )
 		{
 			throw new System.InvalidProgramException();
+		}
+
+		public override void OnEnable()
+		{
+			base.OnEnable();
+
+			if(null != _node)
+			{
+				_node.OnEnable();
+			}
+		}
+
+		public override void OnDisable()
+		{
+			base.OnDisable();
+
+			if (null != _node)
+			{
+				_node.OnDisable();
+			}
+		}
+
+		protected override State OnUpdate()
+		{
+			if(null != _node)
+			{
+				return _node.Update();
+			}
+
+			return State.Failure;
 		}
 	}
 }

@@ -1,8 +1,14 @@
 ﻿using MH_AIFramework;
+using UnityEngine.EventSystems;
 
 public class DN_ConditionKiting : DecoratorNode
 {
 	private Champion _ownerChampion;
+
+	public DN_ConditionKiting(Node node)
+		: base(node)
+	{
+	}
 
 	public override void OnCreate()
 	{
@@ -35,6 +41,6 @@ public class DN_ConditionKiting : DecoratorNode
 		if (3 == _ownerChampion.data.kitingOrder)
 			return State.Failure;
 
-		return State.Success;
+		return base.OnUpdate();
 	}
 }

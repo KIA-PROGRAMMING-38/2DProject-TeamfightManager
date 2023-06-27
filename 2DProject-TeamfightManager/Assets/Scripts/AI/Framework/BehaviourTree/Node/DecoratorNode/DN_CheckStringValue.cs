@@ -7,7 +7,8 @@ namespace MH_AIFramework
 		private string _cmpValue;
 		private string _bbKey;
 
-		public DN_CheckStringValue( string cmpValue, string bbKey)
+		public DN_CheckStringValue(Node node, string cmpValue, string bbKey)
+			: base(node)
 		{
 			_cmpValue = cmpValue;
 			_bbKey = bbKey;
@@ -26,7 +27,9 @@ namespace MH_AIFramework
 		protected override State OnUpdate()
 		{
 			if ( blackboard.GetStringValue( _bbKey ) == _cmpValue )
-				return State.Success;
+			{
+				return base.OnUpdate();
+			}
 
 			return State.Failure;
 		}

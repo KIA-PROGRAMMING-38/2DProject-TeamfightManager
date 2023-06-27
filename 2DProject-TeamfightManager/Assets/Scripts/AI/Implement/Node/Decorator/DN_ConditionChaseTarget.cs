@@ -8,6 +8,12 @@ public class DN_ConditionChaseTarget : DecoratorNode
 {
 	private Vector3 _zeroVector = new Vector3(0f, 0f, 0f);
 
+	public DN_ConditionChaseTarget(Node node)
+		: base(node)
+	{
+
+	}
+
 	protected override void OnStart()
 	{
 		
@@ -33,6 +39,6 @@ public class DN_ConditionChaseTarget : DecoratorNode
 			return State.Failure;
 		}
 
-		return State.Success;
+		return base.OnUpdate();
 	}
 }

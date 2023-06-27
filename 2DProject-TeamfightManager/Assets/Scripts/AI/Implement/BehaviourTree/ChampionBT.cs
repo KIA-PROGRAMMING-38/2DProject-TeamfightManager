@@ -75,12 +75,12 @@ public class ChampionBT : BehaviourTree
 		AddNode(new SN_FindTarget(_champion.FindTarget, 0.1f), battleBodyNode);
 
 		// ===================================================================mpiona==========
-		// 캐릭터가 전투를 하기 위해 필요한 값들을 갱신하고 적이 있는지 체크하는 노드 생성 및 등록..
+		// 캐릭터가 전투를 하기 위해 필요한 값들을 갱신하고 적이 있는지 체크하는 노드 생성..
 		Node targetInfoUpdateParentNode = new SequenceNode();
-		AddNode(targetInfoUpdateParentNode, battleBodyNode);
 
 		// 적을 찾았는지 체크하는 노드 생성 및 등록..
-		AddNode(new DN_ValidObjectValue(BlackboardKeyTable.TARGET), targetInfoUpdateParentNode);
+		Node checkFindTargetNode = new DN_ValidObjectValue(targetInfoUpdateParentNode, BlackboardKeyTable.TARGET);
+		AddNode(checkFindTargetNode, battleBodyNode);
 
 		// 적의 정보를 갱신하는 노드 생성 및 등록..
 		AddNode(new AN_UpdateTargetinfomation(), targetInfoUpdateParentNode);
@@ -93,12 +93,12 @@ public class ChampionBT : BehaviourTree
 
 		// =============================================================================
 		// ----- Ultimate 행동 관련 노드 정의..
-		// 적을 공격하는 상태 최상위 노드 생성 및 등록..
+		// 적을 공격하는 상태 최상위 노드 생성..
 		Node ultimateBodyNode = new SequenceNode();
-		AddNode(ultimateBodyNode, battleActionBodyNode);
 
 		// 궁극기를 사용하기 위한 조건 관련 노드 생성 및 등록..
-		AddNode(new DN_CheckIsCanAttack(BlackboardKeyTable.IS_CAN_ACT_ULTIMATE, BlackboardKeyTable.ULTIMATE_RANGE), ultimateBodyNode);
+		Node checkCanActUltNode = new DN_CheckIsCanAttack(ultimateBodyNode, BlackboardKeyTable.IS_CAN_ACT_ULTIMATE, BlackboardKeyTable.ULTIMATE_RANGE);
+		AddNode(checkCanActUltNode, battleActionBodyNode);
 
 		// 적을 향해 나아가기 위한 방향 설정 노드 생성 및 등록..
 		AddNode(new AN_LookTarget(), ultimateBodyNode);
@@ -112,12 +112,12 @@ public class ChampionBT : BehaviourTree
 
 		// =============================================================================
 		// ----- Skill 행동 관련 노드 정의..
-		// 스킬 상태 최상위 노드 생성 및 등록..
+		// 스킬 상태 최상위 노드 생성..
 		Node skillBodyNode = new SequenceNode();
-		AddNode(skillBodyNode, battleActionBodyNode);
 
 		// 스킬을 사용하기 위한 조건 관련 노드 생성 및 등록..
-		AddNode(new DN_CheckIsCanAttack(BlackboardKeyTable.IS_CAN_ACT_SKILL, BlackboardKeyTable.SKILL_RANGE), skillBodyNode);
+		Node checkCanActSkillNode = new DN_CheckIsCanAttack(skillBodyNode, BlackboardKeyTable.IS_CAN_ACT_SKILL, BlackboardKeyTable.SKILL_RANGE);
+		AddNode(checkCanActSkillNode, battleActionBodyNode);
 
 		// 적을 향해 나아가기 위한 방향 설정 노드 생성 및 등록..
 		AddNode(new AN_LookTarget(), skillBodyNode);
@@ -131,12 +131,12 @@ public class ChampionBT : BehaviourTree
 
 		// =============================================================================
 		// ----- Attack 행동 관련 노드 정의..
-		// 적을 공격하는 상태 최상위 노드 생성 및 등록..
+		// 적을 공격하는 상태 최상위 노드 생성..
 		Node attackBodyNode = new SequenceNode();
-		AddNode(attackBodyNode, battleActionBodyNode);
 
 		// 적을 공격하기 위한 조건 관련 노드 생성 및 등록..
-		AddNode(new DN_CheckIsCanAttack(BlackboardKeyTable.IS_CAN_ACT_ATTACK, BlackboardKeyTable.ATTACK_RANGE), attackBodyNode);
+		Node checkCanActAttack = new DN_CheckIsCanAttack(attackBodyNode, BlackboardKeyTable.IS_CAN_ACT_ATTACK, BlackboardKeyTable.ATTACK_RANGE);
+		AddNode(checkCanActAttack, battleActionBodyNode);
 
 		// 적을 향해 나아가기 위한 방향 설정 노드 생성 및 등록..
 		AddNode(new AN_LookTarget(), attackBodyNode);
@@ -151,12 +151,12 @@ public class ChampionBT : BehaviourTree
 
 		// =============================================================================
 		// ----- Kiting 행동 관련 노드 정의..
-		// 적을 쫓는 상태 최상위 노드 생성 및 등록..
+		// 적을 쫓는 상태 최상위 노드 생성..
 		Node kitingBodyNode = new SequenceNode();
-		AddNode(kitingBodyNode, battleActionBodyNode);
 
 		// 카이팅이 가능한지 체크하는 조건 노드 생성 및 등록..
-		AddNode(new DN_ConditionKiting(), kitingBodyNode);
+		Node checkCanActKitingNode = new DN_ConditionKiting(kitingBodyNode);
+		AddNode(checkCanActKitingNode, battleActionBodyNode);
 
 		// 카이팅 정보 갱신하는 서비스 노드 생성 및 등록..
 		AddNode(new SN_KitingInfoUpdate(0.2f), kitingBodyNode);
@@ -171,12 +171,12 @@ public class ChampionBT : BehaviourTree
 
 		// =============================================================================
 		// ----- Chase 행동 관련 노드 정의..
-		// 적을 쫓는 상태 최상위 노드 생성 및 등록..
+		// 적을 쫓는 상태 최상위 노드 생성..
 		Node chaseBodyNode = new SequenceNode();
-		AddNode(chaseBodyNode, battleActionBodyNode);
 
 		// 적을 쫓기 위한 조건 노드 생성 및 등록..
-		AddNode(new DN_ConditionChaseTarget(), chaseBodyNode);
+		Node conditionFindTargetNode = new DN_ConditionChaseTarget(chaseBodyNode);
+		AddNode(conditionFindTargetNode, battleActionBodyNode);
 
 		// 적을 향해 나아가기 위한 방향 설정 노드 생성 및 등록..
 		AddNode(new AN_LookTarget(), chaseBodyNode);

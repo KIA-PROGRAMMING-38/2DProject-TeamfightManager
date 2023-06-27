@@ -7,7 +7,8 @@ namespace MH_AIFramework
 		private bool _cmpValue;
 		private string _bbKey;
 
-		public DN_CheckBoolValue( bool cmpValue, string bbKey )
+		public DN_CheckBoolValue(Node node, bool cmpValue, string bbKey)
+			: base(node)
 		{
 			_cmpValue = cmpValue;
 			_bbKey = bbKey;
@@ -26,7 +27,9 @@ namespace MH_AIFramework
 		protected override State OnUpdate()
 		{
 			if ( blackboard.GetBoolValue( _bbKey ) == _cmpValue )
-				return State.Success;
+			{
+				return base.OnUpdate();
+			}
 
 			return State.Failure;
 		}

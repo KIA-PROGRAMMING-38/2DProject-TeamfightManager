@@ -9,7 +9,8 @@ public class DN_CheckIsCanAttack : DecoratorNode
 	private string _checkAtkBBKey;
 	private string _checkRangeBBKey;
 
-	public DN_CheckIsCanAttack(string checkAtkBBKey, string checkRangeBBKey)
+	public DN_CheckIsCanAttack(Node node, string checkAtkBBKey, string checkRangeBBKey)
+		: base(node)
 	{
 		_checkAtkBBKey = checkAtkBBKey;
 		_checkRangeBBKey = checkRangeBBKey;
@@ -47,6 +48,6 @@ public class DN_CheckIsCanAttack : DecoratorNode
 		if (false == blackboard.GetBoolValue(_checkAtkBBKey))
 			return State.Failure;
 
-		return State.Success;
+		return base.OnUpdate();
 	}
 }
